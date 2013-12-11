@@ -1,0 +1,1452 @@
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SDCC : free open source ANSI-C Compiler
+                      00003 ; Version 3.3.0 #8604 (Oct 27 2013) (Mac OS X x86_64)
+                      00004 ; This file was generated Tue Dec 10 23:11:01 2013
+                      00005 ;--------------------------------------------------------
+                      00006 ; PIC16 port for the Microchip 16-bit core micros
+                      00007 ;--------------------------------------------------------
+                      00008         list    p=18f4620
+                      00009         radix   dec
+                      00010 
+                      00011 
+                      00012 ;--------------------------------------------------------
+                      00013 ; public variables in this module
+                      00014 ;--------------------------------------------------------
+  0000                00015         global  _buffer
+  0000                00016         global  _do_menu_update
+  0000                00017         global  _lcd_print
+  0000                00018         global  _button_pressed
+  0000                00019         global  _button_released
+  0000                00020         global  _lcd_plotpixel
+  0000                00021         global  _font8x5
+                      00022 
+                      00023 ;--------------------------------------------------------
+                      00024 ; extern variables in this module
+                      00025 ;--------------------------------------------------------
+  0000                00026         extern  __gptrget1
+  0000                00027         extern  _stdin
+  0000                00028         extern  _stdout
+  0000                00029         extern  _PORTAbits
+  0000                00030         extern  _PORTBbits
+  0000                00031         extern  _PORTCbits
+  0000                00032         extern  _PORTDbits
+  0000                00033         extern  _PORTEbits
+  0000                00034         extern  _LATAbits
+  0000                00035         extern  _LATBbits
+  0000                00036         extern  _LATCbits
+  0000                00037         extern  _LATDbits
+  0000                00038         extern  _LATEbits
+  0000                00039         extern  _DDRAbits
+  0000                00040         extern  _TRISAbits
+  0000                00041         extern  _DDRBbits
+  0000                00042         extern  _TRISBbits
+  0000                00043         extern  _DDRCbits
+  0000                00044         extern  _TRISCbits
+  0000                00045         extern  _DDRDbits
+  0000                00046         extern  _TRISDbits
+  0000                00047         extern  _DDREbits
+  0000                00048         extern  _TRISEbits
+  0000                00049         extern  _OSCTUNEbits
+  0000                00050         extern  _PIE1bits
+  0000                00051         extern  _PIR1bits
+  0000                00052         extern  _IPR1bits
+  0000                00053         extern  _PIE2bits
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+  0000                00054         extern  _PIR2bits
+  0000                00055         extern  _IPR2bits
+  0000                00056         extern  _EECON1bits
+  0000                00057         extern  _RCSTAbits
+  0000                00058         extern  _TXSTAbits
+  0000                00059         extern  _T3CONbits
+  0000                00060         extern  _CMCONbits
+  0000                00061         extern  _CVRCONbits
+  0000                00062         extern  _ECCP1ASbits
+  0000                00063         extern  _PWM1CONbits
+  0000                00064         extern  _BAUDCONbits
+  0000                00065         extern  _BAUDCTLbits
+  0000                00066         extern  _CCP2CONbits
+  0000                00067         extern  _CCP1CONbits
+  0000                00068         extern  _ADCON2bits
+  0000                00069         extern  _ADCON1bits
+  0000                00070         extern  _ADCON0bits
+  0000                00071         extern  _SSPCON2bits
+  0000                00072         extern  _SSPCON1bits
+  0000                00073         extern  _SSPSTATbits
+  0000                00074         extern  _T2CONbits
+  0000                00075         extern  _T1CONbits
+  0000                00076         extern  _RCONbits
+  0000                00077         extern  _WDTCONbits
+  0000                00078         extern  _HLVDCONbits
+  0000                00079         extern  _LVDCONbits
+  0000                00080         extern  _OSCCONbits
+  0000                00081         extern  _T0CONbits
+  0000                00082         extern  _STATUSbits
+  0000                00083         extern  _INTCON3bits
+  0000                00084         extern  _INTCON2bits
+  0000                00085         extern  _INTCONbits
+  0000                00086         extern  _STKPTRbits
+  0000                00087         extern  _PORTA
+  0000                00088         extern  _PORTB
+  0000                00089         extern  _PORTC
+  0000                00090         extern  _PORTD
+  0000                00091         extern  _PORTE
+  0000                00092         extern  _LATA
+  0000                00093         extern  _LATB
+  0000                00094         extern  _LATC
+  0000                00095         extern  _LATD
+  0000                00096         extern  _LATE
+  0000                00097         extern  _DDRA
+  0000                00098         extern  _TRISA
+  0000                00099         extern  _DDRB
+  0000                00100         extern  _TRISB
+  0000                00101         extern  _DDRC
+  0000                00102         extern  _TRISC
+  0000                00103         extern  _DDRD
+  0000                00104         extern  _TRISD
+  0000                00105         extern  _DDRE
+  0000                00106         extern  _TRISE
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+  0000                00107         extern  _OSCTUNE
+  0000                00108         extern  _PIE1
+  0000                00109         extern  _PIR1
+  0000                00110         extern  _IPR1
+  0000                00111         extern  _PIE2
+  0000                00112         extern  _PIR2
+  0000                00113         extern  _IPR2
+  0000                00114         extern  _EECON1
+  0000                00115         extern  _EECON2
+  0000                00116         extern  _EEDATA
+  0000                00117         extern  _EEADR
+  0000                00118         extern  _EEADRH
+  0000                00119         extern  _RCSTA
+  0000                00120         extern  _TXSTA
+  0000                00121         extern  _TXREG
+  0000                00122         extern  _RCREG
+  0000                00123         extern  _SPBRG
+  0000                00124         extern  _SPBRGH
+  0000                00125         extern  _T3CON
+  0000                00126         extern  _TMR3
+  0000                00127         extern  _TMR3L
+  0000                00128         extern  _TMR3H
+  0000                00129         extern  _CMCON
+  0000                00130         extern  _CVRCON
+  0000                00131         extern  _ECCP1AS
+  0000                00132         extern  _PWM1CON
+  0000                00133         extern  _BAUDCON
+  0000                00134         extern  _BAUDCTL
+  0000                00135         extern  _CCP2CON
+  0000                00136         extern  _CCPR2
+  0000                00137         extern  _CCPR2L
+  0000                00138         extern  _CCPR2H
+  0000                00139         extern  _CCP1CON
+  0000                00140         extern  _CCPR1
+  0000                00141         extern  _CCPR1L
+  0000                00142         extern  _CCPR1H
+  0000                00143         extern  _ADCON2
+  0000                00144         extern  _ADCON1
+  0000                00145         extern  _ADCON0
+  0000                00146         extern  _ADRES
+  0000                00147         extern  _ADRESL
+  0000                00148         extern  _ADRESH
+  0000                00149         extern  _SSPCON2
+  0000                00150         extern  _SSPCON1
+  0000                00151         extern  _SSPSTAT
+  0000                00152         extern  _SSPADD
+  0000                00153         extern  _SSPBUF
+  0000                00154         extern  _T2CON
+  0000                00155         extern  _PR2
+  0000                00156         extern  _TMR2
+  0000                00157         extern  _T1CON
+  0000                00158         extern  _TMR1
+  0000                00159         extern  _TMR1L
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+  0000                00160         extern  _TMR1H
+  0000                00161         extern  _RCON
+  0000                00162         extern  _WDTCON
+  0000                00163         extern  _HLVDCON
+  0000                00164         extern  _LVDCON
+  0000                00165         extern  _OSCCON
+  0000                00166         extern  _T0CON
+  0000                00167         extern  _TMR0
+  0000                00168         extern  _TMR0L
+  0000                00169         extern  _TMR0H
+  0000                00170         extern  _STATUS
+  0000                00171         extern  _FSR2L
+  0000                00172         extern  _FSR2H
+  0000                00173         extern  _PLUSW2
+  0000                00174         extern  _PREINC2
+  0000                00175         extern  _POSTDEC2
+  0000                00176         extern  _POSTINC2
+  0000                00177         extern  _INDF2
+  0000                00178         extern  _BSR
+  0000                00179         extern  _FSR1L
+  0000                00180         extern  _FSR1H
+  0000                00181         extern  _PLUSW1
+  0000                00182         extern  _PREINC1
+  0000                00183         extern  _POSTDEC1
+  0000                00184         extern  _POSTINC1
+  0000                00185         extern  _INDF1
+  0000                00186         extern  _WREG
+  0000                00187         extern  _FSR0L
+  0000                00188         extern  _FSR0H
+  0000                00189         extern  _PLUSW0
+  0000                00190         extern  _PREINC0
+  0000                00191         extern  _POSTDEC0
+  0000                00192         extern  _POSTINC0
+  0000                00193         extern  _INDF0
+  0000                00194         extern  _INTCON3
+  0000                00195         extern  _INTCON2
+  0000                00196         extern  _INTCON
+  0000                00197         extern  _PROD
+  0000                00198         extern  _PRODL
+  0000                00199         extern  _PRODH
+  0000                00200         extern  _TABLAT
+  0000                00201         extern  _TBLPTR
+  0000                00202         extern  _TBLPTRL
+  0000                00203         extern  _TBLPTRH
+  0000                00204         extern  _TBLPTRU
+  0000                00205         extern  _PC
+  0000                00206         extern  _PCL
+  0000                00207         extern  _PCLATH
+  0000                00208         extern  _PCLATU
+  0000                00209         extern  _STKPTR
+  0000                00210         extern  _TOS
+  0000                00211         extern  _TOSL
+  0000                00212         extern  _TOSH
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+  0000                00213         extern  _TOSU
+  0000                00214         extern  _strcat
+  0000                00215         extern  _strcpy
+                      00216 
+                      00217 ;--------------------------------------------------------
+                      00218 ;       Equates to used internal registers
+                      00219 ;--------------------------------------------------------
+  00000FD8            00220 STATUS  equ     0xfd8
+  00000FE8            00221 WREG    equ     0xfe8
+  00000FF6            00222 TBLPTRL equ     0xff6
+  00000FF7            00223 TBLPTRH equ     0xff7
+  00000FF8            00224 TBLPTRU equ     0xff8
+  00000FF5            00225 TABLAT  equ     0xff5
+  00000FE9            00226 FSR0L   equ     0xfe9
+  00000FE1            00227 FSR1L   equ     0xfe1
+  00000FD9            00228 FSR2L   equ     0xfd9
+  00000FE6            00229 POSTINC1        equ     0xfe6
+  00000FE5            00230 POSTDEC1        equ     0xfe5
+  00000FE4            00231 PREINC1 equ     0xfe4
+  00000FDB            00232 PLUSW2  equ     0xfdb
+  00000FF3            00233 PRODL   equ     0xff3
+  00000FF4            00234 PRODH   equ     0xff4
+                      00235 
+                      00236 
+                      00237         idata
+000000 00 53 65 6C 65 00238 _menu   db      0x00, 0x53, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x65, 0x64, 0x20, 0x69, 0x74
+       63 74 65 64 20 
+       69 74          
+00000C 65 6D 00 00 00 00239         db      0x65, 0x6d, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01
+       00 00 00 00 00 
+       00 01          
+000018 49 74 65 6D 20 00240         db      0x49, 0x74, 0x65, 0x6d, 0x20, 0x32, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+       32 00 00 00 00 
+       00 00          
+000024 00 00 00 00 00 00241         db      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x4f
+       00 00 00 00 00 
+       02 4F          
+000030 70 74 69 6F 6E 00242         db      0x70, 0x74, 0x69, 0x6f, 0x6e, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+       00 00 00 00 00 
+       00 00          
+00003C 00 00 00 00 00 00243         db      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 0x53, 0x65
+       00 00 00 00 03 
+       53 65          
+000048 74 74 69 6E 67 00244         db      0x74, 0x74, 0x69, 0x6e, 0x67, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+       00 00 00 00 00 
+       00 00          
+000054 00 00 00 00 00 00245         db      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x57, 0x6f, 0x6f
+       00 00 00 04 57 
+       6F 6F          
+000060 64 00 00 00 00 00246         db      0x64, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+       00 00 00 00 00 
+       00 00          
+00006C 00 00 00 00 00 00247         db      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x05, 0x4f, 0x78, 0x79, 0x67
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+       00 00 05 4F 78 
+       79 67          
+000078 65 6E 00 00 00 00248         db      0x65, 0x6e, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+       00 00 00 00 00 
+       00 00          
+000084 00 00 00 00 00 00249         db      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x4d, 0x61, 0x6e, 0x75, 0x61
+       00 06 4D 61 6E 
+       75 61          
+000090 6C 20 63 6F 6E 00250         db      0x6c, 0x20, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x00, 0x00, 0x00
+       74 72 6F 6C 00 
+       00 00          
+00009C 00 00 00 00 00 00251         db      0x00, 0x00, 0x00, 0x00, 0x00
+                      00252 
+                      00253 
+                      00254 ; Internal registers
+                      00255 .registers      udata_ovr       0x0000
+000000                00256 r0x00   res     1
+000001                00257 r0x01   res     1
+000002                00258 r0x02   res     1
+000003                00259 r0x03   res     1
+000004                00260 r0x04   res     1
+000005                00261 r0x05   res     1
+000006                00262 r0x06   res     1
+000007                00263 r0x07   res     1
+000008                00264 r0x08   res     1
+000009                00265 r0x09   res     1
+00000A                00266 r0x0a   res     1
+00000B                00267 r0x0b   res     1
+00000C                00268 r0x0c   res     1
+00000D                00269 r0x0d   res     1
+00000E                00270 r0x0e   res     1
+00000F                00271 r0x0f   res     1
+000010                00272 r0x10   res     1
+000011                00273 r0x11   res     1
+000012                00274 r0x12   res     1
+000013                00275 r0x13   res     1
+000014                00276 r0x14   res     1
+000015                00277 r0x15   res     1
+000016                00278 r0x16   res     1
+                      00279 
+                      00280 udata_menu_system_0     udata
+000000                00281 _buffer res     8192
+                      00282 
+                      00283 udata_menu_system_1     udata
+000000                00284 _do_menu_update_menu_item_1_76  res     22
+                      00285 
+                      00286 ;--------------------------------------------------------
+                      00287 ; global & static initialisations
+                      00288 ;--------------------------------------------------------
+                      00289 ; I code from now on!
+                      00290 ; ; Starting pCode block
+                      00291 S_menu_system__lcd_plotpixel    code
+000000                00292 _lcd_plotpixel:
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00293 ;       .line   80; menu_system.c       void lcd_plotpixel(unsigned char x, unsigned char y) {
+000000 CFD9 FFE5      00294         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00295         MOVFF   FSR1L, FSR2L
+                      00296 ;       .line   88; menu_system.c       }
+000008 CFE4 FFD9      00297         MOVFF   PREINC1, FSR2L
+00000C 0012           00298         RETURN  
+                      00299 
+                      00300 ; ; Starting pCode block
+                      00301 S_menu_system__button_released  code
+000000                00302 _button_released:
+                      00303 ;       .line   75; menu_system.c       void button_released(unsigned char button) {
+000000 CFD9 FFE5      00304         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00305         MOVFF   FSR1L, FSR2L
+                      00306 ;       .line   77; menu_system.c       }
+000008 CFE4 FFD9      00307         MOVFF   PREINC1, FSR2L
+00000C 0012           00308         RETURN  
+                      00309 
+                      00310 ; ; Starting pCode block
+                      00311 S_menu_system__button_pressed   code
+000000                00312 _button_pressed:
+                      00313 ;       .line   71; menu_system.c       void button_pressed(unsigned char button) {
+000000 CFD9 FFE5      00314         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00315         MOVFF   FSR1L, FSR2L
+                      00316 ;       .line   73; menu_system.c       }
+000008 CFE4 FFD9      00317         MOVFF   PREINC1, FSR2L
+00000C 0012           00318         RETURN  
+                      00319 
+                      00320 ; ; Starting pCode block
+                      00321 S_menu_system__lcd_print        code
+000000                00322 _lcd_print:
+                      00323 ;       .line   47; menu_system.c       void lcd_print(char *s, unsigned char line, unsigned char invert
+                            ed) {
+000000 CFD9 FFE5      00324         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00325         MOVFF   FSR1L, FSR2L
+000008 C??? F???      00326         MOVFF   r0x00, POSTDEC1
+00000C C??? F???      00327         MOVFF   r0x01, POSTDEC1
+000010 C??? F???      00328         MOVFF   r0x02, POSTDEC1
+000014 C??? F???      00329         MOVFF   r0x03, POSTDEC1
+000018 C??? F???      00330         MOVFF   r0x04, POSTDEC1
+00001C C??? F???      00331         MOVFF   r0x05, POSTDEC1
+000020 C??? F???      00332         MOVFF   r0x06, POSTDEC1
+000024 C??? F???      00333         MOVFF   r0x07, POSTDEC1
+000028 C??? F???      00334         MOVFF   r0x08, POSTDEC1
+00002C C??? F???      00335         MOVFF   r0x09, POSTDEC1
+000030 C??? F???      00336         MOVFF   r0x0a, POSTDEC1
+000034 C??? F???      00337         MOVFF   r0x0b, POSTDEC1
+000038 C??? F???      00338         MOVFF   r0x0c, POSTDEC1
+00003C C??? F???      00339         MOVFF   r0x0d, POSTDEC1
+000040 C??? F???      00340         MOVFF   r0x0e, POSTDEC1
+000044 C??? F???      00341         MOVFF   r0x0f, POSTDEC1
+000048 C??? F???      00342         MOVFF   r0x10, POSTDEC1
+00004C C??? F???      00343         MOVFF   r0x11, POSTDEC1
+000050 C??? F???      00344         MOVFF   r0x12, POSTDEC1
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+000054 C??? F???      00345         MOVFF   r0x13, POSTDEC1
+000058 C??? F???      00346         MOVFF   r0x14, POSTDEC1
+00005C C??? F???      00347         MOVFF   r0x15, POSTDEC1
+000060 C??? F???      00348         MOVFF   r0x16, POSTDEC1
+000064 0E02           00349         MOVLW   0x02
+000066 CFDB F000      00350         MOVFF   PLUSW2, r0x00
+00006A 0E03           00351         MOVLW   0x03
+00006C CFDB F000      00352         MOVFF   PLUSW2, r0x01
+000070 0E04           00353         MOVLW   0x04
+000072 CFDB F000      00354         MOVFF   PLUSW2, r0x02
+000076 0E05           00355         MOVLW   0x05
+000078 CFDB F000      00356         MOVFF   PLUSW2, r0x03
+00007C 0E06           00357         MOVLW   0x06
+00007E CFDB F000      00358         MOVFF   PLUSW2, r0x04
+                      00359 ; ;multiply lit val:0x08 by variable r0x03 and store in r0x03
+                      00360 ;       .line   53; menu_system.c       for (n = 0; s[n]; n++) {
+000082 50??           00361         MOVF    r0x03, W
+000084 0D08           00362         MULLW   0x08
+000086 CFF3 F000      00363         MOVFF   PRODL, r0x03
+00008A 6A??           00364         CLRF    r0x05
+00008C 6A??           00365         CLRF    r0x06
+00008E 6A??           00366         CLRF    r0x07
+000090                00367 _00134_DS_:
+000090 50??           00368         MOVF    r0x05, W
+000092 24??           00369         ADDWF   r0x00, W
+000094 6E??           00370         MOVWF   r0x08
+000096 6AE8           00371         CLRF    WREG
+000098 20??           00372         ADDWFC  r0x01, W
+00009A 6E??           00373         MOVWF   r0x09
+00009C 6AE8           00374         CLRF    WREG
+00009E 20??           00375         ADDWFC  r0x02, W
+0000A0 6E??           00376         MOVWF   r0x0a
+0000A2 C??? F???      00377         MOVFF   r0x08, FSR0L
+0000A6 C??? F???      00378         MOVFF   r0x09, PRODL
+0000AA 50??           00379         MOVF    r0x0a, W
+0000AC EC?? F0??      00380         CALL    __gptrget1
+0000B0 6E??           00381         MOVWF   r0x0b
+0000B2 50??           00382         MOVF    r0x0b, W
+0000B4 B4D8           00383         BTFSC   STATUS, 2
+0000B6 D???           00384         BRA     _00136_DS_
+                      00385 ;       .line   54; menu_system.c       for (x = 0; x < FONT_WIDTH; x++) {
+0000B8 C??? F???      00386         MOVFF   r0x08, r0x0b
+0000BC C??? F???      00387         MOVFF   r0x09, r0x0c
+0000C0 C??? F???      00388         MOVFF   r0x0a, r0x0d
+0000C4 6A??           00389         CLRF    r0x0e
+0000C6                00390 _00142_DS_:
+                      00391 ;       .line   55; menu_system.c       for (y = 0; y < FONT_HEIGHT; y++) {
+0000C6 50??           00392         MOVF    r0x06, W
+0000C8 24??           00393         ADDWF   r0x0e, W
+0000CA 6E??           00394         MOVWF   r0x0f
+0000CC 50??           00395         MOVF    r0x07, W
+0000CE 24??           00396         ADDWF   r0x0e, W
+0000D0 6E??           00397         MOVWF   r0x10
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0000D2 6A??           00398         CLRF    r0x11
+0000D4                00399 _00129_DS_:
+                      00400 ;       .line   56; menu_system.c       if (inverted) {
+0000D4 50??           00401         MOVF    r0x04, W
+0000D6 B4D8           00402         BTFSC   STATUS, 2
+0000D8 D???           00403         BRA     _00124_DS_
+                      00404 ;       .line   57; menu_system.c       if (!((font8x5[ s[n] ][x] & (1 << y)) >> y)) {
+0000DA C??? F???      00405         MOVFF   r0x08, FSR0L
+0000DE C??? F???      00406         MOVFF   r0x09, PRODL
+0000E2 50??           00407         MOVF    r0x0a, W
+0000E4 EC?? F0??      00408         CALL    __gptrget1
+0000E8 6E??           00409         MOVWF   r0x12
+                      00410 ; ;multiply lit val:0x06 by variable r0x12 and store in r0x12
+0000EA 50??           00411         MOVF    r0x12, W
+0000EC 0D06           00412         MULLW   0x06
+0000EE 50F4           00413         MOVF    PRODH, W
+0000F0 BE??           00414         BTFSC   r0x12, 7
+0000F2 0806           00415         SUBLW   0x06
+0000F4 6E??           00416         MOVWF   r0x13
+0000F6 CFF3 F000      00417         MOVFF   PRODL, r0x12
+0000FA 0E00           00418         MOVLW   0x00
+0000FC BE??           00419         BTFSC   r0x13, 7
+0000FE 0EFF           00420         MOVLW   0xff
+000100 6E??           00421         MOVWF   r0x15
+000102 6E??           00422         MOVWF   r0x14
+000104 0E??           00423         MOVLW   LOW(_font8x5)
+000106 26??           00424         ADDWF   r0x12, F
+000108 0E??           00425         MOVLW   HIGH(_font8x5)
+00010A 22??           00426         ADDWFC  r0x13, F
+00010C 0E??           00427         MOVLW   UPPER(_font8x5)
+00010E 22??           00428         ADDWFC  r0x14, F
+000110 50??           00429         MOVF    r0x0e, W
+000112 26??           00430         ADDWF   r0x12, F
+000114 6AE8           00431         CLRF    WREG
+000116 22??           00432         ADDWFC  r0x13, F
+000118 6AE8           00433         CLRF    WREG
+00011A 22??           00434         ADDWFC  r0x14, F
+00011C 0E01           00435         MOVLW   0x01
+00011E 6E??           00436         MOVWF   r0x15
+000120 0E00           00437         MOVLW   0x00
+000122 6E??           00438         MOVWF   r0x16
+000124 50??           00439         MOVF    r0x11, W
+000126 E0??           00440         BZ      _00168_DS_
+000128 6CE8           00441         NEGF    WREG
+00012A 90D8           00442         BCF     STATUS, 0
+00012C                00443 _00169_DS_:
+00012C 36??           00444         RLCF    r0x15, F
+00012E 36??           00445         RLCF    r0x16, F
+000130 0F01           00446         ADDLW   0x01
+000132 E3??           00447         BNC     _00169_DS_
+000134                00448 _00168_DS_:
+000134 C??? F???      00449         MOVFF   r0x12, TBLPTRL
+000138 C??? F???      00450         MOVFF   r0x13, TBLPTRH
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00013C C??? F???      00451         MOVFF   r0x14, TBLPTRU
+000140 0009           00452         TBLRD*+ 
+000142 CFF5 F000      00453         MOVFF   TABLAT, r0x12
+000146 6A??           00454         CLRF    r0x13
+000148 50??           00455         MOVF    r0x12, W
+00014A 16??           00456         ANDWF   r0x15, F
+00014C 50??           00457         MOVF    r0x13, W
+00014E 16??           00458         ANDWF   r0x16, F
+000150 50??           00459         MOVF    r0x11, W
+000152 E0??           00460         BZ      _00171_DS_
+000154 6CE8           00461         NEGF    WREG
+000156 90D8           00462         BCF     STATUS, 0
+000158                00463 _00172_DS_:
+000158 BE??           00464         BTFSC   r0x16, 7
+00015A 80D8           00465         BSF     STATUS, 0
+00015C 32??           00466         RRCF    r0x16, F
+00015E 32??           00467         RRCF    r0x15, F
+000160 0F01           00468         ADDLW   0x01
+000162 E3??           00469         BNC     _00172_DS_
+000164                00470 _00171_DS_:
+000164 50??           00471         MOVF    r0x15, W
+000166 10??           00472         IORWF   r0x16, W
+000168 A4D8           00473         BTFSS   STATUS, 2
+00016A D???           00474         BRA     _00130_DS_
+                      00475 ;       .line   58; menu_system.c       lcd_plotpixel(x + n * FONT_WIDTH, y + line * FONT_HEIGHT);
+00016C 50??           00476         MOVF    r0x03, W
+00016E 24??           00477         ADDWF   r0x11, W
+000170 6E??           00478         MOVWF   r0x12
+000172 50??           00479         MOVF    r0x12, W
+000174 6EE5           00480         MOVWF   POSTDEC1
+000176 50??           00481         MOVF    r0x10, W
+000178 6EE5           00482         MOVWF   POSTDEC1
+00017A EC?? F0??      00483         CALL    _lcd_plotpixel
+00017E 52E6           00484         MOVF    POSTINC1, F
+000180 52E6           00485         MOVF    POSTINC1, F
+000182 D???           00486         BRA     _00130_DS_
+000184                00487 _00124_DS_:
+                      00488 ;       .line   62; menu_system.c       if ((font8x5[ s[n] ][x] & (1 << y)) >> y) {
+000184 C??? F???      00489         MOVFF   r0x0b, FSR0L
+000188 C??? F???      00490         MOVFF   r0x0c, PRODL
+00018C 50??           00491         MOVF    r0x0d, W
+00018E EC?? F0??      00492         CALL    __gptrget1
+000192 6E??           00493         MOVWF   r0x12
+                      00494 ; ;multiply lit val:0x06 by variable r0x12 and store in r0x12
+000194 50??           00495         MOVF    r0x12, W
+000196 0D06           00496         MULLW   0x06
+000198 50F4           00497         MOVF    PRODH, W
+00019A BE??           00498         BTFSC   r0x12, 7
+00019C 0806           00499         SUBLW   0x06
+00019E 6E??           00500         MOVWF   r0x13
+0001A0 CFF3 F000      00501         MOVFF   PRODL, r0x12
+0001A4 0E00           00502         MOVLW   0x00
+0001A6 BE??           00503         BTFSC   r0x13, 7
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0001A8 0EFF           00504         MOVLW   0xff
+0001AA 6E??           00505         MOVWF   r0x15
+0001AC 6E??           00506         MOVWF   r0x14
+0001AE 0E??           00507         MOVLW   LOW(_font8x5)
+0001B0 26??           00508         ADDWF   r0x12, F
+0001B2 0E??           00509         MOVLW   HIGH(_font8x5)
+0001B4 22??           00510         ADDWFC  r0x13, F
+0001B6 0E??           00511         MOVLW   UPPER(_font8x5)
+0001B8 22??           00512         ADDWFC  r0x14, F
+0001BA 50??           00513         MOVF    r0x0e, W
+0001BC 26??           00514         ADDWF   r0x12, F
+0001BE 6AE8           00515         CLRF    WREG
+0001C0 22??           00516         ADDWFC  r0x13, F
+0001C2 6AE8           00517         CLRF    WREG
+0001C4 22??           00518         ADDWFC  r0x14, F
+0001C6 0E01           00519         MOVLW   0x01
+0001C8 6E??           00520         MOVWF   r0x15
+0001CA 0E00           00521         MOVLW   0x00
+0001CC 6E??           00522         MOVWF   r0x16
+0001CE 50??           00523         MOVF    r0x11, W
+0001D0 E0??           00524         BZ      _00173_DS_
+0001D2 6CE8           00525         NEGF    WREG
+0001D4 90D8           00526         BCF     STATUS, 0
+0001D6                00527 _00174_DS_:
+0001D6 36??           00528         RLCF    r0x15, F
+0001D8 36??           00529         RLCF    r0x16, F
+0001DA 0F01           00530         ADDLW   0x01
+0001DC E3??           00531         BNC     _00174_DS_
+0001DE                00532 _00173_DS_:
+0001DE C??? F???      00533         MOVFF   r0x12, TBLPTRL
+0001E2 C??? F???      00534         MOVFF   r0x13, TBLPTRH
+0001E6 C??? F???      00535         MOVFF   r0x14, TBLPTRU
+0001EA 0009           00536         TBLRD*+ 
+0001EC CFF5 F000      00537         MOVFF   TABLAT, r0x12
+0001F0 6A??           00538         CLRF    r0x13
+0001F2 50??           00539         MOVF    r0x12, W
+0001F4 16??           00540         ANDWF   r0x15, F
+0001F6 50??           00541         MOVF    r0x13, W
+0001F8 16??           00542         ANDWF   r0x16, F
+0001FA 50??           00543         MOVF    r0x11, W
+0001FC E0??           00544         BZ      _00176_DS_
+0001FE 6CE8           00545         NEGF    WREG
+000200 90D8           00546         BCF     STATUS, 0
+000202                00547 _00177_DS_:
+000202 BE??           00548         BTFSC   r0x16, 7
+000204 80D8           00549         BSF     STATUS, 0
+000206 32??           00550         RRCF    r0x16, F
+000208 32??           00551         RRCF    r0x15, F
+00020A 0F01           00552         ADDLW   0x01
+00020C E3??           00553         BNC     _00177_DS_
+00020E                00554 _00176_DS_:
+00020E 50??           00555         MOVF    r0x15, W
+000210 10??           00556         IORWF   r0x16, W
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+000212 E0??           00557         BZ      _00130_DS_
+                      00558 ;       .line   63; menu_system.c       lcd_plotpixel(x + n * FONT_WIDTH, y + line * FONT_HEIGHT);
+000214 50??           00559         MOVF    r0x03, W
+000216 24??           00560         ADDWF   r0x11, W
+000218 6E??           00561         MOVWF   r0x12
+00021A 50??           00562         MOVF    r0x12, W
+00021C 6EE5           00563         MOVWF   POSTDEC1
+00021E 50??           00564         MOVF    r0x0f, W
+000220 6EE5           00565         MOVWF   POSTDEC1
+000222 EC?? F0??      00566         CALL    _lcd_plotpixel
+000226 52E6           00567         MOVF    POSTINC1, F
+000228 52E6           00568         MOVF    POSTINC1, F
+00022A                00569 _00130_DS_:
+                      00570 ;       .line   55; menu_system.c       for (y = 0; y < FONT_HEIGHT; y++) {
+00022A 2A??           00571         INCF    r0x11, F
+00022C 0E08           00572         MOVLW   0x08
+00022E 5C??           00573         SUBWF   r0x11, W
+000230 A0D8           00574         BTFSS   STATUS, 0
+000232 D???           00575         BRA     _00129_DS_
+                      00576 ;       .line   54; menu_system.c       for (x = 0; x < FONT_WIDTH; x++) {
+000234 2A??           00577         INCF    r0x0e, F
+000236 0E06           00578         MOVLW   0x06
+000238 5C??           00579         SUBWF   r0x0e, W
+00023A A0D8           00580         BTFSS   STATUS, 0
+00023C D???           00581         BRA     _00142_DS_
+                      00582 ;       .line   53; menu_system.c       for (n = 0; s[n]; n++) {
+00023E 0E06           00583         MOVLW   0x06
+000240 26??           00584         ADDWF   r0x06, F
+000242 0E06           00585         MOVLW   0x06
+000244 26??           00586         ADDWF   r0x07, F
+000246 2A??           00587         INCF    r0x05, F
+000248 D???           00588         BRA     _00134_DS_
+00024A                00589 _00136_DS_:
+00024A CFE4 F000      00590         MOVFF   PREINC1, r0x16
+00024E CFE4 F000      00591         MOVFF   PREINC1, r0x15
+000252 CFE4 F000      00592         MOVFF   PREINC1, r0x14
+000256 CFE4 F000      00593         MOVFF   PREINC1, r0x13
+00025A CFE4 F000      00594         MOVFF   PREINC1, r0x12
+00025E CFE4 F000      00595         MOVFF   PREINC1, r0x11
+000262 CFE4 F000      00596         MOVFF   PREINC1, r0x10
+000266 CFE4 F000      00597         MOVFF   PREINC1, r0x0f
+00026A CFE4 F000      00598         MOVFF   PREINC1, r0x0e
+00026E CFE4 F000      00599         MOVFF   PREINC1, r0x0d
+000272 CFE4 F000      00600         MOVFF   PREINC1, r0x0c
+000276 CFE4 F000      00601         MOVFF   PREINC1, r0x0b
+00027A CFE4 F000      00602         MOVFF   PREINC1, r0x0a
+00027E CFE4 F000      00603         MOVFF   PREINC1, r0x09
+000282 CFE4 F000      00604         MOVFF   PREINC1, r0x08
+000286 CFE4 F000      00605         MOVFF   PREINC1, r0x07
+00028A CFE4 F000      00606         MOVFF   PREINC1, r0x06
+00028E CFE4 F000      00607         MOVFF   PREINC1, r0x05
+000292 CFE4 F000      00608         MOVFF   PREINC1, r0x04
+000296 CFE4 F000      00609         MOVFF   PREINC1, r0x03
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE 13
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00029A CFE4 F000      00610         MOVFF   PREINC1, r0x02
+00029E CFE4 F000      00611         MOVFF   PREINC1, r0x01
+0002A2 CFE4 F000      00612         MOVFF   PREINC1, r0x00
+0002A6 CFE4 FFD9      00613         MOVFF   PREINC1, FSR2L
+0002AA 0012           00614         RETURN  
+                      00615 
+                      00616 ; ; Starting pCode block
+                      00617 S_menu_system__do_menu_update   code
+000000                00618 _do_menu_update:
+                      00619 ;       .line   36; menu_system.c       void do_menu_update() {
+000000 CFD9 FFE5      00620         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00621         MOVFF   FSR1L, FSR2L
+000008 C??? F???      00622         MOVFF   r0x00, POSTDEC1
+00000C C??? F???      00623         MOVFF   r0x01, POSTDEC1
+000010 C??? F???      00624         MOVFF   r0x02, POSTDEC1
+000014 C??? F???      00625         MOVFF   r0x03, POSTDEC1
+000018 C??? F???      00626         MOVFF   r0x04, POSTDEC1
+00001C C??? F???      00627         MOVFF   r0x05, POSTDEC1
+000020 C??? F???      00628         MOVFF   r0x06, POSTDEC1
+000024 C??? F???      00629         MOVFF   r0x07, POSTDEC1
+000028 C??? F???      00630         MOVFF   r0x08, POSTDEC1
+                      00631 ;       .line   40; menu_system.c       for (i = 0; i < (sizeof(menu)/sizeof(struct menu_item_t)); i++) 
+                            {
+00002C 6A??           00632         CLRF    r0x00
+00002E 6A??           00633         CLRF    r0x01
+000030 6A??           00634         CLRF    r0x02
+000032                00635 _00106_DS_:
+                      00636 ;       .line   41; menu_system.c       strcpy(menu_item, " ");
+000032 0E??           00637         MOVLW   HIGH(_do_menu_update_menu_item_1_76)
+000034 6E??           00638         MOVWF   r0x04
+000036 0E??           00639         MOVLW   LOW(_do_menu_update_menu_item_1_76)
+000038 6E??           00640         MOVWF   r0x03
+00003A 0E80           00641         MOVLW   0x80
+00003C 6E??           00642         MOVWF   r0x05
+00003E 0E??           00643         MOVLW   UPPER(__str_0)
+000040 6E??           00644         MOVWF   r0x08
+000042 0E??           00645         MOVLW   HIGH(__str_0)
+000044 6E??           00646         MOVWF   r0x07
+000046 0E??           00647         MOVLW   LOW(__str_0)
+000048 6E??           00648         MOVWF   r0x06
+00004A 50??           00649         MOVF    r0x08, W
+00004C 6EE5           00650         MOVWF   POSTDEC1
+00004E 50??           00651         MOVF    r0x07, W
+000050 6EE5           00652         MOVWF   POSTDEC1
+000052 50??           00653         MOVF    r0x06, W
+000054 6EE5           00654         MOVWF   POSTDEC1
+000056 50??           00655         MOVF    r0x05, W
+000058 6EE5           00656         MOVWF   POSTDEC1
+00005A 50??           00657         MOVF    r0x04, W
+00005C 6EE5           00658         MOVWF   POSTDEC1
+00005E 50??           00659         MOVF    r0x03, W
+000060 6EE5           00660         MOVWF   POSTDEC1
+000062 EC?? F0??      00661         CALL    _strcpy
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE 14
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+000066 0E06           00662         MOVLW   0x06
+000068 26E1           00663         ADDWF   FSR1L, F
+                      00664 ;       .line   42; menu_system.c       strcat(menu_item, menu[i].name);
+00006A 0E??           00665         MOVLW   HIGH(_do_menu_update_menu_item_1_76)
+00006C 6E??           00666         MOVWF   r0x04
+00006E 0E??           00667         MOVLW   LOW(_do_menu_update_menu_item_1_76)
+000070 6E??           00668         MOVWF   r0x03
+000072 0E80           00669         MOVLW   0x80
+000074 6E??           00670         MOVWF   r0x05
+000076 0E??           00671         MOVLW   LOW(_menu)
+000078 24??           00672         ADDWF   r0x01, W
+00007A 6E??           00673         MOVWF   r0x06
+00007C 0E??           00674         MOVLW   HIGH(_menu)
+00007E 20??           00675         ADDWFC  r0x02, W
+000080 6E??           00676         MOVWF   r0x07
+000082 4A??           00677         INFSNZ  r0x06, F
+000084 2A??           00678         INCF    r0x07, F
+000086 50??           00679         MOVF    r0x07, W
+000088 6E??           00680         MOVWF   r0x07
+00008A 50??           00681         MOVF    r0x06, W
+00008C 6E??           00682         MOVWF   r0x06
+00008E 0E80           00683         MOVLW   0x80
+000090 6E??           00684         MOVWF   r0x08
+000092 50??           00685         MOVF    r0x08, W
+000094 6EE5           00686         MOVWF   POSTDEC1
+000096 50??           00687         MOVF    r0x07, W
+000098 6EE5           00688         MOVWF   POSTDEC1
+00009A 50??           00689         MOVF    r0x06, W
+00009C 6EE5           00690         MOVWF   POSTDEC1
+00009E 50??           00691         MOVF    r0x05, W
+0000A0 6EE5           00692         MOVWF   POSTDEC1
+0000A2 50??           00693         MOVF    r0x04, W
+0000A4 6EE5           00694         MOVWF   POSTDEC1
+0000A6 50??           00695         MOVF    r0x03, W
+0000A8 6EE5           00696         MOVWF   POSTDEC1
+0000AA EC?? F0??      00697         CALL    _strcat
+0000AE 0E06           00698         MOVLW   0x06
+0000B0 26E1           00699         ADDWF   FSR1L, F
+                      00700 ;       .line   43; menu_system.c       lcd_print(menu_item, i, NON_INVERTED);
+0000B2 0E??           00701         MOVLW   HIGH(_do_menu_update_menu_item_1_76)
+0000B4 6E??           00702         MOVWF   r0x04
+0000B6 0E??           00703         MOVLW   LOW(_do_menu_update_menu_item_1_76)
+0000B8 6E??           00704         MOVWF   r0x03
+0000BA 0E80           00705         MOVLW   0x80
+0000BC 6E??           00706         MOVWF   r0x05
+0000BE 0E00           00707         MOVLW   0x00
+0000C0 6EE5           00708         MOVWF   POSTDEC1
+0000C2 50??           00709         MOVF    r0x00, W
+0000C4 6EE5           00710         MOVWF   POSTDEC1
+0000C6 50??           00711         MOVF    r0x05, W
+0000C8 6EE5           00712         MOVWF   POSTDEC1
+0000CA 50??           00713         MOVF    r0x04, W
+0000CC 6EE5           00714         MOVWF   POSTDEC1
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE 15
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0000CE 50??           00715         MOVF    r0x03, W
+0000D0 6EE5           00716         MOVWF   POSTDEC1
+0000D2 EC?? F0??      00717         CALL    _lcd_print
+0000D6 0E05           00718         MOVLW   0x05
+0000D8 26E1           00719         ADDWF   FSR1L, F
+                      00720 ;       .line   40; menu_system.c       for (i = 0; i < (sizeof(menu)/sizeof(struct menu_item_t)); i++) 
+                            {
+0000DA 0E17           00721         MOVLW   0x17
+0000DC 26??           00722         ADDWF   r0x01, F
+0000DE B0D8           00723         BTFSC   STATUS, 0
+0000E0 2A??           00724         INCF    r0x02, F
+0000E2 2A??           00725         INCF    r0x00, F
+0000E4 0E07           00726         MOVLW   0x07
+0000E6 5C??           00727         SUBWF   r0x00, W
+0000E8 A0D8           00728         BTFSS   STATUS, 0
+0000EA D???           00729         BRA     _00106_DS_
+0000EC CFE4 F000      00730         MOVFF   PREINC1, r0x08
+0000F0 CFE4 F000      00731         MOVFF   PREINC1, r0x07
+0000F4 CFE4 F000      00732         MOVFF   PREINC1, r0x06
+0000F8 CFE4 F000      00733         MOVFF   PREINC1, r0x05
+0000FC CFE4 F000      00734         MOVFF   PREINC1, r0x04
+000100 CFE4 F000      00735         MOVFF   PREINC1, r0x03
+000104 CFE4 F000      00736         MOVFF   PREINC1, r0x02
+000108 CFE4 F000      00737         MOVFF   PREINC1, r0x01
+00010C CFE4 F000      00738         MOVFF   PREINC1, r0x00
+000110 CFE4 FFD9      00739         MOVFF   PREINC1, FSR2L
+000114 0012           00740         RETURN  
+                      00741 
+                      00742 ; ; Starting pCode block for Ival
+                      00743         code
+000000                00744 _font8x5:
+000000 0000 0000 0000 00745         DB      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x64, 0x18, 0x04, 0x64, 0x18
+       6400 0418 1864 
+00000C 3C00 4040 7C20 00746         DB      0x00, 0x3c, 0x40, 0x40, 0x20, 0x7c, 0x00, 0x0c, 0x30, 0x40, 0x30, 0x0c
+       0C00 4030 0C30 
+000018 3C00 3040 3C40 00747         DB      0x00, 0x3c, 0x40, 0x30, 0x40, 0x3c, 0x00, 0x00, 0x3e, 0x1c, 0x08, 0x00
+       0000 1C3E 0008 
+000024 0400 1F1E 041E 00748         DB      0x00, 0x04, 0x1e, 0x1f, 0x1e, 0x04, 0x00, 0x10, 0x3c, 0x7c, 0x3c, 0x10
+       1000 7C3C 103C 
+000030 2000 3E40 0201 00749         DB      0x00, 0x20, 0x40, 0x3e, 0x01, 0x02, 0x00, 0x22, 0x14, 0x08, 0x14, 0x22
+       2200 0814 2214 
+00003C 0000 2838 0038 00750         DB      0x00, 0x00, 0x38, 0x28, 0x38, 0x00, 0x00, 0x00, 0x10, 0x38, 0x10, 0x00
+       0000 3810 0010 
+000048 0000 1000 0000 00751         DB      0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x08, 0x78, 0x08, 0x00, 0x00
+       0800 0878 0000 
+000054 0000 1515 000A 00752         DB      0x00, 0x00, 0x15, 0x15, 0x0a, 0x00, 0x00, 0x7f, 0x7f, 0x09, 0x09, 0x01
+       7F00 097F 0109 
+000060 1000 7F20 0101 00753         DB      0x00, 0x10, 0x20, 0x7f, 0x01, 0x01, 0x00, 0x04, 0x04, 0x00, 0x01, 0x1f
+       0400 0004 1F01 
+00006C 0000 1519 0012 00754         DB      0x00, 0x00, 0x19, 0x15, 0x12, 0x00, 0x00, 0x40, 0x60, 0x50, 0x48, 0x44
+       4000 5060 4448 
+000078 0600 0909 0006 00755         DB      0x00, 0x06, 0x09, 0x09, 0x06, 0x00, 0x00, 0x0f, 0x02, 0x01, 0x01, 0x00
+       0F00 0102 0001 
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE 16
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+000084 0000 1F01 0001 00756         DB      0x00, 0x00, 0x01, 0x1f, 0x01, 0x00, 0x00, 0x44, 0x44, 0x4a, 0x4a, 0x51
+       4400 4A44 514A 
+000090 1400 1C74 1417 00757         DB      0x00, 0x14, 0x74, 0x1c, 0x17, 0x14, 0x00, 0x51, 0x4a, 0x4a, 0x44, 0x44
+       5100 4A4A 4444 
+00009C 0000 0400 0404 00758         DB      0x00, 0x00, 0x00, 0x04, 0x04, 0x04, 0x00, 0x00, 0x7c, 0x54, 0x54, 0x44
+       0000 547C 4454 
+0000A8 0800 2A08 081C 00759         DB      0x00, 0x08, 0x08, 0x2a, 0x1c, 0x08, 0x00, 0x7c, 0x00, 0x7c, 0x44, 0x7c
+       7C00 7C00 7C44 
+0000B4 0400 7F02 0402 00760         DB      0x00, 0x04, 0x02, 0x7f, 0x02, 0x04, 0x00, 0x10, 0x20, 0x7f, 0x20, 0x10
+       1000 7F20 1020 
+0000C0 0000 0000 0000 00761         DB      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x6f, 0x00, 0x00
+       0000 6F00 0000 
+0000CC 0000 0007 0007 00762         DB      0x00, 0x00, 0x07, 0x00, 0x07, 0x00, 0x00, 0x14, 0x7f, 0x14, 0x7f, 0x14
+       1400 147F 147F 
+0000D8 0000 0407 001E 00763         DB      0x00, 0x00, 0x07, 0x04, 0x1e, 0x00, 0x00, 0x23, 0x13, 0x08, 0x64, 0x62
+       2300 0813 6264 
+0000E4 3600 5649 5020 00764         DB      0x00, 0x36, 0x49, 0x56, 0x20, 0x50, 0x00, 0x00, 0x00, 0x07, 0x00, 0x00
+       0000 0700 0000 
+0000F0 0000 221C 0041 00765         DB      0x00, 0x00, 0x1c, 0x22, 0x41, 0x00, 0x00, 0x00, 0x41, 0x22, 0x1c, 0x00
+       0000 2241 001C 
+0000FC 1400 3E08 1408 00766         DB      0x00, 0x14, 0x08, 0x3e, 0x08, 0x14, 0x00, 0x08, 0x08, 0x3e, 0x08, 0x08
+       0800 3E08 0808 
+000108 0000 3050 0000 00767         DB      0x00, 0x00, 0x50, 0x30, 0x00, 0x00, 0x00, 0x08, 0x08, 0x08, 0x08, 0x08
+       0800 0808 0808 
+000114 0000 6060 0000 00768         DB      0x00, 0x00, 0x60, 0x60, 0x00, 0x00, 0x00, 0x20, 0x10, 0x08, 0x04, 0x02
+       2000 0810 0204 
+000120 3E00 4951 3E45 00769         DB      0x00, 0x3e, 0x51, 0x49, 0x45, 0x3e, 0x00, 0x00, 0x42, 0x7f, 0x40, 0x00
+       0000 7F42 0040 
+00012C 4200 5161 4649 00770         DB      0x00, 0x42, 0x61, 0x51, 0x49, 0x46, 0x00, 0x21, 0x41, 0x45, 0x4b, 0x31
+       2100 4541 314B 
+000138 1800 1214 107F 00771         DB      0x00, 0x18, 0x14, 0x12, 0x7f, 0x10, 0x00, 0x27, 0x45, 0x45, 0x45, 0x39
+       2700 4545 3945 
+000144 3C00 494A 3049 00772         DB      0x00, 0x3c, 0x4a, 0x49, 0x49, 0x30, 0x00, 0x01, 0x71, 0x09, 0x05, 0x03
+       0100 0971 0305 
+000150 3600 4949 3649 00773         DB      0x00, 0x36, 0x49, 0x49, 0x49, 0x36, 0x00, 0x06, 0x49, 0x49, 0x29, 0x1e
+       0600 4949 1E29 
+00015C 0000 3636 0000 00774         DB      0x00, 0x00, 0x36, 0x36, 0x00, 0x00, 0x00, 0x00, 0x56, 0x36, 0x00, 0x00
+       0000 3656 0000 
+000168 0800 2214 0041 00775         DB      0x00, 0x08, 0x14, 0x22, 0x41, 0x00, 0x00, 0x14, 0x14, 0x14, 0x14, 0x14
+       1400 1414 1414 
+000174 0000 2241 0814 00776         DB      0x00, 0x00, 0x41, 0x22, 0x14, 0x08, 0x00, 0x02, 0x01, 0x51, 0x09, 0x06
+       0200 5101 0609 
+000180 3E00 5D41 4E49 00777         DB      0x00, 0x3e, 0x41, 0x5d, 0x49, 0x4e, 0x00, 0x7e, 0x09, 0x09, 0x09, 0x7e
+       7E00 0909 7E09 
+00018C 7F00 4949 3649 00778         DB      0x00, 0x7f, 0x49, 0x49, 0x49, 0x36, 0x00, 0x3e, 0x41, 0x41, 0x41, 0x22
+       3E00 4141 2241 
+000198 7F00 4141 3E41 00779         DB      0x00, 0x7f, 0x41, 0x41, 0x41, 0x3e, 0x00, 0x7f, 0x49, 0x49, 0x49, 0x41
+       7F00 4949 4149 
+0001A4 7F00 0909 0109 00780         DB      0x00, 0x7f, 0x09, 0x09, 0x09, 0x01, 0x00, 0x3e, 0x41, 0x49, 0x49, 0x7a
+       3E00 4941 7A49 
+0001B0 7F00 0808 7F08 00781         DB      0x00, 0x7f, 0x08, 0x08, 0x08, 0x7f, 0x00, 0x00, 0x41, 0x7f, 0x41, 0x00
+       0000 7F41 0041 
+0001BC 2000 4140 013F 00782         DB      0x00, 0x20, 0x40, 0x41, 0x3f, 0x01, 0x00, 0x7f, 0x08, 0x14, 0x22, 0x41
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE 17
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+       7F00 1408 4122 
+0001C8 7F00 4040 4040 00783         DB      0x00, 0x7f, 0x40, 0x40, 0x40, 0x40, 0x00, 0x7f, 0x02, 0x0c, 0x02, 0x7f
+       7F00 0C02 7F02 
+0001D4 7F00 0804 7F10 00784         DB      0x00, 0x7f, 0x04, 0x08, 0x10, 0x7f, 0x00, 0x3e, 0x41, 0x41, 0x41, 0x3e
+       3E00 4141 3E41 
+0001E0 7F00 0909 0609 00785         DB      0x00, 0x7f, 0x09, 0x09, 0x09, 0x06, 0x00, 0x3e, 0x41, 0x51, 0x21, 0x5e
+       3E00 5141 5E21 
+0001EC 7F00 1909 4629 00786         DB      0x00, 0x7f, 0x09, 0x19, 0x29, 0x46, 0x00, 0x46, 0x49, 0x49, 0x49, 0x31
+       4600 4949 3149 
+0001F8 0100 7F01 0101 00787         DB      0x00, 0x01, 0x01, 0x7f, 0x01, 0x01, 0x00, 0x3f, 0x40, 0x40, 0x40, 0x3f
+       3F00 4040 3F40 
+000204 0F00 4030 0F30 00788         DB      0x00, 0x0f, 0x30, 0x40, 0x30, 0x0f, 0x00, 0x3f, 0x40, 0x30, 0x40, 0x3f
+       3F00 3040 3F40 
+000210 6300 0814 6314 00789         DB      0x00, 0x63, 0x14, 0x08, 0x14, 0x63, 0x00, 0x07, 0x08, 0x70, 0x08, 0x07
+       0700 7008 0708 
+00021C 6100 4951 4345 00790         DB      0x00, 0x61, 0x51, 0x49, 0x45, 0x43, 0x00, 0x3c, 0x4a, 0x49, 0x29, 0x1e
+       3C00 494A 1E29 
+000228 0200 0804 2010 00791         DB      0x00, 0x02, 0x04, 0x08, 0x10, 0x20, 0x00, 0x00, 0x41, 0x7f, 0x00, 0x00
+       0000 7F41 0000 
+000234 0400 0102 0402 00792         DB      0x00, 0x04, 0x02, 0x01, 0x02, 0x04, 0x00, 0x40, 0x40, 0x40, 0x40, 0x40
+       4000 4040 4040 
+000240 0000 0300 0004 00793         DB      0x00, 0x00, 0x00, 0x03, 0x04, 0x00, 0x00, 0x20, 0x54, 0x54, 0x54, 0x78
+       2000 5454 7854 
+00024C 7F00 4448 3844 00794         DB      0x00, 0x7f, 0x48, 0x44, 0x44, 0x38, 0x00, 0x38, 0x44, 0x44, 0x44, 0x20
+       3800 4444 2044 
+000258 3800 4444 7F48 00795         DB      0x00, 0x38, 0x44, 0x44, 0x48, 0x7f, 0x00, 0x38, 0x54, 0x54, 0x54, 0x18
+       3800 5454 1854 
+000264 0800 097E 0201 00796         DB      0x00, 0x08, 0x7e, 0x09, 0x01, 0x02, 0x00, 0x0c, 0x52, 0x52, 0x52, 0x3e
+       0C00 5252 3E52 
+000270 7F00 0408 7804 00797         DB      0x00, 0x7f, 0x08, 0x04, 0x04, 0x78, 0x00, 0x00, 0x44, 0x7d, 0x40, 0x00
+       0000 7D44 0040 
+00027C 2000 4440 003D 00798         DB      0x00, 0x20, 0x40, 0x44, 0x3d, 0x00, 0x00, 0x00, 0x7f, 0x10, 0x28, 0x44
+       0000 107F 4428 
+000288 0000 7F41 0040 00799         DB      0x00, 0x00, 0x41, 0x7f, 0x40, 0x00, 0x00, 0x7c, 0x04, 0x18, 0x04, 0x78
+       7C00 1804 7804 
+000294 7C00 0408 7804 00800         DB      0x00, 0x7c, 0x08, 0x04, 0x04, 0x78, 0x00, 0x38, 0x44, 0x44, 0x44, 0x38
+       3800 4444 3844 
+0002A0 7C00 1414 0814 00801         DB      0x00, 0x7c, 0x14, 0x14, 0x14, 0x08, 0x00, 0x08, 0x14, 0x14, 0x18, 0x7c
+       0800 1414 7C18 
+0002AC 7C00 0408 0804 00802         DB      0x00, 0x7c, 0x08, 0x04, 0x04, 0x08, 0x00, 0x48, 0x54, 0x54, 0x54, 0x20
+       4800 5454 2054 
+0002B8 0400 443F 2040 00803         DB      0x00, 0x04, 0x3f, 0x44, 0x40, 0x20, 0x00, 0x3c, 0x40, 0x40, 0x20, 0x7c
+       3C00 4040 7C20 
+0002C4 1C00 4020 1C20 00804         DB      0x00, 0x1c, 0x20, 0x40, 0x20, 0x1c, 0x00, 0x3c, 0x40, 0x30, 0x40, 0x3c
+       3C00 3040 3C40 
+0002D0 4400 1028 4428 00805         DB      0x00, 0x44, 0x28, 0x10, 0x28, 0x44, 0x00, 0x0c, 0x50, 0x50, 0x50, 0x3c
+       0C00 5050 3C50 
+0002DC 4400 5464 444C 00806         DB      0x00, 0x44, 0x64, 0x54, 0x4c, 0x44, 0x00, 0x00, 0x08, 0x36, 0x41, 0x41
+       0000 3608 4141 
+0002E8 0000 7F00 0000 00807         DB      0x00, 0x00, 0x00, 0x7f, 0x00, 0x00, 0x00, 0x41, 0x41, 0x36, 0x08, 0x00
+       4100 3641 0008 
+0002F4 0400 0402 0408 00808         DB      0x00, 0x04, 0x02, 0x04, 0x08, 0x04, 0x00, 0x7f, 0x6b, 0x6b, 0x6b, 0x7f
+       7F00 6B6B 7F6B 
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE 18
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+000300 0000 447C 007C 00809         DB      0x00, 0x00, 0x7c, 0x44, 0x7c, 0x00, 0x00, 0x00, 0x08, 0x7c, 0x00, 0x00
+       0000 7C08 0000 
+00030C 0000 5464 0048 00810         DB      0x00, 0x00, 0x64, 0x54, 0x48, 0x00, 0x00, 0x00, 0x44, 0x54, 0x28, 0x00
+       0000 5444 0028 
+000318 0000 101C 0078 00811         DB      0x00, 0x00, 0x1c, 0x10, 0x78, 0x00, 0x00, 0x00, 0x5c, 0x54, 0x24, 0x00
+       0000 545C 0024 
+000324 0000 5478 0074 00812         DB      0x00, 0x00, 0x78, 0x54, 0x74, 0x00, 0x00, 0x00, 0x64, 0x14, 0x0c, 0x00
+       0000 1464 000C 
+000330 0000 547C 007C 00813         DB      0x00, 0x00, 0x7c, 0x54, 0x7c, 0x00, 0x00, 0x00, 0x5c, 0x54, 0x3c, 0x00
+       0000 545C 003C 
+00033C 7800 2624 7825 00814         DB      0x00, 0x78, 0x24, 0x26, 0x25, 0x78, 0x00, 0x78, 0x25, 0x26, 0x24, 0x78
+       7800 2625 7824 
+000348 7000 292A 702A 00815         DB      0x00, 0x70, 0x2a, 0x29, 0x2a, 0x70, 0x00, 0x78, 0x25, 0x24, 0x25, 0x78
+       7800 2425 7825 
+000354 2000 5654 7855 00816         DB      0x00, 0x20, 0x54, 0x56, 0x55, 0x78, 0x00, 0x20, 0x55, 0x56, 0x54, 0x78
+       2000 5655 7854 
+000360 2000 5556 7856 00817         DB      0x00, 0x20, 0x56, 0x55, 0x56, 0x78, 0x00, 0x20, 0x55, 0x54, 0x55, 0x78
+       2000 5455 7855 
+00036C 7C00 5654 4455 00818         DB      0x00, 0x7c, 0x54, 0x56, 0x55, 0x44, 0x00, 0x7c, 0x55, 0x56, 0x54, 0x44
+       7C00 5655 4454 
+000378 7C00 5556 4456 00819         DB      0x00, 0x7c, 0x56, 0x55, 0x56, 0x44, 0x00, 0x7c, 0x55, 0x54, 0x55, 0x44
+       7C00 5455 4455 
+000384 3800 5654 1855 00820         DB      0x00, 0x38, 0x54, 0x56, 0x55, 0x18, 0x00, 0x38, 0x55, 0x56, 0x54, 0x18
+       3800 5655 1854 
+000390 3800 5556 1856 00821         DB      0x00, 0x38, 0x56, 0x55, 0x56, 0x18, 0x00, 0x38, 0x55, 0x54, 0x55, 0x18
+       3800 5455 1855 
+00039C 0000 7E44 0045 00822         DB      0x00, 0x00, 0x44, 0x7e, 0x45, 0x00, 0x00, 0x00, 0x45, 0x7e, 0x44, 0x00
+       0000 7E45 0044 
+0003A8 0000 7D46 0046 00823         DB      0x00, 0x00, 0x46, 0x7d, 0x46, 0x00, 0x00, 0x00, 0x45, 0x7c, 0x45, 0x00
+       0000 7C45 0045 
+0003B4 0000 7A48 0041 00824         DB      0x00, 0x00, 0x48, 0x7a, 0x41, 0x00, 0x00, 0x00, 0x49, 0x7a, 0x40, 0x00
+       0000 7A49 0040 
+0003C0 0000 794A 0042 00825         DB      0x00, 0x00, 0x4a, 0x79, 0x42, 0x00, 0x00, 0x00, 0x49, 0x78, 0x41, 0x00
+       0000 7849 0041 
+0003CC 3800 4644 3845 00826         DB      0x00, 0x38, 0x44, 0x46, 0x45, 0x38, 0x00, 0x38, 0x45, 0x46, 0x44, 0x38
+       3800 4645 3844 
+0003D8 3800 4546 3846 00827         DB      0x00, 0x38, 0x46, 0x45, 0x46, 0x38, 0x00, 0x38, 0x45, 0x44, 0x45, 0x38
+       3800 4445 3845 
+0003E4 3000 4A48 3049 00828         DB      0x00, 0x30, 0x48, 0x4a, 0x49, 0x30, 0x00, 0x30, 0x49, 0x4a, 0x48, 0x30
+       3000 4A49 3048 
+0003F0 3000 494A 304A 00829         DB      0x00, 0x30, 0x4a, 0x49, 0x4a, 0x30, 0x00, 0x30, 0x49, 0x48, 0x49, 0x30
+       3000 4849 3049 
+0003FC 3C00 4240 3C41 00830         DB      0x00, 0x3c, 0x40, 0x42, 0x41, 0x3c, 0x00, 0x3c, 0x41, 0x42, 0x40, 0x3c
+       3C00 4241 3C40 
+000408 3C00 4142 3C42 00831         DB      0x00, 0x3c, 0x42, 0x41, 0x42, 0x3c, 0x00, 0x3c, 0x41, 0x40, 0x41, 0x3c
+       3C00 4041 3C41 
+000414 3C00 4240 7C21 00832         DB      0x00, 0x3c, 0x40, 0x42, 0x21, 0x7c, 0x00, 0x3c, 0x41, 0x42, 0x20, 0x7c
+       3C00 4241 7C20 
+000420 3800 4142 7822 00833         DB      0x00, 0x38, 0x42, 0x41, 0x22, 0x78, 0x00, 0x3c, 0x41, 0x40, 0x21, 0x7c
+       3C00 4041 7C21 
+00042C 4E00 7151 0A11 00834         DB      0x00, 0x4e, 0x51, 0x71, 0x11, 0x0a, 0x00, 0x58, 0x64, 0x64, 0x24, 0x10
+       5800 6464 1024 
+000438 7C00 110A 7D22 00835         DB      0x00, 0x7c, 0x0a, 0x11, 0x22, 0x7d, 0x00, 0x78, 0x12, 0x09, 0x0a, 0x71
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE 19
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+       7800 0912 710A 
+000444 0000 0400 0102 00836         DB      0x00, 0x00, 0x00, 0x04, 0x02, 0x01, 0x00, 0x01, 0x02, 0x04, 0x00, 0x00
+       0100 0402 0000 
+000450 0000 0002 0002 00837         DB      0x00, 0x00, 0x02, 0x00, 0x02, 0x00, 0x00, 0x30, 0x48, 0x45, 0x40, 0x20
+       3000 4548 2040 
+00045C 0000 7B00 0000 00838         DB      0x00, 0x00, 0x00, 0x7b, 0x00, 0x00, 0x00, 0x38, 0x44, 0x44, 0x38, 0x44
+       3800 4444 4438 
+000468 4000 493E 3649 00839         DB      0x00, 0x40, 0x3e, 0x49, 0x49, 0x36, 0x00, 0x08, 0x04, 0x08, 0x70, 0x0c
+       0800 0804 0C70 
+000474 6000 4850 6050 00840         DB      0x00, 0x60, 0x50, 0x48, 0x50, 0x60, 0x00, 0x20, 0x52, 0x55, 0x59, 0x30
+       2000 5552 3059 
+000480 3800 5454 0054 00841         DB      0x00, 0x38, 0x54, 0x54, 0x54, 0x00, 0x00, 0x00, 0x00, 0x7f, 0x41, 0x00
+       0000 7F00 0041 
+00048C 4000 1422 6018 00842         DB      0x00, 0x40, 0x22, 0x14, 0x18, 0x60, 0x00, 0x7c, 0x20, 0x20, 0x1c, 0x20
+       7C00 2020 201C 
+000498 4400 043C 447C 00843         DB      0x00, 0x44, 0x3c, 0x04, 0x7c, 0x44, 0x00, 0x40, 0x3c, 0x12, 0x12, 0x0c
+       4000 123C 0C12 
+0004A4 4100 5563 4149 00844         DB      0x00, 0x41, 0x63, 0x55, 0x49, 0x41, 0x00, 0x38, 0x44, 0x44, 0x3c, 0x04
+       3800 4444 043C 
+0004B0 0800 3C04 2444 00845         DB      0x00, 0x08, 0x04, 0x3c, 0x44, 0x24, 0x00, 0x08, 0x14, 0x7f, 0x14, 0x08
+       0800 7F14 0814 
+0004BC 4E00 0171 4E71 00846         DB      0x00, 0x4e, 0x71, 0x01, 0x71, 0x4e, 0x00, 0x45, 0x29, 0x11, 0x29, 0x45
+       4500 1129 4529 
+0004C8 0D00 5151 3D51 00847         DB      0x00, 0x0d, 0x51, 0x51, 0x51, 0x3d, 0x00, 0x00, 0x00, 0x05, 0x02, 0x05
+       0000 0500 0502 
+0004D4 4000 4000 4000 00848         DB      0x00, 0x40, 0x00, 0x40, 0x00, 0x40, 0x00, 0x00, 0x08, 0x1c, 0x3e, 0x00
+       0000 1C08 003E 
+0004E0 1C00 1C1C 0000 00849         DB      0x00, 0x1c, 0x1c, 0x1c, 0x00, 0x00, 0x00, 0x00, 0x70, 0x08, 0x07, 0x00
+       0000 0870 0007 
+0004EC 0000 0808 0008 00850         DB      0x00, 0x00, 0x08, 0x08, 0x08, 0x00, 0x00, 0x00, 0x1d, 0x15, 0x17, 0x00
+       0000 151D 0017 
+0004F8 0000 0507 0007 00851         DB      0x00, 0x00, 0x07, 0x05, 0x07, 0x00, 0x00, 0x00, 0x11, 0x15, 0x0a, 0x00
+       0000 1511 000A 
+000504 0000 0000 0000 00852         DB      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x3c, 0x41, 0x20, 0x00
+       0400 413C 0020 
+000510 7C00 1516 0816 00853         DB      0x00, 0x7c, 0x16, 0x15, 0x16, 0x08, 0x00, 0x21, 0x16, 0x08, 0x34, 0x42
+       2100 0816 4234 
+00051C 7F00 1D09 0301 00854         DB      0x00, 0x7f, 0x09, 0x1d, 0x01, 0x03, 0x00, 0x38, 0x54, 0x54, 0x14, 0x08
+       3800 5454 0814 
+000528 0000 7C00 4040 00855         DB      0x00, 0x00, 0x00, 0x7c, 0x40, 0x40, 0x00, 0x7f, 0x0e, 0x1c, 0x38, 0x7f
+       7F00 1C0E 7F38 
+000534 4100 5D22 1C22 00856         DB      0x00, 0x41, 0x22, 0x5d, 0x22, 0x1c, 0x00, 0x1c, 0x3e, 0x1c, 0x08, 0x00
+       1C00 1C3E 0008 
+000540 7F00 7F7F 7F7F 00857         DB      0x00, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x00, 0x77, 0x7b, 0x01, 0x7b, 0x77
+       7700 017B 777B 
+00054C 7F00 7543 7F43 00858         DB      0x00, 0x7f, 0x43, 0x75, 0x43, 0x7f, 0x00, 0x7f, 0x6f, 0x55, 0x43, 0x7f
+       7F00 556F 7F43 
+000558 4000 4040 4040 00859         DB      0x00, 0x40, 0x40, 0x40, 0x40, 0x40, 0x00, 0x44, 0x42, 0x5f, 0x42, 0x44
+       4400 5F42 4442 
+000564 4000 455E 405E 00860         DB      0x00, 0x40, 0x5e, 0x45, 0x5e, 0x40, 0x00, 0x40, 0x48, 0x55, 0x5e, 0x40
+       4000 5548 405E 
+000570 0000 0804 2010 00861         DB      0x00, 0x00, 0x04, 0x08, 0x10, 0x20, 0x00, 0x03, 0x07, 0x0e, 0x1c, 0x38
+       0300 0E07 381C 
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE 20
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00057C 0100 0703 1F0F 00862         DB      0x00, 0x01, 0x03, 0x07, 0x0f, 0x1f, 0x00, 0x7c, 0x78, 0x70, 0x60, 0x40
+       7C00 7078 4060 
+000588 0800 1C08 1C22 00863         DB      0x00, 0x08, 0x08, 0x1c, 0x22, 0x1c, 0x00, 0x00, 0x1c, 0x22, 0x1c, 0x00
+       0000 221C 001C 
+000594 0200 0800 2000 00864         DB      0x00, 0x02, 0x00, 0x08, 0x00, 0x20, 0x00, 0x04, 0x3e, 0x3f, 0x3e, 0x04
+       0400 3F3E 043E 
+0005A0 1000 7E3E 103E 00865         DB      0x00, 0x10, 0x3e, 0x7e, 0x3e, 0x10, 0x00, 0x55, 0x2a, 0x55, 0x2a, 0x55
+       5500 552A 552A 
+0005AC 2400 7F2A 122A 00866         DB      0x00, 0x24, 0x2a, 0x7f, 0x2a, 0x12, 0x00, 0x04, 0x1e, 0x1f, 0x1e, 0x04
+       0400 1F1E 041E 
+0005B8 0000 0000 0000 00867         DB      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+       0000 0000 0000 
+0005C4 0000 0000 0000 00868         DB      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+       0000 0000 0000 
+0005D0 0000 0000 0000 00869         DB      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+       0000 0000 0000 
+0005DC 0000 0000 0000 00870         DB      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+       0000 0000 0000 
+0005E8 0000 0000 0000 00871         DB      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+       0000 0000 0000 
+0005F4 0000 0000 0000 00872         DB      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+       0000 0000 0000 
+                      00873 ; ; Starting pCode block
+000600                00874 __str_0:
+000600 0020           00875         DB      0x20, 0x00
+                      00876 
+                      00877 
+                      00878 ; Statistics:
+                      00879 ; code size:     1264 (0x04f0) bytes ( 0.96%)
+                      00880 ;                 632 (0x0278) words
+                      00881 ; udata size:    8214 (0x2016) bytes (213.91%)
+                      00882 ; access size:     23 (0x0017) bytes
+                      00883 
+                      00884 
+                      00885         end
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE 21
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+FSR0L                             00000FE9
+FSR1L                             00000FE1
+FSR2L                             00000FD9
+PLUSW2                            00000FDB
+POSTDEC1                          00000FE5
+POSTINC1                          00000FE6
+PREINC1                           00000FE4
+PRODH                             00000FF4
+PRODL                             00000FF3
+STATUS                            00000FD8
+TABLAT                            00000FF5
+TBLPTRH                           00000FF7
+TBLPTRL                           00000FF6
+TBLPTRU                           00000FF8
+WREG                              00000FE8
+_00106_DS_                        00000032
+_00124_DS_                        00000184
+_00129_DS_                        000000D4
+_00130_DS_                        0000022A
+_00134_DS_                        00000090
+_00136_DS_                        0000024A
+_00142_DS_                        000000C6
+_00168_DS_                        00000134
+_00169_DS_                        0000012C
+_00171_DS_                        00000164
+_00172_DS_                        00000158
+_00173_DS_                        000001DE
+_00174_DS_                        000001D6
+_00176_DS_                        0000020E
+_00177_DS_                        00000202
+_ADCON0                           00000000
+_ADCON0bits                       00000000
+_ADCON1                           00000000
+_ADCON1bits                       00000000
+_ADCON2                           00000000
+_ADCON2bits                       00000000
+_ADRES                            00000000
+_ADRESH                           00000000
+_ADRESL                           00000000
+_BAUDCON                          00000000
+_BAUDCONbits                      00000000
+_BAUDCTL                          00000000
+_BAUDCTLbits                      00000000
+_BSR                              00000000
+_CCP1CON                          00000000
+_CCP1CONbits                      00000000
+_CCP2CON                          00000000
+_CCP2CONbits                      00000000
+_CCPR1                            00000000
+_CCPR1H                           00000000
+_CCPR1L                           00000000
+_CCPR2                            00000000
+_CCPR2H                           00000000
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE 22
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_CCPR2L                           00000000
+_CMCON                            00000000
+_CMCONbits                        00000000
+_CVRCON                           00000000
+_CVRCONbits                       00000000
+_DDRA                             00000000
+_DDRAbits                         00000000
+_DDRB                             00000000
+_DDRBbits                         00000000
+_DDRC                             00000000
+_DDRCbits                         00000000
+_DDRD                             00000000
+_DDRDbits                         00000000
+_DDRE                             00000000
+_DDREbits                         00000000
+_ECCP1AS                          00000000
+_ECCP1ASbits                      00000000
+_EEADR                            00000000
+_EEADRH                           00000000
+_EECON1                           00000000
+_EECON1bits                       00000000
+_EECON2                           00000000
+_EEDATA                           00000000
+_FSR0H                            00000000
+_FSR0L                            00000000
+_FSR1H                            00000000
+_FSR1L                            00000000
+_FSR2H                            00000000
+_FSR2L                            00000000
+_HLVDCON                          00000000
+_HLVDCONbits                      00000000
+_INDF0                            00000000
+_INDF1                            00000000
+_INDF2                            00000000
+_INTCON                           00000000
+_INTCON2                          00000000
+_INTCON2bits                      00000000
+_INTCON3                          00000000
+_INTCON3bits                      00000000
+_INTCONbits                       00000000
+_IPR1                             00000000
+_IPR1bits                         00000000
+_IPR2                             00000000
+_IPR2bits                         00000000
+_LATA                             00000000
+_LATAbits                         00000000
+_LATB                             00000000
+_LATBbits                         00000000
+_LATC                             00000000
+_LATCbits                         00000000
+_LATD                             00000000
+_LATDbits                         00000000
+_LATE                             00000000
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE 23
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_LATEbits                         00000000
+_LVDCON                           00000000
+_LVDCONbits                       00000000
+_OSCCON                           00000000
+_OSCCONbits                       00000000
+_OSCTUNE                          00000000
+_OSCTUNEbits                      00000000
+_PC                               00000000
+_PCL                              00000000
+_PCLATH                           00000000
+_PCLATU                           00000000
+_PIE1                             00000000
+_PIE1bits                         00000000
+_PIE2                             00000000
+_PIE2bits                         00000000
+_PIR1                             00000000
+_PIR1bits                         00000000
+_PIR2                             00000000
+_PIR2bits                         00000000
+_PLUSW0                           00000000
+_PLUSW1                           00000000
+_PLUSW2                           00000000
+_PORTA                            00000000
+_PORTAbits                        00000000
+_PORTB                            00000000
+_PORTBbits                        00000000
+_PORTC                            00000000
+_PORTCbits                        00000000
+_PORTD                            00000000
+_PORTDbits                        00000000
+_PORTE                            00000000
+_PORTEbits                        00000000
+_POSTDEC0                         00000000
+_POSTDEC1                         00000000
+_POSTDEC2                         00000000
+_POSTINC0                         00000000
+_POSTINC1                         00000000
+_POSTINC2                         00000000
+_PR2                              00000000
+_PREINC0                          00000000
+_PREINC1                          00000000
+_PREINC2                          00000000
+_PROD                             00000000
+_PRODH                            00000000
+_PRODL                            00000000
+_PWM1CON                          00000000
+_PWM1CONbits                      00000000
+_RCON                             00000000
+_RCONbits                         00000000
+_RCREG                            00000000
+_RCSTA                            00000000
+_RCSTAbits                        00000000
+_SPBRG                            00000000
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE 24
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_SPBRGH                           00000000
+_SSPADD                           00000000
+_SSPBUF                           00000000
+_SSPCON1                          00000000
+_SSPCON1bits                      00000000
+_SSPCON2                          00000000
+_SSPCON2bits                      00000000
+_SSPSTAT                          00000000
+_SSPSTATbits                      00000000
+_STATUS                           00000000
+_STATUSbits                       00000000
+_STKPTR                           00000000
+_STKPTRbits                       00000000
+_T0CON                            00000000
+_T0CONbits                        00000000
+_T1CON                            00000000
+_T1CONbits                        00000000
+_T2CON                            00000000
+_T2CONbits                        00000000
+_T3CON                            00000000
+_T3CONbits                        00000000
+_TABLAT                           00000000
+_TBLPTR                           00000000
+_TBLPTRH                          00000000
+_TBLPTRL                          00000000
+_TBLPTRU                          00000000
+_TMR0                             00000000
+_TMR0H                            00000000
+_TMR0L                            00000000
+_TMR1                             00000000
+_TMR1H                            00000000
+_TMR1L                            00000000
+_TMR2                             00000000
+_TMR3                             00000000
+_TMR3H                            00000000
+_TMR3L                            00000000
+_TOS                              00000000
+_TOSH                             00000000
+_TOSL                             00000000
+_TOSU                             00000000
+_TRISA                            00000000
+_TRISAbits                        00000000
+_TRISB                            00000000
+_TRISBbits                        00000000
+_TRISC                            00000000
+_TRISCbits                        00000000
+_TRISD                            00000000
+_TRISDbits                        00000000
+_TRISE                            00000000
+_TRISEbits                        00000000
+_TXREG                            00000000
+_TXSTA                            00000000
+_TXSTAbits                        00000000
+gpasm-1.2.0 #980 (Oct 25 2013) menu_system.as   12-10-2013  23:11:01        PAGE 25
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_WDTCON                           00000000
+_WDTCONbits                       00000000
+_WREG                             00000000
+__18F4620                         00000001
+__gptrget1                        00000000
+__str_0                           00000600
+_buffer                           00000000
+_button_pressed                   00000000
+_button_released                  00000000
+_do_menu_update                   00000000
+_do_menu_update_menu_item_1_76    00000000
+_font8x5                          00000000
+_lcd_plotpixel                    00000000
+_lcd_print                        00000000
+_menu                             00000000
+_stdin                            00000000
+_stdout                           00000000
+_strcat                           00000000
+_strcpy                           00000000
+r0x00                             00000000
+r0x01                             00000001
+r0x02                             00000002
+r0x03                             00000003
+r0x04                             00000004
+r0x05                             00000005
+r0x06                             00000006
+r0x07                             00000007
+r0x08                             00000008
+r0x09                             00000009
+r0x0a                             0000000A
+r0x0b                             0000000B
+r0x0c                             0000000C
+r0x0d                             0000000D
+r0x0e                             0000000E
+r0x0f                             0000000F
+r0x10                             00000010
+r0x11                             00000011
+r0x12                             00000012
+r0x13                             00000013
+r0x14                             00000014
+r0x15                             00000015
+r0x16                             00000016
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

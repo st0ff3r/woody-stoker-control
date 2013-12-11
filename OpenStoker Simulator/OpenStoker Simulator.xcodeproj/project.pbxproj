@@ -1,0 +1,319 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D67ACD94167EB96300DF195B /* menu_system.c in Sources */ = {isa = PBXBuildFile; fileRef = D67ACD93167EB96300DF195B /* menu_system.c */; };
+		D6C40868167EA2BE00D888CB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6C40867167EA2BE00D888CB /* Cocoa.framework */; };
+		D6C40872167EA2BE00D888CB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D6C40870167EA2BE00D888CB /* InfoPlist.strings */; };
+		D6C40874167EA2BE00D888CB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C40873167EA2BE00D888CB /* main.m */; };
+		D6C40878167EA2BE00D888CB /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = D6C40876167EA2BE00D888CB /* Credits.rtf */; };
+		D6C4087B167EA2BE00D888CB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C4087A167EA2BE00D888CB /* AppDelegate.m */; };
+		D6C4087E167EA2BF00D888CB /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D6C4087C167EA2BF00D888CB /* MainMenu.xib */; };
+		D6C40886167EA6C500D888CB /* LCDDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C40885167EA6C500D888CB /* LCDDisplay.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		D67ACD91167EB32F00DF195B /* font8x5.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = font8x5.h; path = ../font8x5.h; sourceTree = "<group>"; };
+		D67ACD93167EB96300DF195B /* menu_system.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = menu_system.c; sourceTree = "<group>"; usesTabs = 0; };
+		D67ACD95167EB97500DF195B /* menu_system.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = menu_system.h; sourceTree = "<group>"; };
+		D6C40863167EA2BE00D888CB /* OpenStoker Simulator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "OpenStoker Simulator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D6C40867167EA2BE00D888CB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		D6C4086A167EA2BE00D888CB /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		D6C4086B167EA2BE00D888CB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		D6C4086C167EA2BE00D888CB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D6C4086F167EA2BE00D888CB /* OpenStoker Simulator-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenStoker Simulator-Info.plist"; sourceTree = "<group>"; };
+		D6C40871167EA2BE00D888CB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D6C40873167EA2BE00D888CB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D6C40875167EA2BE00D888CB /* OpenStoker Simulator-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OpenStoker Simulator-Prefix.pch"; sourceTree = "<group>"; };
+		D6C40877167EA2BE00D888CB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D6C40879167EA2BE00D888CB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		D6C4087A167EA2BE00D888CB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		D6C4087D167EA2BF00D888CB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		D6C40884167EA6C500D888CB /* LCDDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCDDisplay.h; sourceTree = "<group>"; };
+		D6C40885167EA6C500D888CB /* LCDDisplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCDDisplay.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D6C40860167EA2BE00D888CB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D6C40868167EA2BE00D888CB /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D6C40858167EA2BE00D888CB = {
+			isa = PBXGroup;
+			children = (
+				D6C4086D167EA2BE00D888CB /* OpenStoker */,
+				D6C40866167EA2BE00D888CB /* Frameworks */,
+				D6C40864167EA2BE00D888CB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D6C40864167EA2BE00D888CB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D6C40863167EA2BE00D888CB /* OpenStoker Simulator.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D6C40866167EA2BE00D888CB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D6C40867167EA2BE00D888CB /* Cocoa.framework */,
+				D6C40869167EA2BE00D888CB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D6C40869167EA2BE00D888CB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D6C4086A167EA2BE00D888CB /* AppKit.framework */,
+				D6C4086B167EA2BE00D888CB /* CoreData.framework */,
+				D6C4086C167EA2BE00D888CB /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		D6C4086D167EA2BE00D888CB /* OpenStoker */ = {
+			isa = PBXGroup;
+			children = (
+				D67ACD93167EB96300DF195B /* menu_system.c */,
+				D67ACD95167EB97500DF195B /* menu_system.h */,
+				D67ACD91167EB32F00DF195B /* font8x5.h */,
+				D6C40879167EA2BE00D888CB /* AppDelegate.h */,
+				D6C4087A167EA2BE00D888CB /* AppDelegate.m */,
+				D6C40884167EA6C500D888CB /* LCDDisplay.h */,
+				D6C40885167EA6C500D888CB /* LCDDisplay.m */,
+				D6C4087C167EA2BF00D888CB /* MainMenu.xib */,
+				D6C4086E167EA2BE00D888CB /* Supporting Files */,
+			);
+			name = OpenStoker;
+			sourceTree = "<group>";
+		};
+		D6C4086E167EA2BE00D888CB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D6C4086F167EA2BE00D888CB /* OpenStoker Simulator-Info.plist */,
+				D6C40870167EA2BE00D888CB /* InfoPlist.strings */,
+				D6C40873167EA2BE00D888CB /* main.m */,
+				D6C40875167EA2BE00D888CB /* OpenStoker Simulator-Prefix.pch */,
+				D6C40876167EA2BE00D888CB /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D6C40862167EA2BE00D888CB /* OpenStoker Simulator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D6C40881167EA2BF00D888CB /* Build configuration list for PBXNativeTarget "OpenStoker Simulator" */;
+			buildPhases = (
+				D6C4085F167EA2BE00D888CB /* Sources */,
+				D6C40860167EA2BE00D888CB /* Frameworks */,
+				D6C40861167EA2BE00D888CB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "OpenStoker Simulator";
+			productName = menutest;
+			productReference = D6C40863167EA2BE00D888CB /* OpenStoker Simulator.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D6C4085A167EA2BE00D888CB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = stoffer;
+			};
+			buildConfigurationList = D6C4085D167EA2BE00D888CB /* Build configuration list for PBXProject "OpenStoker Simulator" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D6C40858167EA2BE00D888CB;
+			productRefGroup = D6C40864167EA2BE00D888CB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D6C40862167EA2BE00D888CB /* OpenStoker Simulator */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D6C40861167EA2BE00D888CB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D6C40872167EA2BE00D888CB /* InfoPlist.strings in Resources */,
+				D6C40878167EA2BE00D888CB /* Credits.rtf in Resources */,
+				D6C4087E167EA2BF00D888CB /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D6C4085F167EA2BE00D888CB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D6C40874167EA2BE00D888CB /* main.m in Sources */,
+				D6C4087B167EA2BE00D888CB /* AppDelegate.m in Sources */,
+				D6C40886167EA6C500D888CB /* LCDDisplay.m in Sources */,
+				D67ACD94167EB96300DF195B /* menu_system.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		D6C40870167EA2BE00D888CB /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D6C40871167EA2BE00D888CB /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D6C40876167EA2BE00D888CB /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D6C40877167EA2BE00D888CB /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		D6C4087C167EA2BF00D888CB /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D6C4087D167EA2BF00D888CB /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D6C4087F167EA2BF00D888CB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		D6C40880167EA2BF00D888CB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		D6C40882167EA2BF00D888CB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OpenStoker Simulator-Prefix.pch";
+				HEADER_SEARCH_PATHS = "/Users/stoffer/Documents/src/pic/woody-stoker-control";
+				INFOPLIST_FILE = "OpenStoker Simulator-Info.plist";
+				PRODUCT_NAME = "OpenStoker Simulator";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		D6C40883167EA2BF00D888CB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OpenStoker Simulator-Prefix.pch";
+				HEADER_SEARCH_PATHS = "/Users/stoffer/Documents/src/pic/woody-stoker-control";
+				INFOPLIST_FILE = "OpenStoker Simulator-Info.plist";
+				PRODUCT_NAME = "OpenStoker Simulator";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D6C4085D167EA2BE00D888CB /* Build configuration list for PBXProject "OpenStoker Simulator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D6C4087F167EA2BF00D888CB /* Debug */,
+				D6C40880167EA2BF00D888CB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D6C40881167EA2BF00D888CB /* Build configuration list for PBXNativeTarget "OpenStoker Simulator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D6C40882167EA2BF00D888CB /* Debug */,
+				D6C40883167EA2BF00D888CB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D6C4085A167EA2BE00D888CB /* Project object */;
+}
