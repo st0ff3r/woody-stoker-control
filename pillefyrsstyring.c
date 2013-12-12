@@ -20,7 +20,8 @@ unsigned int chimney_temp;
 unsigned char lcd_buf[22];
 
 unsigned char last_button;
-unsigned char last_input;
+
+unsigned char last_inputs;
 
 void main(void) {
     OSCCONbits.SCS = 0x10;
@@ -51,24 +52,30 @@ void main(void) {
 */
 //	usart_puts("serial working\n");
 
-//	lcd_init();
-//	lcd_print("OpenStoker starting...", 0, NON_INVERTED); // starting...");
-	
 	// set up ad
 //	adc_open(6, ADC_FOSC_64, ADC_CFG_6A, ADC_FRM_RJUST | ADC_INT_OFF | ADC_VCFG_VDD_AN2);
 
 	// init io
 	init_latches();
+	lcd_init();
+//	lcd_print("OpenStoker starting...", 0, NON_INVERTED); // starting...");
 	sleep_ms(1000);
+	set_ac_power(0x00, 0x00);
 	RELAY = 1;
 	
-	last_input = get_inputs();
+	last_inputs = get_inputs();
+//	for (i = 0; i < 100; i++) {
+//		lcd_plot_pixel(i, i);
+//	}
 	while (1) {
-//		clrwdt();		
-		set_ac_power(/* EXT_FEEDER_L1 | */ FAN_L2 | INT_FEEDER_L3 | HEATER_L4 | L5 | L6, 0xff);
-		sleep_ms(3000);
-		set_ac_power(/* EXT_FEEDER_L1 | */ FAN_L2 | INT_FEEDER_L3 | HEATER_L4 | L5 | L6, 0x00);
-		sleep_ms(3000);
+		if (get_inputs() != last_inputs) {
+			last_inputs = get_inputs();
+			_debug();
+		}
+		set_ac_power(/* EXT_FEEDER_L1 | */ FAN_L2 | INT_FEEDER_L3 | L5 | L6, 0xff);
+		sleep_ms(200);
+		set_ac_power(/* EXT_FEEDER_L1 | */ FAN_L2 | INT_FEEDER_L3 | L5 | L6, 0x00);
+		sleep_ms(200);
 	}
 }
 
@@ -82,14 +89,6 @@ static void timer_control(void) __interrupt 1 {
 	if (usart_drdy()) {
 		// retransmit it
 		usart_putc(usart_getc());
-	}
-	if (get_inputs()!= last_input) {
-		RELAY = 0;
-		for (i = 0; i < 10000; i++) {
-			// wait
-		}
-		RELAY = 1;
-		last_input = get_inputs();
 	}
 }
 
@@ -165,8 +164,15 @@ unsigned char get_inputs() {
 //	prev_tris = LATCH_DATA_TRIS;
 	LATCH_DATA_TRIS = 0xff;		// inputs
 	LATCH_1 = LATCH_1_ENABLED;
-	data = LATCH_DATA & 0b00100000;
+	data = LATCH_DATA_READ; // & 0b00100000;
 	LATCH_1 = LATCH_1_DISABLED;
 //	LATCH_DATA_TRIS = prev_tris;
 	return data;
+}
+
+void _debug() {
+	latched_lcd_power(1);
+	sleep_ms(500);
+	latched_lcd_power(0);
+	sleep_ms(500);
 }

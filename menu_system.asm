@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.3.0 #8604 (Oct 27 2013) (Mac OS X x86_64)
-; This file was generated Tue Dec 10 23:11:01 2013
+; This file was generated Thu Dec 12 04:00:40 2013
 ;--------------------------------------------------------
 ; PIC16 port for the Microchip 16-bit core micros
 ;--------------------------------------------------------
@@ -281,7 +281,7 @@ udata_menu_system_0	udata
 _buffer	res	8192
 
 udata_menu_system_1	udata
-_do_menu_update_menu_item_1_76	res	22
+_do_menu_update_menu_item_1_84	res	22
 
 ;--------------------------------------------------------
 ; global & static initialisations
@@ -634,9 +634,9 @@ _do_menu_update:
 	CLRF	r0x02
 _00106_DS_:
 ;	.line	41; menu_system.c	strcpy(menu_item, " ");
-	MOVLW	HIGH(_do_menu_update_menu_item_1_76)
+	MOVLW	HIGH(_do_menu_update_menu_item_1_84)
 	MOVWF	r0x04
-	MOVLW	LOW(_do_menu_update_menu_item_1_76)
+	MOVLW	LOW(_do_menu_update_menu_item_1_84)
 	MOVWF	r0x03
 	MOVLW	0x80
 	MOVWF	r0x05
@@ -662,9 +662,9 @@ _00106_DS_:
 	MOVLW	0x06
 	ADDWF	FSR1L, F
 ;	.line	42; menu_system.c	strcat(menu_item, menu[i].name);
-	MOVLW	HIGH(_do_menu_update_menu_item_1_76)
+	MOVLW	HIGH(_do_menu_update_menu_item_1_84)
 	MOVWF	r0x04
-	MOVLW	LOW(_do_menu_update_menu_item_1_76)
+	MOVLW	LOW(_do_menu_update_menu_item_1_84)
 	MOVWF	r0x03
 	MOVLW	0x80
 	MOVWF	r0x05
@@ -698,9 +698,9 @@ _00106_DS_:
 	MOVLW	0x06
 	ADDWF	FSR1L, F
 ;	.line	43; menu_system.c	lcd_print(menu_item, i, NON_INVERTED);
-	MOVLW	HIGH(_do_menu_update_menu_item_1_76)
+	MOVLW	HIGH(_do_menu_update_menu_item_1_84)
 	MOVWF	r0x04
-	MOVLW	LOW(_do_menu_update_menu_item_1_76)
+	MOVLW	LOW(_do_menu_update_menu_item_1_84)
 	MOVWF	r0x03
 	MOVLW	0x80
 	MOVWF	r0x05

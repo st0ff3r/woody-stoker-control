@@ -44,3 +44,13 @@ void lcd_plot_pixel(unsigned char rx, unsigned char ry);
 //void delay_20us();
 #define delay_2us()	__asm nop __endasm; __asm nop __endasm;
 //void delay_500us();
+
+void latched_lcd_power(unsigned char value);
+void latched_lcd_enable(unsigned char value);
+void latched_lcd_di(unsigned char value);
+void latched_lcd_rw(unsigned char value);
+void latched_lcd_rst(unsigned char value);
+void latched_lcd_cs2(unsigned char value);
+void latched_lcd_cs1(unsigned char value);
+void latched_lcd_data(unsigned char value);
+/*unsigned char latched_lcd_data_read();*/

@@ -5,7 +5,9 @@
 
 #include "pillefyrsstyring.h"
 #include "glcd.h"
-#include "menu_system.h"
+//#include "menu_system.h"
+
+unsigned char _latch_3_data;
 
 unsigned char lcd_buffer;
 //unsigned char _sides;	// for caching
@@ -13,16 +15,20 @@ unsigned char lcd_buffer;
 //unsigned char _y;
 
 void lcd_init(void) {
-	LCD_TRIS = 0x00;
-	ENABLE_TRIS = 0;
-	RW_TRIS	= 0;
-	DI_TRIS = 0;
-	RESET_TRIS = 0;
-	CS1_TRIS = 0;
-	CS2_TRIS = 0;
+	latched_lcd_power(1);
+//	LCD_TRIS = 0x00;
+//	ENABLE_TRIS = 0;
+//	RW_TRIS	= 0;
+//	DI_TRIS = 0;
+//	RESET_TRIS = 0;
+//	CS1_TRIS = 0;
+//	CS2_TRIS = 0;
+	_latch_3_data = 0x00;
 	
-	CS1 = 1;
-	CS2 = 1;
+//	CS1 = 1;
+	latched_lcd_cs1(1);
+//	CS2 = 1;
+	latched_lcd_cs2(1);
 	
 //	_sides = LCD_NONE;
 //	_page = 0;
@@ -34,9 +40,11 @@ void lcd_init(void) {
 }
 
 void lcd_enable(void) {
-	ENABLE = 1;
+	//ENABLE = 1;
+	latched_lcd_enable(1);
 	delay_2us();
-	ENABLE = 0;
+	//ENABLE = 0;
+	latched_lcd_enable(0);
 	delay_2us();
 }
 
@@ -45,6 +53,7 @@ unsigned char lcd_status(void) {
 	// returns the lcd status & maintains the TRIS state of the
 	// lcd data port
 
+	/*
 	unsigned char _lcd_tris, _status;
 	
 	// save the tris value
@@ -61,6 +70,9 @@ unsigned char lcd_status(void) {
 	LCD_TRIS = _lcd_tris;
 	
 	return _status;
+	*/
+	sleep_ms(100);	
+	return 1;	// no hardware support for reading from latch 4
 }
 
 
@@ -72,9 +84,11 @@ void lcd_reset(void) {
 	// work though.
 	
 	sleep_ms(1);
-	RESET = 1;
+	//RESET = 1;
+	latched_lcd_rst(1);
 	sleep_ms(1);
-    RESET = 0;
+    //RESET = 0;
+	latched_lcd_rst(0);
 
     // check status, and wait if necessary
 	while (lcd_status() & 0b00010000) {
@@ -85,12 +99,17 @@ void lcd_reset(void) {
 
 void lcd_screenon(unsigned char on) {
 	// turn the display on or off
-	CS1 = 0;
-	CS2 = 0;
-	RW = 0;
-	DI = 0;
-	LCD_TRIS = 0;	// all outputs	
-	LATD = 0b00111110 | (on & 0b00000001);	// main screen turn on!
+	//CS1 = 0;
+	latched_lcd_cs1(0);
+	//CS2 = 0;
+	latched_lcd_cs2(0);
+	//RW = 0;
+	latched_lcd_rw(0);
+	//DI = 0;
+	latched_lcd_di(0);
+	//LCD_TRIS = 0;	// all outputs	
+	//LATD = 0b00111110 | (on & 0b00000001);	// main screen turn on!
+	latched_lcd_data(0b00111110 | (on & 0b00000001));
 	lcd_enable();
 }
 
@@ -108,7 +127,10 @@ void lcd_cls(void) {
 		lcd_setyaddr(0);
 	
 		// setup for data
-		LCD_DATA = 0; RW = 0; DI = 1;
+		//LCD_DATA = 0; RW = 0; DI = 1;
+		latched_lcd_data(0);
+		latched_lcd_rw(0);
+		latched_lcd_di(1);
 	
 		// clear the row
 		for (y = 0; y < 64; y++) {
@@ -126,8 +148,11 @@ void lcd_cls(void) {
 void lcd_setpage(unsigned char page) {
 //	if (page != _page) {	// need to update...
 		lcd_waitbusy();
-		DI = 0; RW = 0; 
-		LCD_DATA = 0b10111000 | page;
+		//DI = 0; RW = 0; 
+		latched_lcd_di(0);
+		latched_lcd_rw(0);
+		//LCD_DATA = 0b10111000 | page;
+		latched_lcd_data(0b10111000 | page);
 		lcd_enable();
 		//_page = page;
 //	}
@@ -138,8 +163,11 @@ void lcd_setpage(unsigned char page) {
 void lcd_setyaddr(unsigned char y) {
 //	if (y != _y) {	// need to update...
 		lcd_waitbusy();
-		DI = 0; RW = 0;
-		LCD_DATA = 0b01000000 | (y & 0b00111111);
+		//DI = 0; RW = 0;
+		latched_lcd_di(0);
+		latched_lcd_rw(0);
+		//LCD_DATA = 0b01000000 | (y & 0b00111111);
+		latched_lcd_data(0b01000000 | (y & 0b00111111));
 		lcd_enable();
 		//_y = y;
 //	}
@@ -155,10 +183,13 @@ void lcd_waitbusy(void) {
 
 void lcd_write (unsigned char d) {
 	lcd_waitbusy();
-	DI = 1;	// data
-	RW = 0;	// write
-	LCD_TRIS = 0; 
-	LCD_DATA = d;
+	//DI = 1;	// data
+	latched_lcd_di(1);
+	//RW = 0;	// write
+	latched_lcd_rw(0);
+	//LCD_TRIS = 0; 
+	//LCD_DATA = d;
+	latched_lcd_data(d);
 	lcd_enable();
 }
 
@@ -167,17 +198,21 @@ void lcd_selectside(unsigned char sides) {
 	// set a CS pin low to enable it
 //	if (sides != _sides) {	// only call lcd_selectside if needed. Keep local state
 		if (sides & LCD_LEFT) {
-			CS1 = 0;
+			//CS1 = 0;
+			latched_lcd_cs1(0);
 		}
 		else {
-			CS1 = 1;
+			//CS1 = 1;
+			latched_lcd_cs1(1);
 		}
 	
 		if (sides & LCD_RIGHT) {
-			CS2 = 0;
+			//CS2 = 0;
+			latched_lcd_cs2(0);
 		}
 		else {
-			CS2 = 1;
+			//CS2 = 1;
+			latched_lcd_cs2(1);
 		}
 //		_sides = sides;		// update local copy
 //	}
@@ -185,7 +220,7 @@ void lcd_selectside(unsigned char sides) {
 
 
 unsigned char lcd_read (void) {
-	unsigned char d;
+/*	unsigned char d;
 	
 	LCD_TRIS = 0xFF;
 	RW = 1;	// read
@@ -195,7 +230,8 @@ unsigned char lcd_read (void) {
 	d = LCD_DATA;
 	LCD_TRIS = 0x00;
 	
-	return d;
+	return d;*/
+	return 1;
 }
 
 
@@ -219,3 +255,125 @@ void lcd_plot_pixel(unsigned char rx, unsigned char ry) {
 	lcd_write (d | (1 << (ry & 0b111)));
 }
 
+void latched_lcd_power(unsigned char value) {
+	LATCH_DATA_TRIS = 0x00;		// outputs
+	if (value) {	// set it
+		_latch_3_data |= 0b10000000;
+		LATCH_DATA = _latch_3_data;
+	}
+	else {			// clear it
+		_latch_3_data &= 0b01111111;
+		LATCH_DATA = _latch_3_data;
+	}
+	LATCH_3 = LATCH_3_ENABLED;
+	LATCH_3 = LATCH_3_DISABLED;
+	LATCH_DATA = 0x00;
+}
+
+void latched_lcd_enable(unsigned char value) {
+	LATCH_DATA_TRIS = 0x00;		// outputs
+	if (value) {	// set it
+		_latch_3_data |= 0b00000001;
+		LATCH_DATA = _latch_3_data;
+	}
+	else {			// clear it
+		_latch_3_data &= 0b11111110;
+		LATCH_DATA = _latch_3_data;
+	}
+	LATCH_3 = LATCH_3_ENABLED;
+	LATCH_3 = LATCH_3_DISABLED;
+	LATCH_DATA = 0x00;
+}
+
+void latched_lcd_di(unsigned char value) {
+	LATCH_DATA_TRIS = 0x00;		// outputs
+	if (value) {	// set it
+		_latch_3_data |= 0b00000010;
+		LATCH_DATA = _latch_3_data;
+	}
+	else {			// clear it
+		_latch_3_data &= 0b11111101;
+		LATCH_DATA = _latch_3_data;
+	}
+	LATCH_3 = LATCH_3_ENABLED;
+	LATCH_3 = LATCH_3_DISABLED;
+	LATCH_DATA = 0x00;
+}
+
+void latched_lcd_rw(unsigned char value) {
+	LATCH_DATA_TRIS = 0x00;		// outputs
+	if (value) {	// set it
+		_latch_3_data |= 0b00000100;
+		LATCH_DATA = _latch_3_data;
+	}
+	else {			// clear it
+		_latch_3_data &= 0b11111011;
+		LATCH_DATA = _latch_3_data;
+	}
+	LATCH_3 = LATCH_3_ENABLED;
+	LATCH_3 = LATCH_3_DISABLED;
+	LATCH_DATA = 0x00;
+}
+
+void latched_lcd_rst(unsigned char value) {
+	LATCH_DATA_TRIS = 0x00;		// outputs
+	if (value) {	// set it
+		_latch_3_data |= 0b00001000;
+		LATCH_DATA = _latch_3_data;
+	}
+	else {			// clear it
+		_latch_3_data &= 0b11110111;
+		LATCH_DATA = _latch_3_data;
+	}
+	LATCH_3 = LATCH_3_ENABLED;
+	LATCH_3 = LATCH_3_DISABLED;
+	LATCH_DATA = 0x00;
+}
+
+void latched_lcd_cs2(unsigned char value) {
+	LATCH_DATA_TRIS = 0x00;		// outputs
+	if (value) {	// set it
+		_latch_3_data |= 0b00010000;
+		LATCH_DATA = _latch_3_data;
+	}
+	else {			// clear it
+		_latch_3_data &= 0b11101111;
+		LATCH_DATA = _latch_3_data;
+	}
+	LATCH_3 = LATCH_3_ENABLED;
+	LATCH_3 = LATCH_3_DISABLED;
+	LATCH_DATA = 0x00;
+}
+
+void latched_lcd_cs1(unsigned char value) {
+	LATCH_DATA_TRIS = 0x00;		// outputs
+	if (value) {	// set it
+		_latch_3_data |= 0b00100000;
+		LATCH_DATA = _latch_3_data;
+	}
+	else {			// clear it
+		_latch_3_data &= 0b11011111;
+		LATCH_DATA = _latch_3_data;
+	}
+	LATCH_3 = LATCH_3_ENABLED;
+	LATCH_3 = LATCH_3_DISABLED;
+	LATCH_DATA = 0x00;
+}
+
+void latched_lcd_data(unsigned char value) {
+	LATCH_DATA_TRIS = 0x00;		// outputs
+	LATCH_DATA = value;
+	LATCH_4 = LATCH_4_ENABLED;
+	LATCH_4 = LATCH_4_DISABLED;
+	LATCH_DATA = 0x00;
+}
+
+/*
+unsigned char latched_lcd_data_read() {
+	unsigned char value;
+	LATCH_DATA_TRIS = 0xff;		// inputs
+	LATCH_4 = LATCH_4_ENABLED;
+	LATCH_4 = LATCH_4_DISABLED;
+	LATCH_DATA = 0x00;
+}
+*/

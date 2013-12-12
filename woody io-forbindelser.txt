@@ -1,37 +1,122 @@
+/*
 IO			PIC18F4620 (4 MHz krystal)
 --			--------------------------
-Motor		RB0
-Blæser		RB1
-Eltænder	RB3
+Relæ		RC5 (via T12)
 
-Kedel temp.	RA3
-Røg temp.	RA4
-Skakt temp.	RA1
-			RB4
+Iltsensor	AN0
+T1			AN1
+T2			AN4
+T3			AN5
+T4			AN6
+T5			AN7
+T6			AN12/INT0
+T7			AN10/INT1
+T8			AN8/INT2
+Ref.-		AN2/VREF-
+Ref.+		AN3/VREF+
+
+
+MAX3232
+-------
+R1OUT		RX
+T1IN		TX
+R2OUT		RB4	(BUS RX)
+T2IN		RB3	(BUS TX)
+
 
 Knapper (inverterede)
 -------
 op			RB5
 menu/midt	RB6
 ned			RB7
+*/
 
-Display
-KS0108
-------
-DB0			RD0
-DB1			RD1
-DB2			RD2
-DB3			RD3
-DB4			RD4
-DB5			RD5
-DB6			RD6
-DB7			RD7
-CS1			RC0
-CS2			RC1
-RST			RC5
-R/W			RE1
-D/I			RE0
-E			RE2
+Hardware 2009.07.27
+Display JHD12864E
+-----------------
+NOT CORRECT
+1	VDD
+2	VSS
+3	V0
+4	D/I
+5	R/W
+6	E
+7	DB0
+8	DB1
+9	DB2
+10	DB3
+11	DB4
+12	DB5
+13	DB6
+14	DB7
+15	CS1
+16	CS2
+17	RST
+18	VEE
+19	LED+
+20	LED-
+
+
+
+
+Latch 1 (for inputs)
+LE		(VCC)
+/OE		RA4
+D0		(not used) Q0
+D1		Button Up Q1
+D2		Button Menu Q2
+D3		Button Down Q3
+D4		Puls B Q4
+D5		Ekst. B Q5
+D6		(not used) Q6
+D7		(not used) Q7
+
+Latch 2 (for outputs)
+LE		RA7
+/OE		(GND)
+Q0		L1
+Q1		L2
+Q2		L3
+Q3		L4
+Q4		L5
+Q5		L6
+Q6		(via T10 not used, R40 not installedo therwise to LED+)
+Q7		(via T11 not used, R39 not installed otherwise to LED-)
+
+Latch 3 (for outputs)
+LE		RA6
+/OE		(GND)
+Q0		E
+Q1		D/I
+Q2		R/W
+Q3		RST
+Q4		CS2
+Q5		CS1
+Q6		(not used)
+Q7		via T9 to VEE
+
+Latch 4 (for outputs)
+LE		RC2
+/OE		(GND)
+Q0		DB0
+Q1		DB1
+Q2		DB2
+Q3		DB3
+Q4		DB4
+Q5		DB5
+Q6		DB6
+Q7		DB7
+
+All latches but Latch 1 (replace Dx with Qx, as they are inputs):
+D0				RD0
+D1				RD1
+D2				RD2
+D3				RD3
+D4				RC4
+D5				RD5
+D6				RD6
+D7				RD7
 
 Kilde: <http://www.piclist.com/techref/microchip/language/c/ks0107.htm>
 <http://techref.massmind.org/techref/microchip/language/c/ks0107.htm>
+<http://www.engineersgarage.com/sites/default/files/Graphics%20LCD%20JHD12864E%20Datasheet.pdf>

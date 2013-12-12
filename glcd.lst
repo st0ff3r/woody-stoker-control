@@ -1,4 +1,4 @@
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-10-2013  23:11:01        PAGE  1
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -7,7 +7,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SDCC : free open source ANSI-C Compiler
                       00003 ; Version 3.3.0 #8604 (Oct 27 2013) (Mac OS X x86_64)
-                      00004 ; This file was generated Tue Dec 10 23:11:01 2013
+                      00004 ; This file was generated Thu Dec 12 04:00:40 2013
                       00005 ;--------------------------------------------------------
                       00006 ; PIC16 port for the Microchip 16-bit core micros
                       00007 ;--------------------------------------------------------
@@ -32,784 +32,1173 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
   0000                00026         global  _lcd_selectside
   0000                00027         global  _lcd_read
   0000                00028         global  _lcd_plot_pixel
-                      00029 
-                      00030 ;--------------------------------------------------------
-                      00031 ; extern variables in this module
-                      00032 ;--------------------------------------------------------
-  0000                00033         extern  _PORTAbits
-  0000                00034         extern  _PORTBbits
-  0000                00035         extern  _PORTCbits
-  0000                00036         extern  _PORTDbits
-  0000                00037         extern  _PORTEbits
-  0000                00038         extern  _LATAbits
-  0000                00039         extern  _LATBbits
-  0000                00040         extern  _LATCbits
-  0000                00041         extern  _LATDbits
-  0000                00042         extern  _LATEbits
-  0000                00043         extern  _DDRAbits
-  0000                00044         extern  _TRISAbits
-  0000                00045         extern  _DDRBbits
-  0000                00046         extern  _TRISBbits
-  0000                00047         extern  _DDRCbits
-  0000                00048         extern  _TRISCbits
-  0000                00049         extern  _DDRDbits
-  0000                00050         extern  _TRISDbits
-  0000                00051         extern  _DDREbits
-  0000                00052         extern  _TRISEbits
-  0000                00053         extern  _OSCTUNEbits
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-10-2013  23:11:01        PAGE  2
+  0000                00029         global  _latched_lcd_power
+  0000                00030         global  _latched_lcd_enable
+  0000                00031         global  _latched_lcd_di
+  0000                00032         global  _latched_lcd_rw
+  0000                00033         global  _latched_lcd_rst
+  0000                00034         global  _latched_lcd_cs2
+  0000                00035         global  _latched_lcd_cs1
+  0000                00036         global  _latched_lcd_data
+  0000                00037         global  __latch_3_data
+                      00038 
+                      00039 ;--------------------------------------------------------
+                      00040 ; extern variables in this module
+                      00041 ;--------------------------------------------------------
+  0000                00042         extern  _PORTAbits
+  0000                00043         extern  _PORTBbits
+  0000                00044         extern  _PORTCbits
+  0000                00045         extern  _PORTDbits
+  0000                00046         extern  _PORTEbits
+  0000                00047         extern  _LATAbits
+  0000                00048         extern  _LATBbits
+  0000                00049         extern  _LATCbits
+  0000                00050         extern  _LATDbits
+  0000                00051         extern  _LATEbits
+  0000                00052         extern  _DDRAbits
+  0000                00053         extern  _TRISAbits
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-  0000                00054         extern  _PIE1bits
-  0000                00055         extern  _PIR1bits
-  0000                00056         extern  _IPR1bits
-  0000                00057         extern  _PIE2bits
-  0000                00058         extern  _PIR2bits
-  0000                00059         extern  _IPR2bits
-  0000                00060         extern  _EECON1bits
-  0000                00061         extern  _RCSTAbits
-  0000                00062         extern  _TXSTAbits
-  0000                00063         extern  _T3CONbits
-  0000                00064         extern  _CMCONbits
-  0000                00065         extern  _CVRCONbits
-  0000                00066         extern  _ECCP1ASbits
-  0000                00067         extern  _PWM1CONbits
-  0000                00068         extern  _BAUDCONbits
-  0000                00069         extern  _BAUDCTLbits
-  0000                00070         extern  _CCP2CONbits
-  0000                00071         extern  _CCP1CONbits
-  0000                00072         extern  _ADCON2bits
-  0000                00073         extern  _ADCON1bits
-  0000                00074         extern  _ADCON0bits
-  0000                00075         extern  _SSPCON2bits
-  0000                00076         extern  _SSPCON1bits
-  0000                00077         extern  _SSPSTATbits
-  0000                00078         extern  _T2CONbits
-  0000                00079         extern  _T1CONbits
-  0000                00080         extern  _RCONbits
-  0000                00081         extern  _WDTCONbits
-  0000                00082         extern  _HLVDCONbits
-  0000                00083         extern  _LVDCONbits
-  0000                00084         extern  _OSCCONbits
-  0000                00085         extern  _T0CONbits
-  0000                00086         extern  _STATUSbits
-  0000                00087         extern  _INTCON3bits
-  0000                00088         extern  _INTCON2bits
-  0000                00089         extern  _INTCONbits
-  0000                00090         extern  _STKPTRbits
-  0000                00091         extern  _PORTA
-  0000                00092         extern  _PORTB
-  0000                00093         extern  _PORTC
-  0000                00094         extern  _PORTD
-  0000                00095         extern  _PORTE
-  0000                00096         extern  _LATA
-  0000                00097         extern  _LATB
-  0000                00098         extern  _LATC
-  0000                00099         extern  _LATD
-  0000                00100         extern  _LATE
-  0000                00101         extern  _DDRA
-  0000                00102         extern  _TRISA
-  0000                00103         extern  _DDRB
-  0000                00104         extern  _TRISB
-  0000                00105         extern  _DDRC
-  0000                00106         extern  _TRISC
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-10-2013  23:11:01        PAGE  3
+  0000                00054         extern  _DDRBbits
+  0000                00055         extern  _TRISBbits
+  0000                00056         extern  _DDRCbits
+  0000                00057         extern  _TRISCbits
+  0000                00058         extern  _DDRDbits
+  0000                00059         extern  _TRISDbits
+  0000                00060         extern  _DDREbits
+  0000                00061         extern  _TRISEbits
+  0000                00062         extern  _OSCTUNEbits
+  0000                00063         extern  _PIE1bits
+  0000                00064         extern  _PIR1bits
+  0000                00065         extern  _IPR1bits
+  0000                00066         extern  _PIE2bits
+  0000                00067         extern  _PIR2bits
+  0000                00068         extern  _IPR2bits
+  0000                00069         extern  _EECON1bits
+  0000                00070         extern  _RCSTAbits
+  0000                00071         extern  _TXSTAbits
+  0000                00072         extern  _T3CONbits
+  0000                00073         extern  _CMCONbits
+  0000                00074         extern  _CVRCONbits
+  0000                00075         extern  _ECCP1ASbits
+  0000                00076         extern  _PWM1CONbits
+  0000                00077         extern  _BAUDCONbits
+  0000                00078         extern  _BAUDCTLbits
+  0000                00079         extern  _CCP2CONbits
+  0000                00080         extern  _CCP1CONbits
+  0000                00081         extern  _ADCON2bits
+  0000                00082         extern  _ADCON1bits
+  0000                00083         extern  _ADCON0bits
+  0000                00084         extern  _SSPCON2bits
+  0000                00085         extern  _SSPCON1bits
+  0000                00086         extern  _SSPSTATbits
+  0000                00087         extern  _T2CONbits
+  0000                00088         extern  _T1CONbits
+  0000                00089         extern  _RCONbits
+  0000                00090         extern  _WDTCONbits
+  0000                00091         extern  _HLVDCONbits
+  0000                00092         extern  _LVDCONbits
+  0000                00093         extern  _OSCCONbits
+  0000                00094         extern  _T0CONbits
+  0000                00095         extern  _STATUSbits
+  0000                00096         extern  _INTCON3bits
+  0000                00097         extern  _INTCON2bits
+  0000                00098         extern  _INTCONbits
+  0000                00099         extern  _STKPTRbits
+  0000                00100         extern  _PORTA
+  0000                00101         extern  _PORTB
+  0000                00102         extern  _PORTC
+  0000                00103         extern  _PORTD
+  0000                00104         extern  _PORTE
+  0000                00105         extern  _LATA
+  0000                00106         extern  _LATB
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-  0000                00107         extern  _DDRD
-  0000                00108         extern  _TRISD
-  0000                00109         extern  _DDRE
-  0000                00110         extern  _TRISE
-  0000                00111         extern  _OSCTUNE
-  0000                00112         extern  _PIE1
-  0000                00113         extern  _PIR1
-  0000                00114         extern  _IPR1
-  0000                00115         extern  _PIE2
-  0000                00116         extern  _PIR2
-  0000                00117         extern  _IPR2
-  0000                00118         extern  _EECON1
-  0000                00119         extern  _EECON2
-  0000                00120         extern  _EEDATA
-  0000                00121         extern  _EEADR
-  0000                00122         extern  _EEADRH
-  0000                00123         extern  _RCSTA
-  0000                00124         extern  _TXSTA
-  0000                00125         extern  _TXREG
-  0000                00126         extern  _RCREG
-  0000                00127         extern  _SPBRG
-  0000                00128         extern  _SPBRGH
-  0000                00129         extern  _T3CON
-  0000                00130         extern  _TMR3
-  0000                00131         extern  _TMR3L
-  0000                00132         extern  _TMR3H
-  0000                00133         extern  _CMCON
-  0000                00134         extern  _CVRCON
-  0000                00135         extern  _ECCP1AS
-  0000                00136         extern  _PWM1CON
-  0000                00137         extern  _BAUDCON
-  0000                00138         extern  _BAUDCTL
-  0000                00139         extern  _CCP2CON
-  0000                00140         extern  _CCPR2
-  0000                00141         extern  _CCPR2L
-  0000                00142         extern  _CCPR2H
-  0000                00143         extern  _CCP1CON
-  0000                00144         extern  _CCPR1
-  0000                00145         extern  _CCPR1L
-  0000                00146         extern  _CCPR1H
-  0000                00147         extern  _ADCON2
-  0000                00148         extern  _ADCON1
-  0000                00149         extern  _ADCON0
-  0000                00150         extern  _ADRES
-  0000                00151         extern  _ADRESL
-  0000                00152         extern  _ADRESH
-  0000                00153         extern  _SSPCON2
-  0000                00154         extern  _SSPCON1
-  0000                00155         extern  _SSPSTAT
-  0000                00156         extern  _SSPADD
-  0000                00157         extern  _SSPBUF
-  0000                00158         extern  _T2CON
-  0000                00159         extern  _PR2
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-10-2013  23:11:01        PAGE  4
+  0000                00107         extern  _LATC
+  0000                00108         extern  _LATD
+  0000                00109         extern  _LATE
+  0000                00110         extern  _DDRA
+  0000                00111         extern  _TRISA
+  0000                00112         extern  _DDRB
+  0000                00113         extern  _TRISB
+  0000                00114         extern  _DDRC
+  0000                00115         extern  _TRISC
+  0000                00116         extern  _DDRD
+  0000                00117         extern  _TRISD
+  0000                00118         extern  _DDRE
+  0000                00119         extern  _TRISE
+  0000                00120         extern  _OSCTUNE
+  0000                00121         extern  _PIE1
+  0000                00122         extern  _PIR1
+  0000                00123         extern  _IPR1
+  0000                00124         extern  _PIE2
+  0000                00125         extern  _PIR2
+  0000                00126         extern  _IPR2
+  0000                00127         extern  _EECON1
+  0000                00128         extern  _EECON2
+  0000                00129         extern  _EEDATA
+  0000                00130         extern  _EEADR
+  0000                00131         extern  _EEADRH
+  0000                00132         extern  _RCSTA
+  0000                00133         extern  _TXSTA
+  0000                00134         extern  _TXREG
+  0000                00135         extern  _RCREG
+  0000                00136         extern  _SPBRG
+  0000                00137         extern  _SPBRGH
+  0000                00138         extern  _T3CON
+  0000                00139         extern  _TMR3
+  0000                00140         extern  _TMR3L
+  0000                00141         extern  _TMR3H
+  0000                00142         extern  _CMCON
+  0000                00143         extern  _CVRCON
+  0000                00144         extern  _ECCP1AS
+  0000                00145         extern  _PWM1CON
+  0000                00146         extern  _BAUDCON
+  0000                00147         extern  _BAUDCTL
+  0000                00148         extern  _CCP2CON
+  0000                00149         extern  _CCPR2
+  0000                00150         extern  _CCPR2L
+  0000                00151         extern  _CCPR2H
+  0000                00152         extern  _CCP1CON
+  0000                00153         extern  _CCPR1
+  0000                00154         extern  _CCPR1L
+  0000                00155         extern  _CCPR1H
+  0000                00156         extern  _ADCON2
+  0000                00157         extern  _ADCON1
+  0000                00158         extern  _ADCON0
+  0000                00159         extern  _ADRES
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE  4
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-  0000                00160         extern  _TMR2
-  0000                00161         extern  _T1CON
-  0000                00162         extern  _TMR1
-  0000                00163         extern  _TMR1L
-  0000                00164         extern  _TMR1H
-  0000                00165         extern  _RCON
-  0000                00166         extern  _WDTCON
-  0000                00167         extern  _HLVDCON
-  0000                00168         extern  _LVDCON
-  0000                00169         extern  _OSCCON
-  0000                00170         extern  _T0CON
-  0000                00171         extern  _TMR0
-  0000                00172         extern  _TMR0L
-  0000                00173         extern  _TMR0H
-  0000                00174         extern  _STATUS
-  0000                00175         extern  _FSR2L
-  0000                00176         extern  _FSR2H
-  0000                00177         extern  _PLUSW2
-  0000                00178         extern  _PREINC2
-  0000                00179         extern  _POSTDEC2
-  0000                00180         extern  _POSTINC2
-  0000                00181         extern  _INDF2
-  0000                00182         extern  _BSR
-  0000                00183         extern  _FSR1L
-  0000                00184         extern  _FSR1H
-  0000                00185         extern  _PLUSW1
-  0000                00186         extern  _PREINC1
-  0000                00187         extern  _POSTDEC1
-  0000                00188         extern  _POSTINC1
-  0000                00189         extern  _INDF1
-  0000                00190         extern  _WREG
-  0000                00191         extern  _FSR0L
-  0000                00192         extern  _FSR0H
-  0000                00193         extern  _PLUSW0
-  0000                00194         extern  _PREINC0
-  0000                00195         extern  _POSTDEC0
-  0000                00196         extern  _POSTINC0
-  0000                00197         extern  _INDF0
-  0000                00198         extern  _INTCON3
-  0000                00199         extern  _INTCON2
-  0000                00200         extern  _INTCON
-  0000                00201         extern  _PROD
-  0000                00202         extern  _PRODL
-  0000                00203         extern  _PRODH
-  0000                00204         extern  _TABLAT
-  0000                00205         extern  _TBLPTR
-  0000                00206         extern  _TBLPTRL
-  0000                00207         extern  _TBLPTRH
-  0000                00208         extern  _TBLPTRU
-  0000                00209         extern  _PC
-  0000                00210         extern  _PCL
-  0000                00211         extern  _PCLATH
-  0000                00212         extern  _PCLATU
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-10-2013  23:11:01        PAGE  5
+  0000                00160         extern  _ADRESL
+  0000                00161         extern  _ADRESH
+  0000                00162         extern  _SSPCON2
+  0000                00163         extern  _SSPCON1
+  0000                00164         extern  _SSPSTAT
+  0000                00165         extern  _SSPADD
+  0000                00166         extern  _SSPBUF
+  0000                00167         extern  _T2CON
+  0000                00168         extern  _PR2
+  0000                00169         extern  _TMR2
+  0000                00170         extern  _T1CON
+  0000                00171         extern  _TMR1
+  0000                00172         extern  _TMR1L
+  0000                00173         extern  _TMR1H
+  0000                00174         extern  _RCON
+  0000                00175         extern  _WDTCON
+  0000                00176         extern  _HLVDCON
+  0000                00177         extern  _LVDCON
+  0000                00178         extern  _OSCCON
+  0000                00179         extern  _T0CON
+  0000                00180         extern  _TMR0
+  0000                00181         extern  _TMR0L
+  0000                00182         extern  _TMR0H
+  0000                00183         extern  _STATUS
+  0000                00184         extern  _FSR2L
+  0000                00185         extern  _FSR2H
+  0000                00186         extern  _PLUSW2
+  0000                00187         extern  _PREINC2
+  0000                00188         extern  _POSTDEC2
+  0000                00189         extern  _POSTINC2
+  0000                00190         extern  _INDF2
+  0000                00191         extern  _BSR
+  0000                00192         extern  _FSR1L
+  0000                00193         extern  _FSR1H
+  0000                00194         extern  _PLUSW1
+  0000                00195         extern  _PREINC1
+  0000                00196         extern  _POSTDEC1
+  0000                00197         extern  _POSTINC1
+  0000                00198         extern  _INDF1
+  0000                00199         extern  _WREG
+  0000                00200         extern  _FSR0L
+  0000                00201         extern  _FSR0H
+  0000                00202         extern  _PLUSW0
+  0000                00203         extern  _PREINC0
+  0000                00204         extern  _POSTDEC0
+  0000                00205         extern  _POSTINC0
+  0000                00206         extern  _INDF0
+  0000                00207         extern  _INTCON3
+  0000                00208         extern  _INTCON2
+  0000                00209         extern  _INTCON
+  0000                00210         extern  _PROD
+  0000                00211         extern  _PRODL
+  0000                00212         extern  _PRODH
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE  5
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-  0000                00213         extern  _STKPTR
-  0000                00214         extern  _TOS
-  0000                00215         extern  _TOSL
-  0000                00216         extern  _TOSH
-  0000                00217         extern  _TOSU
-  0000                00218         extern  _sleep_ms
-                      00219 
-                      00220 ;--------------------------------------------------------
-                      00221 ;       Equates to used internal registers
-                      00222 ;--------------------------------------------------------
-  00000FD8            00223 STATUS  equ     0xfd8
-  00000FE8            00224 WREG    equ     0xfe8
-  00000FE1            00225 FSR1L   equ     0xfe1
-  00000FD9            00226 FSR2L   equ     0xfd9
-  00000FE6            00227 POSTINC1        equ     0xfe6
-  00000FE5            00228 POSTDEC1        equ     0xfe5
-  00000FE4            00229 PREINC1 equ     0xfe4
-  00000FDB            00230 PLUSW2  equ     0xfdb
-                      00231 
-                      00232 
-                      00233 ; Internal registers
-                      00234 .registers      udata_ovr       0x0000
-000000                00235 r0x00   res     1
-000001                00236 r0x01   res     1
-000002                00237 r0x02   res     1
-                      00238 
-                      00239 udata_glcd_0    udata
-000000                00240 _lcd_buffer     res     1
+  0000                00213         extern  _TABLAT
+  0000                00214         extern  _TBLPTR
+  0000                00215         extern  _TBLPTRL
+  0000                00216         extern  _TBLPTRH
+  0000                00217         extern  _TBLPTRU
+  0000                00218         extern  _PC
+  0000                00219         extern  _PCL
+  0000                00220         extern  _PCLATH
+  0000                00221         extern  _PCLATU
+  0000                00222         extern  _STKPTR
+  0000                00223         extern  _TOS
+  0000                00224         extern  _TOSL
+  0000                00225         extern  _TOSH
+  0000                00226         extern  _TOSU
+  0000                00227         extern  _sleep_ms
+                      00228 
+                      00229 ;--------------------------------------------------------
+                      00230 ;       Equates to used internal registers
+                      00231 ;--------------------------------------------------------
+  00000FD8            00232 STATUS  equ     0xfd8
+  00000FE8            00233 WREG    equ     0xfe8
+  00000FE1            00234 FSR1L   equ     0xfe1
+  00000FD9            00235 FSR2L   equ     0xfd9
+  00000FE6            00236 POSTINC1        equ     0xfe6
+  00000FE5            00237 POSTDEC1        equ     0xfe5
+  00000FE4            00238 PREINC1 equ     0xfe4
+  00000FDB            00239 PLUSW2  equ     0xfdb
+                      00240 
                       00241 
-                      00242 ;--------------------------------------------------------
-                      00243 ; global & static initialisations
-                      00244 ;--------------------------------------------------------
-                      00245 ; I code from now on!
-                      00246 ; ; Starting pCode block
-                      00247 S_glcd__lcd_plot_pixel  code
-000000                00248 _lcd_plot_pixel:
-                      00249 ;       .line   202; glcd.c     void lcd_plot_pixel(unsigned char rx, unsigned char ry) {
-000000 CFD9 FFE5      00250         MOVFF   FSR2L, POSTDEC1
-000004 CFE1 FFD9      00251         MOVFF   FSR1L, FSR2L
-000008 C??? F???      00252         MOVFF   r0x00, POSTDEC1
-00000C C??? F???      00253         MOVFF   r0x01, POSTDEC1
-000010 C??? F???      00254         MOVFF   r0x02, POSTDEC1
-000014 0E02           00255         MOVLW   0x02
-000016 CFDB F000      00256         MOVFF   PLUSW2, r0x00
-00001A 0E03           00257         MOVLW   0x03
-00001C CFDB F000      00258         MOVFF   PLUSW2, r0x01
-                      00259 ;       .line   207; glcd.c     if (rx & 64) {
-000020 AC??           00260         BTFSS   r0x00, 6
-000022 D???           00261         BRA     _00225_DS_
-                      00262 ;       .line   208; glcd.c     lcd_selectside(LCD_RIGHT);
-000024 0E02           00263         MOVLW   0x02
-000026 6EE5           00264         MOVWF   POSTDEC1
-000028 EC?? F0??      00265         CALL    _lcd_selectside
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-10-2013  23:11:01        PAGE  6
+                      00242 ; Internal registers
+                      00243 .registers      udata_ovr       0x0000
+000000                00244 r0x00   res     1
+000001                00245 r0x01   res     1
+000002                00246 r0x02   res     1
+                      00247 
+                      00248 udata_glcd_0    udata
+000000                00249 _lcd_buffer     res     1
+                      00250 
+                      00251 udata_glcd_1    udata
+000000                00252 __latch_3_data  res     1
+                      00253 
+                      00254 ;--------------------------------------------------------
+                      00255 ; global & static initialisations
+                      00256 ;--------------------------------------------------------
+                      00257 ; I code from now on!
+                      00258 ; ; Starting pCode block
+                      00259 S_glcd__latched_lcd_data        code
+000000                00260 _latched_lcd_data:
+                      00261 ;       .line   363; glcd.c     void latched_lcd_data(unsigned char value) {
+000000 CFD9 FFE5      00262         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00263         MOVFF   FSR1L, FSR2L
+000008 C??? F???      00264         MOVFF   r0x00, POSTDEC1
+00000C 0E02           00265         MOVLW   0x02
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE  6
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-00002C 52E6           00266         MOVF    POSTINC1, F
-00002E D???           00267         BRA     _00226_DS_
-000030                00268 _00225_DS_:
-                      00269 ;       .line   211; glcd.c     lcd_selectside(LCD_LEFT);
-000030 0E01           00270         MOVLW   0x01
-000032 6EE5           00271         MOVWF   POSTDEC1
-000034 EC?? F0??      00272         CALL    _lcd_selectside
-000038 52E6           00273         MOVF    POSTINC1, F
-00003A                00274 _00226_DS_:
-                      00275 ;       .line   214; glcd.c     lcd_setpage( ry >> 3);          // fast /8
-00003A 38??           00276         SWAPF   r0x01, W
-00003C 44E8           00277         RLNCF   WREG, W
-00003E 0B1F           00278         ANDLW   0x1f
-000040 6E??           00279         MOVWF   r0x02
-000042 50??           00280         MOVF    r0x02, W
-000044 6EE5           00281         MOVWF   POSTDEC1
-000046 EC?? F0??      00282         CALL    _lcd_setpage
-00004A 52E6           00283         MOVF    POSTINC1, F
-                      00284 ;       .line   215; glcd.c     lcd_setyaddr( rx & 0b00111111);
-00004C 0E3F           00285         MOVLW   0x3f
-00004E 16??           00286         ANDWF   r0x00, F
-000050 50??           00287         MOVF    r0x00, W
-000052 6EE5           00288         MOVWF   POSTDEC1
-000054 EC?? F0??      00289         CALL    _lcd_setyaddr
-000058 52E6           00290         MOVF    POSTINC1, F
-                      00291 ;       .line   216; glcd.c     d = lcd_read();                         // read to move data to GLCD buf
+00000E CFDB F000      00266         MOVFF   PLUSW2, r0x00
+                      00267 ;       .line   364; glcd.c     LATCH_DATA_TRIS = 0x00;         // outputs
+000012 6A??           00268         CLRF    _TRISD
+                      00269 ;       .line   365; glcd.c     LATCH_DATA = value;
+000014 C??? F???      00270         MOVFF   r0x00, _LATD
+                      00271 ;       .line   366; glcd.c     LATCH_4 = LATCH_4_ENABLED;
+000018 84??           00272         BSF     _LATCbits, 2
+                      00273 ;       .line   367; glcd.c     LATCH_4 = LATCH_4_DISABLED;
+00001A 94??           00274         BCF     _LATCbits, 2
+                      00275 ;       .line   368; glcd.c     LATCH_DATA = 0x00;
+00001C 6A??           00276         CLRF    _LATD
+00001E CFE4 F000      00277         MOVFF   PREINC1, r0x00
+000022 CFE4 FFD9      00278         MOVFF   PREINC1, FSR2L
+000026 0012           00279         RETURN  
+                      00280 
+                      00281 ; ; Starting pCode block
+                      00282 S_glcd__latched_lcd_cs1 code
+000000                00283 _latched_lcd_cs1:
+                      00284 ;       .line   348; glcd.c     void latched_lcd_cs1(unsigned char value) {
+000000 CFD9 FFE5      00285         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00286         MOVFF   FSR1L, FSR2L
+000008 C??? F???      00287         MOVFF   r0x00, POSTDEC1
+00000C 0E02           00288         MOVLW   0x02
+00000E CFDB F000      00289         MOVFF   PLUSW2, r0x00
+                      00290 ;       .line   349; glcd.c     LATCH_DATA_TRIS = 0x00;         // outputs
+000012 6A??           00291         CLRF    _TRISD
+                      00292 ;       .line   350; glcd.c     if (value) {    // set it
+000014 50??           00293         MOVF    r0x00, W
+000016 E0??           00294         BZ      _00290_DS_
+000018 ????           00295         BANKSEL __latch_3_data
+                      00296 ;       .line   351; glcd.c     _latch_3_data |= 0b00100000;
+00001A 8B??           00297         BSF     __latch_3_data, 5, B
+                      00298 ;       .line   352; glcd.c     LATCH_DATA = _latch_3_data;
+00001C C??? F???      00299         MOVFF   __latch_3_data, _LATD
+000020 D???           00300         BRA     _00291_DS_
+000022                00301 _00290_DS_:
+000022 ????           00302         BANKSEL __latch_3_data
+                      00303 ;       .line   355; glcd.c     _latch_3_data &= 0b11011111;
+000024 9B??           00304         BCF     __latch_3_data, 5, B
+                      00305 ;       .line   356; glcd.c     LATCH_DATA = _latch_3_data;
+000026 C??? F???      00306         MOVFF   __latch_3_data, _LATD
+00002A                00307 _00291_DS_:
+                      00308 ;       .line   358; glcd.c     LATCH_3 = LATCH_3_ENABLED;
+00002A 8C??           00309         BSF     _LATAbits, 6
+                      00310 ;       .line   359; glcd.c     LATCH_3 = LATCH_3_DISABLED;
+00002C 9C??           00311         BCF     _LATAbits, 6
+                      00312 ;       .line   360; glcd.c     LATCH_DATA = 0x00;
+00002E 6A??           00313         CLRF    _LATD
+000030 CFE4 F000      00314         MOVFF   PREINC1, r0x00
+000034 CFE4 FFD9      00315         MOVFF   PREINC1, FSR2L
+000038 0012           00316         RETURN  
+                      00317 
+                      00318 ; ; Starting pCode block
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00319 S_glcd__latched_lcd_cs2 code
+000000                00320 _latched_lcd_cs2:
+                      00321 ;       .line   333; glcd.c     void latched_lcd_cs2(unsigned char value) {
+000000 CFD9 FFE5      00322         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00323         MOVFF   FSR1L, FSR2L
+000008 C??? F???      00324         MOVFF   r0x00, POSTDEC1
+00000C 0E02           00325         MOVLW   0x02
+00000E CFDB F000      00326         MOVFF   PLUSW2, r0x00
+                      00327 ;       .line   334; glcd.c     LATCH_DATA_TRIS = 0x00;         // outputs
+000012 6A??           00328         CLRF    _TRISD
+                      00329 ;       .line   335; glcd.c     if (value) {    // set it
+000014 50??           00330         MOVF    r0x00, W
+000016 E0??           00331         BZ      _00282_DS_
+000018 ????           00332         BANKSEL __latch_3_data
+                      00333 ;       .line   336; glcd.c     _latch_3_data |= 0b00010000;
+00001A 89??           00334         BSF     __latch_3_data, 4, B
+                      00335 ;       .line   337; glcd.c     LATCH_DATA = _latch_3_data;
+00001C C??? F???      00336         MOVFF   __latch_3_data, _LATD
+000020 D???           00337         BRA     _00283_DS_
+000022                00338 _00282_DS_:
+000022 ????           00339         BANKSEL __latch_3_data
+                      00340 ;       .line   340; glcd.c     _latch_3_data &= 0b11101111;
+000024 99??           00341         BCF     __latch_3_data, 4, B
+                      00342 ;       .line   341; glcd.c     LATCH_DATA = _latch_3_data;
+000026 C??? F???      00343         MOVFF   __latch_3_data, _LATD
+00002A                00344 _00283_DS_:
+                      00345 ;       .line   343; glcd.c     LATCH_3 = LATCH_3_ENABLED;
+00002A 8C??           00346         BSF     _LATAbits, 6
+                      00347 ;       .line   344; glcd.c     LATCH_3 = LATCH_3_DISABLED;
+00002C 9C??           00348         BCF     _LATAbits, 6
+                      00349 ;       .line   345; glcd.c     LATCH_DATA = 0x00;
+00002E 6A??           00350         CLRF    _LATD
+000030 CFE4 F000      00351         MOVFF   PREINC1, r0x00
+000034 CFE4 FFD9      00352         MOVFF   PREINC1, FSR2L
+000038 0012           00353         RETURN  
+                      00354 
+                      00355 ; ; Starting pCode block
+                      00356 S_glcd__latched_lcd_rst code
+000000                00357 _latched_lcd_rst:
+                      00358 ;       .line   318; glcd.c     void latched_lcd_rst(unsigned char value) {
+000000 CFD9 FFE5      00359         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00360         MOVFF   FSR1L, FSR2L
+000008 C??? F???      00361         MOVFF   r0x00, POSTDEC1
+00000C 0E02           00362         MOVLW   0x02
+00000E CFDB F000      00363         MOVFF   PLUSW2, r0x00
+                      00364 ;       .line   319; glcd.c     LATCH_DATA_TRIS = 0x00;         // outputs
+000012 6A??           00365         CLRF    _TRISD
+                      00366 ;       .line   320; glcd.c     if (value) {    // set it
+000014 50??           00367         MOVF    r0x00, W
+000016 E0??           00368         BZ      _00274_DS_
+000018 ????           00369         BANKSEL __latch_3_data
+                      00370 ;       .line   321; glcd.c     _latch_3_data |= 0b00001000;
+00001A 87??           00371         BSF     __latch_3_data, 3, B
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00372 ;       .line   322; glcd.c     LATCH_DATA = _latch_3_data;
+00001C C??? F???      00373         MOVFF   __latch_3_data, _LATD
+000020 D???           00374         BRA     _00275_DS_
+000022                00375 _00274_DS_:
+000022 ????           00376         BANKSEL __latch_3_data
+                      00377 ;       .line   325; glcd.c     _latch_3_data &= 0b11110111;
+000024 97??           00378         BCF     __latch_3_data, 3, B
+                      00379 ;       .line   326; glcd.c     LATCH_DATA = _latch_3_data;
+000026 C??? F???      00380         MOVFF   __latch_3_data, _LATD
+00002A                00381 _00275_DS_:
+                      00382 ;       .line   328; glcd.c     LATCH_3 = LATCH_3_ENABLED;
+00002A 8C??           00383         BSF     _LATAbits, 6
+                      00384 ;       .line   329; glcd.c     LATCH_3 = LATCH_3_DISABLED;
+00002C 9C??           00385         BCF     _LATAbits, 6
+                      00386 ;       .line   330; glcd.c     LATCH_DATA = 0x00;
+00002E 6A??           00387         CLRF    _LATD
+000030 CFE4 F000      00388         MOVFF   PREINC1, r0x00
+000034 CFE4 FFD9      00389         MOVFF   PREINC1, FSR2L
+000038 0012           00390         RETURN  
+                      00391 
+                      00392 ; ; Starting pCode block
+                      00393 S_glcd__latched_lcd_rw  code
+000000                00394 _latched_lcd_rw:
+                      00395 ;       .line   303; glcd.c     void latched_lcd_rw(unsigned char value) {
+000000 CFD9 FFE5      00396         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00397         MOVFF   FSR1L, FSR2L
+000008 C??? F???      00398         MOVFF   r0x00, POSTDEC1
+00000C 0E02           00399         MOVLW   0x02
+00000E CFDB F000      00400         MOVFF   PLUSW2, r0x00
+                      00401 ;       .line   304; glcd.c     LATCH_DATA_TRIS = 0x00;         // outputs
+000012 6A??           00402         CLRF    _TRISD
+                      00403 ;       .line   305; glcd.c     if (value) {    // set it
+000014 50??           00404         MOVF    r0x00, W
+000016 E0??           00405         BZ      _00266_DS_
+000018 ????           00406         BANKSEL __latch_3_data
+                      00407 ;       .line   306; glcd.c     _latch_3_data |= 0b00000100;
+00001A 85??           00408         BSF     __latch_3_data, 2, B
+                      00409 ;       .line   307; glcd.c     LATCH_DATA = _latch_3_data;
+00001C C??? F???      00410         MOVFF   __latch_3_data, _LATD
+000020 D???           00411         BRA     _00267_DS_
+000022                00412 _00266_DS_:
+000022 ????           00413         BANKSEL __latch_3_data
+                      00414 ;       .line   310; glcd.c     _latch_3_data &= 0b11111011;
+000024 95??           00415         BCF     __latch_3_data, 2, B
+                      00416 ;       .line   311; glcd.c     LATCH_DATA = _latch_3_data;
+000026 C??? F???      00417         MOVFF   __latch_3_data, _LATD
+00002A                00418 _00267_DS_:
+                      00419 ;       .line   313; glcd.c     LATCH_3 = LATCH_3_ENABLED;
+00002A 8C??           00420         BSF     _LATAbits, 6
+                      00421 ;       .line   314; glcd.c     LATCH_3 = LATCH_3_DISABLED;
+00002C 9C??           00422         BCF     _LATAbits, 6
+                      00423 ;       .line   315; glcd.c     LATCH_DATA = 0x00;
+00002E 6A??           00424         CLRF    _LATD
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+000030 CFE4 F000      00425         MOVFF   PREINC1, r0x00
+000034 CFE4 FFD9      00426         MOVFF   PREINC1, FSR2L
+000038 0012           00427         RETURN  
+                      00428 
+                      00429 ; ; Starting pCode block
+                      00430 S_glcd__latched_lcd_di  code
+000000                00431 _latched_lcd_di:
+                      00432 ;       .line   288; glcd.c     void latched_lcd_di(unsigned char value) {
+000000 CFD9 FFE5      00433         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00434         MOVFF   FSR1L, FSR2L
+000008 C??? F???      00435         MOVFF   r0x00, POSTDEC1
+00000C 0E02           00436         MOVLW   0x02
+00000E CFDB F000      00437         MOVFF   PLUSW2, r0x00
+                      00438 ;       .line   289; glcd.c     LATCH_DATA_TRIS = 0x00;         // outputs
+000012 6A??           00439         CLRF    _TRISD
+                      00440 ;       .line   290; glcd.c     if (value) {    // set it
+000014 50??           00441         MOVF    r0x00, W
+000016 E0??           00442         BZ      _00258_DS_
+000018 ????           00443         BANKSEL __latch_3_data
+                      00444 ;       .line   291; glcd.c     _latch_3_data |= 0b00000010;
+00001A 83??           00445         BSF     __latch_3_data, 1, B
+                      00446 ;       .line   292; glcd.c     LATCH_DATA = _latch_3_data;
+00001C C??? F???      00447         MOVFF   __latch_3_data, _LATD
+000020 D???           00448         BRA     _00259_DS_
+000022                00449 _00258_DS_:
+000022 ????           00450         BANKSEL __latch_3_data
+                      00451 ;       .line   295; glcd.c     _latch_3_data &= 0b11111101;
+000024 93??           00452         BCF     __latch_3_data, 1, B
+                      00453 ;       .line   296; glcd.c     LATCH_DATA = _latch_3_data;
+000026 C??? F???      00454         MOVFF   __latch_3_data, _LATD
+00002A                00455 _00259_DS_:
+                      00456 ;       .line   298; glcd.c     LATCH_3 = LATCH_3_ENABLED;
+00002A 8C??           00457         BSF     _LATAbits, 6
+                      00458 ;       .line   299; glcd.c     LATCH_3 = LATCH_3_DISABLED;
+00002C 9C??           00459         BCF     _LATAbits, 6
+                      00460 ;       .line   300; glcd.c     LATCH_DATA = 0x00;
+00002E 6A??           00461         CLRF    _LATD
+000030 CFE4 F000      00462         MOVFF   PREINC1, r0x00
+000034 CFE4 FFD9      00463         MOVFF   PREINC1, FSR2L
+000038 0012           00464         RETURN  
+                      00465 
+                      00466 ; ; Starting pCode block
+                      00467 S_glcd__latched_lcd_enable      code
+000000                00468 _latched_lcd_enable:
+                      00469 ;       .line   273; glcd.c     void latched_lcd_enable(unsigned char value) {
+000000 CFD9 FFE5      00470         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00471         MOVFF   FSR1L, FSR2L
+000008 C??? F???      00472         MOVFF   r0x00, POSTDEC1
+00000C 0E02           00473         MOVLW   0x02
+00000E CFDB F000      00474         MOVFF   PLUSW2, r0x00
+                      00475 ;       .line   274; glcd.c     LATCH_DATA_TRIS = 0x00;         // outputs
+000012 6A??           00476         CLRF    _TRISD
+                      00477 ;       .line   275; glcd.c     if (value) {    // set it
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+000014 50??           00478         MOVF    r0x00, W
+000016 E0??           00479         BZ      _00250_DS_
+000018 ????           00480         BANKSEL __latch_3_data
+                      00481 ;       .line   276; glcd.c     _latch_3_data |= 0b00000001;
+00001A 81??           00482         BSF     __latch_3_data, 0, B
+                      00483 ;       .line   277; glcd.c     LATCH_DATA = _latch_3_data;
+00001C C??? F???      00484         MOVFF   __latch_3_data, _LATD
+000020 D???           00485         BRA     _00251_DS_
+000022                00486 _00250_DS_:
+000022 ????           00487         BANKSEL __latch_3_data
+                      00488 ;       .line   280; glcd.c     _latch_3_data &= 0b11111110;
+000024 91??           00489         BCF     __latch_3_data, 0, B
+                      00490 ;       .line   281; glcd.c     LATCH_DATA = _latch_3_data;
+000026 C??? F???      00491         MOVFF   __latch_3_data, _LATD
+00002A                00492 _00251_DS_:
+                      00493 ;       .line   283; glcd.c     LATCH_3 = LATCH_3_ENABLED;
+00002A 8C??           00494         BSF     _LATAbits, 6
+                      00495 ;       .line   284; glcd.c     LATCH_3 = LATCH_3_DISABLED;
+00002C 9C??           00496         BCF     _LATAbits, 6
+                      00497 ;       .line   285; glcd.c     LATCH_DATA = 0x00;
+00002E 6A??           00498         CLRF    _LATD
+000030 CFE4 F000      00499         MOVFF   PREINC1, r0x00
+000034 CFE4 FFD9      00500         MOVFF   PREINC1, FSR2L
+000038 0012           00501         RETURN  
+                      00502 
+                      00503 ; ; Starting pCode block
+                      00504 S_glcd__latched_lcd_power       code
+000000                00505 _latched_lcd_power:
+                      00506 ;       .line   258; glcd.c     void latched_lcd_power(unsigned char value) {
+000000 CFD9 FFE5      00507         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00508         MOVFF   FSR1L, FSR2L
+000008 C??? F???      00509         MOVFF   r0x00, POSTDEC1
+00000C 0E02           00510         MOVLW   0x02
+00000E CFDB F000      00511         MOVFF   PLUSW2, r0x00
+                      00512 ;       .line   259; glcd.c     LATCH_DATA_TRIS = 0x00;         // outputs
+000012 6A??           00513         CLRF    _TRISD
+                      00514 ;       .line   260; glcd.c     if (value) {    // set it
+000014 50??           00515         MOVF    r0x00, W
+000016 E0??           00516         BZ      _00242_DS_
+000018 ????           00517         BANKSEL __latch_3_data
+                      00518 ;       .line   261; glcd.c     _latch_3_data |= 0b10000000;
+00001A 8F??           00519         BSF     __latch_3_data, 7, B
+                      00520 ;       .line   262; glcd.c     LATCH_DATA = _latch_3_data;
+00001C C??? F???      00521         MOVFF   __latch_3_data, _LATD
+000020 D???           00522         BRA     _00243_DS_
+000022                00523 _00242_DS_:
+000022 ????           00524         BANKSEL __latch_3_data
+                      00525 ;       .line   265; glcd.c     _latch_3_data &= 0b01111111;
+000024 9F??           00526         BCF     __latch_3_data, 7, B
+                      00527 ;       .line   266; glcd.c     LATCH_DATA = _latch_3_data;
+000026 C??? F???      00528         MOVFF   __latch_3_data, _LATD
+00002A                00529 _00243_DS_:
+                      00530 ;       .line   268; glcd.c     LATCH_3 = LATCH_3_ENABLED;
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00002A 8C??           00531         BSF     _LATAbits, 6
+                      00532 ;       .line   269; glcd.c     LATCH_3 = LATCH_3_DISABLED;
+00002C 9C??           00533         BCF     _LATAbits, 6
+                      00534 ;       .line   270; glcd.c     LATCH_DATA = 0x00;
+00002E 6A??           00535         CLRF    _LATD
+000030 CFE4 F000      00536         MOVFF   PREINC1, r0x00
+000034 CFE4 FFD9      00537         MOVFF   PREINC1, FSR2L
+000038 0012           00538         RETURN  
+                      00539 
+                      00540 ; ; Starting pCode block
+                      00541 S_glcd__lcd_plot_pixel  code
+000000                00542 _lcd_plot_pixel:
+                      00543 ;       .line   238; glcd.c     void lcd_plot_pixel(unsigned char rx, unsigned char ry) {
+000000 CFD9 FFE5      00544         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00545         MOVFF   FSR1L, FSR2L
+000008 C??? F???      00546         MOVFF   r0x00, POSTDEC1
+00000C C??? F???      00547         MOVFF   r0x01, POSTDEC1
+000010 C??? F???      00548         MOVFF   r0x02, POSTDEC1
+000014 0E02           00549         MOVLW   0x02
+000016 CFDB F000      00550         MOVFF   PLUSW2, r0x00
+00001A 0E03           00551         MOVLW   0x03
+00001C CFDB F000      00552         MOVFF   PLUSW2, r0x01
+                      00553 ;       .line   243; glcd.c     if (rx & 64) {
+000020 AC??           00554         BTFSS   r0x00, 6
+000022 D???           00555         BRA     _00225_DS_
+                      00556 ;       .line   244; glcd.c     lcd_selectside(LCD_RIGHT);
+000024 0E02           00557         MOVLW   0x02
+000026 6EE5           00558         MOVWF   POSTDEC1
+000028 EC?? F0??      00559         CALL    _lcd_selectside
+00002C 52E6           00560         MOVF    POSTINC1, F
+00002E D???           00561         BRA     _00226_DS_
+000030                00562 _00225_DS_:
+                      00563 ;       .line   247; glcd.c     lcd_selectside(LCD_LEFT);
+000030 0E01           00564         MOVLW   0x01
+000032 6EE5           00565         MOVWF   POSTDEC1
+000034 EC?? F0??      00566         CALL    _lcd_selectside
+000038 52E6           00567         MOVF    POSTINC1, F
+00003A                00568 _00226_DS_:
+                      00569 ;       .line   250; glcd.c     lcd_setpage( ry >> 3);          // fast /8
+00003A 38??           00570         SWAPF   r0x01, W
+00003C 44E8           00571         RLNCF   WREG, W
+00003E 0B1F           00572         ANDLW   0x1f
+000040 6E??           00573         MOVWF   r0x02
+000042 50??           00574         MOVF    r0x02, W
+000044 6EE5           00575         MOVWF   POSTDEC1
+000046 EC?? F0??      00576         CALL    _lcd_setpage
+00004A 52E6           00577         MOVF    POSTINC1, F
+                      00578 ;       .line   251; glcd.c     lcd_setyaddr( rx & 0b00111111);
+00004C 0E3F           00579         MOVLW   0x3f
+00004E 16??           00580         ANDWF   r0x00, F
+000050 50??           00581         MOVF    r0x00, W
+000052 6EE5           00582         MOVWF   POSTDEC1
+000054 EC?? F0??      00583         CALL    _lcd_setyaddr
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+000058 52E6           00584         MOVF    POSTINC1, F
+                      00585 ;       .line   252; glcd.c     d = lcd_read();                         // read to move data to GLCD buf
                             fer,
-00005A EC?? F0??      00292         CALL    _lcd_read
-                      00293 ;       .line   217; glcd.c     d = lcd_read();                         // read again to transfer to pic
-00005E EC?? F0??      00294         CALL    _lcd_read
-000062 6E??           00295         MOVWF   r0x02
-                      00296 ;       .line   218; glcd.c     lcd_setyaddr( rx & 0b00111111); 
-000064 50??           00297         MOVF    r0x00, W
-000066 6EE5           00298         MOVWF   POSTDEC1
-000068 EC?? F0??      00299         CALL    _lcd_setyaddr
-00006C 52E6           00300         MOVF    POSTINC1, F
-                      00301 ;       .line   219; glcd.c     lcd_write (d | (1 << (ry & 0b111)));
-00006E 0E07           00302         MOVLW   0x07
-000070 16??           00303         ANDWF   r0x01, F
-000072 0E01           00304         MOVLW   0x01
-000074 6E??           00305         MOVWF   r0x00
-000076 50??           00306         MOVF    r0x01, W
-000078 E0??           00307         BZ      _00235_DS_
-00007A 6CE8           00308         NEGF    WREG
-00007C 90D8           00309         BCF     STATUS, 0
-00007E                00310 _00236_DS_:
-00007E 36??           00311         RLCF    r0x00, F
-000080 0F01           00312         ADDLW   0x01
-000082 E3??           00313         BNC     _00236_DS_
-000084                00314 _00235_DS_:
-000084 50??           00315         MOVF    r0x00, W
-000086 12??           00316         IORWF   r0x02, F
-000088 50??           00317         MOVF    r0x02, W
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-10-2013  23:11:01        PAGE  7
+00005A EC?? F0??      00586         CALL    _lcd_read
+                      00587 ;       .line   253; glcd.c     d = lcd_read();                         // read again to transfer to pic
+00005E EC?? F0??      00588         CALL    _lcd_read
+000062 6E??           00589         MOVWF   r0x02
+                      00590 ;       .line   254; glcd.c     lcd_setyaddr( rx & 0b00111111); 
+000064 50??           00591         MOVF    r0x00, W
+000066 6EE5           00592         MOVWF   POSTDEC1
+000068 EC?? F0??      00593         CALL    _lcd_setyaddr
+00006C 52E6           00594         MOVF    POSTINC1, F
+                      00595 ;       .line   255; glcd.c     lcd_write (d | (1 << (ry & 0b111)));
+00006E 0E07           00596         MOVLW   0x07
+000070 16??           00597         ANDWF   r0x01, F
+000072 0E01           00598         MOVLW   0x01
+000074 6E??           00599         MOVWF   r0x00
+000076 50??           00600         MOVF    r0x01, W
+000078 E0??           00601         BZ      _00235_DS_
+00007A 6CE8           00602         NEGF    WREG
+00007C 90D8           00603         BCF     STATUS, 0
+00007E                00604 _00236_DS_:
+00007E 36??           00605         RLCF    r0x00, F
+000080 0F01           00606         ADDLW   0x01
+000082 E3??           00607         BNC     _00236_DS_
+000084                00608 _00235_DS_:
+000084 50??           00609         MOVF    r0x00, W
+000086 12??           00610         IORWF   r0x02, F
+000088 50??           00611         MOVF    r0x02, W
+00008A 6EE5           00612         MOVWF   POSTDEC1
+00008C EC?? F0??      00613         CALL    _lcd_write
+000090 52E6           00614         MOVF    POSTINC1, F
+000092 CFE4 F000      00615         MOVFF   PREINC1, r0x02
+000096 CFE4 F000      00616         MOVFF   PREINC1, r0x01
+00009A CFE4 F000      00617         MOVFF   PREINC1, r0x00
+00009E CFE4 FFD9      00618         MOVFF   PREINC1, FSR2L
+0000A2 0012           00619         RETURN  
+                      00620 
+                      00621 ; ; Starting pCode block
+                      00622 S_glcd__lcd_read        code
+000000                00623 _lcd_read:
+                      00624 ;       .line   222; glcd.c     unsigned char lcd_read (void) {
+000000 CFD9 FFE5      00625         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00626         MOVFF   FSR1L, FSR2L
+                      00627 ;       .line   234; glcd.c     return 1;
+000008 0E01           00628         MOVLW   0x01
+00000A CFE4 FFD9      00629         MOVFF   PREINC1, FSR2L
+00000E 0012           00630         RETURN  
+                      00631 
+                      00632 ; ; Starting pCode block
+                      00633 S_glcd__lcd_selectside  code
+000000                00634 _lcd_selectside:
+                      00635 ;       .line   197; glcd.c     void lcd_selectside(unsigned char sides) {
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE 13
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-00008A 6EE5           00318         MOVWF   POSTDEC1
-00008C EC?? F0??      00319         CALL    _lcd_write
-000090 52E6           00320         MOVF    POSTINC1, F
-000092 CFE4 F000      00321         MOVFF   PREINC1, r0x02
-000096 CFE4 F000      00322         MOVFF   PREINC1, r0x01
-00009A CFE4 F000      00323         MOVFF   PREINC1, r0x00
-00009E CFE4 FFD9      00324         MOVFF   PREINC1, FSR2L
-0000A2 0012           00325         RETURN  
-                      00326 
-                      00327 ; ; Starting pCode block
-                      00328 S_glcd__lcd_read        code
-000000                00329 _lcd_read:
-                      00330 ;       .line   187; glcd.c     unsigned char lcd_read (void) {
-000000 CFD9 FFE5      00331         MOVFF   FSR2L, POSTDEC1
-000004 CFE1 FFD9      00332         MOVFF   FSR1L, FSR2L
-000008 C??? F???      00333         MOVFF   r0x00, POSTDEC1
-                      00334 ;       .line   190; glcd.c     LCD_TRIS = 0xFF;
-00000C 0EFF           00335         MOVLW   0xff
-00000E 6E??           00336         MOVWF   _TRISD
-                      00337 ;       .line   191; glcd.c     RW = 1; // read
-000010 82??           00338         BSF     _PORTEbits, 1
-                      00339 ;       .line   192; glcd.c     DI = 1; // data
-000012 80??           00340         BSF     _PORTEbits, 0
-                      00341 ;       .line   194; glcd.c     lcd_enable();
-000014 EC?? F0??      00342         CALL    _lcd_enable
-                      00343 ;       .line   195; glcd.c     d = LCD_DATA;
-000018 C??? F???      00344         MOVFF   _PORTD, r0x00
-                      00345 ;       .line   196; glcd.c     LCD_TRIS = 0x00;
-00001C 6A??           00346         CLRF    _TRISD
-                      00347 ;       .line   198; glcd.c     return d;
-00001E 50??           00348         MOVF    r0x00, W
-000020 CFE4 F000      00349         MOVFF   PREINC1, r0x00
-000024 CFE4 FFD9      00350         MOVFF   PREINC1, FSR2L
-000028 0012           00351         RETURN  
-                      00352 
-                      00353 ; ; Starting pCode block
-                      00354 S_glcd__lcd_selectside  code
-000000                00355 _lcd_selectside:
-                      00356 ;       .line   166; glcd.c     void lcd_selectside(unsigned char sides) {
-000000 CFD9 FFE5      00357         MOVFF   FSR2L, POSTDEC1
-000004 CFE1 FFD9      00358         MOVFF   FSR1L, FSR2L
-000008 C??? F???      00359         MOVFF   r0x00, POSTDEC1
-00000C 0E02           00360         MOVLW   0x02
-00000E CFDB F000      00361         MOVFF   PLUSW2, r0x00
-                      00362 ;       .line   169; glcd.c     if (sides & LCD_LEFT) {
-000012 A0??           00363         BTFSS   r0x00, 0
-000014 D???           00364         BRA     _00200_DS_
-                      00365 ;       .line   170; glcd.c     CS1 = 0;
-000016 90??           00366         BCF     _PORTCbits, 0
-000018 D???           00367         BRA     _00201_DS_
-00001A                00368 _00200_DS_:
-                      00369 ;       .line   173; glcd.c     CS1 = 1;
-00001A 80??           00370         BSF     _PORTCbits, 0
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-10-2013  23:11:01        PAGE  8
+000000 CFD9 FFE5      00636         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00637         MOVFF   FSR1L, FSR2L
+000008 C??? F???      00638         MOVFF   r0x00, POSTDEC1
+00000C 0E02           00639         MOVLW   0x02
+00000E CFDB F000      00640         MOVFF   PLUSW2, r0x00
+                      00641 ;       .line   200; glcd.c     if (sides & LCD_LEFT) {
+000012 A0??           00642         BTFSS   r0x00, 0
+000014 D???           00643         BRA     _00200_DS_
+                      00644 ;       .line   202; glcd.c     latched_lcd_cs1(0);
+000016 0E00           00645         MOVLW   0x00
+000018 6EE5           00646         MOVWF   POSTDEC1
+00001A EC?? F0??      00647         CALL    _latched_lcd_cs1
+00001E 52E6           00648         MOVF    POSTINC1, F
+000020 D???           00649         BRA     _00201_DS_
+000022                00650 _00200_DS_:
+                      00651 ;       .line   206; glcd.c     latched_lcd_cs1(1);
+000022 0E01           00652         MOVLW   0x01
+000024 6EE5           00653         MOVWF   POSTDEC1
+000026 EC?? F0??      00654         CALL    _latched_lcd_cs1
+00002A 52E6           00655         MOVF    POSTINC1, F
+00002C                00656 _00201_DS_:
+                      00657 ;       .line   209; glcd.c     if (sides & LCD_RIGHT) {
+00002C A2??           00658         BTFSS   r0x00, 1
+00002E D???           00659         BRA     _00203_DS_
+                      00660 ;       .line   211; glcd.c     latched_lcd_cs2(0);
+000030 0E00           00661         MOVLW   0x00
+000032 6EE5           00662         MOVWF   POSTDEC1
+000034 EC?? F0??      00663         CALL    _latched_lcd_cs2
+000038 52E6           00664         MOVF    POSTINC1, F
+00003A D???           00665         BRA     _00205_DS_
+00003C                00666 _00203_DS_:
+                      00667 ;       .line   215; glcd.c     latched_lcd_cs2(1);
+00003C 0E01           00668         MOVLW   0x01
+00003E 6EE5           00669         MOVWF   POSTDEC1
+000040 EC?? F0??      00670         CALL    _latched_lcd_cs2
+000044 52E6           00671         MOVF    POSTINC1, F
+000046                00672 _00205_DS_:
+000046 CFE4 F000      00673         MOVFF   PREINC1, r0x00
+00004A CFE4 FFD9      00674         MOVFF   PREINC1, FSR2L
+00004E 0012           00675         RETURN  
+                      00676 
+                      00677 ; ; Starting pCode block
+                      00678 S_glcd__lcd_write       code
+000000                00679 _lcd_write:
+                      00680 ;       .line   184; glcd.c     void lcd_write (unsigned char d) {
+000000 CFD9 FFE5      00681         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00682         MOVFF   FSR1L, FSR2L
+000008 C??? F???      00683         MOVFF   r0x00, POSTDEC1
+00000C 0E02           00684         MOVLW   0x02
+00000E CFDB F000      00685         MOVFF   PLUSW2, r0x00
+                      00686 ;       .line   185; glcd.c     lcd_waitbusy();
+000012 EC?? F0??      00687         CALL    _lcd_waitbusy
+                      00688 ;       .line   187; glcd.c     latched_lcd_di(1);
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE 14
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-00001C                00371 _00201_DS_:
-                      00372 ;       .line   176; glcd.c     if (sides & LCD_RIGHT) {
-00001C A2??           00373         BTFSS   r0x00, 1
-00001E D???           00374         BRA     _00203_DS_
-                      00375 ;       .line   177; glcd.c     CS2 = 0;
-000020 92??           00376         BCF     _PORTCbits, 1
-000022 D???           00377         BRA     _00205_DS_
-000024                00378 _00203_DS_:
-                      00379 ;       .line   180; glcd.c     CS2 = 1;
-000024 82??           00380         BSF     _PORTCbits, 1
-000026                00381 _00205_DS_:
-000026 CFE4 F000      00382         MOVFF   PREINC1, r0x00
-00002A CFE4 FFD9      00383         MOVFF   PREINC1, FSR2L
-00002E 0012           00384         RETURN  
-                      00385 
-                      00386 ; ; Starting pCode block
-                      00387 S_glcd__lcd_write       code
-000000                00388 _lcd_write:
-                      00389 ;       .line   156; glcd.c     void lcd_write (unsigned char d) {
-000000 CFD9 FFE5      00390         MOVFF   FSR2L, POSTDEC1
-000004 CFE1 FFD9      00391         MOVFF   FSR1L, FSR2L
-000008 C??? F???      00392         MOVFF   r0x00, POSTDEC1
-00000C 0E02           00393         MOVLW   0x02
-00000E CFDB F000      00394         MOVFF   PLUSW2, r0x00
-                      00395 ;       .line   157; glcd.c     lcd_waitbusy();
-000012 EC?? F0??      00396         CALL    _lcd_waitbusy
-                      00397 ;       .line   158; glcd.c     DI = 1; // data
-000016 80??           00398         BSF     _PORTEbits, 0
-                      00399 ;       .line   159; glcd.c     RW = 0; // write
-000018 92??           00400         BCF     _PORTEbits, 1
-                      00401 ;       .line   160; glcd.c     LCD_TRIS = 0; 
-00001A 6A??           00402         CLRF    _TRISD
-                      00403 ;       .line   161; glcd.c     LCD_DATA = d;
-00001C C??? F???      00404         MOVFF   r0x00, _PORTD
-                      00405 ;       .line   162; glcd.c     lcd_enable();
-000020 EC?? F0??      00406         CALL    _lcd_enable
-000024 CFE4 F000      00407         MOVFF   PREINC1, r0x00
-000028 CFE4 FFD9      00408         MOVFF   PREINC1, FSR2L
-00002C 0012           00409         RETURN  
-                      00410 
-                      00411 ; ; Starting pCode block
-                      00412 S_glcd__lcd_waitbusy    code
-000000                00413 _lcd_waitbusy:
-                      00414 ;       .line   149; glcd.c     void lcd_waitbusy(void) {
-000000 CFD9 FFE5      00415         MOVFF   FSR2L, POSTDEC1
-000004 CFE1 FFD9      00416         MOVFF   FSR1L, FSR2L
-000008 C??? F???      00417         MOVFF   r0x00, POSTDEC1
-00000C                00418 _00178_DS_:
-                      00419 ;       .line   150; glcd.c     while (lcd_status() & 0b10000000) {
-00000C EC?? F0??      00420         CALL    _lcd_status
-000010 6E??           00421         MOVWF   r0x00
-000012 AE??           00422         BTFSS   r0x00, 7
-000014 D???           00423         BRA     _00181_DS_
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-10-2013  23:11:01        PAGE  9
+000016 0E01           00689         MOVLW   0x01
+000018 6EE5           00690         MOVWF   POSTDEC1
+00001A EC?? F0??      00691         CALL    _latched_lcd_di
+00001E 52E6           00692         MOVF    POSTINC1, F
+                      00693 ;       .line   189; glcd.c     latched_lcd_rw(0);
+000020 0E00           00694         MOVLW   0x00
+000022 6EE5           00695         MOVWF   POSTDEC1
+000024 EC?? F0??      00696         CALL    _latched_lcd_rw
+000028 52E6           00697         MOVF    POSTINC1, F
+                      00698 ;       .line   192; glcd.c     latched_lcd_data(d);
+00002A 50??           00699         MOVF    r0x00, W
+00002C 6EE5           00700         MOVWF   POSTDEC1
+00002E EC?? F0??      00701         CALL    _latched_lcd_data
+000032 52E6           00702         MOVF    POSTINC1, F
+                      00703 ;       .line   193; glcd.c     lcd_enable();
+000034 EC?? F0??      00704         CALL    _lcd_enable
+000038 CFE4 F000      00705         MOVFF   PREINC1, r0x00
+00003C CFE4 FFD9      00706         MOVFF   PREINC1, FSR2L
+000040 0012           00707         RETURN  
+                      00708 
+                      00709 ; ; Starting pCode block
+                      00710 S_glcd__lcd_waitbusy    code
+000000                00711 _lcd_waitbusy:
+                      00712 ;       .line   177; glcd.c     void lcd_waitbusy(void) {
+000000 CFD9 FFE5      00713         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00714         MOVFF   FSR1L, FSR2L
+000008 C??? F???      00715         MOVFF   r0x00, POSTDEC1
+00000C                00716 _00178_DS_:
+                      00717 ;       .line   178; glcd.c     while (lcd_status() & 0b10000000) {
+00000C EC?? F0??      00718         CALL    _lcd_status
+000010 6E??           00719         MOVWF   r0x00
+000012 AE??           00720         BTFSS   r0x00, 7
+000014 D???           00721         BRA     _00181_DS_
+000016                00722 _00189_DS_:
+000016 0000           00723         nop 
+000018 0000           00724         nop 
+00001A D???           00725         BRA     _00178_DS_
+00001C                00726 _00181_DS_:
+00001C CFE4 F000      00727         MOVFF   PREINC1, r0x00
+000020 CFE4 FFD9      00728         MOVFF   PREINC1, FSR2L
+000024 0012           00729         RETURN  
+                      00730 
+                      00731 ; ; Starting pCode block
+                      00732 S_glcd__lcd_setyaddr    code
+000000                00733 _lcd_setyaddr:
+                      00734 ;       .line   163; glcd.c     void lcd_setyaddr(unsigned char y) {
+000000 CFD9 FFE5      00735         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00736         MOVFF   FSR1L, FSR2L
+000008 C??? F???      00737         MOVFF   r0x00, POSTDEC1
+00000C 0E02           00738         MOVLW   0x02
+00000E CFDB F000      00739         MOVFF   PLUSW2, r0x00
+                      00740 ;       .line   165; glcd.c     lcd_waitbusy();
+000012 EC?? F0??      00741         CALL    _lcd_waitbusy
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE 15
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-000016                00424 _00189_DS_:
-000016 0000           00425         nop 
-000018 0000           00426         nop 
-00001A D???           00427         BRA     _00178_DS_
-00001C                00428 _00181_DS_:
-00001C CFE4 F000      00429         MOVFF   PREINC1, r0x00
-000020 CFE4 FFD9      00430         MOVFF   PREINC1, FSR2L
-000024 0012           00431         RETURN  
-                      00432 
-                      00433 ; ; Starting pCode block
-                      00434 S_glcd__lcd_setyaddr    code
-000000                00435 _lcd_setyaddr:
-                      00436 ;       .line   138; glcd.c     void lcd_setyaddr(unsigned char y) {
-000000 CFD9 FFE5      00437         MOVFF   FSR2L, POSTDEC1
-000004 CFE1 FFD9      00438         MOVFF   FSR1L, FSR2L
-000008 C??? F???      00439         MOVFF   r0x00, POSTDEC1
-00000C 0E02           00440         MOVLW   0x02
-00000E CFDB F000      00441         MOVFF   PLUSW2, r0x00
-                      00442 ;       .line   140; glcd.c     lcd_waitbusy();
-000012 EC?? F0??      00443         CALL    _lcd_waitbusy
-                      00444 ;       .line   141; glcd.c     DI = 0; RW = 0;
-000016 90??           00445         BCF     _PORTEbits, 0
-000018 92??           00446         BCF     _PORTEbits, 1
-                      00447 ;       .line   142; glcd.c     LCD_DATA = 0b01000000 | (y & 0b00111111);
-00001A 0E3F           00448         MOVLW   0x3f
-00001C 16??           00449         ANDWF   r0x00, F
-00001E 0E40           00450         MOVLW   0x40
-000020 10??           00451         IORWF   r0x00, W
-000022 6E??           00452         MOVWF   _PORTD
-                      00453 ;       .line   143; glcd.c     lcd_enable();
-000024 EC?? F0??      00454         CALL    _lcd_enable
-000028 CFE4 F000      00455         MOVFF   PREINC1, r0x00
-00002C CFE4 FFD9      00456         MOVFF   PREINC1, FSR2L
-000030 0012           00457         RETURN  
-                      00458 
-                      00459 ; ; Starting pCode block
-                      00460 S_glcd__lcd_setpage     code
-000000                00461 _lcd_setpage:
-                      00462 ;       .line   126; glcd.c     void lcd_setpage(unsigned char page) {
-000000 CFD9 FFE5      00463         MOVFF   FSR2L, POSTDEC1
-000004 CFE1 FFD9      00464         MOVFF   FSR1L, FSR2L
-000008 C??? F???      00465         MOVFF   r0x00, POSTDEC1
-00000C 0E02           00466         MOVLW   0x02
-00000E CFDB F000      00467         MOVFF   PLUSW2, r0x00
-                      00468 ;       .line   128; glcd.c     lcd_waitbusy();
-000012 EC?? F0??      00469         CALL    _lcd_waitbusy
-                      00470 ;       .line   129; glcd.c     DI = 0; RW = 0; 
-000016 90??           00471         BCF     _PORTEbits, 0
-000018 92??           00472         BCF     _PORTEbits, 1
-                      00473 ;       .line   130; glcd.c     LCD_DATA = 0b10111000 | page;
-00001A 0EB8           00474         MOVLW   0xb8
-00001C 10??           00475         IORWF   r0x00, W
-00001E 6E??           00476         MOVWF   _PORTD
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-10-2013  23:11:01        PAGE 10
+                      00742 ;       .line   167; glcd.c     latched_lcd_di(0);
+000016 0E00           00743         MOVLW   0x00
+000018 6EE5           00744         MOVWF   POSTDEC1
+00001A EC?? F0??      00745         CALL    _latched_lcd_di
+00001E 52E6           00746         MOVF    POSTINC1, F
+                      00747 ;       .line   168; glcd.c     latched_lcd_rw(0);
+000020 0E00           00748         MOVLW   0x00
+000022 6EE5           00749         MOVWF   POSTDEC1
+000024 EC?? F0??      00750         CALL    _latched_lcd_rw
+000028 52E6           00751         MOVF    POSTINC1, F
+                      00752 ;       .line   170; glcd.c     latched_lcd_data(0b01000000 | (y & 0b00111111));
+00002A 0E3F           00753         MOVLW   0x3f
+00002C 16??           00754         ANDWF   r0x00, F
+00002E 8C??           00755         BSF     r0x00, 6
+000030 50??           00756         MOVF    r0x00, W
+000032 6EE5           00757         MOVWF   POSTDEC1
+000034 EC?? F0??      00758         CALL    _latched_lcd_data
+000038 52E6           00759         MOVF    POSTINC1, F
+                      00760 ;       .line   171; glcd.c     lcd_enable();
+00003A EC?? F0??      00761         CALL    _lcd_enable
+00003E CFE4 F000      00762         MOVFF   PREINC1, r0x00
+000042 CFE4 FFD9      00763         MOVFF   PREINC1, FSR2L
+000046 0012           00764         RETURN  
+                      00765 
+                      00766 ; ; Starting pCode block
+                      00767 S_glcd__lcd_setpage     code
+000000                00768 _lcd_setpage:
+                      00769 ;       .line   148; glcd.c     void lcd_setpage(unsigned char page) {
+000000 CFD9 FFE5      00770         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00771         MOVFF   FSR1L, FSR2L
+000008 C??? F???      00772         MOVFF   r0x00, POSTDEC1
+00000C 0E02           00773         MOVLW   0x02
+00000E CFDB F000      00774         MOVFF   PLUSW2, r0x00
+                      00775 ;       .line   150; glcd.c     lcd_waitbusy();
+000012 EC?? F0??      00776         CALL    _lcd_waitbusy
+                      00777 ;       .line   152; glcd.c     latched_lcd_di(0);
+000016 0E00           00778         MOVLW   0x00
+000018 6EE5           00779         MOVWF   POSTDEC1
+00001A EC?? F0??      00780         CALL    _latched_lcd_di
+00001E 52E6           00781         MOVF    POSTINC1, F
+                      00782 ;       .line   153; glcd.c     latched_lcd_rw(0);
+000020 0E00           00783         MOVLW   0x00
+000022 6EE5           00784         MOVWF   POSTDEC1
+000024 EC?? F0??      00785         CALL    _latched_lcd_rw
+000028 52E6           00786         MOVF    POSTINC1, F
+                      00787 ;       .line   155; glcd.c     latched_lcd_data(0b10111000 | page);
+00002A 0EB8           00788         MOVLW   0xb8
+00002C 12??           00789         IORWF   r0x00, F
+00002E 50??           00790         MOVF    r0x00, W
+000030 6EE5           00791         MOVWF   POSTDEC1
+000032 EC?? F0??      00792         CALL    _latched_lcd_data
+000036 52E6           00793         MOVF    POSTINC1, F
+                      00794 ;       .line   156; glcd.c     lcd_enable();
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE 16
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-                      00477 ;       .line   131; glcd.c     lcd_enable();
-000020 EC?? F0??      00478         CALL    _lcd_enable
-000024 CFE4 F000      00479         MOVFF   PREINC1, r0x00
-000028 CFE4 FFD9      00480         MOVFF   PREINC1, FSR2L
-00002C 0012           00481         RETURN  
-                      00482 
-                      00483 ; ; Starting pCode block
-                      00484 S_glcd__lcd_cls code
-000000                00485 _lcd_cls:
-                      00486 ;       .line   98; glcd.c      void lcd_cls(void) {
-000000 CFD9 FFE5      00487         MOVFF   FSR2L, POSTDEC1
-000004 CFE1 FFD9      00488         MOVFF   FSR1L, FSR2L
-000008 C??? F???      00489         MOVFF   r0x00, POSTDEC1
-00000C C??? F???      00490         MOVFF   r0x01, POSTDEC1
-000010 C??? F???      00491         MOVFF   r0x02, POSTDEC1
-                      00492 ;       .line   102; glcd.c     lcd_selectside(LCD_BOTH);
-000014 0E03           00493         MOVLW   0x03
-000016 6EE5           00494         MOVWF   POSTDEC1
-000018 EC?? F0??      00495         CALL    _lcd_selectside
-00001C 52E6           00496         MOVF    POSTINC1, F
-                      00497 ;       .line   103; glcd.c     for (x = 0; x < 8; x++) {
-00001E 6A??           00498         CLRF    r0x00
-000020                00499 _00146_DS_:
-                      00500 ;       .line   105; glcd.c     lcd_setpage(x);
-000020 50??           00501         MOVF    r0x00, W
-000022 6EE5           00502         MOVWF   POSTDEC1
-000024 EC?? F0??      00503         CALL    _lcd_setpage
-000028 52E6           00504         MOVF    POSTINC1, F
-                      00505 ;       .line   108; glcd.c     lcd_setyaddr(0);
-00002A 0E00           00506         MOVLW   0x00
-00002C 6EE5           00507         MOVWF   POSTDEC1
-00002E EC?? F0??      00508         CALL    _lcd_setyaddr
-000032 52E6           00509         MOVF    POSTINC1, F
-                      00510 ;       .line   111; glcd.c     LCD_DATA = 0; RW = 0; DI = 1;
-000034 6A??           00511         CLRF    _PORTD
-000036 92??           00512         BCF     _PORTEbits, 1
-000038 80??           00513         BSF     _PORTEbits, 0
-                      00514 ;       .line   114; glcd.c     for (y = 0; y < 64; y++) {
-00003A 0E40           00515         MOVLW   0x40
-00003C 6E??           00516         MOVWF   r0x01
-00003E                00517 _00145_DS_:
-                      00518 ;       .line   115; glcd.c     lcd_enable(); 
-00003E EC?? F0??      00519         CALL    _lcd_enable
-000042 0000           00520         nop 
-000044 0000           00521         nop 
-000046 50??           00522         MOVF    r0x01, W
-000048 6E??           00523         MOVWF   r0x02
-00004A 04??           00524         DECF    r0x02, W
-00004C 6E??           00525         MOVWF   r0x01
-                      00526 ;       .line   114; glcd.c     for (y = 0; y < 64; y++) {
-00004E 50??           00527         MOVF    r0x01, W
-000050 E1??           00528         BNZ     _00145_DS_
-                      00529 ;       .line   103; glcd.c     for (x = 0; x < 8; x++) {
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-10-2013  23:11:01        PAGE 11
+000038 EC?? F0??      00795         CALL    _lcd_enable
+00003C CFE4 F000      00796         MOVFF   PREINC1, r0x00
+000040 CFE4 FFD9      00797         MOVFF   PREINC1, FSR2L
+000044 0012           00798         RETURN  
+                      00799 
+                      00800 ; ; Starting pCode block
+                      00801 S_glcd__lcd_cls code
+000000                00802 _lcd_cls:
+                      00803 ;       .line   117; glcd.c     void lcd_cls(void) {
+000000 CFD9 FFE5      00804         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00805         MOVFF   FSR1L, FSR2L
+000008 C??? F???      00806         MOVFF   r0x00, POSTDEC1
+00000C C??? F???      00807         MOVFF   r0x01, POSTDEC1
+000010 C??? F???      00808         MOVFF   r0x02, POSTDEC1
+                      00809 ;       .line   121; glcd.c     lcd_selectside(LCD_BOTH);
+000014 0E03           00810         MOVLW   0x03
+000016 6EE5           00811         MOVWF   POSTDEC1
+000018 EC?? F0??      00812         CALL    _lcd_selectside
+00001C 52E6           00813         MOVF    POSTINC1, F
+                      00814 ;       .line   122; glcd.c     for (x = 0; x < 8; x++) {
+00001E 6A??           00815         CLRF    r0x00
+000020                00816 _00146_DS_:
+                      00817 ;       .line   124; glcd.c     lcd_setpage(x);
+000020 50??           00818         MOVF    r0x00, W
+000022 6EE5           00819         MOVWF   POSTDEC1
+000024 EC?? F0??      00820         CALL    _lcd_setpage
+000028 52E6           00821         MOVF    POSTINC1, F
+                      00822 ;       .line   127; glcd.c     lcd_setyaddr(0);
+00002A 0E00           00823         MOVLW   0x00
+00002C 6EE5           00824         MOVWF   POSTDEC1
+00002E EC?? F0??      00825         CALL    _lcd_setyaddr
+000032 52E6           00826         MOVF    POSTINC1, F
+                      00827 ;       .line   131; glcd.c     latched_lcd_data(0);
+000034 0E00           00828         MOVLW   0x00
+000036 6EE5           00829         MOVWF   POSTDEC1
+000038 EC?? F0??      00830         CALL    _latched_lcd_data
+00003C 52E6           00831         MOVF    POSTINC1, F
+                      00832 ;       .line   132; glcd.c     latched_lcd_rw(0);
+00003E 0E00           00833         MOVLW   0x00
+000040 6EE5           00834         MOVWF   POSTDEC1
+000042 EC?? F0??      00835         CALL    _latched_lcd_rw
+000046 52E6           00836         MOVF    POSTINC1, F
+                      00837 ;       .line   133; glcd.c     latched_lcd_di(1);
+000048 0E01           00838         MOVLW   0x01
+00004A 6EE5           00839         MOVWF   POSTDEC1
+00004C EC?? F0??      00840         CALL    _latched_lcd_di
+000050 52E6           00841         MOVF    POSTINC1, F
+                      00842 ;       .line   136; glcd.c     for (y = 0; y < 64; y++) {
+000052 0E40           00843         MOVLW   0x40
+000054 6E??           00844         MOVWF   r0x01
+000056                00845 _00145_DS_:
+                      00846 ;       .line   137; glcd.c     lcd_enable(); 
+000056 EC?? F0??      00847         CALL    _lcd_enable
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE 17
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-000052 2A??           00530         INCF    r0x00, F
-000054 0E08           00531         MOVLW   0x08
-000056 5C??           00532         SUBWF   r0x00, W
-000058 E3??           00533         BNC     _00146_DS_
-                      00534 ;       .line   121; glcd.c     lcd_selectside(LCD_LEFT);
-00005A 0E01           00535         MOVLW   0x01
-00005C 6EE5           00536         MOVWF   POSTDEC1
-00005E EC?? F0??      00537         CALL    _lcd_selectside
-000062 52E6           00538         MOVF    POSTINC1, F
-000064 CFE4 F000      00539         MOVFF   PREINC1, r0x02
-000068 CFE4 F000      00540         MOVFF   PREINC1, r0x01
-00006C CFE4 F000      00541         MOVFF   PREINC1, r0x00
-000070 CFE4 FFD9      00542         MOVFF   PREINC1, FSR2L
-000074 0012           00543         RETURN  
-                      00544 
-                      00545 ; ; Starting pCode block
-                      00546 S_glcd__lcd_screenon    code
-000000                00547 _lcd_screenon:
-                      00548 ;       .line   86; glcd.c      void lcd_screenon(unsigned char on) {
-000000 CFD9 FFE5      00549         MOVFF   FSR2L, POSTDEC1
-000004 CFE1 FFD9      00550         MOVFF   FSR1L, FSR2L
-000008 C??? F???      00551         MOVFF   r0x00, POSTDEC1
-00000C 0E02           00552         MOVLW   0x02
-00000E CFDB F000      00553         MOVFF   PLUSW2, r0x00
-                      00554 ;       .line   88; glcd.c      CS1 = 0;
-000012 90??           00555         BCF     _PORTCbits, 0
-                      00556 ;       .line   89; glcd.c      CS2 = 0;
-000014 92??           00557         BCF     _PORTCbits, 1
-                      00558 ;       .line   90; glcd.c      RW = 0;
-000016 92??           00559         BCF     _PORTEbits, 1
-                      00560 ;       .line   91; glcd.c      DI = 0;
-000018 90??           00561         BCF     _PORTEbits, 0
-                      00562 ;       .line   92; glcd.c      LCD_TRIS = 0;   // all outputs  
-00001A 6A??           00563         CLRF    _TRISD
-                      00564 ;       .line   93; glcd.c      LATD = 0b00111110 | (on & 0b00000001);  // main screen turn on!
-00001C 0E01           00565         MOVLW   0x01
-00001E 16??           00566         ANDWF   r0x00, F
-000020 0E3E           00567         MOVLW   0x3e
-000022 10??           00568         IORWF   r0x00, W
-000024 6E??           00569         MOVWF   _LATD
-                      00570 ;       .line   94; glcd.c      lcd_enable();
-000026 EC?? F0??      00571         CALL    _lcd_enable
-00002A CFE4 F000      00572         MOVFF   PREINC1, r0x00
-00002E CFE4 FFD9      00573         MOVFF   PREINC1, FSR2L
-000032 0012           00574         RETURN  
-                      00575 
-                      00576 ; ; Starting pCode block
-                      00577 S_glcd__lcd_reset       code
-000000                00578 _lcd_reset:
-                      00579 ;       .line   67; glcd.c      void lcd_reset(void) {
-000000 CFD9 FFE5      00580         MOVFF   FSR2L, POSTDEC1
-000004 CFE1 FFD9      00581         MOVFF   FSR1L, FSR2L
-000008 C??? F???      00582         MOVFF   r0x00, POSTDEC1
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-10-2013  23:11:01        PAGE 12
+00005A 0000           00848         nop 
+00005C 0000           00849         nop 
+00005E 50??           00850         MOVF    r0x01, W
+000060 6E??           00851         MOVWF   r0x02
+000062 04??           00852         DECF    r0x02, W
+000064 6E??           00853         MOVWF   r0x01
+                      00854 ;       .line   136; glcd.c     for (y = 0; y < 64; y++) {
+000066 50??           00855         MOVF    r0x01, W
+000068 E1??           00856         BNZ     _00145_DS_
+                      00857 ;       .line   122; glcd.c     for (x = 0; x < 8; x++) {
+00006A 2A??           00858         INCF    r0x00, F
+00006C 0E08           00859         MOVLW   0x08
+00006E 5C??           00860         SUBWF   r0x00, W
+000070 E3??           00861         BNC     _00146_DS_
+                      00862 ;       .line   143; glcd.c     lcd_selectside(LCD_LEFT);
+000072 0E01           00863         MOVLW   0x01
+000074 6EE5           00864         MOVWF   POSTDEC1
+000076 EC?? F0??      00865         CALL    _lcd_selectside
+00007A 52E6           00866         MOVF    POSTINC1, F
+00007C CFE4 F000      00867         MOVFF   PREINC1, r0x02
+000080 CFE4 F000      00868         MOVFF   PREINC1, r0x01
+000084 CFE4 F000      00869         MOVFF   PREINC1, r0x00
+000088 CFE4 FFD9      00870         MOVFF   PREINC1, FSR2L
+00008C 0012           00871         RETURN  
+                      00872 
+                      00873 ; ; Starting pCode block
+                      00874 S_glcd__lcd_screenon    code
+000000                00875 _lcd_screenon:
+                      00876 ;       .line   100; glcd.c     void lcd_screenon(unsigned char on) {
+000000 CFD9 FFE5      00877         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00878         MOVFF   FSR1L, FSR2L
+000008 C??? F???      00879         MOVFF   r0x00, POSTDEC1
+00000C 0E02           00880         MOVLW   0x02
+00000E CFDB F000      00881         MOVFF   PLUSW2, r0x00
+                      00882 ;       .line   103; glcd.c     latched_lcd_cs1(0);
+000012 0E00           00883         MOVLW   0x00
+000014 6EE5           00884         MOVWF   POSTDEC1
+000016 EC?? F0??      00885         CALL    _latched_lcd_cs1
+00001A 52E6           00886         MOVF    POSTINC1, F
+                      00887 ;       .line   105; glcd.c     latched_lcd_cs2(0);
+00001C 0E00           00888         MOVLW   0x00
+00001E 6EE5           00889         MOVWF   POSTDEC1
+000020 EC?? F0??      00890         CALL    _latched_lcd_cs2
+000024 52E6           00891         MOVF    POSTINC1, F
+                      00892 ;       .line   107; glcd.c     latched_lcd_rw(0);
+000026 0E00           00893         MOVLW   0x00
+000028 6EE5           00894         MOVWF   POSTDEC1
+00002A EC?? F0??      00895         CALL    _latched_lcd_rw
+00002E 52E6           00896         MOVF    POSTINC1, F
+                      00897 ;       .line   109; glcd.c     latched_lcd_di(0);
+000030 0E00           00898         MOVLW   0x00
+000032 6EE5           00899         MOVWF   POSTDEC1
+000034 EC?? F0??      00900         CALL    _latched_lcd_di
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE 18
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-                      00583 ;       .line   74; glcd.c      sleep_ms(1);
-00000C 0E00           00584         MOVLW   0x00
-00000E 6EE5           00585         MOVWF   POSTDEC1
-000010 0E00           00586         MOVLW   0x00
-000012 6EE5           00587         MOVWF   POSTDEC1
-000014 0E00           00588         MOVLW   0x00
-000016 6EE5           00589         MOVWF   POSTDEC1
-000018 0E01           00590         MOVLW   0x01
-00001A 6EE5           00591         MOVWF   POSTDEC1
-00001C EC?? F0??      00592         CALL    _sleep_ms
-000020 0E04           00593         MOVLW   0x04
-000022 26E1           00594         ADDWF   FSR1L, F
-                      00595 ;       .line   75; glcd.c      RESET = 1;
-000024 8A??           00596         BSF     _PORTCbits, 5
-                      00597 ;       .line   76; glcd.c      sleep_ms(1);
-000026 0E00           00598         MOVLW   0x00
-000028 6EE5           00599         MOVWF   POSTDEC1
-00002A 0E00           00600         MOVLW   0x00
-00002C 6EE5           00601         MOVWF   POSTDEC1
-00002E 0E00           00602         MOVLW   0x00
-000030 6EE5           00603         MOVWF   POSTDEC1
-000032 0E01           00604         MOVLW   0x01
-000034 6EE5           00605         MOVWF   POSTDEC1
-000036 EC?? F0??      00606         CALL    _sleep_ms
-00003A 0E04           00607         MOVLW   0x04
-00003C 26E1           00608         ADDWF   FSR1L, F
-                      00609 ;       .line   77; glcd.c      RESET = 0;
-00003E 9A??           00610         BCF     _PORTCbits, 5
-000040                00611 _00120_DS_:
-                      00612 ;       .line   80; glcd.c      while (lcd_status() & 0b00010000) {
-000040 EC?? F0??      00613         CALL    _lcd_status
-000044 6E??           00614         MOVWF   r0x00
-000046 A8??           00615         BTFSS   r0x00, 4
-000048 D???           00616         BRA     _00123_DS_
-                      00617 ;       .line   81; glcd.c      sleep_ms(1);
-00004A 0E00           00618         MOVLW   0x00
-00004C 6EE5           00619         MOVWF   POSTDEC1
-00004E 0E00           00620         MOVLW   0x00
-000050 6EE5           00621         MOVWF   POSTDEC1
-000052 0E00           00622         MOVLW   0x00
-000054 6EE5           00623         MOVWF   POSTDEC1
-000056 0E01           00624         MOVLW   0x01
-000058 6EE5           00625         MOVWF   POSTDEC1
-00005A EC?? F0??      00626         CALL    _sleep_ms
-00005E 0E04           00627         MOVLW   0x04
-000060 26E1           00628         ADDWF   FSR1L, F
-000062 D???           00629         BRA     _00120_DS_
-000064                00630 _00123_DS_:
-000064 CFE4 F000      00631         MOVFF   PREINC1, r0x00
-000068 CFE4 FFD9      00632         MOVFF   PREINC1, FSR2L
-00006C 0012           00633         RETURN  
-                      00634 
-                      00635 ; ; Starting pCode block
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-10-2013  23:11:01        PAGE 13
+000038 52E6           00901         MOVF    POSTINC1, F
+                      00902 ;       .line   112; glcd.c     latched_lcd_data(0b00111110 | (on & 0b00000001));
+00003A 0E01           00903         MOVLW   0x01
+00003C 16??           00904         ANDWF   r0x00, F
+00003E 0E3E           00905         MOVLW   0x3e
+000040 12??           00906         IORWF   r0x00, F
+000042 50??           00907         MOVF    r0x00, W
+000044 6EE5           00908         MOVWF   POSTDEC1
+000046 EC?? F0??      00909         CALL    _latched_lcd_data
+00004A 52E6           00910         MOVF    POSTINC1, F
+                      00911 ;       .line   113; glcd.c     lcd_enable();
+00004C EC?? F0??      00912         CALL    _lcd_enable
+000050 CFE4 F000      00913         MOVFF   PREINC1, r0x00
+000054 CFE4 FFD9      00914         MOVFF   PREINC1, FSR2L
+000058 0012           00915         RETURN  
+                      00916 
+                      00917 ; ; Starting pCode block
+                      00918 S_glcd__lcd_reset       code
+000000                00919 _lcd_reset:
+                      00920 ;       .line   79; glcd.c      void lcd_reset(void) {
+000000 CFD9 FFE5      00921         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00922         MOVFF   FSR1L, FSR2L
+000008 C??? F???      00923         MOVFF   r0x00, POSTDEC1
+                      00924 ;       .line   86; glcd.c      sleep_ms(1);
+00000C 0E00           00925         MOVLW   0x00
+00000E 6EE5           00926         MOVWF   POSTDEC1
+000010 0E00           00927         MOVLW   0x00
+000012 6EE5           00928         MOVWF   POSTDEC1
+000014 0E00           00929         MOVLW   0x00
+000016 6EE5           00930         MOVWF   POSTDEC1
+000018 0E01           00931         MOVLW   0x01
+00001A 6EE5           00932         MOVWF   POSTDEC1
+00001C EC?? F0??      00933         CALL    _sleep_ms
+000020 0E04           00934         MOVLW   0x04
+000022 26E1           00935         ADDWF   FSR1L, F
+                      00936 ;       .line   88; glcd.c      latched_lcd_rst(1);
+000024 0E01           00937         MOVLW   0x01
+000026 6EE5           00938         MOVWF   POSTDEC1
+000028 EC?? F0??      00939         CALL    _latched_lcd_rst
+00002C 52E6           00940         MOVF    POSTINC1, F
+                      00941 ;       .line   89; glcd.c      sleep_ms(1);
+00002E 0E00           00942         MOVLW   0x00
+000030 6EE5           00943         MOVWF   POSTDEC1
+000032 0E00           00944         MOVLW   0x00
+000034 6EE5           00945         MOVWF   POSTDEC1
+000036 0E00           00946         MOVLW   0x00
+000038 6EE5           00947         MOVWF   POSTDEC1
+00003A 0E01           00948         MOVLW   0x01
+00003C 6EE5           00949         MOVWF   POSTDEC1
+00003E EC?? F0??      00950         CALL    _sleep_ms
+000042 0E04           00951         MOVLW   0x04
+000044 26E1           00952         ADDWF   FSR1L, F
+                      00953 ;       .line   91; glcd.c      latched_lcd_rst(0);
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE 19
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-                      00636 S_glcd__lcd_status      code
-000000                00637 _lcd_status:
-                      00638 ;       .line   44; glcd.c      unsigned char lcd_status(void) {
-000000 CFD9 FFE5      00639         MOVFF   FSR2L, POSTDEC1
-000004 CFE1 FFD9      00640         MOVFF   FSR1L, FSR2L
-000008 C??? F???      00641         MOVFF   r0x00, POSTDEC1
-00000C C??? F???      00642         MOVFF   r0x01, POSTDEC1
-                      00643 ;       .line   51; glcd.c      _lcd_tris = LCD_TRIS;
-000010 C??? F???      00644         MOVFF   _TRISD, r0x00
-                      00645 ;       .line   54; glcd.c      LCD_TRIS = 0xFF;        // all inputs
-000014 0EFF           00646         MOVLW   0xff
-000016 6E??           00647         MOVWF   _TRISD
-                      00648 ;       .line   55; glcd.c      DI = 0; RW = 1;         // command/read
-000018 90??           00649         BCF     _PORTEbits, 0
-00001A 82??           00650         BSF     _PORTEbits, 1
-                      00651 ;       .line   57; glcd.c      lcd_enable();
-00001C EC?? F0??      00652         CALL    _lcd_enable
-                      00653 ;       .line   58; glcd.c      _status = LCD_DATA;
-000020 C??? F???      00654         MOVFF   _PORTD, r0x01
-                      00655 ;       .line   61; glcd.c      LCD_TRIS = _lcd_tris;
-000024 C??? F???      00656         MOVFF   r0x00, _TRISD
-                      00657 ;       .line   63; glcd.c      return _status;
-000028 50??           00658         MOVF    r0x01, W
-00002A CFE4 F000      00659         MOVFF   PREINC1, r0x01
-00002E CFE4 F000      00660         MOVFF   PREINC1, r0x00
-000032 CFE4 FFD9      00661         MOVFF   PREINC1, FSR2L
-000036 0012           00662         RETURN  
-                      00663 
-                      00664 ; ; Starting pCode block
-                      00665 S_glcd__lcd_enable      code
-000000                00666 _lcd_enable:
-                      00667 ;       .line   36; glcd.c      void lcd_enable(void) {
-000000 CFD9 FFE5      00668         MOVFF   FSR2L, POSTDEC1
-000004 CFE1 FFD9      00669         MOVFF   FSR1L, FSR2L
-                      00670 ;       .line   37; glcd.c      ENABLE = 1;
-000008 84??           00671         BSF     _PORTEbits, 2
-00000A 0000           00672         nop 
-00000C 0000           00673         nop 
-                      00674 ;       .line   39; glcd.c      ENABLE = 0;
-00000E 94??           00675         BCF     _PORTEbits, 2
-000010 0000           00676         nop 
-000012 0000           00677         nop 
-000014 CFE4 FFD9      00678         MOVFF   PREINC1, FSR2L
-000018 0012           00679         RETURN  
-                      00680 
-                      00681 ; ; Starting pCode block
-                      00682 S_glcd__lcd_init        code
-000000                00683 _lcd_init:
-                      00684 ;       .line   15; glcd.c      void lcd_init(void) {
-000000 CFD9 FFE5      00685         MOVFF   FSR2L, POSTDEC1
-000004 CFE1 FFD9      00686         MOVFF   FSR1L, FSR2L
-                      00687 ;       .line   16; glcd.c      LCD_TRIS = 0x00;
-000008 6A??           00688         CLRF    _TRISD
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-10-2013  23:11:01        PAGE 14
+000046 0E00           00954         MOVLW   0x00
+000048 6EE5           00955         MOVWF   POSTDEC1
+00004A EC?? F0??      00956         CALL    _latched_lcd_rst
+00004E 52E6           00957         MOVF    POSTINC1, F
+000050                00958 _00120_DS_:
+                      00959 ;       .line   94; glcd.c      while (lcd_status() & 0b00010000) {
+000050 EC?? F0??      00960         CALL    _lcd_status
+000054 6E??           00961         MOVWF   r0x00
+000056 A8??           00962         BTFSS   r0x00, 4
+000058 D???           00963         BRA     _00123_DS_
+                      00964 ;       .line   95; glcd.c      sleep_ms(1);
+00005A 0E00           00965         MOVLW   0x00
+00005C 6EE5           00966         MOVWF   POSTDEC1
+00005E 0E00           00967         MOVLW   0x00
+000060 6EE5           00968         MOVWF   POSTDEC1
+000062 0E00           00969         MOVLW   0x00
+000064 6EE5           00970         MOVWF   POSTDEC1
+000066 0E01           00971         MOVLW   0x01
+000068 6EE5           00972         MOVWF   POSTDEC1
+00006A EC?? F0??      00973         CALL    _sleep_ms
+00006E 0E04           00974         MOVLW   0x04
+000070 26E1           00975         ADDWF   FSR1L, F
+000072 D???           00976         BRA     _00120_DS_
+000074                00977 _00123_DS_:
+000074 CFE4 F000      00978         MOVFF   PREINC1, r0x00
+000078 CFE4 FFD9      00979         MOVFF   PREINC1, FSR2L
+00007C 0012           00980         RETURN  
+                      00981 
+                      00982 ; ; Starting pCode block
+                      00983 S_glcd__lcd_status      code
+000000                00984 _lcd_status:
+                      00985 ;       .line   52; glcd.c      unsigned char lcd_status(void) {
+000000 CFD9 FFE5      00986         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      00987         MOVFF   FSR1L, FSR2L
+                      00988 ;       .line   74; glcd.c      sleep_ms(100);  
+000008 0E00           00989         MOVLW   0x00
+00000A 6EE5           00990         MOVWF   POSTDEC1
+00000C 0E00           00991         MOVLW   0x00
+00000E 6EE5           00992         MOVWF   POSTDEC1
+000010 0E00           00993         MOVLW   0x00
+000012 6EE5           00994         MOVWF   POSTDEC1
+000014 0E64           00995         MOVLW   0x64
+000016 6EE5           00996         MOVWF   POSTDEC1
+000018 EC?? F0??      00997         CALL    _sleep_ms
+00001C 0E04           00998         MOVLW   0x04
+00001E 26E1           00999         ADDWF   FSR1L, F
+                      01000 ;       .line   75; glcd.c      return 1;       // no hardware support for reading from latch 4
+000020 0E01           01001         MOVLW   0x01
+000022 CFE4 FFD9      01002         MOVFF   PREINC1, FSR2L
+000026 0012           01003         RETURN  
+                      01004 
+                      01005 ; ; Starting pCode block
+                      01006 S_glcd__lcd_enable      code
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE 20
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-                      00689 ;       .line   17; glcd.c      ENABLE_TRIS = 0;
-00000A 94??           00690         BCF     _TRISEbits, 2
-                      00691 ;       .line   18; glcd.c      RW_TRIS = 0;
-00000C 92??           00692         BCF     _TRISEbits, 1
-                      00693 ;       .line   19; glcd.c      DI_TRIS = 0;
-00000E 90??           00694         BCF     _TRISEbits, 0
-                      00695 ;       .line   20; glcd.c      RESET_TRIS = 0;
-000010 9A??           00696         BCF     _TRISCbits, 5
-                      00697 ;       .line   21; glcd.c      CS1_TRIS = 0;
-000012 90??           00698         BCF     _TRISCbits, 0
-                      00699 ;       .line   22; glcd.c      CS2_TRIS = 0;
-000014 92??           00700         BCF     _TRISCbits, 1
-                      00701 ;       .line   24; glcd.c      CS1 = 1;
-000016 80??           00702         BSF     _PORTCbits, 0
-                      00703 ;       .line   25; glcd.c      CS2 = 1;
-000018 82??           00704         BSF     _PORTCbits, 1
-                      00705 ;       .line   31; glcd.c      lcd_reset();
-00001A EC?? F0??      00706         CALL    _lcd_reset
-                      00707 ;       .line   32; glcd.c      lcd_screenon(1);
-00001E 0E01           00708         MOVLW   0x01
-000020 6EE5           00709         MOVWF   POSTDEC1
-000022 EC?? F0??      00710         CALL    _lcd_screenon
-000026 52E6           00711         MOVF    POSTINC1, F
-                      00712 ;       .line   33; glcd.c      lcd_cls();
-000028 EC?? F0??      00713         CALL    _lcd_cls
-00002C CFE4 FFD9      00714         MOVFF   PREINC1, FSR2L
-000030 0012           00715         RETURN  
-                      00716 
-                      00717 
-                      00718 
-                      00719 ; Statistics:
-                      00720 ; code size:      846 (0x034e) bytes ( 0.65%)
-                      00721 ;                 423 (0x01a7) words
-                      00722 ; udata size:       1 (0x0001) bytes ( 0.03%)
-                      00723 ; access size:      3 (0x0003) bytes
-                      00724 
-                      00725 
-                      00726         end
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-10-2013  23:11:01        PAGE 15
+000000                01007 _lcd_enable:
+                      01008 ;       .line   42; glcd.c      void lcd_enable(void) {
+000000 CFD9 FFE5      01009         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      01010         MOVFF   FSR1L, FSR2L
+                      01011 ;       .line   44; glcd.c      latched_lcd_enable(1);
+000008 0E01           01012         MOVLW   0x01
+00000A 6EE5           01013         MOVWF   POSTDEC1
+00000C EC?? F0??      01014         CALL    _latched_lcd_enable
+000010 52E6           01015         MOVF    POSTINC1, F
+000012 0000           01016         nop 
+000014 0000           01017         nop 
+                      01018 ;       .line   47; glcd.c      latched_lcd_enable(0);
+000016 0E00           01019         MOVLW   0x00
+000018 6EE5           01020         MOVWF   POSTDEC1
+00001A EC?? F0??      01021         CALL    _latched_lcd_enable
+00001E 52E6           01022         MOVF    POSTINC1, F
+000020 0000           01023         nop 
+000022 0000           01024         nop 
+000024 CFE4 FFD9      01025         MOVFF   PREINC1, FSR2L
+000028 0012           01026         RETURN  
+                      01027 
+                      01028 ; ; Starting pCode block
+                      01029 S_glcd__lcd_init        code
+000000                01030 _lcd_init:
+                      01031 ;       .line   17; glcd.c      void lcd_init(void) {
+000000 CFD9 FFE5      01032         MOVFF   FSR2L, POSTDEC1
+000004 CFE1 FFD9      01033         MOVFF   FSR1L, FSR2L
+                      01034 ;       .line   18; glcd.c      latched_lcd_power(1);
+000008 0E01           01035         MOVLW   0x01
+00000A 6EE5           01036         MOVWF   POSTDEC1
+00000C EC?? F0??      01037         CALL    _latched_lcd_power
+000010 52E6           01038         MOVF    POSTINC1, F
+000012 ????           01039         BANKSEL __latch_3_data
+                      01040 ;       .line   26; glcd.c      _latch_3_data = 0x00;
+000014 6B??           01041         CLRF    __latch_3_data, B
+                      01042 ;       .line   29; glcd.c      latched_lcd_cs1(1);
+000016 0E01           01043         MOVLW   0x01
+000018 6EE5           01044         MOVWF   POSTDEC1
+00001A EC?? F0??      01045         CALL    _latched_lcd_cs1
+00001E 52E6           01046         MOVF    POSTINC1, F
+                      01047 ;       .line   31; glcd.c      latched_lcd_cs2(1);
+000020 0E01           01048         MOVLW   0x01
+000022 6EE5           01049         MOVWF   POSTDEC1
+000024 EC?? F0??      01050         CALL    _latched_lcd_cs2
+000028 52E6           01051         MOVF    POSTINC1, F
+                      01052 ;       .line   37; glcd.c      lcd_reset();
+00002A EC?? F0??      01053         CALL    _lcd_reset
+                      01054 ;       .line   38; glcd.c      lcd_screenon(1);
+00002E 0E01           01055         MOVLW   0x01
+000030 6EE5           01056         MOVWF   POSTDEC1
+000032 EC?? F0??      01057         CALL    _lcd_screenon
+000036 52E6           01058         MOVF    POSTINC1, F
+                      01059 ;       .line   39; glcd.c      lcd_cls();
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE 21
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+000038 EC?? F0??      01060         CALL    _lcd_cls
+00003C CFE4 FFD9      01061         MOVFF   PREINC1, FSR2L
+000040 0012           01062         RETURN  
+                      01063 
+                      01064 
+                      01065 
+                      01066 ; Statistics:
+                      01067 ; code size:     1458 (0x05b2) bytes ( 1.11%)
+                      01068 ;                 729 (0x02d9) words
+                      01069 ; udata size:       2 (0x0002) bytes ( 0.05%)
+                      01070 ; access size:      3 (0x0003) bytes
+                      01071 
+                      01072 
+                      01073         end
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE 22
 
 
 SYMBOL TABLE
@@ -823,21 +1212,35 @@ POSTINC1                          00000FE6
 PREINC1                           00000FE4
 STATUS                            00000FD8
 WREG                              00000FE8
-_00120_DS_                        00000040
-_00123_DS_                        00000064
-_00145_DS_                        0000003E
+_00120_DS_                        00000050
+_00123_DS_                        00000074
+_00145_DS_                        00000056
 _00146_DS_                        00000020
 _00178_DS_                        0000000C
 _00181_DS_                        0000001C
 _00189_DS_                        00000016
-_00200_DS_                        0000001A
-_00201_DS_                        0000001C
-_00203_DS_                        00000024
-_00205_DS_                        00000026
+_00200_DS_                        00000022
+_00201_DS_                        0000002C
+_00203_DS_                        0000003C
+_00205_DS_                        00000046
 _00225_DS_                        00000030
 _00226_DS_                        0000003A
 _00235_DS_                        00000084
 _00236_DS_                        0000007E
+_00242_DS_                        00000022
+_00243_DS_                        0000002A
+_00250_DS_                        00000022
+_00251_DS_                        0000002A
+_00258_DS_                        00000022
+_00259_DS_                        0000002A
+_00266_DS_                        00000022
+_00267_DS_                        0000002A
+_00274_DS_                        00000022
+_00275_DS_                        0000002A
+_00282_DS_                        00000022
+_00283_DS_                        0000002A
+_00290_DS_                        00000022
+_00291_DS_                        0000002A
 _ADCON0                           00000000
 _ADCON0bits                       00000000
 _ADCON1                           00000000
@@ -854,6 +1257,12 @@ _BAUDCTLbits                      00000000
 _BSR                              00000000
 _CCP1CON                          00000000
 _CCP1CONbits                      00000000
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE 23
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 _CCP2CON                          00000000
 _CCP2CONbits                      00000000
 _CCPR1                            00000000
@@ -868,12 +1277,6 @@ _CVRCON                           00000000
 _CVRCONbits                       00000000
 _DDRA                             00000000
 _DDRAbits                         00000000
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-10-2013  23:11:01        PAGE 16
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 _DDRB                             00000000
 _DDRBbits                         00000000
 _DDRC                             00000000
@@ -913,6 +1316,12 @@ _IPR2                             00000000
 _IPR2bits                         00000000
 _LATA                             00000000
 _LATAbits                         00000000
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE 24
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 _LATB                             00000000
 _LATBbits                         00000000
 _LATC                             00000000
@@ -927,12 +1336,6 @@ _OSCCON                           00000000
 _OSCCONbits                       00000000
 _OSCTUNE                          00000000
 _OSCTUNEbits                      00000000
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-10-2013  23:11:01        PAGE 17
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 _PC                               00000000
 _PCL                              00000000
 _PCLATH                           00000000
@@ -972,6 +1375,12 @@ _PROD                             00000000
 _PRODH                            00000000
 _PRODL                            00000000
 _PWM1CON                          00000000
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE 25
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 _PWM1CONbits                      00000000
 _RCON                             00000000
 _RCONbits                         00000000
@@ -986,12 +1395,6 @@ _SSPCON1                          00000000
 _SSPCON1bits                      00000000
 _SSPCON2                          00000000
 _SSPCON2bits                      00000000
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-10-2013  23:11:01        PAGE 18
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 _SSPSTAT                          00000000
 _SSPSTATbits                      00000000
 _STATUS                           00000000
@@ -1031,6 +1434,12 @@ _TRISB                            00000000
 _TRISBbits                        00000000
 _TRISC                            00000000
 _TRISCbits                        00000000
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-12-2013  04:00:40        PAGE 26
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 _TRISD                            00000000
 _TRISDbits                        00000000
 _TRISE                            00000000
@@ -1042,15 +1451,18 @@ _WDTCON                           00000000
 _WDTCONbits                       00000000
 _WREG                             00000000
 __18F4620                         00000001
+__latch_3_data                    00000000
+_latched_lcd_cs1                  00000000
+_latched_lcd_cs2                  00000000
+_latched_lcd_data                 00000000
+_latched_lcd_di                   00000000
+_latched_lcd_enable               00000000
+_latched_lcd_power                00000000
+_latched_lcd_rst                  00000000
+_latched_lcd_rw                   00000000
 _lcd_buffer                       00000000
 _lcd_cls                          00000000
 _lcd_enable                       00000000
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-10-2013  23:11:01        PAGE 19
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 _lcd_init                         00000000
 _lcd_plot_pixel                   00000000
 _lcd_read                         00000000

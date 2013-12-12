@@ -3,6 +3,7 @@
 
 // outputs
 #define LATCH_DATA			LATD
+#define LATCH_DATA_READ		PORTD
 #define LATCH_DATA_TRIS		TRISD
 
 #define LATCH_1				LATAbits.LATA4
@@ -69,7 +70,7 @@
 
 #define PHOTO_SENSOR_TRIS	PORTBbits.RB4
 
-#define clrwdt() __asm clrwdt __endasm
+//#define clrwdt() __asm clrwdt __endasm
 
 void sleep_ms(unsigned long ms);
 void init_timers();
@@ -77,3 +78,4 @@ void init_latches();
 
 void set_ac_power(unsigned char header_mask, unsigned char value);
 unsigned char get_inputs();
+void _debug();
