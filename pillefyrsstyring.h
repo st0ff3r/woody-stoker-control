@@ -2,17 +2,42 @@
 #define TIMER3_RELOAD	0x0000	// ~ 131 ms @ 4MHz
 
 // outputs
-#define EXT_FEEDER_L1		PORTBbits.RB0    // Ekstern snegl
-#define EXT_FEEDER_L1_TRIS	TRISBbits.TRISB0
+#define LATCH_DATA			LATD
+#define LATCH_DATA_TRIS		TRISD
 
-#define FAN_L2				PORTBbits.RB1    // Blæser
-#define FAN_L2_TRIS			TRISBbits.TRISB1
+#define LATCH_1				LATAbits.LATA4
+#define LATCH_1_TRIS		TRISAbits.TRISA4
+#define LATCH_1_ENABLED		0x0	// inverted
+#define LATCH_1_DISABLED	0x1	// inverted
 
-#define INT_FEEDER_L3		PORTBbits.RB2    // Intern snegl
-#define INT_FEEDER_L3_TRIS	TRISBbits.TRISB2
+#define LATCH_2				LATAbits.LATA7
+#define LATCH_2_TRIS		TRISAbits.TRISA7
+#define LATCH_2_ENABLED		0x1
+#define LATCH_2_DISABLED	0x0
 
-#define HEATER_T3_L4		PORTBbits.RB3    // Eltænder via T3
-#define HEATER_T3_L4_TRIS	TRISBbits.TRISB3
+#define LATCH_3				LATAbits.LATA6
+#define LATCH_3_TRIS		TRISAbits.TRISA6
+#define LATCH_3_ENABLED		0x1
+#define LATCH_3_DISABLED	0x0
+
+#define LATCH_4				LATCbits.LATC2
+#define LATCH_4_TRIS		TRISCbits.TRISC2
+#define LATCH_4_ENABLED		0x1
+#define LATCH_4_DISABLED	0x0
+
+#define RELAY				LATCbits.LATC5    // Relæ
+#define RELAY_TRIS			TRISCbits.TRISC5
+
+
+#define EXT_FEEDER_L1		0b00000001		// Ekstern snegl
+#define FAN_L2				0b00000010		// Blæser
+#define INT_FEEDER_L3		0b00000100		// Intern snegl
+#define HEATER_L4			0b00001000		// Eltænder via T3
+#define L5					0b00010000
+#define L6					0b00100000
+
+
+
 
 // check it...
 //#define EXT_CONTACT		PORTCbits.RC3
@@ -47,6 +72,8 @@
 #define clrwdt() __asm clrwdt __endasm
 
 void sleep_ms(unsigned long ms);
-void my_usart_open();
-unsigned char read_EEPROM(unsigned char address);
-void write_EEPROM(unsigned char address, unsigned char d);
+void init_timers();
+void init_latches();
+
+void set_ac_power(unsigned char header_mask, unsigned char value);
+unsigned char get_inputs();
