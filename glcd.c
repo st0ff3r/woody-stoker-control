@@ -71,7 +71,7 @@ unsigned char lcd_status(void) {
 	
 	return _status;
 	*/
-	sleep_ms(100);	
+	sleep_ms(10);	
 	return 1;	// no hardware support for reading from latch 4
 }
 
@@ -91,9 +91,9 @@ void lcd_reset(void) {
 	latched_lcd_rst(0);
 
     // check status, and wait if necessary
-	while (lcd_status() & 0b00010000) {
-		sleep_ms(1);
-	}
+//	while (lcd_status() & 0b00010000) {
+//		sleep_ms(1);
+//	}
 }
 
 
@@ -175,9 +175,9 @@ void lcd_setyaddr(unsigned char y) {
 
 
 void lcd_waitbusy(void) {
-	while (lcd_status() & 0b10000000) {
+//	while (lcd_status() & 0b10000000) {
 		delay_2us();
-	}
+//	}
 }
 
 
@@ -220,8 +220,9 @@ void lcd_selectside(unsigned char sides) {
 
 
 unsigned char lcd_read (void) {
-/*	unsigned char d;
-	
+	unsigned char d;
+
+/*	
 	LCD_TRIS = 0xFF;
 	RW = 1;	// read
 	DI = 1;	// data
@@ -230,8 +231,10 @@ unsigned char lcd_read (void) {
 	d = LCD_DATA;
 	LCD_TRIS = 0x00;
 	
-	return d;*/
-	return 1;
+	return d;
+*/
+	lcd_enable();
+	return 0;
 }
 
 

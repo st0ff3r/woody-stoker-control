@@ -120,3 +120,4 @@ D7				RD7
 Kilde: <http://www.piclist.com/techref/microchip/language/c/ks0107.htm>
 <http://techref.massmind.org/techref/microchip/language/c/ks0107.htm>
 <http://www.engineersgarage.com/sites/default/files/Graphics%20LCD%20JHD12864E%20Datasheet.pdf>
+<http://www.crystalfontz.com/products/document/1155/CFAG12864BWGHV_v2.0.pdf>

@@ -85,7 +85,8 @@ clean:
 	rm -f *.adb *.asm *.cod *.cof *.hex *.lst *.map *.o *.sym *.lib
 
 sim:
-	$(GPSIM) -p$(GPSIM_PROCESSOR) -c pillefyrsstyring.stc -s pillefyrsstyring.cod && killall -9 X11.bin
+	$(GPSIM) -p$(GPSIM_PROCESSOR) -c pillefyrsstyring.stc -s pillefyrsstyring.cod
+	# && killall -9 X11.bin
 
 flash:
 	$(PK2CMD) -F pillefyrsstyring.hex -M

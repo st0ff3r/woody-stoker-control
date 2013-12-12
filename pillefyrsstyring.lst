@@ -1,6 +1,6 @@
 gplink-1.2.0 #980 (Oct 25 2013)
 Copyright (c) 1998-2013 gputils project
-Listing File Generated: 12-12-2013  04:00:40
+Listing File Generated: 12-12-2013  21:26:20
  
  
 Address  Value    Disassembly              Source
@@ -8,7 +8,7 @@ Address  Value    Disassembly              Source
                                            ;--------------------------------------------------------
                                            ; File Created by SDCC : free open source ANSI-C Compiler
                                            ; Version 3.3.0 #8604 (Oct 27 2013) (Mac OS X x86_64)
-                                           ; This file was generated Thu Dec 12 04:00:40 2013
+                                           ; This file was generated Thu Dec 12 21:26:20 2013
                                            ;--------------------------------------------------------
                                            ; PIC16 port for the Microchip 16-bit core micros
                                            ;--------------------------------------------------------
@@ -24,6 +24,7 @@ Address  Value    Disassembly              Source
                                            ;--------------------------------------------------------
                                            ; public variables in this module
                                            ;--------------------------------------------------------
+                                           	global	_last_inputs
                                            	global	_last_button
                                            	global	_lcd_buf
                                            	global	_chimney_temp
@@ -37,7 +38,6 @@ Address  Value    Disassembly              Source
                                            	global	_get_inputs
                                            	global	__debug
                                            	global	_timer_2
-                                           	global	_last_inputs
                                            	global	_main
                                            
                                            ;--------------------------------------------------------
@@ -230,11 +230,9 @@ Address  Value    Disassembly              Source
                                            	extern	_TOSL
                                            	extern	_TOSH
                                            	extern	_TOSU
-                                           	extern	_usart_open
                                            	extern	_usart_drdy
                                            	extern	_usart_getc
                                            	extern	_usart_putc
-                                           	extern	_lcd_init
                                            	extern	_latched_lcd_power
                                            	extern	__mullong
                                            
@@ -296,10 +294,10 @@ Address  Value    Disassembly              Source
                                            _last_button	res	1
                                            
                                            udata_pillefyrsstyring_6	udata
-                                           _timer_2	res	4
+                                           _last_inputs	res	1
                                            
                                            udata_pillefyrsstyring_7	udata
-                                           _last_inputs	res	1
+                                           _timer_2	res	4
                                            
                                            ;--------------------------------------------------------
                                            ; interrupt vector
@@ -312,7 +310,7 @@ Address  Value    Disassembly              Source
                                            ; ;-----------------------------------------
                                            S_pillefyrsstyring_ivec_0x1_timer_control	code	0X000008
                                            ivec_0x1_timer_control:
-000008   ef84     goto    0x508            	GOTO	_timer_control
+000008   ef53     goto    0x4a6            	GOTO	_timer_control
 00000a   f002
                                            
                                            ; I code from now on!
@@ -320,360 +318,304 @@ Address  Value    Disassembly              Source
                                            S_pillefyrsstyring__main	code
                                            _main:
                                            ;	.line	27; pillefyrsstyring.c	OSCCONbits.SCS = 0x10;
-000370   50d3     movf    0xd3, 0, 0       	MOVF	_OSCCONbits, W
-000372   0bfc     andlw   0xfc             	ANDLW	0xfc
-000374   6ed3     movwf   0xd3, 0          	MOVWF	_OSCCONbits
+000414   50d3     movf    0xd3, 0, 0       	MOVF	_OSCCONbits, W
+000416   0bfc     andlw   0xfc             	ANDLW	0xfc
+000418   6ed3     movwf   0xd3, 0          	MOVWF	_OSCCONbits
                                            ;	.line	28; pillefyrsstyring.c	OSCCONbits.IRCF = 0x6;	// 4 MHz
-000376   50d3     movf    0xd3, 0, 0       	MOVF	_OSCCONbits, W
-000378   0b8f     andlw   0x8f             	ANDLW	0x8f
-00037a   0960     iorlw   0x60             	IORLW	0x60
-00037c   6ed3     movwf   0xd3, 0          	MOVWF	_OSCCONbits
-00037e   0100     movlb   0                	BANKSEL	_timer_2
+00041a   50d3     movf    0xd3, 0, 0       	MOVF	_OSCCONbits, W
+00041c   0b8f     andlw   0x8f             	ANDLW	0x8f
+00041e   0960     iorlw   0x60             	IORLW	0x60
+000420   6ed3     movwf   0xd3, 0          	MOVWF	_OSCCONbits
+000422   0100     movlb   0                	BANKSEL	_timer_2
                                            ;	.line	30; pillefyrsstyring.c	timer_2 = 0;
-000380   6b96     clrf    0x96, 0x1        	CLRF	_timer_2, B
-000382   0100     movlb   0                	BANKSEL	(_timer_2 + 1)
-000384   6b97     clrf    0x97, 0x1        	CLRF	(_timer_2 + 1), B
-000386   0100     movlb   0                	BANKSEL	(_timer_2 + 2)
-000388   6b98     clrf    0x98, 0x1        	CLRF	(_timer_2 + 2), B
-00038a   0100     movlb   0                	BANKSEL	(_timer_2 + 3)
-00038c   6b99     clrf    0x99, 0x1        	CLRF	(_timer_2 + 3), B
-00038e   0100     movlb   0                	BANKSEL	_boiler_temp
+000424   6b96     clrf    0x96, 0x1        	CLRF	_timer_2, B
+000426   0100     movlb   0                	BANKSEL	(_timer_2 + 1)
+000428   6b97     clrf    0x97, 0x1        	CLRF	(_timer_2 + 1), B
+00042a   0100     movlb   0                	BANKSEL	(_timer_2 + 2)
+00042c   6b98     clrf    0x98, 0x1        	CLRF	(_timer_2 + 2), B
+00042e   0100     movlb   0                	BANKSEL	(_timer_2 + 3)
+000430   6b99     clrf    0x99, 0x1        	CLRF	(_timer_2 + 3), B
+000432   0100     movlb   0                	BANKSEL	_boiler_temp
                                            ;	.line	31; pillefyrsstyring.c	boiler_temp = 0;
-000390   6bb0     clrf    0xb0, 0x1        	CLRF	_boiler_temp, B
-000392   0100     movlb   0                	BANKSEL	(_boiler_temp + 1)
-000394   6bb1     clrf    0xb1, 0x1        	CLRF	(_boiler_temp + 1), B
-000396   0100     movlb   0                	BANKSEL	_smoke_temp
+000434   6bb0     clrf    0xb0, 0x1        	CLRF	_boiler_temp, B
+000436   0100     movlb   0                	BANKSEL	(_boiler_temp + 1)
+000438   6bb1     clrf    0xb1, 0x1        	CLRF	(_boiler_temp + 1), B
+00043a   0100     movlb   0                	BANKSEL	_smoke_temp
                                            ;	.line	32; pillefyrsstyring.c	smoke_temp = 0;
-000398   6bb2     clrf    0xb2, 0x1        	CLRF	_smoke_temp, B
-00039a   0100     movlb   0                	BANKSEL	(_smoke_temp + 1)
-00039c   6bb3     clrf    0xb3, 0x1        	CLRF	(_smoke_temp + 1), B
-00039e   0100     movlb   0                	BANKSEL	_chimney_temp
+00043c   6bb2     clrf    0xb2, 0x1        	CLRF	_smoke_temp, B
+00043e   0100     movlb   0                	BANKSEL	(_smoke_temp + 1)
+000440   6bb3     clrf    0xb3, 0x1        	CLRF	(_smoke_temp + 1), B
+000442   0100     movlb   0                	BANKSEL	_chimney_temp
                                            ;	.line	33; pillefyrsstyring.c	chimney_temp = 0;
-0003a0   6bb4     clrf    0xb4, 0x1        	CLRF	_chimney_temp, B
-0003a2   0100     movlb   0                	BANKSEL	(_chimney_temp + 1)
-0003a4   6bb5     clrf    0xb5, 0x1        	CLRF	(_chimney_temp + 1), B
+000444   6bb4     clrf    0xb4, 0x1        	CLRF	_chimney_temp, B
+000446   0100     movlb   0                	BANKSEL	(_chimney_temp + 1)
+000448   6bb5     clrf    0xb5, 0x1        	CLRF	(_chimney_temp + 1), B
                                            ;	.line	35; pillefyrsstyring.c	init_timers();
-0003a6   ec87     call    0xb0e, 0         	CALL	_init_timers
-0003a8   f005
-                                           ;	.line	42; pillefyrsstyring.c	12     // 19200 kbps @ 4 MHz
-0003aa   0e00     movlw   0                	MOVLW	0x00
-0003ac   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0003ae   0e0c     movlw   0xc              	MOVLW	0x0c
-0003b0   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0003b2   0e7c     movlw   0x7c             	MOVLW	0x7c
-0003b4   ec13     call    0x626, 0         	CALL	_usart_open
-0003b6   f003
-0003b8   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-0003ba   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-                                           ;	.line	59; pillefyrsstyring.c	init_latches();
-0003bc   ec17     call    0xc2e, 0         	CALL	_init_latches
-0003be   f006
-                                           ;	.line	60; pillefyrsstyring.c	lcd_init();
-0003c0   ec7c     call    0x8f8, 0         	CALL	_lcd_init
-0003c2   f004
-                                           ;	.line	62; pillefyrsstyring.c	sleep_ms(1000);
-0003c4   0e00     movlw   0                	MOVLW	0x00
-0003c6   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0003c8   0e00     movlw   0                	MOVLW	0x00
-0003ca   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0003cc   0e03     movlw   0x3              	MOVLW	0x03
-0003ce   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0003d0   0ee8     movlw   0xe8             	MOVLW	0xe8
-0003d2   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0003d4   ec10     call    0x220, 0         	CALL	_sleep_ms
-0003d6   f001
-0003d8   0e04     movlw   0x4              	MOVLW	0x04
-0003da   26e1     addwf   0xe1, 0x1, 0     	ADDWF	FSR1L, F
-                                           ;	.line	63; pillefyrsstyring.c	set_ac_power(0x00, 0x00);
-0003dc   0e00     movlw   0                	MOVLW	0x00
-0003de   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0003e0   0e00     movlw   0                	MOVLW	0x00
-0003e2   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0003e4   ec9d     call    0x93a, 0         	CALL	_set_ac_power
-0003e6   f004
-0003e8   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-0003ea   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-                                           ;	.line	64; pillefyrsstyring.c	RELAY = 1;
-0003ec   8a8b     bsf     0x8b, 0x5, 0     	BSF	_LATCbits, 5
-                                           ;	.line	66; pillefyrsstyring.c	last_inputs = get_inputs();
-0003ee   ec05     call    0xc0a, 0         	CALL	_get_inputs
-0003f0   f006
-0003f2   0100     movlb   0                	BANKSEL	_last_inputs
-0003f4   6fb7     movwf   0xb7, 0x1        	MOVWF	_last_inputs, B
-                                           _00108_DS_:
-                                           ;	.line	71; pillefyrsstyring.c	if (get_inputs() != last_inputs) {
-0003f6   ec05     call    0xc0a, 0         	CALL	_get_inputs
-0003f8   f006
-0003fa   6e00     movwf   0, 0             	MOVWF	r0x00
-0003fc   5000     movf    0, 0, 0          	MOVF	r0x00, W
-0003fe   0100     movlb   0                	BANKSEL	_last_inputs
-000400   19b7     xorwf   0xb7, 0, 0x1     	XORWF	_last_inputs, W, B
-000402   e006     bz      0x410            	BZ	_00106_DS_
-                                           ;	.line	72; pillefyrsstyring.c	last_inputs = get_inputs();
-000404   ec05     call    0xc0a, 0         	CALL	_get_inputs
-000406   f006
-000408   0100     movlb   0                	BANKSEL	_last_inputs
-00040a   6fb7     movwf   0xb7, 0x1        	MOVWF	_last_inputs, B
-                                           ;	.line	73; pillefyrsstyring.c	_debug();
-00040c   ecc3     call    0x786, 0         	CALL	__debug
-00040e   f003
+00044a   ecfc     call    0x9f8, 0         	CALL	_init_timers
+00044c   f004
+                                           ;	.line	60; pillefyrsstyring.c	init_latches();
+00044e   ec79     call    0xaf2, 0         	CALL	_init_latches
+000450   f005
+                                           ;	.line	61; pillefyrsstyring.c	latched_lcd_power(1);
+000452   0e01     movlw   0x1              	MOVLW	0x01
+000454   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000456   ecdf     call    0x9be, 0         	CALL	_latched_lcd_power
+000458   f004
+00045a   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+                                           ;	.line	64; pillefyrsstyring.c	sleep_ms(1000);
+00045c   0e00     movlw   0                	MOVLW	0x00
+00045e   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000460   0e00     movlw   0                	MOVLW	0x00
+000462   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000464   0e03     movlw   0x3              	MOVLW	0x03
+000466   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000468   0ee8     movlw   0xe8             	MOVLW	0xe8
+00046a   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+00046c   ec10     call    0x220, 0         	CALL	_sleep_ms
+00046e   f001
+000470   0e04     movlw   0x4              	MOVLW	0x04
+000472   26e1     addwf   0xe1, 0x1, 0     	ADDWF	FSR1L, F
+                                           ;	.line	65; pillefyrsstyring.c	set_ac_power(0x00, 0x00);
+000474   0e00     movlw   0                	MOVLW	0x00
+000476   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000478   0e00     movlw   0                	MOVLW	0x00
+00047a   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+00047c   ec12     call    0x824, 0         	CALL	_set_ac_power
+00047e   f004
+000480   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+000482   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+                                           ;	.line	66; pillefyrsstyring.c	RELAY = 1;
+000484   8a8b     bsf     0x8b, 0x5, 0     	BSF	_LATCbits, 5
+                                           ;	.line	68; pillefyrsstyring.c	TRISCbits.TRISC7 = 0x1;	// rx
+000486   8e94     bsf     0x94, 0x7, 0     	BSF	_TRISCbits, 7
+                                           ;	.line	69; pillefyrsstyring.c	TRISCbits.TRISC6 = 0x0;	// tx
+000488   9c94     bcf     0x94, 0x6, 0     	BCF	_TRISCbits, 6
                                            _00106_DS_:
-                                           ;	.line	75; pillefyrsstyring.c	set_ac_power(/* EXT_FEEDER_L1 | */ FAN_L2 | INT_FEEDER_L3 | L5 | L6, 0xff);
-000410   0eff     movlw   0xff             	MOVLW	0xff
-000412   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000414   0e36     movlw   0x36             	MOVLW	0x36
-000416   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000418   ec9d     call    0x93a, 0         	CALL	_set_ac_power
-00041a   f004
-00041c   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-00041e   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-                                           ;	.line	76; pillefyrsstyring.c	sleep_ms(200);
-000420   0e00     movlw   0                	MOVLW	0x00
-000422   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000424   0e00     movlw   0                	MOVLW	0x00
-000426   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000428   0e00     movlw   0                	MOVLW	0x00
-00042a   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-00042c   0ec8     movlw   0xc8             	MOVLW	0xc8
-00042e   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000430   ec10     call    0x220, 0         	CALL	_sleep_ms
-000432   f001
-000434   0e04     movlw   0x4              	MOVLW	0x04
-000436   26e1     addwf   0xe1, 0x1, 0     	ADDWF	FSR1L, F
-                                           ;	.line	77; pillefyrsstyring.c	set_ac_power(/* EXT_FEEDER_L1 | */ FAN_L2 | INT_FEEDER_L3 | L5 | L6, 0x00);
-000438   0e00     movlw   0                	MOVLW	0x00
-00043a   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-00043c   0e36     movlw   0x36             	MOVLW	0x36
-00043e   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000440   ec9d     call    0x93a, 0         	CALL	_set_ac_power
-000442   f004
-000444   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-000446   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-                                           ;	.line	78; pillefyrsstyring.c	sleep_ms(200);
-000448   0e00     movlw   0                	MOVLW	0x00
-00044a   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-00044c   0e00     movlw   0                	MOVLW	0x00
-00044e   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000450   0e00     movlw   0                	MOVLW	0x00
-000452   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000454   0ec8     movlw   0xc8             	MOVLW	0xc8
-000456   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000458   ec10     call    0x220, 0         	CALL	_sleep_ms
-00045a   f001
-00045c   0e04     movlw   0x4              	MOVLW	0x04
-00045e   26e1     addwf   0xe1, 0x1, 0     	ADDWF	FSR1L, F
-000460   d7ca     bra     0x3f6            	BRA	_00108_DS_
-000462   0012     return  0                	RETURN	
+                                           ;	.line	71; pillefyrsstyring.c	LATCbits.LATC6 = PORTCbits.RC7;
+00048a   6a00     clrf    0, 0             	CLRF	r0x00
+00048c   be82     btfsc   0x82, 0x7, 0     	BTFSC	_PORTCbits, 7
+00048e   2a00     incf    0, 0x1, 0        	INCF	r0x00, F
+000490   5000     movf    0, 0, 0          	MOVF	r0x00, W
+000492   0b01     andlw   0x1              	ANDLW	0x01
+000494   40e8     rrncf   0xe8, 0, 0       	RRNCF	WREG, W
+000496   40e8     rrncf   0xe8, 0, 0       	RRNCF	WREG, W
+000498   6ef4     movwf   0xf4, 0          	MOVWF	PRODH
+00049a   508b     movf    0x8b, 0, 0       	MOVF	_LATCbits, W
+00049c   0bbf     andlw   0xbf             	ANDLW	0xbf
+00049e   10f4     iorwf   0xf4, 0, 0       	IORWF	PRODH, W
+0004a0   6e8b     movwf   0x8b, 0          	MOVWF	_LATCbits
+0004a2   d7f3     bra     0x48a            	BRA	_00106_DS_
+0004a4   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_pillefyrsstyring___debug	code
                                            __debug:
-                                           ;	.line	173; pillefyrsstyring.c	void _debug() {
-000786   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-000788   ffe5
-00078a   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-00078c   ffd9
-                                           ;	.line	174; pillefyrsstyring.c	latched_lcd_power(1);
-00078e   0e01     movlw   0x1              	MOVLW	0x01
-000790   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000792   ec6a     call    0xad4, 0         	CALL	_latched_lcd_power
-000794   f005
-000796   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-                                           ;	.line	175; pillefyrsstyring.c	sleep_ms(500);
-000798   0e00     movlw   0                	MOVLW	0x00
-00079a   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-00079c   0e00     movlw   0                	MOVLW	0x00
-00079e   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0007a0   0e01     movlw   0x1              	MOVLW	0x01
-0007a2   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0007a4   0ef4     movlw   0xf4             	MOVLW	0xf4
-0007a6   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0007a8   ec10     call    0x220, 0         	CALL	_sleep_ms
-0007aa   f001
-0007ac   0e04     movlw   0x4              	MOVLW	0x04
-0007ae   26e1     addwf   0xe1, 0x1, 0     	ADDWF	FSR1L, F
-                                           ;	.line	176; pillefyrsstyring.c	latched_lcd_power(0);
-0007b0   0e00     movlw   0                	MOVLW	0x00
-0007b2   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0007b4   ec6a     call    0xad4, 0         	CALL	_latched_lcd_power
-0007b6   f005
-0007b8   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-                                           ;	.line	177; pillefyrsstyring.c	sleep_ms(500);
-0007ba   0e00     movlw   0                	MOVLW	0x00
-0007bc   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0007be   0e00     movlw   0                	MOVLW	0x00
-0007c0   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0007c2   0e01     movlw   0x1              	MOVLW	0x01
-0007c4   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0007c6   0ef4     movlw   0xf4             	MOVLW	0xf4
-0007c8   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0007ca   ec10     call    0x220, 0         	CALL	_sleep_ms
-0007cc   f001
-0007ce   0e04     movlw   0x4              	MOVLW	0x04
-0007d0   26e1     addwf   0xe1, 0x1, 0     	ADDWF	FSR1L, F
-0007d2   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-0007d4   ffd9
-0007d6   0012     return  0                	RETURN	
+                                           ;	.line	167; pillefyrsstyring.c	void _debug() {
+00061e   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+000620   ffe5
+000622   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+000624   ffd9
+                                           ;	.line	168; pillefyrsstyring.c	latched_lcd_power(1);
+000626   0e01     movlw   0x1              	MOVLW	0x01
+000628   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+00062a   ecdf     call    0x9be, 0         	CALL	_latched_lcd_power
+00062c   f004
+00062e   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+                                           ;	.line	169; pillefyrsstyring.c	sleep_ms(500);
+000630   0e00     movlw   0                	MOVLW	0x00
+000632   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000634   0e00     movlw   0                	MOVLW	0x00
+000636   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000638   0e01     movlw   0x1              	MOVLW	0x01
+00063a   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+00063c   0ef4     movlw   0xf4             	MOVLW	0xf4
+00063e   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000640   ec10     call    0x220, 0         	CALL	_sleep_ms
+000642   f001
+000644   0e04     movlw   0x4              	MOVLW	0x04
+000646   26e1     addwf   0xe1, 0x1, 0     	ADDWF	FSR1L, F
+                                           ;	.line	170; pillefyrsstyring.c	latched_lcd_power(0);
+000648   0e00     movlw   0                	MOVLW	0x00
+00064a   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+00064c   ecdf     call    0x9be, 0         	CALL	_latched_lcd_power
+00064e   f004
+000650   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+                                           ;	.line	171; pillefyrsstyring.c	sleep_ms(500);
+000652   0e00     movlw   0                	MOVLW	0x00
+000654   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000656   0e00     movlw   0                	MOVLW	0x00
+000658   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+00065a   0e01     movlw   0x1              	MOVLW	0x01
+00065c   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+00065e   0ef4     movlw   0xf4             	MOVLW	0xf4
+000660   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000662   ec10     call    0x220, 0         	CALL	_sleep_ms
+000664   f001
+000666   0e04     movlw   0x4              	MOVLW	0x04
+000668   26e1     addwf   0xe1, 0x1, 0     	ADDWF	FSR1L, F
+00066a   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+00066c   ffd9
+00066e   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_pillefyrsstyring__get_inputs	code
                                            _get_inputs:
-                                           ;	.line	161; pillefyrsstyring.c	unsigned char get_inputs() {
-000c0a   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-000c0c   ffe5
-000c0e   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-000c10   ffd9
-000c12   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
-000c14   ffe5
-                                           ;	.line	165; pillefyrsstyring.c	LATCH_DATA_TRIS = 0xff;		// inputs
-000c16   0eff     movlw   0xff             	MOVLW	0xff
-000c18   6e95     movwf   0x95, 0          	MOVWF	_TRISD
-                                           ;	.line	166; pillefyrsstyring.c	LATCH_1 = LATCH_1_ENABLED;
-000c1a   9889     bcf     0x89, 0x4, 0     	BCF	_LATAbits, 4
-                                           ;	.line	167; pillefyrsstyring.c	data = LATCH_DATA_READ; // & 0b00100000;
-000c1c   cf83     movff   0xf83, 0         	MOVFF	_PORTD, r0x00
-000c1e   f000
-                                           ;	.line	168; pillefyrsstyring.c	LATCH_1 = LATCH_1_DISABLED;
-000c20   8889     bsf     0x89, 0x4, 0     	BSF	_LATAbits, 4
-                                           ;	.line	170; pillefyrsstyring.c	return data;
-000c22   5000     movf    0, 0, 0          	MOVF	r0x00, W
-000c24   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
-000c26   f000
-000c28   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-000c2a   ffd9
-000c2c   0012     return  0                	RETURN	
+                                           ;	.line	155; pillefyrsstyring.c	unsigned char get_inputs() {
+000ace   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+000ad0   ffe5
+000ad2   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+000ad4   ffd9
+000ad6   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
+000ad8   ffe5
+                                           ;	.line	159; pillefyrsstyring.c	LATCH_DATA_TRIS = 0xff;		// inputs
+000ada   0eff     movlw   0xff             	MOVLW	0xff
+000adc   6e95     movwf   0x95, 0          	MOVWF	_TRISD
+                                           ;	.line	160; pillefyrsstyring.c	LATCH_1 = LATCH_1_ENABLED;
+000ade   9889     bcf     0x89, 0x4, 0     	BCF	_LATAbits, 4
+                                           ;	.line	161; pillefyrsstyring.c	data = LATCH_DATA_READ; // & 0b00100000;
+000ae0   cf83     movff   0xf83, 0         	MOVFF	_PORTD, r0x00
+000ae2   f000
+                                           ;	.line	162; pillefyrsstyring.c	LATCH_1 = LATCH_1_DISABLED;
+000ae4   8889     bsf     0x89, 0x4, 0     	BSF	_LATAbits, 4
+                                           ;	.line	164; pillefyrsstyring.c	return data;
+000ae6   5000     movf    0, 0, 0          	MOVF	r0x00, W
+000ae8   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
+000aea   f000
+000aec   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+000aee   ffd9
+000af0   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_pillefyrsstyring__set_ac_power	code
                                            _set_ac_power:
-                                           ;	.line	151; pillefyrsstyring.c	void set_ac_power(unsigned char header_mask, unsigned char value) {
-00093a   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-00093c   ffe5
-00093e   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-000940   ffd9
-000942   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
-000944   ffe5
-000946   c001     movff   0x1, 0xfe5       	MOVFF	r0x01, POSTDEC1
-000948   ffe5
-00094a   0e02     movlw   0x2              	MOVLW	0x02
-00094c   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
-00094e   f000
-000950   0e03     movlw   0x3              	MOVLW	0x03
-000952   cfdb     movff   0xfdb, 0x1       	MOVFF	PLUSW2, r0x01
-000954   f001
-                                           ;	.line	152; pillefyrsstyring.c	header_mask &= 0b00111111;		// only 6 outputs on this hardware
-000956   0e3f     movlw   0x3f             	MOVLW	0x3f
-000958   1600     andwf   0, 0x1, 0        	ANDWF	r0x00, F
-                                           ;	.line	153; pillefyrsstyring.c	value &= header_mask;
-00095a   5000     movf    0, 0, 0          	MOVF	r0x00, W
-00095c   1601     andwf   0x1, 0x1, 0      	ANDWF	r0x01, F
-                                           ;	.line	154; pillefyrsstyring.c	LATCH_DATA_TRIS = 0x00;		// outputs
-00095e   6a95     clrf    0x95, 0          	CLRF	_TRISD
-                                           ;	.line	155; pillefyrsstyring.c	LATCH_DATA = value;
-000960   c001     movff   0x1, 0xf8c       	MOVFF	r0x01, _LATD
-000962   ff8c
-                                           ;	.line	156; pillefyrsstyring.c	LATCH_2 = LATCH_2_ENABLED;
-000964   8e89     bsf     0x89, 0x7, 0     	BSF	_LATAbits, 7
-                                           ;	.line	157; pillefyrsstyring.c	LATCH_2 = LATCH_2_DISABLED;
-000966   9e89     bcf     0x89, 0x7, 0     	BCF	_LATAbits, 7
-                                           ;	.line	158; pillefyrsstyring.c	LATCH_DATA = 0x00;
-000968   6a8c     clrf    0x8c, 0          	CLRF	_LATD
-00096a   cfe4     movff   0xfe4, 0x1       	MOVFF	PREINC1, r0x01
-00096c   f001
-00096e   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
-000970   f000
-000972   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-000974   ffd9
-000976   0012     return  0                	RETURN	
+                                           ;	.line	145; pillefyrsstyring.c	void set_ac_power(unsigned char header_mask, unsigned char value) {
+000824   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+000826   ffe5
+000828   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+00082a   ffd9
+00082c   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
+00082e   ffe5
+000830   c001     movff   0x1, 0xfe5       	MOVFF	r0x01, POSTDEC1
+000832   ffe5
+000834   0e02     movlw   0x2              	MOVLW	0x02
+000836   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
+000838   f000
+00083a   0e03     movlw   0x3              	MOVLW	0x03
+00083c   cfdb     movff   0xfdb, 0x1       	MOVFF	PLUSW2, r0x01
+00083e   f001
+                                           ;	.line	146; pillefyrsstyring.c	header_mask &= 0b00111111;		// only 6 outputs on this hardware
+000840   0e3f     movlw   0x3f             	MOVLW	0x3f
+000842   1600     andwf   0, 0x1, 0        	ANDWF	r0x00, F
+                                           ;	.line	147; pillefyrsstyring.c	value &= header_mask;
+000844   5000     movf    0, 0, 0          	MOVF	r0x00, W
+000846   1601     andwf   0x1, 0x1, 0      	ANDWF	r0x01, F
+                                           ;	.line	148; pillefyrsstyring.c	LATCH_DATA_TRIS = 0x00;		// outputs
+000848   6a95     clrf    0x95, 0          	CLRF	_TRISD
+                                           ;	.line	149; pillefyrsstyring.c	LATCH_DATA = value;
+00084a   c001     movff   0x1, 0xf8c       	MOVFF	r0x01, _LATD
+00084c   ff8c
+                                           ;	.line	150; pillefyrsstyring.c	LATCH_2 = LATCH_2_ENABLED;
+00084e   8e89     bsf     0x89, 0x7, 0     	BSF	_LATAbits, 7
+                                           ;	.line	151; pillefyrsstyring.c	LATCH_2 = LATCH_2_DISABLED;
+000850   9e89     bcf     0x89, 0x7, 0     	BCF	_LATAbits, 7
+                                           ;	.line	152; pillefyrsstyring.c	LATCH_DATA = 0x00;
+000852   6a8c     clrf    0x8c, 0          	CLRF	_LATD
+000854   cfe4     movff   0xfe4, 0x1       	MOVFF	PREINC1, r0x01
+000856   f001
+000858   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
+00085a   f000
+00085c   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+00085e   ffd9
+000860   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_pillefyrsstyring__init_latches	code
                                            _init_latches:
-                                           ;	.line	132; pillefyrsstyring.c	void init_latches() {
-000c2e   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-000c30   ffe5
-000c32   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-000c34   ffd9
-                                           ;	.line	133; pillefyrsstyring.c	LATCH_DATA_TRIS = 0x00;		// outputs
-000c36   6a95     clrf    0x95, 0          	CLRF	_TRISD
-                                           ;	.line	134; pillefyrsstyring.c	LATCH_1_TRIS = 0x0; 			// output
-000c38   9892     bcf     0x92, 0x4, 0     	BCF	_TRISAbits, 4
-                                           ;	.line	135; pillefyrsstyring.c	LATCH_1 = LATCH_1_DISABLED;	// no inputs from input latch
-000c3a   8889     bsf     0x89, 0x4, 0     	BSF	_LATAbits, 4
-                                           ;	.line	137; pillefyrsstyring.c	LATCH_2_TRIS = 0x0; 			// output
-000c3c   9e92     bcf     0x92, 0x7, 0     	BCF	_TRISAbits, 7
-                                           ;	.line	138; pillefyrsstyring.c	LATCH_2 = LATCH_2_DISABLED;
-000c3e   9e89     bcf     0x89, 0x7, 0     	BCF	_LATAbits, 7
-                                           ;	.line	140; pillefyrsstyring.c	LATCH_3_TRIS = 0x0; 			// output
-000c40   9c92     bcf     0x92, 0x6, 0     	BCF	_TRISAbits, 6
-                                           ;	.line	141; pillefyrsstyring.c	LATCH_3 = LATCH_3_DISABLED;
-000c42   9c89     bcf     0x89, 0x6, 0     	BCF	_LATAbits, 6
-                                           ;	.line	143; pillefyrsstyring.c	LATCH_4_TRIS = 0x0; 			// output
-000c44   9494     bcf     0x94, 0x2, 0     	BCF	_TRISCbits, 2
-                                           ;	.line	144; pillefyrsstyring.c	LATCH_4 = LATCH_4_DISABLED;
-000c46   948b     bcf     0x8b, 0x2, 0     	BCF	_LATCbits, 2
-                                           ;	.line	146; pillefyrsstyring.c	RELAY_TRIS = 0x0;				// output
-000c48   9a94     bcf     0x94, 0x5, 0     	BCF	_TRISCbits, 5
-                                           ;	.line	147; pillefyrsstyring.c	RELAY = 0x0;					// all power outputs off
-000c4a   9a8b     bcf     0x8b, 0x5, 0     	BCF	_LATCbits, 5
-000c4c   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-000c4e   ffd9
-000c50   0012     return  0                	RETURN	
+                                           ;	.line	126; pillefyrsstyring.c	void init_latches() {
+000af2   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+000af4   ffe5
+000af6   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+000af8   ffd9
+                                           ;	.line	127; pillefyrsstyring.c	LATCH_DATA_TRIS = 0x00;		// outputs
+000afa   6a95     clrf    0x95, 0          	CLRF	_TRISD
+                                           ;	.line	128; pillefyrsstyring.c	LATCH_1_TRIS = 0x0; 			// output
+000afc   9892     bcf     0x92, 0x4, 0     	BCF	_TRISAbits, 4
+                                           ;	.line	129; pillefyrsstyring.c	LATCH_1 = LATCH_1_DISABLED;	// no inputs from input latch
+000afe   8889     bsf     0x89, 0x4, 0     	BSF	_LATAbits, 4
+                                           ;	.line	131; pillefyrsstyring.c	LATCH_2_TRIS = 0x0; 			// output
+000b00   9e92     bcf     0x92, 0x7, 0     	BCF	_TRISAbits, 7
+                                           ;	.line	132; pillefyrsstyring.c	LATCH_2 = LATCH_2_DISABLED;
+000b02   9e89     bcf     0x89, 0x7, 0     	BCF	_LATAbits, 7
+                                           ;	.line	134; pillefyrsstyring.c	LATCH_3_TRIS = 0x0; 			// output
+000b04   9c92     bcf     0x92, 0x6, 0     	BCF	_TRISAbits, 6
+                                           ;	.line	135; pillefyrsstyring.c	LATCH_3 = LATCH_3_DISABLED;
+000b06   9c89     bcf     0x89, 0x6, 0     	BCF	_LATAbits, 6
+                                           ;	.line	137; pillefyrsstyring.c	LATCH_4_TRIS = 0x0; 			// output
+000b08   9494     bcf     0x94, 0x2, 0     	BCF	_TRISCbits, 2
+                                           ;	.line	138; pillefyrsstyring.c	LATCH_4 = LATCH_4_DISABLED;
+000b0a   948b     bcf     0x8b, 0x2, 0     	BCF	_LATCbits, 2
+                                           ;	.line	140; pillefyrsstyring.c	RELAY_TRIS = 0x0;				// output
+000b0c   9a94     bcf     0x94, 0x5, 0     	BCF	_TRISCbits, 5
+                                           ;	.line	141; pillefyrsstyring.c	RELAY = 0x0;					// all power outputs off
+000b0e   9a8b     bcf     0x8b, 0x5, 0     	BCF	_LATCbits, 5
+000b10   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+000b12   ffd9
+000b14   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_pillefyrsstyring__init_timers	code
                                            _init_timers:
-                                           ;	.line	105; pillefyrsstyring.c	void init_timers() {
-000b0e   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-000b10   ffe5
-000b12   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-000b14   ffd9
-                                           ;	.line	107; pillefyrsstyring.c	T2CONbits.T2CKPS0 = 1;
-000b16   80ca     bsf     0xca, 0, 0       	BSF	_T2CONbits, 0
-                                           ;	.line	108; pillefyrsstyring.c	T2CONbits.T2CKPS1 = 0;
-000b18   92ca     bcf     0xca, 0x1, 0     	BCF	_T2CONbits, 1
-                                           ;	.line	109; pillefyrsstyring.c	T2CONbits.T2OUTPS0 = 1;
-000b1a   86ca     bsf     0xca, 0x3, 0     	BSF	_T2CONbits, 3
-                                           ;	.line	110; pillefyrsstyring.c	T2CONbits.T2OUTPS1 = 0;
-000b1c   98ca     bcf     0xca, 0x4, 0     	BCF	_T2CONbits, 4
-                                           ;	.line	111; pillefyrsstyring.c	T2CONbits.T2OUTPS2 = 0;
-000b1e   9aca     bcf     0xca, 0x5, 0     	BCF	_T2CONbits, 5
-                                           ;	.line	112; pillefyrsstyring.c	T2CONbits.T2OUTPS3 = 1;
-000b20   8cca     bsf     0xca, 0x6, 0     	BSF	_T2CONbits, 6
-                                           ;	.line	113; pillefyrsstyring.c	IPR1bits.TMR2IP = 1;		// high priority
-000b22   829f     bsf     0x9f, 0x1, 0     	BSF	_IPR1bits, 1
-                                           ;	.line	114; pillefyrsstyring.c	PIR1bits.TMR2IF = 1;
-000b24   829e     bsf     0x9e, 0x1, 0     	BSF	_PIR1bits, 1
-                                           ;	.line	115; pillefyrsstyring.c	T2CONbits.TMR2ON = 1;
-000b26   84ca     bsf     0xca, 0x2, 0     	BSF	_T2CONbits, 2
-                                           ;	.line	116; pillefyrsstyring.c	PIE1bits.TMR2IE = 1;
-000b28   829d     bsf     0x9d, 0x1, 0     	BSF	_PIE1bits, 1
-                                           ;	.line	119; pillefyrsstyring.c	T3CONbits.RD16 = 1;
-000b2a   8eb1     bsf     0xb1, 0x7, 0     	BSF	_T3CONbits, 7
-                                           ;	.line	120; pillefyrsstyring.c	T3CONbits.TMR3CS = 0;	// internal clock source
-000b2c   92b1     bcf     0xb1, 0x1, 0     	BCF	_T3CONbits, 1
-                                           ;	.line	121; pillefyrsstyring.c	T3CONbits.T3CKPS0 = 1;
-000b2e   88b1     bsf     0xb1, 0x4, 0     	BSF	_T3CONbits, 4
-                                           ;	.line	122; pillefyrsstyring.c	T3CONbits.T3CKPS0 = 1;
-000b30   88b1     bsf     0xb1, 0x4, 0     	BSF	_T3CONbits, 4
-                                           ;	.line	123; pillefyrsstyring.c	IPR2bits.TMR3IP = 0;		// low priority
-000b32   92a2     bcf     0xa2, 0x1, 0     	BCF	_IPR2bits, 1
-                                           ;	.line	124; pillefyrsstyring.c	T3CONbits.TMR3ON = 1;
-000b34   80b1     bsf     0xb1, 0, 0       	BSF	_T3CONbits, 0
-                                           ;	.line	126; pillefyrsstyring.c	PIR2bits.TMR3IF = 1;
-000b36   82a1     bsf     0xa1, 0x1, 0     	BSF	_PIR2bits, 1
-                                           ;	.line	128; pillefyrsstyring.c	INTCONbits.PEIE = 1;
-000b38   8cf2     bsf     0xf2, 0x6, 0     	BSF	_INTCONbits, 6
-                                           ;	.line	129; pillefyrsstyring.c	INTCONbits.GIE = 1;	/* Enable Global interrupts   */	
-000b3a   8ef2     bsf     0xf2, 0x7, 0     	BSF	_INTCONbits, 7
-000b3c   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-000b3e   ffd9
-000b40   0012     return  0                	RETURN	
+                                           ;	.line	99; pillefyrsstyring.c	void init_timers() {
+0009f8   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+0009fa   ffe5
+0009fc   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+0009fe   ffd9
+                                           ;	.line	101; pillefyrsstyring.c	T2CONbits.T2CKPS0 = 1;
+000a00   80ca     bsf     0xca, 0, 0       	BSF	_T2CONbits, 0
+                                           ;	.line	102; pillefyrsstyring.c	T2CONbits.T2CKPS1 = 0;
+000a02   92ca     bcf     0xca, 0x1, 0     	BCF	_T2CONbits, 1
+                                           ;	.line	103; pillefyrsstyring.c	T2CONbits.T2OUTPS0 = 1;
+000a04   86ca     bsf     0xca, 0x3, 0     	BSF	_T2CONbits, 3
+                                           ;	.line	104; pillefyrsstyring.c	T2CONbits.T2OUTPS1 = 0;
+000a06   98ca     bcf     0xca, 0x4, 0     	BCF	_T2CONbits, 4
+                                           ;	.line	105; pillefyrsstyring.c	T2CONbits.T2OUTPS2 = 0;
+000a08   9aca     bcf     0xca, 0x5, 0     	BCF	_T2CONbits, 5
+                                           ;	.line	106; pillefyrsstyring.c	T2CONbits.T2OUTPS3 = 1;
+000a0a   8cca     bsf     0xca, 0x6, 0     	BSF	_T2CONbits, 6
+                                           ;	.line	107; pillefyrsstyring.c	IPR1bits.TMR2IP = 1;		// high priority
+000a0c   829f     bsf     0x9f, 0x1, 0     	BSF	_IPR1bits, 1
+                                           ;	.line	108; pillefyrsstyring.c	PIR1bits.TMR2IF = 1;
+000a0e   829e     bsf     0x9e, 0x1, 0     	BSF	_PIR1bits, 1
+                                           ;	.line	109; pillefyrsstyring.c	T2CONbits.TMR2ON = 1;
+000a10   84ca     bsf     0xca, 0x2, 0     	BSF	_T2CONbits, 2
+                                           ;	.line	110; pillefyrsstyring.c	PIE1bits.TMR2IE = 1;
+000a12   829d     bsf     0x9d, 0x1, 0     	BSF	_PIE1bits, 1
+                                           ;	.line	113; pillefyrsstyring.c	T3CONbits.RD16 = 1;
+000a14   8eb1     bsf     0xb1, 0x7, 0     	BSF	_T3CONbits, 7
+                                           ;	.line	114; pillefyrsstyring.c	T3CONbits.TMR3CS = 0;	// internal clock source
+000a16   92b1     bcf     0xb1, 0x1, 0     	BCF	_T3CONbits, 1
+                                           ;	.line	115; pillefyrsstyring.c	T3CONbits.T3CKPS0 = 1;
+000a18   88b1     bsf     0xb1, 0x4, 0     	BSF	_T3CONbits, 4
+                                           ;	.line	116; pillefyrsstyring.c	T3CONbits.T3CKPS0 = 1;
+000a1a   88b1     bsf     0xb1, 0x4, 0     	BSF	_T3CONbits, 4
+                                           ;	.line	117; pillefyrsstyring.c	IPR2bits.TMR3IP = 0;		// low priority
+000a1c   92a2     bcf     0xa2, 0x1, 0     	BCF	_IPR2bits, 1
+                                           ;	.line	118; pillefyrsstyring.c	T3CONbits.TMR3ON = 1;
+000a1e   80b1     bsf     0xb1, 0, 0       	BSF	_T3CONbits, 0
+                                           ;	.line	120; pillefyrsstyring.c	PIR2bits.TMR3IF = 1;
+000a20   82a1     bsf     0xa1, 0x1, 0     	BSF	_PIR2bits, 1
+                                           ;	.line	122; pillefyrsstyring.c	INTCONbits.PEIE = 1;
+000a22   8cf2     bsf     0xf2, 0x6, 0     	BSF	_INTCONbits, 6
+                                           ;	.line	123; pillefyrsstyring.c	INTCONbits.GIE = 1;	/* Enable Global interrupts   */	
+000a24   8ef2     bsf     0xf2, 0x7, 0     	BSF	_INTCONbits, 7
+000a26   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+000a28   ffd9
+000a2a   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_pillefyrsstyring__sleep_ms	code
                                            _sleep_ms:
-                                           ;	.line	95; pillefyrsstyring.c	void sleep_ms(unsigned long ms) {
+                                           ;	.line	89; pillefyrsstyring.c	void sleep_ms(unsigned long ms) {
 000220   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
 000222   ffe5
 000224   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
@@ -722,7 +664,7 @@ Address  Value    Disassembly              Source
 00027a   0e05     movlw   0x5              	MOVLW	0x05
 00027c   cfdb     movff   0xfdb, 0x3       	MOVFF	PLUSW2, r0x03
 00027e   f003
-                                           ;	.line	97; pillefyrsstyring.c	start_timer_2 = timer_2;	
+                                           ;	.line	91; pillefyrsstyring.c	start_timer_2 = timer_2;	
 000280   c096     movff   0x96, 0x4        	MOVFF	_timer_2, r0x04
 000282   f004
 000284   c097     movff   0x97, 0x5        	MOVFF	(_timer_2 + 1), r0x05
@@ -731,8 +673,8 @@ Address  Value    Disassembly              Source
 00028a   f006
 00028c   c099     movff   0x99, 0x7        	MOVFF	(_timer_2 + 3), r0x07
 00028e   f007
-                                           _00141_DS_:
-                                           ;	.line	100; pillefyrsstyring.c	while ( (((signed long)(timer_2 - start_timer_2) < 0) ? (-1 * (timer_2 - start_timer_2)) : (timer_2 - start_timer_2)) < ms) {
+                                           _00130_DS_:
+                                           ;	.line	94; pillefyrsstyring.c	while ( (((signed long)(timer_2 - start_timer_2) < 0) ? (-1 * (timer_2 - start_timer_2)) : (timer_2 - start_timer_2)) < ms) {
 000290   5004     movf    0x4, 0, 0        	MOVF	r0x04, W
 000292   0100     movlb   0                	BANKSEL	_timer_2
 000294   5d96     subwf   0x96, 0, 0x1     	SUBWF	_timer_2, W, B
@@ -760,7 +702,7 @@ Address  Value    Disassembly              Source
 0002c0   80d8     bsf     0xd8, 0, 0       	BSF	STATUS, 0
 0002c2   ae0f     btfss   0xf, 0x7, 0      	BTFSS	r0x0f, 7
 0002c4   90d8     bcf     0xd8, 0, 0       	BCF	STATUS, 0
-0002c6   e31c     bnc     0x300            	BNC	_00146_DS_
+0002c6   e31c     bnc     0x300            	BNC	_00135_DS_
 0002c8   500b     movf    0xb, 0, 0        	MOVF	r0x0b, W
 0002ca   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
 0002cc   500a     movf    0xa, 0, 0        	MOVF	r0x0a, W
@@ -788,8 +730,8 @@ Address  Value    Disassembly              Source
 0002f8   f00f
 0002fa   0e08     movlw   0x8              	MOVLW	0x08
 0002fc   26e1     addwf   0xe1, 0x1, 0     	ADDWF	FSR1L, F
-0002fe   d008     bra     0x310            	BRA	_00147_DS_
-                                           _00146_DS_:
+0002fe   d008     bra     0x310            	BRA	_00136_DS_
+                                           _00135_DS_:
 000300   c008     movff   0x8, 0xc         	MOVFF	r0x08, r0x0c
 000302   f00c
 000304   c009     movff   0x9, 0xd         	MOVFF	r0x09, r0x0d
@@ -798,21 +740,21 @@ Address  Value    Disassembly              Source
 00030a   f00e
 00030c   c00b     movff   0xb, 0xf         	MOVFF	r0x0b, r0x0f
 00030e   f00f
-                                           _00147_DS_:
+                                           _00136_DS_:
 000310   5003     movf    0x3, 0, 0        	MOVF	r0x03, W
 000312   5c0f     subwf   0xf, 0, 0        	SUBWF	r0x0f, W
-000314   e108     bnz     0x326            	BNZ	_00154_DS_
+000314   e108     bnz     0x326            	BNZ	_00143_DS_
 000316   5002     movf    0x2, 0, 0        	MOVF	r0x02, W
 000318   5c0e     subwf   0xe, 0, 0        	SUBWF	r0x0e, W
-00031a   e105     bnz     0x326            	BNZ	_00154_DS_
+00031a   e105     bnz     0x326            	BNZ	_00143_DS_
 00031c   5001     movf    0x1, 0, 0        	MOVF	r0x01, W
 00031e   5c0d     subwf   0xd, 0, 0        	SUBWF	r0x0d, W
-000320   e102     bnz     0x326            	BNZ	_00154_DS_
+000320   e102     bnz     0x326            	BNZ	_00143_DS_
 000322   5000     movf    0, 0, 0          	MOVF	r0x00, W
 000324   5c0c     subwf   0xc, 0, 0        	SUBWF	r0x0c, W
-                                           _00154_DS_:
+                                           _00143_DS_:
 000326   a0d8     btfss   0xd8, 0, 0       	BTFSS	STATUS, 0
-000328   d7b3     bra     0x290            	BRA	_00141_DS_
+000328   d7b3     bra     0x290            	BRA	_00130_DS_
 00032a   cfe4     movff   0xfe4, 0xf       	MOVFF	PREINC1, r0x0f
 00032c   f00f
 00032e   cfe4     movff   0xfe4, 0xe       	MOVFF	PREINC1, r0x0e
@@ -852,95 +794,95 @@ Address  Value    Disassembly              Source
                                            ; ; Starting pCode block
                                            S_pillefyrsstyring__timer_control	code
                                            _timer_control:
-                                           ;	.line	82; pillefyrsstyring.c	static void timer_control(void) __interrupt 1 {
-000508   cfd8     movff   0xfd8, 0xfe5     	MOVFF	STATUS, POSTDEC1
-00050a   ffe5
-00050c   cfe0     movff   0xfe0, 0xfe5     	MOVFF	BSR, POSTDEC1
-00050e   ffe5
-000510   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000512   cff3     movff   0xff3, 0xfe5     	MOVFF	PRODL, POSTDEC1
-000514   ffe5
-000516   cff4     movff   0xff4, 0xfe5     	MOVFF	PRODH, POSTDEC1
-000518   ffe5
-00051a   cfe9     movff   0xfe9, 0xfe5     	MOVFF	FSR0L, POSTDEC1
-00051c   ffe5
-00051e   cfea     movff   0xfea, 0xfe5     	MOVFF	FSR0H, POSTDEC1
-000520   ffe5
-000522   cffa     movff   0xffa, 0xfe5     	MOVFF	PCLATH, POSTDEC1
-000524   ffe5
-000526   cffb     movff   0xffb, 0xfe5     	MOVFF	PCLATU, POSTDEC1
-000528   ffe5
-00052a   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-00052c   ffe5
-00052e   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-000530   ffd9
-000532   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
-000534   ffe5
-                                           ;	.line	83; pillefyrsstyring.c	if (PIR1bits.TMR2IF) {
-000536   a29e     btfss   0x9e, 0x1, 0     	BTFSS	_PIR1bits, 1
-000538   d00e     bra     0x556            	BRA	_00125_DS_
-                                           ;	.line	84; pillefyrsstyring.c	PR2 = TIMER2_RELOAD;		// 1 ms delay at 4 MHz
-00053a   0e18     movlw   0x18             	MOVLW	0x18
-00053c   6ecb     movwf   0xcb, 0          	MOVWF	_PR2
-                                           ;	.line	85; pillefyrsstyring.c	PIR1bits.TMR2IF = 0;
-00053e   929e     bcf     0x9e, 0x1, 0     	BCF	_PIR1bits, 1
-000540   0100     movlb   0                	BANKSEL	_timer_2
-                                           ;	.line	86; pillefyrsstyring.c	timer_2++;
-000542   2b96     incf    0x96, 0x1, 0x1   	INCF	_timer_2, F, B
-000544   e308     bnc     0x556            	BNC	_00125_DS_
-000546   0100     movlb   0                	BANKSEL	(_timer_2 + 1)
-000548   2b97     incf    0x97, 0x1, 0x1   	INCF	(_timer_2 + 1), F, B
-00054a   e305     bnc     0x556            	BNC	_00125_DS_
-00054c   0100     movlb   0                	BANKSEL	(_timer_2 + 2)
-00054e   3f98     incfsz  0x98, 0x1, 0x1   	INCFSZ	(_timer_2 + 2), F, B
-000550   d002     bra     0x556            	BRA	_10179_DS_
-000552   0100     movlb   0                	BANKSEL	(_timer_2 + 3)
-000554   2b99     incf    0x99, 0x1, 0x1   	INCF	(_timer_2 + 3), F, B
-                                           _10179_DS_:
-                                           _00136_DS_:
+                                           ;	.line	76; pillefyrsstyring.c	static void timer_control(void) __interrupt 1 {
+0004a6   cfd8     movff   0xfd8, 0xfe5     	MOVFF	STATUS, POSTDEC1
+0004a8   ffe5
+0004aa   cfe0     movff   0xfe0, 0xfe5     	MOVFF	BSR, POSTDEC1
+0004ac   ffe5
+0004ae   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+0004b0   cff3     movff   0xff3, 0xfe5     	MOVFF	PRODL, POSTDEC1
+0004b2   ffe5
+0004b4   cff4     movff   0xff4, 0xfe5     	MOVFF	PRODH, POSTDEC1
+0004b6   ffe5
+0004b8   cfe9     movff   0xfe9, 0xfe5     	MOVFF	FSR0L, POSTDEC1
+0004ba   ffe5
+0004bc   cfea     movff   0xfea, 0xfe5     	MOVFF	FSR0H, POSTDEC1
+0004be   ffe5
+0004c0   cffa     movff   0xffa, 0xfe5     	MOVFF	PCLATH, POSTDEC1
+0004c2   ffe5
+0004c4   cffb     movff   0xffb, 0xfe5     	MOVFF	PCLATU, POSTDEC1
+0004c6   ffe5
+0004c8   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+0004ca   ffe5
+0004cc   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+0004ce   ffd9
+0004d0   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
+0004d2   ffe5
+                                           ;	.line	77; pillefyrsstyring.c	if (PIR1bits.TMR2IF) {
+0004d4   a29e     btfss   0x9e, 0x1, 0     	BTFSS	_PIR1bits, 1
+0004d6   d00e     bra     0x4f4            	BRA	_00114_DS_
+                                           ;	.line	78; pillefyrsstyring.c	PR2 = TIMER2_RELOAD;		// 1 ms delay at 4 MHz
+0004d8   0e18     movlw   0x18             	MOVLW	0x18
+0004da   6ecb     movwf   0xcb, 0          	MOVWF	_PR2
+                                           ;	.line	79; pillefyrsstyring.c	PIR1bits.TMR2IF = 0;
+0004dc   929e     bcf     0x9e, 0x1, 0     	BCF	_PIR1bits, 1
+0004de   0100     movlb   0                	BANKSEL	_timer_2
+                                           ;	.line	80; pillefyrsstyring.c	timer_2++;
+0004e0   2b96     incf    0x96, 0x1, 0x1   	INCF	_timer_2, F, B
+0004e2   e308     bnc     0x4f4            	BNC	_00114_DS_
+0004e4   0100     movlb   0                	BANKSEL	(_timer_2 + 1)
+0004e6   2b97     incf    0x97, 0x1, 0x1   	INCF	(_timer_2 + 1), F, B
+0004e8   e305     bnc     0x4f4            	BNC	_00114_DS_
+0004ea   0100     movlb   0                	BANKSEL	(_timer_2 + 2)
+0004ec   3f98     incfsz  0x98, 0x1, 0x1   	INCFSZ	(_timer_2 + 2), F, B
+0004ee   d002     bra     0x4f4            	BRA	_10168_DS_
+0004f0   0100     movlb   0                	BANKSEL	(_timer_2 + 3)
+0004f2   2b99     incf    0x99, 0x1, 0x1   	INCF	(_timer_2 + 3), F, B
+                                           _10168_DS_:
                                            _00125_DS_:
-                                           ;	.line	89; pillefyrsstyring.c	if (usart_drdy()) {
-000556   ec43     call    0xc86, 0         	CALL	_usart_drdy
-000558   f006
-00055a   6e00     movwf   0, 0             	MOVWF	r0x00
-00055c   5000     movf    0, 0, 0          	MOVF	r0x00, W
-00055e   e006     bz      0x56c            	BZ	_00128_DS_
-                                           ;	.line	91; pillefyrsstyring.c	usart_putc(usart_getc());
-000560   ecde     call    0xbbc, 0         	CALL	_usart_getc
-000562   f005
-000564   6e00     movwf   0, 0             	MOVWF	r0x00
-000566   5000     movf    0, 0, 0          	MOVF	r0x00, W
-000568   ec3b     call    0xc76, 0         	CALL	_usart_putc
-00056a   f006
-                                           _00128_DS_:
-00056c   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
-00056e   f000
-000570   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-000572   ffd9
-000574   cfe4     movff   0xfe4, 0xffb     	MOVFF	PREINC1, PCLATU
-000576   fffb
-000578   cfe4     movff   0xfe4, 0xffa     	MOVFF	PREINC1, PCLATH
-00057a   fffa
-00057c   cfe4     movff   0xfe4, 0xfea     	MOVFF	PREINC1, FSR0H
-00057e   ffea
-000580   cfe4     movff   0xfe4, 0xfe9     	MOVFF	PREINC1, FSR0L
-000582   ffe9
-000584   cfe4     movff   0xfe4, 0xff4     	MOVFF	PREINC1, PRODH
-000586   fff4
-000588   cfe4     movff   0xfe4, 0xff3     	MOVFF	PREINC1, PRODL
-00058a   fff3
-00058c   50e4     movf    0xe4, 0, 0       	MOVF	PREINC1, W
-00058e   cfe4     movff   0xfe4, 0xfe0     	MOVFF	PREINC1, BSR
-000590   ffe0
-000592   cfe4     movff   0xfe4, 0xfd8     	MOVFF	PREINC1, STATUS
-000594   ffd8
-000596   0010     retfie  0                	RETFIE	
+                                           _00114_DS_:
+                                           ;	.line	83; pillefyrsstyring.c	if (usart_drdy()) {
+0004f4   ecb0     call    0xb60, 0         	CALL	_usart_drdy
+0004f6   f005
+0004f8   6e00     movwf   0, 0             	MOVWF	r0x00
+0004fa   5000     movf    0, 0, 0          	MOVF	r0x00, W
+0004fc   e006     bz      0x50a            	BZ	_00117_DS_
+                                           ;	.line	85; pillefyrsstyring.c	usart_putc(usart_getc());
+0004fe   ec53     call    0xaa6, 0         	CALL	_usart_getc
+000500   f005
+000502   6e00     movwf   0, 0             	MOVWF	r0x00
+000504   5000     movf    0, 0, 0          	MOVF	r0x00, W
+000506   eca8     call    0xb50, 0         	CALL	_usart_putc
+000508   f005
+                                           _00117_DS_:
+00050a   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
+00050c   f000
+00050e   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+000510   ffd9
+000512   cfe4     movff   0xfe4, 0xffb     	MOVFF	PREINC1, PCLATU
+000514   fffb
+000516   cfe4     movff   0xfe4, 0xffa     	MOVFF	PREINC1, PCLATH
+000518   fffa
+00051a   cfe4     movff   0xfe4, 0xfea     	MOVFF	PREINC1, FSR0H
+00051c   ffea
+00051e   cfe4     movff   0xfe4, 0xfe9     	MOVFF	PREINC1, FSR0L
+000520   ffe9
+000522   cfe4     movff   0xfe4, 0xff4     	MOVFF	PREINC1, PRODH
+000524   fff4
+000526   cfe4     movff   0xfe4, 0xff3     	MOVFF	PREINC1, PRODL
+000528   fff3
+00052a   50e4     movf    0xe4, 0, 0       	MOVF	PREINC1, W
+00052c   cfe4     movff   0xfe4, 0xfe0     	MOVFF	PREINC1, BSR
+00052e   ffe0
+000530   cfe4     movff   0xfe4, 0xfd8     	MOVFF	PREINC1, STATUS
+000532   ffd8
+000534   0010     retfie  0                	RETFIE	
                                            
                                            
                                            
                                            ; Statistics:
-                                           ; code size:	  994 (0x03e2) bytes ( 0.76%)
-                                           ;           	  497 (0x01f1) words
+                                           ; code size:	  896 (0x0380) bytes ( 0.68%)
+                                           ;           	  448 (0x01c0) words
                                            ; udata size:	   36 (0x0024) bytes ( 0.94%)
                                            ; access size:	   16 (0x0010) bytes
                                            
@@ -949,7 +891,7 @@ Address  Value    Disassembly              Source
                                            ;--------------------------------------------------------
                                            ; File Created by SDCC : free open source ANSI-C Compiler
                                            ; Version 3.3.0 #8604 (Oct 27 2013) (Mac OS X x86_64)
-                                           ; This file was generated Thu Dec 12 04:00:40 2013
+                                           ; This file was generated Thu Dec 12 21:26:20 2013
                                            ;--------------------------------------------------------
                                            ; PIC16 port for the Microchip 16-bit core micros
                                            ;--------------------------------------------------------
@@ -1206,1006 +1148,969 @@ Address  Value    Disassembly              Source
                                            ; ; Starting pCode block
                                            S_glcd__latched_lcd_data	code
                                            _latched_lcd_data:
-                                           ;	.line	363; glcd.c	void latched_lcd_data(unsigned char value) {
-000b6c   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-000b6e   ffe5
-000b70   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-000b72   ffd9
-000b74   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
-000b76   ffe5
-000b78   0e02     movlw   0x2              	MOVLW	0x02
-000b7a   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
-000b7c   f000
-                                           ;	.line	364; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
-000b7e   6a95     clrf    0x95, 0          	CLRF	_TRISD
-                                           ;	.line	365; glcd.c	LATCH_DATA = value;
-000b80   c000     movff   0, 0xf8c         	MOVFF	r0x00, _LATD
-000b82   ff8c
-                                           ;	.line	366; glcd.c	LATCH_4 = LATCH_4_ENABLED;
-000b84   848b     bsf     0x8b, 0x2, 0     	BSF	_LATCbits, 2
-                                           ;	.line	367; glcd.c	LATCH_4 = LATCH_4_DISABLED;
-000b86   948b     bcf     0x8b, 0x2, 0     	BCF	_LATCbits, 2
-                                           ;	.line	368; glcd.c	LATCH_DATA = 0x00;
-000b88   6a8c     clrf    0x8c, 0          	CLRF	_LATD
-000b8a   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
-000b8c   f000
-000b8e   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-000b90   ffd9
-000b92   0012     return  0                	RETURN	
+                                           ;	.line	366; glcd.c	void latched_lcd_data(unsigned char value) {
+000a56   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+000a58   ffe5
+000a5a   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+000a5c   ffd9
+000a5e   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
+000a60   ffe5
+000a62   0e02     movlw   0x2              	MOVLW	0x02
+000a64   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
+000a66   f000
+                                           ;	.line	367; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
+000a68   6a95     clrf    0x95, 0          	CLRF	_TRISD
+                                           ;	.line	368; glcd.c	LATCH_DATA = value;
+000a6a   c000     movff   0, 0xf8c         	MOVFF	r0x00, _LATD
+000a6c   ff8c
+                                           ;	.line	369; glcd.c	LATCH_4 = LATCH_4_ENABLED;
+000a6e   848b     bsf     0x8b, 0x2, 0     	BSF	_LATCbits, 2
+                                           ;	.line	370; glcd.c	LATCH_4 = LATCH_4_DISABLED;
+000a70   948b     bcf     0x8b, 0x2, 0     	BCF	_LATCbits, 2
+                                           ;	.line	371; glcd.c	LATCH_DATA = 0x00;
+000a72   6a8c     clrf    0x8c, 0          	CLRF	_LATD
+000a74   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
+000a76   f000
+000a78   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+000a7a   ffd9
+000a7c   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_glcd__latched_lcd_cs1	code
                                            _latched_lcd_cs1:
-                                           ;	.line	348; glcd.c	void latched_lcd_cs1(unsigned char value) {
-000978   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-00097a   ffe5
-00097c   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-00097e   ffd9
-000980   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
-000982   ffe5
-000984   0e02     movlw   0x2              	MOVLW	0x02
-000986   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
-000988   f000
-                                           ;	.line	349; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
-00098a   6a95     clrf    0x95, 0          	CLRF	_TRISD
-                                           ;	.line	350; glcd.c	if (value) {	// set it
-00098c   5000     movf    0, 0, 0          	MOVF	r0x00, W
-00098e   e005     bz      0x99a            	BZ	_00290_DS_
-000990   0100     movlb   0                	BANKSEL	__latch_3_data
-                                           ;	.line	351; glcd.c	_latch_3_data |= 0b00100000;
-000992   8bb9     bsf     0xb9, 0x5, 0x1   	BSF	__latch_3_data, 5, B
-                                           ;	.line	352; glcd.c	LATCH_DATA = _latch_3_data;
-000994   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
-000996   ff8c
-000998   d004     bra     0x9a2            	BRA	_00291_DS_
-                                           _00290_DS_:
-00099a   0100     movlb   0                	BANKSEL	__latch_3_data
-                                           ;	.line	355; glcd.c	_latch_3_data &= 0b11011111;
-00099c   9bb9     bcf     0xb9, 0x5, 0x1   	BCF	__latch_3_data, 5, B
-                                           ;	.line	356; glcd.c	LATCH_DATA = _latch_3_data;
-00099e   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
-0009a0   ff8c
-                                           _00291_DS_:
-                                           ;	.line	358; glcd.c	LATCH_3 = LATCH_3_ENABLED;
-0009a2   8c89     bsf     0x89, 0x6, 0     	BSF	_LATAbits, 6
-                                           ;	.line	359; glcd.c	LATCH_3 = LATCH_3_DISABLED;
-0009a4   9c89     bcf     0x89, 0x6, 0     	BCF	_LATAbits, 6
-                                           ;	.line	360; glcd.c	LATCH_DATA = 0x00;
-0009a6   6a8c     clrf    0x8c, 0          	CLRF	_LATD
-0009a8   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
-0009aa   f000
-0009ac   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-0009ae   ffd9
-0009b0   0012     return  0                	RETURN	
+                                           ;	.line	351; glcd.c	void latched_lcd_cs1(unsigned char value) {
+000862   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+000864   ffe5
+000866   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+000868   ffd9
+00086a   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
+00086c   ffe5
+00086e   0e02     movlw   0x2              	MOVLW	0x02
+000870   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
+000872   f000
+                                           ;	.line	352; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
+000874   6a95     clrf    0x95, 0          	CLRF	_TRISD
+                                           ;	.line	353; glcd.c	if (value) {	// set it
+000876   5000     movf    0, 0, 0          	MOVF	r0x00, W
+000878   e005     bz      0x884            	BZ	_00268_DS_
+00087a   0100     movlb   0                	BANKSEL	__latch_3_data
+                                           ;	.line	354; glcd.c	_latch_3_data |= 0b00100000;
+00087c   8bb9     bsf     0xb9, 0x5, 0x1   	BSF	__latch_3_data, 5, B
+                                           ;	.line	355; glcd.c	LATCH_DATA = _latch_3_data;
+00087e   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
+000880   ff8c
+000882   d004     bra     0x88c            	BRA	_00269_DS_
+                                           _00268_DS_:
+000884   0100     movlb   0                	BANKSEL	__latch_3_data
+                                           ;	.line	358; glcd.c	_latch_3_data &= 0b11011111;
+000886   9bb9     bcf     0xb9, 0x5, 0x1   	BCF	__latch_3_data, 5, B
+                                           ;	.line	359; glcd.c	LATCH_DATA = _latch_3_data;
+000888   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
+00088a   ff8c
+                                           _00269_DS_:
+                                           ;	.line	361; glcd.c	LATCH_3 = LATCH_3_ENABLED;
+00088c   8c89     bsf     0x89, 0x6, 0     	BSF	_LATAbits, 6
+                                           ;	.line	362; glcd.c	LATCH_3 = LATCH_3_DISABLED;
+00088e   9c89     bcf     0x89, 0x6, 0     	BCF	_LATAbits, 6
+                                           ;	.line	363; glcd.c	LATCH_DATA = 0x00;
+000890   6a8c     clrf    0x8c, 0          	CLRF	_LATD
+000892   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
+000894   f000
+000896   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+000898   ffd9
+00089a   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_glcd__latched_lcd_cs2	code
                                            _latched_lcd_cs2:
-                                           ;	.line	333; glcd.c	void latched_lcd_cs2(unsigned char value) {
-0009b2   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-0009b4   ffe5
-0009b6   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-0009b8   ffd9
-0009ba   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
-0009bc   ffe5
-0009be   0e02     movlw   0x2              	MOVLW	0x02
-0009c0   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
-0009c2   f000
-                                           ;	.line	334; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
-0009c4   6a95     clrf    0x95, 0          	CLRF	_TRISD
-                                           ;	.line	335; glcd.c	if (value) {	// set it
-0009c6   5000     movf    0, 0, 0          	MOVF	r0x00, W
-0009c8   e005     bz      0x9d4            	BZ	_00282_DS_
-0009ca   0100     movlb   0                	BANKSEL	__latch_3_data
-                                           ;	.line	336; glcd.c	_latch_3_data |= 0b00010000;
-0009cc   89b9     bsf     0xb9, 0x4, 0x1   	BSF	__latch_3_data, 4, B
-                                           ;	.line	337; glcd.c	LATCH_DATA = _latch_3_data;
-0009ce   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
-0009d0   ff8c
-0009d2   d004     bra     0x9dc            	BRA	_00283_DS_
-                                           _00282_DS_:
-0009d4   0100     movlb   0                	BANKSEL	__latch_3_data
-                                           ;	.line	340; glcd.c	_latch_3_data &= 0b11101111;
-0009d6   99b9     bcf     0xb9, 0x4, 0x1   	BCF	__latch_3_data, 4, B
-                                           ;	.line	341; glcd.c	LATCH_DATA = _latch_3_data;
-0009d8   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
-0009da   ff8c
-                                           _00283_DS_:
-                                           ;	.line	343; glcd.c	LATCH_3 = LATCH_3_ENABLED;
-0009dc   8c89     bsf     0x89, 0x6, 0     	BSF	_LATAbits, 6
-                                           ;	.line	344; glcd.c	LATCH_3 = LATCH_3_DISABLED;
-0009de   9c89     bcf     0x89, 0x6, 0     	BCF	_LATAbits, 6
-                                           ;	.line	345; glcd.c	LATCH_DATA = 0x00;
-0009e0   6a8c     clrf    0x8c, 0          	CLRF	_LATD
-0009e2   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
-0009e4   f000
-0009e6   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-0009e8   ffd9
-0009ea   0012     return  0                	RETURN	
+                                           ;	.line	336; glcd.c	void latched_lcd_cs2(unsigned char value) {
+00089c   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+00089e   ffe5
+0008a0   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+0008a2   ffd9
+0008a4   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
+0008a6   ffe5
+0008a8   0e02     movlw   0x2              	MOVLW	0x02
+0008aa   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
+0008ac   f000
+                                           ;	.line	337; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
+0008ae   6a95     clrf    0x95, 0          	CLRF	_TRISD
+                                           ;	.line	338; glcd.c	if (value) {	// set it
+0008b0   5000     movf    0, 0, 0          	MOVF	r0x00, W
+0008b2   e005     bz      0x8be            	BZ	_00260_DS_
+0008b4   0100     movlb   0                	BANKSEL	__latch_3_data
+                                           ;	.line	339; glcd.c	_latch_3_data |= 0b00010000;
+0008b6   89b9     bsf     0xb9, 0x4, 0x1   	BSF	__latch_3_data, 4, B
+                                           ;	.line	340; glcd.c	LATCH_DATA = _latch_3_data;
+0008b8   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
+0008ba   ff8c
+0008bc   d004     bra     0x8c6            	BRA	_00261_DS_
+                                           _00260_DS_:
+0008be   0100     movlb   0                	BANKSEL	__latch_3_data
+                                           ;	.line	343; glcd.c	_latch_3_data &= 0b11101111;
+0008c0   99b9     bcf     0xb9, 0x4, 0x1   	BCF	__latch_3_data, 4, B
+                                           ;	.line	344; glcd.c	LATCH_DATA = _latch_3_data;
+0008c2   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
+0008c4   ff8c
+                                           _00261_DS_:
+                                           ;	.line	346; glcd.c	LATCH_3 = LATCH_3_ENABLED;
+0008c6   8c89     bsf     0x89, 0x6, 0     	BSF	_LATAbits, 6
+                                           ;	.line	347; glcd.c	LATCH_3 = LATCH_3_DISABLED;
+0008c8   9c89     bcf     0x89, 0x6, 0     	BCF	_LATAbits, 6
+                                           ;	.line	348; glcd.c	LATCH_DATA = 0x00;
+0008ca   6a8c     clrf    0x8c, 0          	CLRF	_LATD
+0008cc   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
+0008ce   f000
+0008d0   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+0008d2   ffd9
+0008d4   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_glcd__latched_lcd_rst	code
                                            _latched_lcd_rst:
-                                           ;	.line	318; glcd.c	void latched_lcd_rst(unsigned char value) {
-0009ec   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-0009ee   ffe5
-0009f0   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-0009f2   ffd9
-0009f4   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
-0009f6   ffe5
-0009f8   0e02     movlw   0x2              	MOVLW	0x02
-0009fa   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
-0009fc   f000
-                                           ;	.line	319; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
-0009fe   6a95     clrf    0x95, 0          	CLRF	_TRISD
-                                           ;	.line	320; glcd.c	if (value) {	// set it
-000a00   5000     movf    0, 0, 0          	MOVF	r0x00, W
-000a02   e005     bz      0xa0e            	BZ	_00274_DS_
-000a04   0100     movlb   0                	BANKSEL	__latch_3_data
-                                           ;	.line	321; glcd.c	_latch_3_data |= 0b00001000;
-000a06   87b9     bsf     0xb9, 0x3, 0x1   	BSF	__latch_3_data, 3, B
-                                           ;	.line	322; glcd.c	LATCH_DATA = _latch_3_data;
-000a08   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
-000a0a   ff8c
-000a0c   d004     bra     0xa16            	BRA	_00275_DS_
-                                           _00274_DS_:
-000a0e   0100     movlb   0                	BANKSEL	__latch_3_data
-                                           ;	.line	325; glcd.c	_latch_3_data &= 0b11110111;
-000a10   97b9     bcf     0xb9, 0x3, 0x1   	BCF	__latch_3_data, 3, B
-                                           ;	.line	326; glcd.c	LATCH_DATA = _latch_3_data;
-000a12   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
-000a14   ff8c
-                                           _00275_DS_:
-                                           ;	.line	328; glcd.c	LATCH_3 = LATCH_3_ENABLED;
-000a16   8c89     bsf     0x89, 0x6, 0     	BSF	_LATAbits, 6
-                                           ;	.line	329; glcd.c	LATCH_3 = LATCH_3_DISABLED;
-000a18   9c89     bcf     0x89, 0x6, 0     	BCF	_LATAbits, 6
-                                           ;	.line	330; glcd.c	LATCH_DATA = 0x00;
-000a1a   6a8c     clrf    0x8c, 0          	CLRF	_LATD
-000a1c   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
-000a1e   f000
-000a20   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-000a22   ffd9
-000a24   0012     return  0                	RETURN	
+                                           ;	.line	321; glcd.c	void latched_lcd_rst(unsigned char value) {
+0008d6   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+0008d8   ffe5
+0008da   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+0008dc   ffd9
+0008de   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
+0008e0   ffe5
+0008e2   0e02     movlw   0x2              	MOVLW	0x02
+0008e4   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
+0008e6   f000
+                                           ;	.line	322; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
+0008e8   6a95     clrf    0x95, 0          	CLRF	_TRISD
+                                           ;	.line	323; glcd.c	if (value) {	// set it
+0008ea   5000     movf    0, 0, 0          	MOVF	r0x00, W
+0008ec   e005     bz      0x8f8            	BZ	_00252_DS_
+0008ee   0100     movlb   0                	BANKSEL	__latch_3_data
+                                           ;	.line	324; glcd.c	_latch_3_data |= 0b00001000;
+0008f0   87b9     bsf     0xb9, 0x3, 0x1   	BSF	__latch_3_data, 3, B
+                                           ;	.line	325; glcd.c	LATCH_DATA = _latch_3_data;
+0008f2   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
+0008f4   ff8c
+0008f6   d004     bra     0x900            	BRA	_00253_DS_
+                                           _00252_DS_:
+0008f8   0100     movlb   0                	BANKSEL	__latch_3_data
+                                           ;	.line	328; glcd.c	_latch_3_data &= 0b11110111;
+0008fa   97b9     bcf     0xb9, 0x3, 0x1   	BCF	__latch_3_data, 3, B
+                                           ;	.line	329; glcd.c	LATCH_DATA = _latch_3_data;
+0008fc   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
+0008fe   ff8c
+                                           _00253_DS_:
+                                           ;	.line	331; glcd.c	LATCH_3 = LATCH_3_ENABLED;
+000900   8c89     bsf     0x89, 0x6, 0     	BSF	_LATAbits, 6
+                                           ;	.line	332; glcd.c	LATCH_3 = LATCH_3_DISABLED;
+000902   9c89     bcf     0x89, 0x6, 0     	BCF	_LATAbits, 6
+                                           ;	.line	333; glcd.c	LATCH_DATA = 0x00;
+000904   6a8c     clrf    0x8c, 0          	CLRF	_LATD
+000906   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
+000908   f000
+00090a   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+00090c   ffd9
+00090e   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_glcd__latched_lcd_rw	code
                                            _latched_lcd_rw:
-                                           ;	.line	303; glcd.c	void latched_lcd_rw(unsigned char value) {
-000a26   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-000a28   ffe5
-000a2a   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-000a2c   ffd9
-000a2e   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
-000a30   ffe5
-000a32   0e02     movlw   0x2              	MOVLW	0x02
-000a34   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
-000a36   f000
-                                           ;	.line	304; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
-000a38   6a95     clrf    0x95, 0          	CLRF	_TRISD
-                                           ;	.line	305; glcd.c	if (value) {	// set it
-000a3a   5000     movf    0, 0, 0          	MOVF	r0x00, W
-000a3c   e005     bz      0xa48            	BZ	_00266_DS_
-000a3e   0100     movlb   0                	BANKSEL	__latch_3_data
-                                           ;	.line	306; glcd.c	_latch_3_data |= 0b00000100;
-000a40   85b9     bsf     0xb9, 0x2, 0x1   	BSF	__latch_3_data, 2, B
-                                           ;	.line	307; glcd.c	LATCH_DATA = _latch_3_data;
-000a42   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
-000a44   ff8c
-000a46   d004     bra     0xa50            	BRA	_00267_DS_
-                                           _00266_DS_:
-000a48   0100     movlb   0                	BANKSEL	__latch_3_data
-                                           ;	.line	310; glcd.c	_latch_3_data &= 0b11111011;
-000a4a   95b9     bcf     0xb9, 0x2, 0x1   	BCF	__latch_3_data, 2, B
-                                           ;	.line	311; glcd.c	LATCH_DATA = _latch_3_data;
-000a4c   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
-000a4e   ff8c
-                                           _00267_DS_:
-                                           ;	.line	313; glcd.c	LATCH_3 = LATCH_3_ENABLED;
-000a50   8c89     bsf     0x89, 0x6, 0     	BSF	_LATAbits, 6
-                                           ;	.line	314; glcd.c	LATCH_3 = LATCH_3_DISABLED;
-000a52   9c89     bcf     0x89, 0x6, 0     	BCF	_LATAbits, 6
-                                           ;	.line	315; glcd.c	LATCH_DATA = 0x00;
-000a54   6a8c     clrf    0x8c, 0          	CLRF	_LATD
-000a56   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
-000a58   f000
-000a5a   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-000a5c   ffd9
-000a5e   0012     return  0                	RETURN	
+                                           ;	.line	306; glcd.c	void latched_lcd_rw(unsigned char value) {
+000910   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+000912   ffe5
+000914   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+000916   ffd9
+000918   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
+00091a   ffe5
+00091c   0e02     movlw   0x2              	MOVLW	0x02
+00091e   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
+000920   f000
+                                           ;	.line	307; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
+000922   6a95     clrf    0x95, 0          	CLRF	_TRISD
+                                           ;	.line	308; glcd.c	if (value) {	// set it
+000924   5000     movf    0, 0, 0          	MOVF	r0x00, W
+000926   e005     bz      0x932            	BZ	_00244_DS_
+000928   0100     movlb   0                	BANKSEL	__latch_3_data
+                                           ;	.line	309; glcd.c	_latch_3_data |= 0b00000100;
+00092a   85b9     bsf     0xb9, 0x2, 0x1   	BSF	__latch_3_data, 2, B
+                                           ;	.line	310; glcd.c	LATCH_DATA = _latch_3_data;
+00092c   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
+00092e   ff8c
+000930   d004     bra     0x93a            	BRA	_00245_DS_
+                                           _00244_DS_:
+000932   0100     movlb   0                	BANKSEL	__latch_3_data
+                                           ;	.line	313; glcd.c	_latch_3_data &= 0b11111011;
+000934   95b9     bcf     0xb9, 0x2, 0x1   	BCF	__latch_3_data, 2, B
+                                           ;	.line	314; glcd.c	LATCH_DATA = _latch_3_data;
+000936   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
+000938   ff8c
+                                           _00245_DS_:
+                                           ;	.line	316; glcd.c	LATCH_3 = LATCH_3_ENABLED;
+00093a   8c89     bsf     0x89, 0x6, 0     	BSF	_LATAbits, 6
+                                           ;	.line	317; glcd.c	LATCH_3 = LATCH_3_DISABLED;
+00093c   9c89     bcf     0x89, 0x6, 0     	BCF	_LATAbits, 6
+                                           ;	.line	318; glcd.c	LATCH_DATA = 0x00;
+00093e   6a8c     clrf    0x8c, 0          	CLRF	_LATD
+000940   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
+000942   f000
+000944   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+000946   ffd9
+000948   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_glcd__latched_lcd_di	code
                                            _latched_lcd_di:
-                                           ;	.line	288; glcd.c	void latched_lcd_di(unsigned char value) {
-000a60   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-000a62   ffe5
-000a64   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-000a66   ffd9
-000a68   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
-000a6a   ffe5
-000a6c   0e02     movlw   0x2              	MOVLW	0x02
-000a6e   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
-000a70   f000
-                                           ;	.line	289; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
-000a72   6a95     clrf    0x95, 0          	CLRF	_TRISD
-                                           ;	.line	290; glcd.c	if (value) {	// set it
-000a74   5000     movf    0, 0, 0          	MOVF	r0x00, W
-000a76   e005     bz      0xa82            	BZ	_00258_DS_
-000a78   0100     movlb   0                	BANKSEL	__latch_3_data
-                                           ;	.line	291; glcd.c	_latch_3_data |= 0b00000010;
-000a7a   83b9     bsf     0xb9, 0x1, 0x1   	BSF	__latch_3_data, 1, B
-                                           ;	.line	292; glcd.c	LATCH_DATA = _latch_3_data;
-000a7c   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
-000a7e   ff8c
-000a80   d004     bra     0xa8a            	BRA	_00259_DS_
-                                           _00258_DS_:
-000a82   0100     movlb   0                	BANKSEL	__latch_3_data
-                                           ;	.line	295; glcd.c	_latch_3_data &= 0b11111101;
-000a84   93b9     bcf     0xb9, 0x1, 0x1   	BCF	__latch_3_data, 1, B
-                                           ;	.line	296; glcd.c	LATCH_DATA = _latch_3_data;
-000a86   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
-000a88   ff8c
-                                           _00259_DS_:
-                                           ;	.line	298; glcd.c	LATCH_3 = LATCH_3_ENABLED;
-000a8a   8c89     bsf     0x89, 0x6, 0     	BSF	_LATAbits, 6
-                                           ;	.line	299; glcd.c	LATCH_3 = LATCH_3_DISABLED;
-000a8c   9c89     bcf     0x89, 0x6, 0     	BCF	_LATAbits, 6
-                                           ;	.line	300; glcd.c	LATCH_DATA = 0x00;
-000a8e   6a8c     clrf    0x8c, 0          	CLRF	_LATD
-000a90   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
-000a92   f000
-000a94   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-000a96   ffd9
-000a98   0012     return  0                	RETURN	
+                                           ;	.line	291; glcd.c	void latched_lcd_di(unsigned char value) {
+00094a   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+00094c   ffe5
+00094e   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+000950   ffd9
+000952   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
+000954   ffe5
+000956   0e02     movlw   0x2              	MOVLW	0x02
+000958   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
+00095a   f000
+                                           ;	.line	292; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
+00095c   6a95     clrf    0x95, 0          	CLRF	_TRISD
+                                           ;	.line	293; glcd.c	if (value) {	// set it
+00095e   5000     movf    0, 0, 0          	MOVF	r0x00, W
+000960   e005     bz      0x96c            	BZ	_00236_DS_
+000962   0100     movlb   0                	BANKSEL	__latch_3_data
+                                           ;	.line	294; glcd.c	_latch_3_data |= 0b00000010;
+000964   83b9     bsf     0xb9, 0x1, 0x1   	BSF	__latch_3_data, 1, B
+                                           ;	.line	295; glcd.c	LATCH_DATA = _latch_3_data;
+000966   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
+000968   ff8c
+00096a   d004     bra     0x974            	BRA	_00237_DS_
+                                           _00236_DS_:
+00096c   0100     movlb   0                	BANKSEL	__latch_3_data
+                                           ;	.line	298; glcd.c	_latch_3_data &= 0b11111101;
+00096e   93b9     bcf     0xb9, 0x1, 0x1   	BCF	__latch_3_data, 1, B
+                                           ;	.line	299; glcd.c	LATCH_DATA = _latch_3_data;
+000970   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
+000972   ff8c
+                                           _00237_DS_:
+                                           ;	.line	301; glcd.c	LATCH_3 = LATCH_3_ENABLED;
+000974   8c89     bsf     0x89, 0x6, 0     	BSF	_LATAbits, 6
+                                           ;	.line	302; glcd.c	LATCH_3 = LATCH_3_DISABLED;
+000976   9c89     bcf     0x89, 0x6, 0     	BCF	_LATAbits, 6
+                                           ;	.line	303; glcd.c	LATCH_DATA = 0x00;
+000978   6a8c     clrf    0x8c, 0          	CLRF	_LATD
+00097a   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
+00097c   f000
+00097e   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+000980   ffd9
+000982   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_glcd__latched_lcd_enable	code
                                            _latched_lcd_enable:
-                                           ;	.line	273; glcd.c	void latched_lcd_enable(unsigned char value) {
-000a9a   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-000a9c   ffe5
-000a9e   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-000aa0   ffd9
-000aa2   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
-000aa4   ffe5
-000aa6   0e02     movlw   0x2              	MOVLW	0x02
-000aa8   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
-000aaa   f000
-                                           ;	.line	274; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
-000aac   6a95     clrf    0x95, 0          	CLRF	_TRISD
-                                           ;	.line	275; glcd.c	if (value) {	// set it
-000aae   5000     movf    0, 0, 0          	MOVF	r0x00, W
-000ab0   e005     bz      0xabc            	BZ	_00250_DS_
-000ab2   0100     movlb   0                	BANKSEL	__latch_3_data
-                                           ;	.line	276; glcd.c	_latch_3_data |= 0b00000001;
-000ab4   81b9     bsf     0xb9, 0, 0x1     	BSF	__latch_3_data, 0, B
-                                           ;	.line	277; glcd.c	LATCH_DATA = _latch_3_data;
-000ab6   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
-000ab8   ff8c
-000aba   d004     bra     0xac4            	BRA	_00251_DS_
-                                           _00250_DS_:
-000abc   0100     movlb   0                	BANKSEL	__latch_3_data
-                                           ;	.line	280; glcd.c	_latch_3_data &= 0b11111110;
-000abe   91b9     bcf     0xb9, 0, 0x1     	BCF	__latch_3_data, 0, B
-                                           ;	.line	281; glcd.c	LATCH_DATA = _latch_3_data;
-000ac0   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
-000ac2   ff8c
-                                           _00251_DS_:
-                                           ;	.line	283; glcd.c	LATCH_3 = LATCH_3_ENABLED;
-000ac4   8c89     bsf     0x89, 0x6, 0     	BSF	_LATAbits, 6
-                                           ;	.line	284; glcd.c	LATCH_3 = LATCH_3_DISABLED;
-000ac6   9c89     bcf     0x89, 0x6, 0     	BCF	_LATAbits, 6
-                                           ;	.line	285; glcd.c	LATCH_DATA = 0x00;
-000ac8   6a8c     clrf    0x8c, 0          	CLRF	_LATD
-000aca   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
-000acc   f000
-000ace   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-000ad0   ffd9
-000ad2   0012     return  0                	RETURN	
+                                           ;	.line	276; glcd.c	void latched_lcd_enable(unsigned char value) {
+000984   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+000986   ffe5
+000988   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+00098a   ffd9
+00098c   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
+00098e   ffe5
+000990   0e02     movlw   0x2              	MOVLW	0x02
+000992   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
+000994   f000
+                                           ;	.line	277; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
+000996   6a95     clrf    0x95, 0          	CLRF	_TRISD
+                                           ;	.line	278; glcd.c	if (value) {	// set it
+000998   5000     movf    0, 0, 0          	MOVF	r0x00, W
+00099a   e005     bz      0x9a6            	BZ	_00228_DS_
+00099c   0100     movlb   0                	BANKSEL	__latch_3_data
+                                           ;	.line	279; glcd.c	_latch_3_data |= 0b00000001;
+00099e   81b9     bsf     0xb9, 0, 0x1     	BSF	__latch_3_data, 0, B
+                                           ;	.line	280; glcd.c	LATCH_DATA = _latch_3_data;
+0009a0   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
+0009a2   ff8c
+0009a4   d004     bra     0x9ae            	BRA	_00229_DS_
+                                           _00228_DS_:
+0009a6   0100     movlb   0                	BANKSEL	__latch_3_data
+                                           ;	.line	283; glcd.c	_latch_3_data &= 0b11111110;
+0009a8   91b9     bcf     0xb9, 0, 0x1     	BCF	__latch_3_data, 0, B
+                                           ;	.line	284; glcd.c	LATCH_DATA = _latch_3_data;
+0009aa   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
+0009ac   ff8c
+                                           _00229_DS_:
+                                           ;	.line	286; glcd.c	LATCH_3 = LATCH_3_ENABLED;
+0009ae   8c89     bsf     0x89, 0x6, 0     	BSF	_LATAbits, 6
+                                           ;	.line	287; glcd.c	LATCH_3 = LATCH_3_DISABLED;
+0009b0   9c89     bcf     0x89, 0x6, 0     	BCF	_LATAbits, 6
+                                           ;	.line	288; glcd.c	LATCH_DATA = 0x00;
+0009b2   6a8c     clrf    0x8c, 0          	CLRF	_LATD
+0009b4   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
+0009b6   f000
+0009b8   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+0009ba   ffd9
+0009bc   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_glcd__latched_lcd_power	code
                                            _latched_lcd_power:
-                                           ;	.line	258; glcd.c	void latched_lcd_power(unsigned char value) {
-000ad4   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-000ad6   ffe5
-000ad8   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-000ada   ffd9
-000adc   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
-000ade   ffe5
-000ae0   0e02     movlw   0x2              	MOVLW	0x02
-000ae2   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
-000ae4   f000
-                                           ;	.line	259; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
-000ae6   6a95     clrf    0x95, 0          	CLRF	_TRISD
-                                           ;	.line	260; glcd.c	if (value) {	// set it
-000ae8   5000     movf    0, 0, 0          	MOVF	r0x00, W
-000aea   e005     bz      0xaf6            	BZ	_00242_DS_
-000aec   0100     movlb   0                	BANKSEL	__latch_3_data
-                                           ;	.line	261; glcd.c	_latch_3_data |= 0b10000000;
-000aee   8fb9     bsf     0xb9, 0x7, 0x1   	BSF	__latch_3_data, 7, B
-                                           ;	.line	262; glcd.c	LATCH_DATA = _latch_3_data;
-000af0   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
-000af2   ff8c
-000af4   d004     bra     0xafe            	BRA	_00243_DS_
-                                           _00242_DS_:
-000af6   0100     movlb   0                	BANKSEL	__latch_3_data
-                                           ;	.line	265; glcd.c	_latch_3_data &= 0b01111111;
-000af8   9fb9     bcf     0xb9, 0x7, 0x1   	BCF	__latch_3_data, 7, B
-                                           ;	.line	266; glcd.c	LATCH_DATA = _latch_3_data;
-000afa   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
-000afc   ff8c
-                                           _00243_DS_:
-                                           ;	.line	268; glcd.c	LATCH_3 = LATCH_3_ENABLED;
-000afe   8c89     bsf     0x89, 0x6, 0     	BSF	_LATAbits, 6
-                                           ;	.line	269; glcd.c	LATCH_3 = LATCH_3_DISABLED;
-000b00   9c89     bcf     0x89, 0x6, 0     	BCF	_LATAbits, 6
-                                           ;	.line	270; glcd.c	LATCH_DATA = 0x00;
-000b02   6a8c     clrf    0x8c, 0          	CLRF	_LATD
-000b04   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
-000b06   f000
-000b08   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-000b0a   ffd9
-000b0c   0012     return  0                	RETURN	
+                                           ;	.line	261; glcd.c	void latched_lcd_power(unsigned char value) {
+0009be   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+0009c0   ffe5
+0009c2   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+0009c4   ffd9
+0009c6   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
+0009c8   ffe5
+0009ca   0e02     movlw   0x2              	MOVLW	0x02
+0009cc   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
+0009ce   f000
+                                           ;	.line	262; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
+0009d0   6a95     clrf    0x95, 0          	CLRF	_TRISD
+                                           ;	.line	263; glcd.c	if (value) {	// set it
+0009d2   5000     movf    0, 0, 0          	MOVF	r0x00, W
+0009d4   e005     bz      0x9e0            	BZ	_00220_DS_
+0009d6   0100     movlb   0                	BANKSEL	__latch_3_data
+                                           ;	.line	264; glcd.c	_latch_3_data |= 0b10000000;
+0009d8   8fb9     bsf     0xb9, 0x7, 0x1   	BSF	__latch_3_data, 7, B
+                                           ;	.line	265; glcd.c	LATCH_DATA = _latch_3_data;
+0009da   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
+0009dc   ff8c
+0009de   d004     bra     0x9e8            	BRA	_00221_DS_
+                                           _00220_DS_:
+0009e0   0100     movlb   0                	BANKSEL	__latch_3_data
+                                           ;	.line	268; glcd.c	_latch_3_data &= 0b01111111;
+0009e2   9fb9     bcf     0xb9, 0x7, 0x1   	BCF	__latch_3_data, 7, B
+                                           ;	.line	269; glcd.c	LATCH_DATA = _latch_3_data;
+0009e4   c0b9     movff   0xb9, 0xf8c      	MOVFF	__latch_3_data, _LATD
+0009e6   ff8c
+                                           _00221_DS_:
+                                           ;	.line	271; glcd.c	LATCH_3 = LATCH_3_ENABLED;
+0009e8   8c89     bsf     0x89, 0x6, 0     	BSF	_LATAbits, 6
+                                           ;	.line	272; glcd.c	LATCH_3 = LATCH_3_DISABLED;
+0009ea   9c89     bcf     0x89, 0x6, 0     	BCF	_LATAbits, 6
+                                           ;	.line	273; glcd.c	LATCH_DATA = 0x00;
+0009ec   6a8c     clrf    0x8c, 0          	CLRF	_LATD
+0009ee   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
+0009f0   f000
+0009f2   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+0009f4   ffd9
+0009f6   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_glcd__lcd_plot_pixel	code
                                            _lcd_plot_pixel:
-                                           ;	.line	238; glcd.c	void lcd_plot_pixel(unsigned char rx, unsigned char ry) {
-000464   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-000466   ffe5
-000468   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-00046a   ffd9
-00046c   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
-00046e   ffe5
-000470   c001     movff   0x1, 0xfe5       	MOVFF	r0x01, POSTDEC1
-000472   ffe5
-000474   c002     movff   0x2, 0xfe5       	MOVFF	r0x02, POSTDEC1
-000476   ffe5
-000478   0e02     movlw   0x2              	MOVLW	0x02
-00047a   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
-00047c   f000
-00047e   0e03     movlw   0x3              	MOVLW	0x03
-000480   cfdb     movff   0xfdb, 0x1       	MOVFF	PLUSW2, r0x01
-000482   f001
-                                           ;	.line	243; glcd.c	if (rx & 64) {
-000484   ac00     btfss   0, 0x6, 0        	BTFSS	r0x00, 6
-000486   d006     bra     0x494            	BRA	_00225_DS_
-                                           ;	.line	244; glcd.c	lcd_selectside(LCD_RIGHT);
-000488   0e02     movlw   0x2              	MOVLW	0x02
-00048a   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-00048c   ecec     call    0x7d8, 0         	CALL	_lcd_selectside
-00048e   f003
-000490   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-000492   d005     bra     0x49e            	BRA	_00226_DS_
-                                           _00225_DS_:
-                                           ;	.line	247; glcd.c	lcd_selectside(LCD_LEFT);
-000494   0e01     movlw   0x1              	MOVLW	0x01
-000496   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000498   ecec     call    0x7d8, 0         	CALL	_lcd_selectside
-00049a   f003
-00049c   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-                                           _00226_DS_:
-                                           ;	.line	250; glcd.c	lcd_setpage( ry >> 3);		// fast /8
-00049e   3801     swapf   0x1, 0, 0        	SWAPF	r0x01, W
-0004a0   44e8     rlncf   0xe8, 0, 0       	RLNCF	WREG, W
-0004a2   0b1f     andlw   0x1f             	ANDLW	0x1f
-0004a4   6e02     movwf   0x2, 0           	MOVWF	r0x02
-0004a6   5002     movf    0x2, 0, 0        	MOVF	r0x02, W
-0004a8   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0004aa   ec38     call    0x870, 0         	CALL	_lcd_setpage
-0004ac   f004
-0004ae   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-                                           ;	.line	251; glcd.c	lcd_setyaddr( rx & 0b00111111);
-0004b0   0e3f     movlw   0x3f             	MOVLW	0x3f
-0004b2   1600     andwf   0, 0x1, 0        	ANDWF	r0x00, F
-0004b4   5000     movf    0, 0, 0          	MOVF	r0x00, W
-0004b6   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0004b8   ec14     call    0x828, 0         	CALL	_lcd_setyaddr
-0004ba   f004
-0004bc   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-                                           ;	.line	252; glcd.c	d = lcd_read();				// read to move data to GLCD buffer,
-0004be   ec33     call    0xc66, 0         	CALL	_lcd_read
-0004c0   f006
-                                           ;	.line	253; glcd.c	d = lcd_read();				// read again to transfer to pic
-0004c2   ec33     call    0xc66, 0         	CALL	_lcd_read
-0004c4   f006
-0004c6   6e02     movwf   0x2, 0           	MOVWF	r0x02
-                                           ;	.line	254; glcd.c	lcd_setyaddr( rx & 0b00111111); 
-0004c8   5000     movf    0, 0, 0          	MOVF	r0x00, W
-0004ca   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0004cc   ec14     call    0x828, 0         	CALL	_lcd_setyaddr
-0004ce   f004
-0004d0   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-                                           ;	.line	255; glcd.c	lcd_write (d | (1 << (ry & 0b111)));
-0004d2   0e07     movlw   0x7              	MOVLW	0x07
-0004d4   1601     andwf   0x1, 0x1, 0      	ANDWF	r0x01, F
-0004d6   0e01     movlw   0x1              	MOVLW	0x01
-0004d8   6e00     movwf   0, 0             	MOVWF	r0x00
-0004da   5001     movf    0x1, 0, 0        	MOVF	r0x01, W
-0004dc   e005     bz      0x4e8            	BZ	_00235_DS_
-0004de   6ce8     negf    0xe8, 0          	NEGF	WREG
-0004e0   90d8     bcf     0xd8, 0, 0       	BCF	STATUS, 0
-                                           _00236_DS_:
-0004e2   3600     rlcf    0, 0x1, 0        	RLCF	r0x00, F
-0004e4   0f01     addlw   0x1              	ADDLW	0x01
-0004e6   e3fd     bnc     0x4e2            	BNC	_00236_DS_
-                                           _00235_DS_:
-0004e8   5000     movf    0, 0, 0          	MOVF	r0x00, W
-0004ea   1202     iorwf   0x2, 0x1, 0      	IORWF	r0x02, F
-0004ec   5002     movf    0x2, 0, 0        	MOVF	r0x02, W
-0004ee   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0004f0   ec5b     call    0x8b6, 0         	CALL	_lcd_write
-0004f2   f004
-0004f4   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-0004f6   cfe4     movff   0xfe4, 0x2       	MOVFF	PREINC1, r0x02
-0004f8   f002
-0004fa   cfe4     movff   0xfe4, 0x1       	MOVFF	PREINC1, r0x01
-0004fc   f001
-0004fe   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
-000500   f000
-000502   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-000504   ffd9
-000506   0012     return  0                	RETURN	
+                                           ;	.line	241; glcd.c	void lcd_plot_pixel(unsigned char rx, unsigned char ry) {
+000370   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+000372   ffe5
+000374   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+000376   ffd9
+000378   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
+00037a   ffe5
+00037c   c001     movff   0x1, 0xfe5       	MOVFF	r0x01, POSTDEC1
+00037e   ffe5
+000380   c002     movff   0x2, 0xfe5       	MOVFF	r0x02, POSTDEC1
+000382   ffe5
+000384   0e02     movlw   0x2              	MOVLW	0x02
+000386   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
+000388   f000
+00038a   0e03     movlw   0x3              	MOVLW	0x03
+00038c   cfdb     movff   0xfdb, 0x1       	MOVFF	PLUSW2, r0x01
+00038e   f001
+                                           ;	.line	246; glcd.c	if (rx & 64) {
+000390   ac00     btfss   0, 0x6, 0        	BTFSS	r0x00, 6
+000392   d006     bra     0x3a0            	BRA	_00203_DS_
+                                           ;	.line	247; glcd.c	lcd_selectside(LCD_RIGHT);
+000394   0e02     movlw   0x2              	MOVLW	0x02
+000396   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000398   ec61     call    0x6c2, 0         	CALL	_lcd_selectside
+00039a   f003
+00039c   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+00039e   d005     bra     0x3aa            	BRA	_00204_DS_
+                                           _00203_DS_:
+                                           ;	.line	250; glcd.c	lcd_selectside(LCD_LEFT);
+0003a0   0e01     movlw   0x1              	MOVLW	0x01
+0003a2   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+0003a4   ec61     call    0x6c2, 0         	CALL	_lcd_selectside
+0003a6   f003
+0003a8   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+                                           _00204_DS_:
+                                           ;	.line	253; glcd.c	lcd_setpage( ry >> 3);		// fast /8
+0003aa   3801     swapf   0x1, 0, 0        	SWAPF	r0x01, W
+0003ac   44e8     rlncf   0xe8, 0, 0       	RLNCF	WREG, W
+0003ae   0b1f     andlw   0x1f             	ANDLW	0x1f
+0003b0   6e02     movwf   0x2, 0           	MOVWF	r0x02
+0003b2   5002     movf    0x2, 0, 0        	MOVF	r0x02, W
+0003b4   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+0003b6   ecad     call    0x75a, 0         	CALL	_lcd_setpage
+0003b8   f003
+0003ba   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+                                           ;	.line	254; glcd.c	lcd_setyaddr( rx & 0b00111111);
+0003bc   0e3f     movlw   0x3f             	MOVLW	0x3f
+0003be   1600     andwf   0, 0x1, 0        	ANDWF	r0x00, F
+0003c0   5000     movf    0, 0, 0          	MOVF	r0x00, W
+0003c2   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+0003c4   ec89     call    0x712, 0         	CALL	_lcd_setyaddr
+0003c6   f003
+0003c8   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+                                           ;	.line	255; glcd.c	d = lcd_read();				// read to move data to GLCD buffer,
+0003ca   ec8b     call    0xb16, 0         	CALL	_lcd_read
+0003cc   f005
+                                           ;	.line	256; glcd.c	d = lcd_read();				// read again to transfer to pic
+0003ce   ec8b     call    0xb16, 0         	CALL	_lcd_read
+0003d0   f005
+0003d2   6e02     movwf   0x2, 0           	MOVWF	r0x02
+                                           ;	.line	257; glcd.c	lcd_setyaddr( rx & 0b00111111); 
+0003d4   5000     movf    0, 0, 0          	MOVF	r0x00, W
+0003d6   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+0003d8   ec89     call    0x712, 0         	CALL	_lcd_setyaddr
+0003da   f003
+0003dc   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+                                           ;	.line	258; glcd.c	lcd_write (d | (1 << (ry & 0b111)));
+0003de   0e07     movlw   0x7              	MOVLW	0x07
+0003e0   1601     andwf   0x1, 0x1, 0      	ANDWF	r0x01, F
+0003e2   0e01     movlw   0x1              	MOVLW	0x01
+0003e4   6e00     movwf   0, 0             	MOVWF	r0x00
+0003e6   5001     movf    0x1, 0, 0        	MOVF	r0x01, W
+0003e8   e005     bz      0x3f4            	BZ	_00213_DS_
+0003ea   6ce8     negf    0xe8, 0          	NEGF	WREG
+0003ec   90d8     bcf     0xd8, 0, 0       	BCF	STATUS, 0
+                                           _00214_DS_:
+0003ee   3600     rlcf    0, 0x1, 0        	RLCF	r0x00, F
+0003f0   0f01     addlw   0x1              	ADDLW	0x01
+0003f2   e3fd     bnc     0x3ee            	BNC	_00214_DS_
+                                           _00213_DS_:
+0003f4   5000     movf    0, 0, 0          	MOVF	r0x00, W
+0003f6   1202     iorwf   0x2, 0x1, 0      	IORWF	r0x02, F
+0003f8   5002     movf    0x2, 0, 0        	MOVF	r0x02, W
+0003fa   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+0003fc   ecd0     call    0x7a0, 0         	CALL	_lcd_write
+0003fe   f003
+000400   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+000402   cfe4     movff   0xfe4, 0x2       	MOVFF	PREINC1, r0x02
+000404   f002
+000406   cfe4     movff   0xfe4, 0x1       	MOVFF	PREINC1, r0x01
+000408   f001
+00040a   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
+00040c   f000
+00040e   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+000410   ffd9
+000412   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_glcd__lcd_read	code
                                            _lcd_read:
                                            ;	.line	222; glcd.c	unsigned char lcd_read (void) {
-000c66   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-000c68   ffe5
-000c6a   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-000c6c   ffd9
-                                           ;	.line	234; glcd.c	return 1;
-000c6e   0e01     movlw   0x1              	MOVLW	0x01
-000c70   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-000c72   ffd9
-000c74   0012     return  0                	RETURN	
+000b16   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+000b18   ffe5
+000b1a   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+000b1c   ffd9
+                                           ;	.line	236; glcd.c	lcd_enable();
+000b1e   ec16     call    0xa2c, 0         	CALL	_lcd_enable
+000b20   f005
+                                           ;	.line	237; glcd.c	return 0;
+000b22   6ae8     clrf    0xe8, 0          	CLRF	WREG
+000b24   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+000b26   ffd9
+000b28   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_glcd__lcd_selectside	code
                                            _lcd_selectside:
                                            ;	.line	197; glcd.c	void lcd_selectside(unsigned char sides) {
-0007d8   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-0007da   ffe5
-0007dc   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-0007de   ffd9
-0007e0   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
-0007e2   ffe5
-0007e4   0e02     movlw   0x2              	MOVLW	0x02
-0007e6   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
-0007e8   f000
+0006c2   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+0006c4   ffe5
+0006c6   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+0006c8   ffd9
+0006ca   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
+0006cc   ffe5
+0006ce   0e02     movlw   0x2              	MOVLW	0x02
+0006d0   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
+0006d2   f000
                                            ;	.line	200; glcd.c	if (sides & LCD_LEFT) {
-0007ea   a000     btfss   0, 0, 0          	BTFSS	r0x00, 0
-0007ec   d006     bra     0x7fa            	BRA	_00200_DS_
+0006d4   a000     btfss   0, 0, 0          	BTFSS	r0x00, 0
+0006d6   d006     bra     0x6e4            	BRA	_00178_DS_
                                            ;	.line	202; glcd.c	latched_lcd_cs1(0);
-0007ee   0e00     movlw   0                	MOVLW	0x00
-0007f0   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0007f2   ecbc     call    0x978, 0         	CALL	_latched_lcd_cs1
-0007f4   f004
-0007f6   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-0007f8   d005     bra     0x804            	BRA	_00201_DS_
-                                           _00200_DS_:
+0006d8   0e00     movlw   0                	MOVLW	0x00
+0006da   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+0006dc   ec31     call    0x862, 0         	CALL	_latched_lcd_cs1
+0006de   f004
+0006e0   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+0006e2   d005     bra     0x6ee            	BRA	_00179_DS_
+                                           _00178_DS_:
                                            ;	.line	206; glcd.c	latched_lcd_cs1(1);
-0007fa   0e01     movlw   0x1              	MOVLW	0x01
-0007fc   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0007fe   ecbc     call    0x978, 0         	CALL	_latched_lcd_cs1
-000800   f004
-000802   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-                                           _00201_DS_:
+0006e4   0e01     movlw   0x1              	MOVLW	0x01
+0006e6   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+0006e8   ec31     call    0x862, 0         	CALL	_latched_lcd_cs1
+0006ea   f004
+0006ec   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+                                           _00179_DS_:
                                            ;	.line	209; glcd.c	if (sides & LCD_RIGHT) {
-000804   a200     btfss   0, 0x1, 0        	BTFSS	r0x00, 1
-000806   d006     bra     0x814            	BRA	_00203_DS_
+0006ee   a200     btfss   0, 0x1, 0        	BTFSS	r0x00, 1
+0006f0   d006     bra     0x6fe            	BRA	_00181_DS_
                                            ;	.line	211; glcd.c	latched_lcd_cs2(0);
-000808   0e00     movlw   0                	MOVLW	0x00
-00080a   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-00080c   ecd9     call    0x9b2, 0         	CALL	_latched_lcd_cs2
-00080e   f004
-000810   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-000812   d005     bra     0x81e            	BRA	_00205_DS_
-                                           _00203_DS_:
+0006f2   0e00     movlw   0                	MOVLW	0x00
+0006f4   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+0006f6   ec4e     call    0x89c, 0         	CALL	_latched_lcd_cs2
+0006f8   f004
+0006fa   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+0006fc   d005     bra     0x708            	BRA	_00183_DS_
+                                           _00181_DS_:
                                            ;	.line	215; glcd.c	latched_lcd_cs2(1);
-000814   0e01     movlw   0x1              	MOVLW	0x01
-000816   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000818   ecd9     call    0x9b2, 0         	CALL	_latched_lcd_cs2
-00081a   f004
-00081c   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-                                           _00205_DS_:
-00081e   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
-000820   f000
-000822   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-000824   ffd9
-000826   0012     return  0                	RETURN	
+0006fe   0e01     movlw   0x1              	MOVLW	0x01
+000700   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000702   ec4e     call    0x89c, 0         	CALL	_latched_lcd_cs2
+000704   f004
+000706   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+                                           _00183_DS_:
+000708   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
+00070a   f000
+00070c   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+00070e   ffd9
+000710   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_glcd__lcd_write	code
                                            _lcd_write:
                                            ;	.line	184; glcd.c	void lcd_write (unsigned char d) {
-0008b6   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-0008b8   ffe5
-0008ba   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-0008bc   ffd9
-0008be   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
-0008c0   ffe5
-0008c2   0e02     movlw   0x2              	MOVLW	0x02
-0008c4   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
-0008c6   f000
+0007a0   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+0007a2   ffe5
+0007a4   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+0007a6   ffd9
+0007a8   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
+0007aa   ffe5
+0007ac   0e02     movlw   0x2              	MOVLW	0x02
+0007ae   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
+0007b0   f000
                                            ;	.line	185; glcd.c	lcd_waitbusy();
-0008c8   ecf2     call    0xbe4, 0         	CALL	_lcd_waitbusy
-0008ca   f005
+0007b2   ec9f     call    0xb3e, 0         	CALL	_lcd_waitbusy
+0007b4   f005
                                            ;	.line	187; glcd.c	latched_lcd_di(1);
-0008cc   0e01     movlw   0x1              	MOVLW	0x01
-0008ce   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0008d0   ec30     call    0xa60, 0         	CALL	_latched_lcd_di
-0008d2   f005
-0008d4   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+0007b6   0e01     movlw   0x1              	MOVLW	0x01
+0007b8   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+0007ba   eca5     call    0x94a, 0         	CALL	_latched_lcd_di
+0007bc   f004
+0007be   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	189; glcd.c	latched_lcd_rw(0);
-0008d6   0e00     movlw   0                	MOVLW	0x00
-0008d8   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0008da   ec13     call    0xa26, 0         	CALL	_latched_lcd_rw
-0008dc   f005
-0008de   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+0007c0   0e00     movlw   0                	MOVLW	0x00
+0007c2   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+0007c4   ec88     call    0x910, 0         	CALL	_latched_lcd_rw
+0007c6   f004
+0007c8   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	192; glcd.c	latched_lcd_data(d);
-0008e0   5000     movf    0, 0, 0          	MOVF	r0x00, W
-0008e2   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0008e4   ecb6     call    0xb6c, 0         	CALL	_latched_lcd_data
-0008e6   f005
-0008e8   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+0007ca   5000     movf    0, 0, 0          	MOVF	r0x00, W
+0007cc   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+0007ce   ec2b     call    0xa56, 0         	CALL	_latched_lcd_data
+0007d0   f005
+0007d2   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	193; glcd.c	lcd_enable();
-0008ea   eca1     call    0xb42, 0         	CALL	_lcd_enable
-0008ec   f005
-0008ee   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
-0008f0   f000
-0008f2   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-0008f4   ffd9
-0008f6   0012     return  0                	RETURN	
+0007d4   ec16     call    0xa2c, 0         	CALL	_lcd_enable
+0007d6   f005
+0007d8   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
+0007da   f000
+0007dc   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+0007de   ffd9
+0007e0   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_glcd__lcd_waitbusy	code
                                            _lcd_waitbusy:
                                            ;	.line	177; glcd.c	void lcd_waitbusy(void) {
-000be4   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-000be6   ffe5
-000be8   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-000bea   ffd9
-000bec   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
-000bee   ffe5
-                                           _00178_DS_:
-                                           ;	.line	178; glcd.c	while (lcd_status() & 0b10000000) {
-000bf0   ecca     call    0xb94, 0         	CALL	_lcd_status
-000bf2   f005
-000bf4   6e00     movwf   0, 0             	MOVWF	r0x00
-000bf6   ae00     btfss   0, 0x7, 0        	BTFSS	r0x00, 7
-000bf8   d003     bra     0xc00            	BRA	_00181_DS_
-                                           _00189_DS_:
-000bfa   0000     nop                      	nop 
-000bfc   0000     nop                      	nop 
-000bfe   d7f8     bra     0xbf0            	BRA	_00178_DS_
-                                           _00181_DS_:
-000c00   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
-000c02   f000
-000c04   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-000c06   ffd9
-000c08   0012     return  0                	RETURN	
+000b3e   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+000b40   ffe5
+000b42   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+000b44   ffd9
+000b46   0000     nop                      	nop 
+000b48   0000     nop                      	nop 
+000b4a   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+000b4c   ffd9
+000b4e   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_glcd__lcd_setyaddr	code
                                            _lcd_setyaddr:
                                            ;	.line	163; glcd.c	void lcd_setyaddr(unsigned char y) {
-000828   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-00082a   ffe5
-00082c   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-00082e   ffd9
-000830   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
-000832   ffe5
-000834   0e02     movlw   0x2              	MOVLW	0x02
-000836   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
-000838   f000
+000712   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+000714   ffe5
+000716   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+000718   ffd9
+00071a   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
+00071c   ffe5
+00071e   0e02     movlw   0x2              	MOVLW	0x02
+000720   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
+000722   f000
                                            ;	.line	165; glcd.c	lcd_waitbusy();
-00083a   ecf2     call    0xbe4, 0         	CALL	_lcd_waitbusy
-00083c   f005
+000724   ec9f     call    0xb3e, 0         	CALL	_lcd_waitbusy
+000726   f005
                                            ;	.line	167; glcd.c	latched_lcd_di(0);
-00083e   0e00     movlw   0                	MOVLW	0x00
-000840   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000842   ec30     call    0xa60, 0         	CALL	_latched_lcd_di
-000844   f005
-000846   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+000728   0e00     movlw   0                	MOVLW	0x00
+00072a   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+00072c   eca5     call    0x94a, 0         	CALL	_latched_lcd_di
+00072e   f004
+000730   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	168; glcd.c	latched_lcd_rw(0);
-000848   0e00     movlw   0                	MOVLW	0x00
-00084a   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-00084c   ec13     call    0xa26, 0         	CALL	_latched_lcd_rw
-00084e   f005
-000850   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+000732   0e00     movlw   0                	MOVLW	0x00
+000734   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000736   ec88     call    0x910, 0         	CALL	_latched_lcd_rw
+000738   f004
+00073a   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	170; glcd.c	latched_lcd_data(0b01000000 | (y & 0b00111111));
-000852   0e3f     movlw   0x3f             	MOVLW	0x3f
-000854   1600     andwf   0, 0x1, 0        	ANDWF	r0x00, F
-000856   8c00     bsf     0, 0x6, 0        	BSF	r0x00, 6
-000858   5000     movf    0, 0, 0          	MOVF	r0x00, W
-00085a   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-00085c   ecb6     call    0xb6c, 0         	CALL	_latched_lcd_data
-00085e   f005
-000860   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+00073c   0e3f     movlw   0x3f             	MOVLW	0x3f
+00073e   1600     andwf   0, 0x1, 0        	ANDWF	r0x00, F
+000740   8c00     bsf     0, 0x6, 0        	BSF	r0x00, 6
+000742   5000     movf    0, 0, 0          	MOVF	r0x00, W
+000744   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000746   ec2b     call    0xa56, 0         	CALL	_latched_lcd_data
+000748   f005
+00074a   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	171; glcd.c	lcd_enable();
-000862   eca1     call    0xb42, 0         	CALL	_lcd_enable
-000864   f005
-000866   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
-000868   f000
-00086a   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-00086c   ffd9
-00086e   0012     return  0                	RETURN	
+00074c   ec16     call    0xa2c, 0         	CALL	_lcd_enable
+00074e   f005
+000750   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
+000752   f000
+000754   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+000756   ffd9
+000758   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_glcd__lcd_setpage	code
                                            _lcd_setpage:
                                            ;	.line	148; glcd.c	void lcd_setpage(unsigned char page) {
-000870   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-000872   ffe5
-000874   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-000876   ffd9
-000878   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
-00087a   ffe5
-00087c   0e02     movlw   0x2              	MOVLW	0x02
-00087e   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
-000880   f000
+00075a   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+00075c   ffe5
+00075e   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+000760   ffd9
+000762   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
+000764   ffe5
+000766   0e02     movlw   0x2              	MOVLW	0x02
+000768   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
+00076a   f000
                                            ;	.line	150; glcd.c	lcd_waitbusy();
-000882   ecf2     call    0xbe4, 0         	CALL	_lcd_waitbusy
-000884   f005
+00076c   ec9f     call    0xb3e, 0         	CALL	_lcd_waitbusy
+00076e   f005
                                            ;	.line	152; glcd.c	latched_lcd_di(0);
-000886   0e00     movlw   0                	MOVLW	0x00
-000888   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-00088a   ec30     call    0xa60, 0         	CALL	_latched_lcd_di
-00088c   f005
-00088e   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+000770   0e00     movlw   0                	MOVLW	0x00
+000772   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000774   eca5     call    0x94a, 0         	CALL	_latched_lcd_di
+000776   f004
+000778   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	153; glcd.c	latched_lcd_rw(0);
-000890   0e00     movlw   0                	MOVLW	0x00
-000892   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000894   ec13     call    0xa26, 0         	CALL	_latched_lcd_rw
-000896   f005
-000898   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+00077a   0e00     movlw   0                	MOVLW	0x00
+00077c   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+00077e   ec88     call    0x910, 0         	CALL	_latched_lcd_rw
+000780   f004
+000782   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	155; glcd.c	latched_lcd_data(0b10111000 | page);
-00089a   0eb8     movlw   0xb8             	MOVLW	0xb8
-00089c   1200     iorwf   0, 0x1, 0        	IORWF	r0x00, F
-00089e   5000     movf    0, 0, 0          	MOVF	r0x00, W
-0008a0   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0008a2   ecb6     call    0xb6c, 0         	CALL	_latched_lcd_data
-0008a4   f005
-0008a6   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+000784   0eb8     movlw   0xb8             	MOVLW	0xb8
+000786   1200     iorwf   0, 0x1, 0        	IORWF	r0x00, F
+000788   5000     movf    0, 0, 0          	MOVF	r0x00, W
+00078a   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+00078c   ec2b     call    0xa56, 0         	CALL	_latched_lcd_data
+00078e   f005
+000790   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	156; glcd.c	lcd_enable();
-0008a8   eca1     call    0xb42, 0         	CALL	_lcd_enable
-0008aa   f005
-0008ac   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
-0008ae   f000
-0008b0   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-0008b2   ffd9
-0008b4   0012     return  0                	RETURN	
+000792   ec16     call    0xa2c, 0         	CALL	_lcd_enable
+000794   f005
+000796   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
+000798   f000
+00079a   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+00079c   ffd9
+00079e   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_glcd__lcd_cls	code
                                            _lcd_cls:
                                            ;	.line	117; glcd.c	void lcd_cls(void) {
-000598   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-00059a   ffe5
-00059c   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-00059e   ffd9
-0005a0   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
-0005a2   ffe5
-0005a4   c001     movff   0x1, 0xfe5       	MOVFF	r0x01, POSTDEC1
-0005a6   ffe5
-0005a8   c002     movff   0x2, 0xfe5       	MOVFF	r0x02, POSTDEC1
-0005aa   ffe5
+000536   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+000538   ffe5
+00053a   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+00053c   ffd9
+00053e   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
+000540   ffe5
+000542   c001     movff   0x1, 0xfe5       	MOVFF	r0x01, POSTDEC1
+000544   ffe5
+000546   c002     movff   0x2, 0xfe5       	MOVFF	r0x02, POSTDEC1
+000548   ffe5
                                            ;	.line	121; glcd.c	lcd_selectside(LCD_BOTH);
-0005ac   0e03     movlw   0x3              	MOVLW	0x03
-0005ae   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0005b0   ecec     call    0x7d8, 0         	CALL	_lcd_selectside
-0005b2   f003
-0005b4   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+00054a   0e03     movlw   0x3              	MOVLW	0x03
+00054c   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+00054e   ec61     call    0x6c2, 0         	CALL	_lcd_selectside
+000550   f003
+000552   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	122; glcd.c	for (x = 0; x < 8; x++) {
-0005b6   6a00     clrf    0, 0             	CLRF	r0x00
-                                           _00146_DS_:
+000554   6a00     clrf    0, 0             	CLRF	r0x00
+                                           _00135_DS_:
                                            ;	.line	124; glcd.c	lcd_setpage(x);
-0005b8   5000     movf    0, 0, 0          	MOVF	r0x00, W
-0005ba   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0005bc   ec38     call    0x870, 0         	CALL	_lcd_setpage
-0005be   f004
-0005c0   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+000556   5000     movf    0, 0, 0          	MOVF	r0x00, W
+000558   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+00055a   ecad     call    0x75a, 0         	CALL	_lcd_setpage
+00055c   f003
+00055e   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	127; glcd.c	lcd_setyaddr(0);
-0005c2   0e00     movlw   0                	MOVLW	0x00
-0005c4   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0005c6   ec14     call    0x828, 0         	CALL	_lcd_setyaddr
-0005c8   f004
-0005ca   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+000560   0e00     movlw   0                	MOVLW	0x00
+000562   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000564   ec89     call    0x712, 0         	CALL	_lcd_setyaddr
+000566   f003
+000568   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	131; glcd.c	latched_lcd_data(0);
-0005cc   0e00     movlw   0                	MOVLW	0x00
-0005ce   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0005d0   ecb6     call    0xb6c, 0         	CALL	_latched_lcd_data
-0005d2   f005
-0005d4   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+00056a   0e00     movlw   0                	MOVLW	0x00
+00056c   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+00056e   ec2b     call    0xa56, 0         	CALL	_latched_lcd_data
+000570   f005
+000572   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	132; glcd.c	latched_lcd_rw(0);
-0005d6   0e00     movlw   0                	MOVLW	0x00
-0005d8   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0005da   ec13     call    0xa26, 0         	CALL	_latched_lcd_rw
-0005dc   f005
-0005de   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+000574   0e00     movlw   0                	MOVLW	0x00
+000576   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000578   ec88     call    0x910, 0         	CALL	_latched_lcd_rw
+00057a   f004
+00057c   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	133; glcd.c	latched_lcd_di(1);
-0005e0   0e01     movlw   0x1              	MOVLW	0x01
-0005e2   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0005e4   ec30     call    0xa60, 0         	CALL	_latched_lcd_di
-0005e6   f005
-0005e8   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+00057e   0e01     movlw   0x1              	MOVLW	0x01
+000580   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000582   eca5     call    0x94a, 0         	CALL	_latched_lcd_di
+000584   f004
+000586   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	136; glcd.c	for (y = 0; y < 64; y++) {
-0005ea   0e40     movlw   0x40             	MOVLW	0x40
-0005ec   6e01     movwf   0x1, 0           	MOVWF	r0x01
-                                           _00145_DS_:
+000588   0e40     movlw   0x40             	MOVLW	0x40
+00058a   6e01     movwf   0x1, 0           	MOVWF	r0x01
+                                           _00134_DS_:
                                            ;	.line	137; glcd.c	lcd_enable(); 
-0005ee   eca1     call    0xb42, 0         	CALL	_lcd_enable
-0005f0   f005
-0005f2   0000     nop                      	nop 
-0005f4   0000     nop                      	nop 
-0005f6   5001     movf    0x1, 0, 0        	MOVF	r0x01, W
-0005f8   6e02     movwf   0x2, 0           	MOVWF	r0x02
-0005fa   0402     decf    0x2, 0, 0        	DECF	r0x02, W
-0005fc   6e01     movwf   0x1, 0           	MOVWF	r0x01
+00058c   ec16     call    0xa2c, 0         	CALL	_lcd_enable
+00058e   f005
+000590   0000     nop                      	nop 
+000592   0000     nop                      	nop 
+000594   5001     movf    0x1, 0, 0        	MOVF	r0x01, W
+000596   6e02     movwf   0x2, 0           	MOVWF	r0x02
+000598   0402     decf    0x2, 0, 0        	DECF	r0x02, W
+00059a   6e01     movwf   0x1, 0           	MOVWF	r0x01
                                            ;	.line	136; glcd.c	for (y = 0; y < 64; y++) {
-0005fe   5001     movf    0x1, 0, 0        	MOVF	r0x01, W
-000600   e1f6     bnz     0x5ee            	BNZ	_00145_DS_
+00059c   5001     movf    0x1, 0, 0        	MOVF	r0x01, W
+00059e   e1f6     bnz     0x58c            	BNZ	_00134_DS_
                                            ;	.line	122; glcd.c	for (x = 0; x < 8; x++) {
-000602   2a00     incf    0, 0x1, 0        	INCF	r0x00, F
-000604   0e08     movlw   0x8              	MOVLW	0x08
-000606   5c00     subwf   0, 0, 0          	SUBWF	r0x00, W
-000608   e3d7     bnc     0x5b8            	BNC	_00146_DS_
+0005a0   2a00     incf    0, 0x1, 0        	INCF	r0x00, F
+0005a2   0e08     movlw   0x8              	MOVLW	0x08
+0005a4   5c00     subwf   0, 0, 0          	SUBWF	r0x00, W
+0005a6   e3d7     bnc     0x556            	BNC	_00135_DS_
                                            ;	.line	143; glcd.c	lcd_selectside(LCD_LEFT);
-00060a   0e01     movlw   0x1              	MOVLW	0x01
-00060c   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-00060e   ecec     call    0x7d8, 0         	CALL	_lcd_selectside
-000610   f003
-000612   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-000614   cfe4     movff   0xfe4, 0x2       	MOVFF	PREINC1, r0x02
-000616   f002
-000618   cfe4     movff   0xfe4, 0x1       	MOVFF	PREINC1, r0x01
-00061a   f001
-00061c   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
-00061e   f000
-000620   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-000622   ffd9
-000624   0012     return  0                	RETURN	
+0005a8   0e01     movlw   0x1              	MOVLW	0x01
+0005aa   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+0005ac   ec61     call    0x6c2, 0         	CALL	_lcd_selectside
+0005ae   f003
+0005b0   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+0005b2   cfe4     movff   0xfe4, 0x2       	MOVFF	PREINC1, r0x02
+0005b4   f002
+0005b6   cfe4     movff   0xfe4, 0x1       	MOVFF	PREINC1, r0x01
+0005b8   f001
+0005ba   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
+0005bc   f000
+0005be   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+0005c0   ffd9
+0005c2   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_glcd__lcd_screenon	code
                                            _lcd_screenon:
                                            ;	.line	100; glcd.c	void lcd_screenon(unsigned char on) {
-00072c   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-00072e   ffe5
-000730   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-000732   ffd9
-000734   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
-000736   ffe5
-000738   0e02     movlw   0x2              	MOVLW	0x02
-00073a   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
-00073c   f000
+0005c4   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+0005c6   ffe5
+0005c8   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+0005ca   ffd9
+0005cc   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
+0005ce   ffe5
+0005d0   0e02     movlw   0x2              	MOVLW	0x02
+0005d2   cfdb     movff   0xfdb, 0         	MOVFF	PLUSW2, r0x00
+0005d4   f000
                                            ;	.line	103; glcd.c	latched_lcd_cs1(0);
-00073e   0e00     movlw   0                	MOVLW	0x00
-000740   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000742   ecbc     call    0x978, 0         	CALL	_latched_lcd_cs1
-000744   f004
-000746   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+0005d6   0e00     movlw   0                	MOVLW	0x00
+0005d8   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+0005da   ec31     call    0x862, 0         	CALL	_latched_lcd_cs1
+0005dc   f004
+0005de   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	105; glcd.c	latched_lcd_cs2(0);
-000748   0e00     movlw   0                	MOVLW	0x00
-00074a   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-00074c   ecd9     call    0x9b2, 0         	CALL	_latched_lcd_cs2
-00074e   f004
-000750   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+0005e0   0e00     movlw   0                	MOVLW	0x00
+0005e2   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+0005e4   ec4e     call    0x89c, 0         	CALL	_latched_lcd_cs2
+0005e6   f004
+0005e8   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	107; glcd.c	latched_lcd_rw(0);
-000752   0e00     movlw   0                	MOVLW	0x00
-000754   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000756   ec13     call    0xa26, 0         	CALL	_latched_lcd_rw
-000758   f005
-00075a   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+0005ea   0e00     movlw   0                	MOVLW	0x00
+0005ec   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+0005ee   ec88     call    0x910, 0         	CALL	_latched_lcd_rw
+0005f0   f004
+0005f2   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	109; glcd.c	latched_lcd_di(0);
-00075c   0e00     movlw   0                	MOVLW	0x00
-00075e   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000760   ec30     call    0xa60, 0         	CALL	_latched_lcd_di
-000762   f005
-000764   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+0005f4   0e00     movlw   0                	MOVLW	0x00
+0005f6   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+0005f8   eca5     call    0x94a, 0         	CALL	_latched_lcd_di
+0005fa   f004
+0005fc   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	112; glcd.c	latched_lcd_data(0b00111110 | (on & 0b00000001));
-000766   0e01     movlw   0x1              	MOVLW	0x01
-000768   1600     andwf   0, 0x1, 0        	ANDWF	r0x00, F
-00076a   0e3e     movlw   0x3e             	MOVLW	0x3e
-00076c   1200     iorwf   0, 0x1, 0        	IORWF	r0x00, F
-00076e   5000     movf    0, 0, 0          	MOVF	r0x00, W
-000770   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000772   ecb6     call    0xb6c, 0         	CALL	_latched_lcd_data
-000774   f005
-000776   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+0005fe   0e01     movlw   0x1              	MOVLW	0x01
+000600   1600     andwf   0, 0x1, 0        	ANDWF	r0x00, F
+000602   0e3e     movlw   0x3e             	MOVLW	0x3e
+000604   1200     iorwf   0, 0x1, 0        	IORWF	r0x00, F
+000606   5000     movf    0, 0, 0          	MOVF	r0x00, W
+000608   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+00060a   ec2b     call    0xa56, 0         	CALL	_latched_lcd_data
+00060c   f005
+00060e   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	113; glcd.c	lcd_enable();
-000778   eca1     call    0xb42, 0         	CALL	_lcd_enable
-00077a   f005
-00077c   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
-00077e   f000
-000780   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-000782   ffd9
-000784   0012     return  0                	RETURN	
+000610   ec16     call    0xa2c, 0         	CALL	_lcd_enable
+000612   f005
+000614   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
+000616   f000
+000618   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+00061a   ffd9
+00061c   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_glcd__lcd_reset	code
                                            _lcd_reset:
                                            ;	.line	79; glcd.c	void lcd_reset(void) {
-0006ae   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-0006b0   ffe5
-0006b2   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-0006b4   ffd9
-0006b6   c000     movff   0, 0xfe5         	MOVFF	r0x00, POSTDEC1
-0006b8   ffe5
+000670   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+000672   ffe5
+000674   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+000676   ffd9
                                            ;	.line	86; glcd.c	sleep_ms(1);
-0006ba   0e00     movlw   0                	MOVLW	0x00
-0006bc   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0006be   0e00     movlw   0                	MOVLW	0x00
-0006c0   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0006c2   0e00     movlw   0                	MOVLW	0x00
-0006c4   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0006c6   0e01     movlw   0x1              	MOVLW	0x01
-0006c8   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0006ca   ec10     call    0x220, 0         	CALL	_sleep_ms
-0006cc   f001
-0006ce   0e04     movlw   0x4              	MOVLW	0x04
-0006d0   26e1     addwf   0xe1, 0x1, 0     	ADDWF	FSR1L, F
+000678   0e00     movlw   0                	MOVLW	0x00
+00067a   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+00067c   0e00     movlw   0                	MOVLW	0x00
+00067e   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000680   0e00     movlw   0                	MOVLW	0x00
+000682   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000684   0e01     movlw   0x1              	MOVLW	0x01
+000686   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000688   ec10     call    0x220, 0         	CALL	_sleep_ms
+00068a   f001
+00068c   0e04     movlw   0x4              	MOVLW	0x04
+00068e   26e1     addwf   0xe1, 0x1, 0     	ADDWF	FSR1L, F
                                            ;	.line	88; glcd.c	latched_lcd_rst(1);
-0006d2   0e01     movlw   0x1              	MOVLW	0x01
-0006d4   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0006d6   ecf6     call    0x9ec, 0         	CALL	_latched_lcd_rst
-0006d8   f004
-0006da   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+000690   0e01     movlw   0x1              	MOVLW	0x01
+000692   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000694   ec6b     call    0x8d6, 0         	CALL	_latched_lcd_rst
+000696   f004
+000698   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	89; glcd.c	sleep_ms(1);
-0006dc   0e00     movlw   0                	MOVLW	0x00
-0006de   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0006e0   0e00     movlw   0                	MOVLW	0x00
-0006e2   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0006e4   0e00     movlw   0                	MOVLW	0x00
-0006e6   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0006e8   0e01     movlw   0x1              	MOVLW	0x01
-0006ea   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0006ec   ec10     call    0x220, 0         	CALL	_sleep_ms
-0006ee   f001
-0006f0   0e04     movlw   0x4              	MOVLW	0x04
-0006f2   26e1     addwf   0xe1, 0x1, 0     	ADDWF	FSR1L, F
+00069a   0e00     movlw   0                	MOVLW	0x00
+00069c   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+00069e   0e00     movlw   0                	MOVLW	0x00
+0006a0   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+0006a2   0e00     movlw   0                	MOVLW	0x00
+0006a4   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+0006a6   0e01     movlw   0x1              	MOVLW	0x01
+0006a8   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+0006aa   ec10     call    0x220, 0         	CALL	_sleep_ms
+0006ac   f001
+0006ae   0e04     movlw   0x4              	MOVLW	0x04
+0006b0   26e1     addwf   0xe1, 0x1, 0     	ADDWF	FSR1L, F
                                            ;	.line	91; glcd.c	latched_lcd_rst(0);
-0006f4   0e00     movlw   0                	MOVLW	0x00
-0006f6   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-0006f8   ecf6     call    0x9ec, 0         	CALL	_latched_lcd_rst
-0006fa   f004
-0006fc   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-                                           _00120_DS_:
-                                           ;	.line	94; glcd.c	while (lcd_status() & 0b00010000) {
-0006fe   ecca     call    0xb94, 0         	CALL	_lcd_status
-000700   f005
-000702   6e00     movwf   0, 0             	MOVWF	r0x00
-000704   a800     btfss   0, 0x4, 0        	BTFSS	r0x00, 4
-000706   d00d     bra     0x722            	BRA	_00123_DS_
-                                           ;	.line	95; glcd.c	sleep_ms(1);
-000708   0e00     movlw   0                	MOVLW	0x00
-00070a   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-00070c   0e00     movlw   0                	MOVLW	0x00
-00070e   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000710   0e00     movlw   0                	MOVLW	0x00
-000712   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000714   0e01     movlw   0x1              	MOVLW	0x01
-000716   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000718   ec10     call    0x220, 0         	CALL	_sleep_ms
-00071a   f001
-00071c   0e04     movlw   0x4              	MOVLW	0x04
-00071e   26e1     addwf   0xe1, 0x1, 0     	ADDWF	FSR1L, F
-000720   d7ee     bra     0x6fe            	BRA	_00120_DS_
-                                           _00123_DS_:
-000722   cfe4     movff   0xfe4, 0         	MOVFF	PREINC1, r0x00
-000724   f000
-000726   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-000728   ffd9
-00072a   0012     return  0                	RETURN	
+0006b2   0e00     movlw   0                	MOVLW	0x00
+0006b4   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+0006b6   ec6b     call    0x8d6, 0         	CALL	_latched_lcd_rst
+0006b8   f004
+0006ba   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+0006bc   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+0006be   ffd9
+0006c0   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_glcd__lcd_status	code
                                            _lcd_status:
                                            ;	.line	52; glcd.c	unsigned char lcd_status(void) {
-000b94   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-000b96   ffe5
-000b98   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-000b9a   ffd9
-                                           ;	.line	74; glcd.c	sleep_ms(100);	
-000b9c   0e00     movlw   0                	MOVLW	0x00
-000b9e   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000ba0   0e00     movlw   0                	MOVLW	0x00
-000ba2   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000ba4   0e00     movlw   0                	MOVLW	0x00
-000ba6   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000ba8   0e64     movlw   0x64             	MOVLW	0x64
-000baa   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000bac   ec10     call    0x220, 0         	CALL	_sleep_ms
-000bae   f001
-000bb0   0e04     movlw   0x4              	MOVLW	0x04
-000bb2   26e1     addwf   0xe1, 0x1, 0     	ADDWF	FSR1L, F
+000a7e   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+000a80   ffe5
+000a82   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+000a84   ffd9
+                                           ;	.line	74; glcd.c	sleep_ms(10);	
+000a86   0e00     movlw   0                	MOVLW	0x00
+000a88   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000a8a   0e00     movlw   0                	MOVLW	0x00
+000a8c   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000a8e   0e00     movlw   0                	MOVLW	0x00
+000a90   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000a92   0e0a     movlw   0xa              	MOVLW	0x0a
+000a94   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000a96   ec10     call    0x220, 0         	CALL	_sleep_ms
+000a98   f001
+000a9a   0e04     movlw   0x4              	MOVLW	0x04
+000a9c   26e1     addwf   0xe1, 0x1, 0     	ADDWF	FSR1L, F
                                            ;	.line	75; glcd.c	return 1;	// no hardware support for reading from latch 4
-000bb4   0e01     movlw   0x1              	MOVLW	0x01
-000bb6   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-000bb8   ffd9
-000bba   0012     return  0                	RETURN	
+000a9e   0e01     movlw   0x1              	MOVLW	0x01
+000aa0   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+000aa2   ffd9
+000aa4   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_glcd__lcd_enable	code
                                            _lcd_enable:
                                            ;	.line	42; glcd.c	void lcd_enable(void) {
-000b42   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-000b44   ffe5
-000b46   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-000b48   ffd9
+000a2c   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+000a2e   ffe5
+000a30   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+000a32   ffd9
                                            ;	.line	44; glcd.c	latched_lcd_enable(1);
-000b4a   0e01     movlw   0x1              	MOVLW	0x01
-000b4c   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000b4e   ec4d     call    0xa9a, 0         	CALL	_latched_lcd_enable
-000b50   f005
-000b52   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-000b54   0000     nop                      	nop 
-000b56   0000     nop                      	nop 
+000a34   0e01     movlw   0x1              	MOVLW	0x01
+000a36   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000a38   ecc2     call    0x984, 0         	CALL	_latched_lcd_enable
+000a3a   f004
+000a3c   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+000a3e   0000     nop                      	nop 
+000a40   0000     nop                      	nop 
                                            ;	.line	47; glcd.c	latched_lcd_enable(0);
-000b58   0e00     movlw   0                	MOVLW	0x00
-000b5a   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000b5c   ec4d     call    0xa9a, 0         	CALL	_latched_lcd_enable
-000b5e   f005
-000b60   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-000b62   0000     nop                      	nop 
-000b64   0000     nop                      	nop 
-000b66   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-000b68   ffd9
-000b6a   0012     return  0                	RETURN	
+000a42   0e00     movlw   0                	MOVLW	0x00
+000a44   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000a46   ecc2     call    0x984, 0         	CALL	_latched_lcd_enable
+000a48   f004
+000a4a   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+000a4c   0000     nop                      	nop 
+000a4e   0000     nop                      	nop 
+000a50   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+000a52   ffd9
+000a54   0012     return  0                	RETURN	
                                            
                                            ; ; Starting pCode block
                                            S_glcd__lcd_init	code
                                            _lcd_init:
                                            ;	.line	17; glcd.c	void lcd_init(void) {
-0008f8   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
-0008fa   ffe5
-0008fc   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
-0008fe   ffd9
+0007e2   cfd9     movff   0xfd9, 0xfe5     	MOVFF	FSR2L, POSTDEC1
+0007e4   ffe5
+0007e6   cfe1     movff   0xfe1, 0xfd9     	MOVFF	FSR1L, FSR2L
+0007e8   ffd9
                                            ;	.line	18; glcd.c	latched_lcd_power(1);
-000900   0e01     movlw   0x1              	MOVLW	0x01
-000902   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000904   ec6a     call    0xad4, 0         	CALL	_latched_lcd_power
-000906   f005
-000908   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
-00090a   0100     movlb   0                	BANKSEL	__latch_3_data
+0007ea   0e01     movlw   0x1              	MOVLW	0x01
+0007ec   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+0007ee   ecdf     call    0x9be, 0         	CALL	_latched_lcd_power
+0007f0   f004
+0007f2   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+0007f4   0100     movlb   0                	BANKSEL	__latch_3_data
                                            ;	.line	26; glcd.c	_latch_3_data = 0x00;
-00090c   6bb9     clrf    0xb9, 0x1        	CLRF	__latch_3_data, B
+0007f6   6bb9     clrf    0xb9, 0x1        	CLRF	__latch_3_data, B
                                            ;	.line	29; glcd.c	latched_lcd_cs1(1);
-00090e   0e01     movlw   0x1              	MOVLW	0x01
-000910   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-000912   ecbc     call    0x978, 0         	CALL	_latched_lcd_cs1
-000914   f004
-000916   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+0007f8   0e01     movlw   0x1              	MOVLW	0x01
+0007fa   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+0007fc   ec31     call    0x862, 0         	CALL	_latched_lcd_cs1
+0007fe   f004
+000800   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	31; glcd.c	latched_lcd_cs2(1);
-000918   0e01     movlw   0x1              	MOVLW	0x01
-00091a   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-00091c   ecd9     call    0x9b2, 0         	CALL	_latched_lcd_cs2
-00091e   f004
-000920   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+000802   0e01     movlw   0x1              	MOVLW	0x01
+000804   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000806   ec4e     call    0x89c, 0         	CALL	_latched_lcd_cs2
+000808   f004
+00080a   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	37; glcd.c	lcd_reset();
-000922   ec57     call    0x6ae, 0         	CALL	_lcd_reset
-000924   f003
+00080c   ec38     call    0x670, 0         	CALL	_lcd_reset
+00080e   f003
                                            ;	.line	38; glcd.c	lcd_screenon(1);
-000926   0e01     movlw   0x1              	MOVLW	0x01
-000928   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
-00092a   ec96     call    0x72c, 0         	CALL	_lcd_screenon
-00092c   f003
-00092e   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
+000810   0e01     movlw   0x1              	MOVLW	0x01
+000812   6ee5     movwf   0xe5, 0          	MOVWF	POSTDEC1
+000814   ece2     call    0x5c4, 0         	CALL	_lcd_screenon
+000816   f002
+000818   52e6     movf    0xe6, 0x1, 0     	MOVF	POSTINC1, F
                                            ;	.line	39; glcd.c	lcd_cls();
-000930   eccc     call    0x598, 0         	CALL	_lcd_cls
-000932   f002
-000934   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
-000936   ffd9
-000938   0012     return  0                	RETURN	
+00081a   ec9b     call    0x536, 0         	CALL	_lcd_cls
+00081c   f002
+00081e   cfe4     movff   0xfe4, 0xfd9     	MOVFF	PREINC1, FSR2L
+000820   ffd9
+000822   0012     return  0                	RETURN	
                                            
                                            
                                            
                                            ; Statistics:
-                                           ; code size:	 1458 (0x05b2) bytes ( 1.11%)
-                                           ;           	  729 (0x02d9) words
+                                           ; code size:	 1398 (0x0576) bytes ( 1.07%)
+                                           ;           	  699 (0x02bb) words
                                            ; udata size:	    2 (0x0002) bytes ( 0.05%)
                                            ; access size:	    3 (0x0003) bytes
                                            

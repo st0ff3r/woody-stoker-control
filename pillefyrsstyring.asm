@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.3.0 #8604 (Oct 27 2013) (Mac OS X x86_64)
-; This file was generated Thu Dec 12 04:00:40 2013
+; This file was generated Thu Dec 12 21:26:20 2013
 ;--------------------------------------------------------
 ; PIC16 port for the Microchip 16-bit core micros
 ;--------------------------------------------------------
@@ -17,6 +17,7 @@
 ;--------------------------------------------------------
 ; public variables in this module
 ;--------------------------------------------------------
+	global	_last_inputs
 	global	_last_button
 	global	_lcd_buf
 	global	_chimney_temp
@@ -30,7 +31,6 @@
 	global	_get_inputs
 	global	__debug
 	global	_timer_2
-	global	_last_inputs
 	global	_main
 
 ;--------------------------------------------------------
@@ -223,11 +223,9 @@
 	extern	_TOSL
 	extern	_TOSH
 	extern	_TOSU
-	extern	_usart_open
 	extern	_usart_drdy
 	extern	_usart_getc
 	extern	_usart_putc
-	extern	_lcd_init
 	extern	_latched_lcd_power
 	extern	__mullong
 
@@ -289,10 +287,10 @@ udata_pillefyrsstyring_5	udata
 _last_button	res	1
 
 udata_pillefyrsstyring_6	udata
-_timer_2	res	4
+_last_inputs	res	1
 
 udata_pillefyrsstyring_7	udata
-_last_inputs	res	1
+_timer_2	res	4
 
 ;--------------------------------------------------------
 ; interrupt vector
@@ -346,20 +344,14 @@ _main:
 	CLRF	(_chimney_temp + 1), B
 ;	.line	35; pillefyrsstyring.c	init_timers();
 	CALL	_init_timers
-;	.line	42; pillefyrsstyring.c	12     // 19200 kbps @ 4 MHz
-	MOVLW	0x00
-	MOVWF	POSTDEC1
-	MOVLW	0x0c
-	MOVWF	POSTDEC1
-	MOVLW	0x7c
-	CALL	_usart_open
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	59; pillefyrsstyring.c	init_latches();
+;	.line	60; pillefyrsstyring.c	init_latches();
 	CALL	_init_latches
-;	.line	60; pillefyrsstyring.c	lcd_init();
-	CALL	_lcd_init
-;	.line	62; pillefyrsstyring.c	sleep_ms(1000);
+;	.line	61; pillefyrsstyring.c	latched_lcd_power(1);
+	MOVLW	0x01
+	MOVWF	POSTDEC1
+	CALL	_latched_lcd_power
+	MOVF	POSTINC1, F
+;	.line	64; pillefyrsstyring.c	sleep_ms(1000);
 	MOVLW	0x00
 	MOVWF	POSTDEC1
 	MOVLW	0x00
@@ -371,7 +363,7 @@ _main:
 	CALL	_sleep_ms
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	63; pillefyrsstyring.c	set_ac_power(0x00, 0x00);
+;	.line	65; pillefyrsstyring.c	set_ac_power(0x00, 0x00);
 	MOVLW	0x00
 	MOVWF	POSTDEC1
 	MOVLW	0x00
@@ -379,82 +371,41 @@ _main:
 	CALL	_set_ac_power
 	MOVF	POSTINC1, F
 	MOVF	POSTINC1, F
-;	.line	64; pillefyrsstyring.c	RELAY = 1;
+;	.line	66; pillefyrsstyring.c	RELAY = 1;
 	BSF	_LATCbits, 5
-;	.line	66; pillefyrsstyring.c	last_inputs = get_inputs();
-	CALL	_get_inputs
-	BANKSEL	_last_inputs
-	MOVWF	_last_inputs, B
-_00108_DS_:
-;	.line	71; pillefyrsstyring.c	if (get_inputs() != last_inputs) {
-	CALL	_get_inputs
-	MOVWF	r0x00
-	MOVF	r0x00, W
-	BANKSEL	_last_inputs
-	XORWF	_last_inputs, W, B
-	BZ	_00106_DS_
-;	.line	72; pillefyrsstyring.c	last_inputs = get_inputs();
-	CALL	_get_inputs
-	BANKSEL	_last_inputs
-	MOVWF	_last_inputs, B
-;	.line	73; pillefyrsstyring.c	_debug();
-	CALL	__debug
+;	.line	68; pillefyrsstyring.c	TRISCbits.TRISC7 = 0x1;	// rx
+	BSF	_TRISCbits, 7
+;	.line	69; pillefyrsstyring.c	TRISCbits.TRISC6 = 0x0;	// tx
+	BCF	_TRISCbits, 6
 _00106_DS_:
-;	.line	75; pillefyrsstyring.c	set_ac_power(/* EXT_FEEDER_L1 | */ FAN_L2 | INT_FEEDER_L3 | L5 | L6, 0xff);
-	MOVLW	0xff
-	MOVWF	POSTDEC1
-	MOVLW	0x36
-	MOVWF	POSTDEC1
-	CALL	_set_ac_power
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	76; pillefyrsstyring.c	sleep_ms(200);
-	MOVLW	0x00
-	MOVWF	POSTDEC1
-	MOVLW	0x00
-	MOVWF	POSTDEC1
-	MOVLW	0x00
-	MOVWF	POSTDEC1
-	MOVLW	0xc8
-	MOVWF	POSTDEC1
-	CALL	_sleep_ms
-	MOVLW	0x04
-	ADDWF	FSR1L, F
-;	.line	77; pillefyrsstyring.c	set_ac_power(/* EXT_FEEDER_L1 | */ FAN_L2 | INT_FEEDER_L3 | L5 | L6, 0x00);
-	MOVLW	0x00
-	MOVWF	POSTDEC1
-	MOVLW	0x36
-	MOVWF	POSTDEC1
-	CALL	_set_ac_power
-	MOVF	POSTINC1, F
-	MOVF	POSTINC1, F
-;	.line	78; pillefyrsstyring.c	sleep_ms(200);
-	MOVLW	0x00
-	MOVWF	POSTDEC1
-	MOVLW	0x00
-	MOVWF	POSTDEC1
-	MOVLW	0x00
-	MOVWF	POSTDEC1
-	MOVLW	0xc8
-	MOVWF	POSTDEC1
-	CALL	_sleep_ms
-	MOVLW	0x04
-	ADDWF	FSR1L, F
-	BRA	_00108_DS_
+;	.line	71; pillefyrsstyring.c	LATCbits.LATC6 = PORTCbits.RC7;
+	CLRF	r0x00
+	BTFSC	_PORTCbits, 7
+	INCF	r0x00, F
+	MOVF	r0x00, W
+	ANDLW	0x01
+	RRNCF	WREG, W
+	RRNCF	WREG, W
+	MOVWF	PRODH
+	MOVF	_LATCbits, W
+	ANDLW	0xbf
+	IORWF	PRODH, W
+	MOVWF	_LATCbits
+	BRA	_00106_DS_
 	RETURN	
 
 ; ; Starting pCode block
 S_pillefyrsstyring___debug	code
 __debug:
-;	.line	173; pillefyrsstyring.c	void _debug() {
+;	.line	167; pillefyrsstyring.c	void _debug() {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
-;	.line	174; pillefyrsstyring.c	latched_lcd_power(1);
+;	.line	168; pillefyrsstyring.c	latched_lcd_power(1);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
 	CALL	_latched_lcd_power
 	MOVF	POSTINC1, F
-;	.line	175; pillefyrsstyring.c	sleep_ms(500);
+;	.line	169; pillefyrsstyring.c	sleep_ms(500);
 	MOVLW	0x00
 	MOVWF	POSTDEC1
 	MOVLW	0x00
@@ -466,12 +417,12 @@ __debug:
 	CALL	_sleep_ms
 	MOVLW	0x04
 	ADDWF	FSR1L, F
-;	.line	176; pillefyrsstyring.c	latched_lcd_power(0);
+;	.line	170; pillefyrsstyring.c	latched_lcd_power(0);
 	MOVLW	0x00
 	MOVWF	POSTDEC1
 	CALL	_latched_lcd_power
 	MOVF	POSTINC1, F
-;	.line	177; pillefyrsstyring.c	sleep_ms(500);
+;	.line	171; pillefyrsstyring.c	sleep_ms(500);
 	MOVLW	0x00
 	MOVWF	POSTDEC1
 	MOVLW	0x00
@@ -489,20 +440,20 @@ __debug:
 ; ; Starting pCode block
 S_pillefyrsstyring__get_inputs	code
 _get_inputs:
-;	.line	161; pillefyrsstyring.c	unsigned char get_inputs() {
+;	.line	155; pillefyrsstyring.c	unsigned char get_inputs() {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
-;	.line	165; pillefyrsstyring.c	LATCH_DATA_TRIS = 0xff;		// inputs
+;	.line	159; pillefyrsstyring.c	LATCH_DATA_TRIS = 0xff;		// inputs
 	MOVLW	0xff
 	MOVWF	_TRISD
-;	.line	166; pillefyrsstyring.c	LATCH_1 = LATCH_1_ENABLED;
+;	.line	160; pillefyrsstyring.c	LATCH_1 = LATCH_1_ENABLED;
 	BCF	_LATAbits, 4
-;	.line	167; pillefyrsstyring.c	data = LATCH_DATA_READ; // & 0b00100000;
+;	.line	161; pillefyrsstyring.c	data = LATCH_DATA_READ; // & 0b00100000;
 	MOVFF	_PORTD, r0x00
-;	.line	168; pillefyrsstyring.c	LATCH_1 = LATCH_1_DISABLED;
+;	.line	162; pillefyrsstyring.c	LATCH_1 = LATCH_1_DISABLED;
 	BSF	_LATAbits, 4
-;	.line	170; pillefyrsstyring.c	return data;
+;	.line	164; pillefyrsstyring.c	return data;
 	MOVF	r0x00, W
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
@@ -511,7 +462,7 @@ _get_inputs:
 ; ; Starting pCode block
 S_pillefyrsstyring__set_ac_power	code
 _set_ac_power:
-;	.line	151; pillefyrsstyring.c	void set_ac_power(unsigned char header_mask, unsigned char value) {
+;	.line	145; pillefyrsstyring.c	void set_ac_power(unsigned char header_mask, unsigned char value) {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
@@ -520,21 +471,21 @@ _set_ac_power:
 	MOVFF	PLUSW2, r0x00
 	MOVLW	0x03
 	MOVFF	PLUSW2, r0x01
-;	.line	152; pillefyrsstyring.c	header_mask &= 0b00111111;		// only 6 outputs on this hardware
+;	.line	146; pillefyrsstyring.c	header_mask &= 0b00111111;		// only 6 outputs on this hardware
 	MOVLW	0x3f
 	ANDWF	r0x00, F
-;	.line	153; pillefyrsstyring.c	value &= header_mask;
+;	.line	147; pillefyrsstyring.c	value &= header_mask;
 	MOVF	r0x00, W
 	ANDWF	r0x01, F
-;	.line	154; pillefyrsstyring.c	LATCH_DATA_TRIS = 0x00;		// outputs
+;	.line	148; pillefyrsstyring.c	LATCH_DATA_TRIS = 0x00;		// outputs
 	CLRF	_TRISD
-;	.line	155; pillefyrsstyring.c	LATCH_DATA = value;
+;	.line	149; pillefyrsstyring.c	LATCH_DATA = value;
 	MOVFF	r0x01, _LATD
-;	.line	156; pillefyrsstyring.c	LATCH_2 = LATCH_2_ENABLED;
+;	.line	150; pillefyrsstyring.c	LATCH_2 = LATCH_2_ENABLED;
 	BSF	_LATAbits, 7
-;	.line	157; pillefyrsstyring.c	LATCH_2 = LATCH_2_DISABLED;
+;	.line	151; pillefyrsstyring.c	LATCH_2 = LATCH_2_DISABLED;
 	BCF	_LATAbits, 7
-;	.line	158; pillefyrsstyring.c	LATCH_DATA = 0x00;
+;	.line	152; pillefyrsstyring.c	LATCH_DATA = 0x00;
 	CLRF	_LATD
 	MOVFF	PREINC1, r0x01
 	MOVFF	PREINC1, r0x00
@@ -544,30 +495,30 @@ _set_ac_power:
 ; ; Starting pCode block
 S_pillefyrsstyring__init_latches	code
 _init_latches:
-;	.line	132; pillefyrsstyring.c	void init_latches() {
+;	.line	126; pillefyrsstyring.c	void init_latches() {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
-;	.line	133; pillefyrsstyring.c	LATCH_DATA_TRIS = 0x00;		// outputs
+;	.line	127; pillefyrsstyring.c	LATCH_DATA_TRIS = 0x00;		// outputs
 	CLRF	_TRISD
-;	.line	134; pillefyrsstyring.c	LATCH_1_TRIS = 0x0; 			// output
+;	.line	128; pillefyrsstyring.c	LATCH_1_TRIS = 0x0; 			// output
 	BCF	_TRISAbits, 4
-;	.line	135; pillefyrsstyring.c	LATCH_1 = LATCH_1_DISABLED;	// no inputs from input latch
+;	.line	129; pillefyrsstyring.c	LATCH_1 = LATCH_1_DISABLED;	// no inputs from input latch
 	BSF	_LATAbits, 4
-;	.line	137; pillefyrsstyring.c	LATCH_2_TRIS = 0x0; 			// output
+;	.line	131; pillefyrsstyring.c	LATCH_2_TRIS = 0x0; 			// output
 	BCF	_TRISAbits, 7
-;	.line	138; pillefyrsstyring.c	LATCH_2 = LATCH_2_DISABLED;
+;	.line	132; pillefyrsstyring.c	LATCH_2 = LATCH_2_DISABLED;
 	BCF	_LATAbits, 7
-;	.line	140; pillefyrsstyring.c	LATCH_3_TRIS = 0x0; 			// output
+;	.line	134; pillefyrsstyring.c	LATCH_3_TRIS = 0x0; 			// output
 	BCF	_TRISAbits, 6
-;	.line	141; pillefyrsstyring.c	LATCH_3 = LATCH_3_DISABLED;
+;	.line	135; pillefyrsstyring.c	LATCH_3 = LATCH_3_DISABLED;
 	BCF	_LATAbits, 6
-;	.line	143; pillefyrsstyring.c	LATCH_4_TRIS = 0x0; 			// output
+;	.line	137; pillefyrsstyring.c	LATCH_4_TRIS = 0x0; 			// output
 	BCF	_TRISCbits, 2
-;	.line	144; pillefyrsstyring.c	LATCH_4 = LATCH_4_DISABLED;
+;	.line	138; pillefyrsstyring.c	LATCH_4 = LATCH_4_DISABLED;
 	BCF	_LATCbits, 2
-;	.line	146; pillefyrsstyring.c	RELAY_TRIS = 0x0;				// output
+;	.line	140; pillefyrsstyring.c	RELAY_TRIS = 0x0;				// output
 	BCF	_TRISCbits, 5
-;	.line	147; pillefyrsstyring.c	RELAY = 0x0;					// all power outputs off
+;	.line	141; pillefyrsstyring.c	RELAY = 0x0;					// all power outputs off
 	BCF	_LATCbits, 5
 	MOVFF	PREINC1, FSR2L
 	RETURN	
@@ -575,46 +526,46 @@ _init_latches:
 ; ; Starting pCode block
 S_pillefyrsstyring__init_timers	code
 _init_timers:
-;	.line	105; pillefyrsstyring.c	void init_timers() {
+;	.line	99; pillefyrsstyring.c	void init_timers() {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
-;	.line	107; pillefyrsstyring.c	T2CONbits.T2CKPS0 = 1;
+;	.line	101; pillefyrsstyring.c	T2CONbits.T2CKPS0 = 1;
 	BSF	_T2CONbits, 0
-;	.line	108; pillefyrsstyring.c	T2CONbits.T2CKPS1 = 0;
+;	.line	102; pillefyrsstyring.c	T2CONbits.T2CKPS1 = 0;
 	BCF	_T2CONbits, 1
-;	.line	109; pillefyrsstyring.c	T2CONbits.T2OUTPS0 = 1;
+;	.line	103; pillefyrsstyring.c	T2CONbits.T2OUTPS0 = 1;
 	BSF	_T2CONbits, 3
-;	.line	110; pillefyrsstyring.c	T2CONbits.T2OUTPS1 = 0;
+;	.line	104; pillefyrsstyring.c	T2CONbits.T2OUTPS1 = 0;
 	BCF	_T2CONbits, 4
-;	.line	111; pillefyrsstyring.c	T2CONbits.T2OUTPS2 = 0;
+;	.line	105; pillefyrsstyring.c	T2CONbits.T2OUTPS2 = 0;
 	BCF	_T2CONbits, 5
-;	.line	112; pillefyrsstyring.c	T2CONbits.T2OUTPS3 = 1;
+;	.line	106; pillefyrsstyring.c	T2CONbits.T2OUTPS3 = 1;
 	BSF	_T2CONbits, 6
-;	.line	113; pillefyrsstyring.c	IPR1bits.TMR2IP = 1;		// high priority
+;	.line	107; pillefyrsstyring.c	IPR1bits.TMR2IP = 1;		// high priority
 	BSF	_IPR1bits, 1
-;	.line	114; pillefyrsstyring.c	PIR1bits.TMR2IF = 1;
+;	.line	108; pillefyrsstyring.c	PIR1bits.TMR2IF = 1;
 	BSF	_PIR1bits, 1
-;	.line	115; pillefyrsstyring.c	T2CONbits.TMR2ON = 1;
+;	.line	109; pillefyrsstyring.c	T2CONbits.TMR2ON = 1;
 	BSF	_T2CONbits, 2
-;	.line	116; pillefyrsstyring.c	PIE1bits.TMR2IE = 1;
+;	.line	110; pillefyrsstyring.c	PIE1bits.TMR2IE = 1;
 	BSF	_PIE1bits, 1
-;	.line	119; pillefyrsstyring.c	T3CONbits.RD16 = 1;
+;	.line	113; pillefyrsstyring.c	T3CONbits.RD16 = 1;
 	BSF	_T3CONbits, 7
-;	.line	120; pillefyrsstyring.c	T3CONbits.TMR3CS = 0;	// internal clock source
+;	.line	114; pillefyrsstyring.c	T3CONbits.TMR3CS = 0;	// internal clock source
 	BCF	_T3CONbits, 1
-;	.line	121; pillefyrsstyring.c	T3CONbits.T3CKPS0 = 1;
+;	.line	115; pillefyrsstyring.c	T3CONbits.T3CKPS0 = 1;
 	BSF	_T3CONbits, 4
-;	.line	122; pillefyrsstyring.c	T3CONbits.T3CKPS0 = 1;
+;	.line	116; pillefyrsstyring.c	T3CONbits.T3CKPS0 = 1;
 	BSF	_T3CONbits, 4
-;	.line	123; pillefyrsstyring.c	IPR2bits.TMR3IP = 0;		// low priority
+;	.line	117; pillefyrsstyring.c	IPR2bits.TMR3IP = 0;		// low priority
 	BCF	_IPR2bits, 1
-;	.line	124; pillefyrsstyring.c	T3CONbits.TMR3ON = 1;
+;	.line	118; pillefyrsstyring.c	T3CONbits.TMR3ON = 1;
 	BSF	_T3CONbits, 0
-;	.line	126; pillefyrsstyring.c	PIR2bits.TMR3IF = 1;
+;	.line	120; pillefyrsstyring.c	PIR2bits.TMR3IF = 1;
 	BSF	_PIR2bits, 1
-;	.line	128; pillefyrsstyring.c	INTCONbits.PEIE = 1;
+;	.line	122; pillefyrsstyring.c	INTCONbits.PEIE = 1;
 	BSF	_INTCONbits, 6
-;	.line	129; pillefyrsstyring.c	INTCONbits.GIE = 1;	/* Enable Global interrupts   */	
+;	.line	123; pillefyrsstyring.c	INTCONbits.GIE = 1;	/* Enable Global interrupts   */	
 	BSF	_INTCONbits, 7
 	MOVFF	PREINC1, FSR2L
 	RETURN	
@@ -622,7 +573,7 @@ _init_timers:
 ; ; Starting pCode block
 S_pillefyrsstyring__sleep_ms	code
 _sleep_ms:
-;	.line	95; pillefyrsstyring.c	void sleep_ms(unsigned long ms) {
+;	.line	89; pillefyrsstyring.c	void sleep_ms(unsigned long ms) {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
@@ -649,13 +600,13 @@ _sleep_ms:
 	MOVFF	PLUSW2, r0x02
 	MOVLW	0x05
 	MOVFF	PLUSW2, r0x03
-;	.line	97; pillefyrsstyring.c	start_timer_2 = timer_2;	
+;	.line	91; pillefyrsstyring.c	start_timer_2 = timer_2;	
 	MOVFF	_timer_2, r0x04
 	MOVFF	(_timer_2 + 1), r0x05
 	MOVFF	(_timer_2 + 2), r0x06
 	MOVFF	(_timer_2 + 3), r0x07
-_00141_DS_:
-;	.line	100; pillefyrsstyring.c	while ( (((signed long)(timer_2 - start_timer_2) < 0) ? (-1 * (timer_2 - start_timer_2)) : (timer_2 - start_timer_2)) < ms) {
+_00130_DS_:
+;	.line	94; pillefyrsstyring.c	while ( (((signed long)(timer_2 - start_timer_2) < 0) ? (-1 * (timer_2 - start_timer_2)) : (timer_2 - start_timer_2)) < ms) {
 	MOVF	r0x04, W
 	BANKSEL	_timer_2
 	SUBWF	_timer_2, W, B
@@ -683,7 +634,7 @@ _00141_DS_:
 	BSF	STATUS, 0
 	BTFSS	r0x0f, 7
 	BCF	STATUS, 0
-	BNC	_00146_DS_
+	BNC	_00135_DS_
 	MOVF	r0x0b, W
 	MOVWF	POSTDEC1
 	MOVF	r0x0a, W
@@ -707,27 +658,27 @@ _00141_DS_:
 	MOVFF	FSR0L, r0x0f
 	MOVLW	0x08
 	ADDWF	FSR1L, F
-	BRA	_00147_DS_
-_00146_DS_:
+	BRA	_00136_DS_
+_00135_DS_:
 	MOVFF	r0x08, r0x0c
 	MOVFF	r0x09, r0x0d
 	MOVFF	r0x0a, r0x0e
 	MOVFF	r0x0b, r0x0f
-_00147_DS_:
+_00136_DS_:
 	MOVF	r0x03, W
 	SUBWF	r0x0f, W
-	BNZ	_00154_DS_
+	BNZ	_00143_DS_
 	MOVF	r0x02, W
 	SUBWF	r0x0e, W
-	BNZ	_00154_DS_
+	BNZ	_00143_DS_
 	MOVF	r0x01, W
 	SUBWF	r0x0d, W
-	BNZ	_00154_DS_
+	BNZ	_00143_DS_
 	MOVF	r0x00, W
 	SUBWF	r0x0c, W
-_00154_DS_:
+_00143_DS_:
 	BTFSS	STATUS, 0
-	BRA	_00141_DS_
+	BRA	_00130_DS_
 	MOVFF	PREINC1, r0x0f
 	MOVFF	PREINC1, r0x0e
 	MOVFF	PREINC1, r0x0d
@@ -750,7 +701,7 @@ _00154_DS_:
 ; ; Starting pCode block
 S_pillefyrsstyring__timer_control	code
 _timer_control:
-;	.line	82; pillefyrsstyring.c	static void timer_control(void) __interrupt 1 {
+;	.line	76; pillefyrsstyring.c	static void timer_control(void) __interrupt 1 {
 	MOVFF	STATUS, POSTDEC1
 	MOVFF	BSR, POSTDEC1
 	MOVWF	POSTDEC1
@@ -763,40 +714,40 @@ _timer_control:
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
-;	.line	83; pillefyrsstyring.c	if (PIR1bits.TMR2IF) {
+;	.line	77; pillefyrsstyring.c	if (PIR1bits.TMR2IF) {
 	BTFSS	_PIR1bits, 1
-	BRA	_00125_DS_
-;	.line	84; pillefyrsstyring.c	PR2 = TIMER2_RELOAD;		// 1 ms delay at 4 MHz
+	BRA	_00114_DS_
+;	.line	78; pillefyrsstyring.c	PR2 = TIMER2_RELOAD;		// 1 ms delay at 4 MHz
 	MOVLW	0x18
 	MOVWF	_PR2
-;	.line	85; pillefyrsstyring.c	PIR1bits.TMR2IF = 0;
+;	.line	79; pillefyrsstyring.c	PIR1bits.TMR2IF = 0;
 	BCF	_PIR1bits, 1
 	BANKSEL	_timer_2
-;	.line	86; pillefyrsstyring.c	timer_2++;
+;	.line	80; pillefyrsstyring.c	timer_2++;
 	INCF	_timer_2, F, B
-	BNC	_00125_DS_
+	BNC	_00114_DS_
 	BANKSEL	(_timer_2 + 1)
 	INCF	(_timer_2 + 1), F, B
-	BNC	_00125_DS_
+	BNC	_00114_DS_
 	BANKSEL	(_timer_2 + 2)
 	INCFSZ	(_timer_2 + 2), F, B
-	BRA	_10179_DS_
+	BRA	_10168_DS_
 	BANKSEL	(_timer_2 + 3)
 	INCF	(_timer_2 + 3), F, B
-_10179_DS_:
-_00136_DS_:
+_10168_DS_:
 _00125_DS_:
-;	.line	89; pillefyrsstyring.c	if (usart_drdy()) {
+_00114_DS_:
+;	.line	83; pillefyrsstyring.c	if (usart_drdy()) {
 	CALL	_usart_drdy
 	MOVWF	r0x00
 	MOVF	r0x00, W
-	BZ	_00128_DS_
-;	.line	91; pillefyrsstyring.c	usart_putc(usart_getc());
+	BZ	_00117_DS_
+;	.line	85; pillefyrsstyring.c	usart_putc(usart_getc());
 	CALL	_usart_getc
 	MOVWF	r0x00
 	MOVF	r0x00, W
 	CALL	_usart_putc
-_00128_DS_:
+_00117_DS_:
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
 	MOVFF	PREINC1, PCLATU
@@ -813,8 +764,8 @@ _00128_DS_:
 
 
 ; Statistics:
-; code size:	  994 (0x03e2) bytes ( 0.76%)
-;           	  497 (0x01f1) words
+; code size:	  896 (0x0380) bytes ( 0.68%)
+;           	  448 (0x01c0) words
 ; udata size:	   36 (0x0024) bytes ( 0.94%)
 ; access size:	   16 (0x0010) bytes
 

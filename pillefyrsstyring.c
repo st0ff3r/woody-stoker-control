@@ -33,6 +33,7 @@ void main(void) {
 	chimney_temp = 0;
 	
 	init_timers();
+	/*
 	usart_open(	USART_TX_INT_OFF &
 				USART_RX_INT_ON & 
 				USART_BRGH_HIGH & 
@@ -41,7 +42,7 @@ void main(void) {
 				USART_CONT_RX,
 				12     // 19200 kbps @ 4 MHz
 	);
-
+				*/
 //	my_usart_open();
 
 /*
@@ -57,26 +58,19 @@ void main(void) {
 
 	// init io
 	init_latches();
-	lcd_init();
+	latched_lcd_power(1);
+//	lcd_init();
 //	lcd_print("OpenStoker starting...", 0, NON_INVERTED); // starting...");
 	sleep_ms(1000);
 	set_ac_power(0x00, 0x00);
 	RELAY = 1;
 	
-	last_inputs = get_inputs();
-//	for (i = 0; i < 100; i++) {
-//		lcd_plot_pixel(i, i);
-//	}
+	TRISCbits.TRISC7 = 0x1;	// rx
+	TRISCbits.TRISC6 = 0x0;	// tx
 	while (1) {
-		if (get_inputs() != last_inputs) {
-			last_inputs = get_inputs();
-			_debug();
-		}
-		set_ac_power(/* EXT_FEEDER_L1 | */ FAN_L2 | INT_FEEDER_L3 | L5 | L6, 0xff);
-		sleep_ms(200);
-		set_ac_power(/* EXT_FEEDER_L1 | */ FAN_L2 | INT_FEEDER_L3 | L5 | L6, 0x00);
-		sleep_ms(200);
+		LATCbits.LATC6 = PORTCbits.RC7;
 	}
+	
 }
 
 static void timer_control(void) __interrupt 1 {

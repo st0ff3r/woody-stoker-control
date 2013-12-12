@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.3.0 #8604 (Oct 27 2013) (Mac OS X x86_64)
-; This file was generated Thu Dec 12 04:00:40 2013
+; This file was generated Thu Dec 12 21:26:20 2013
 ;--------------------------------------------------------
 ; PIC16 port for the Microchip 16-bit core micros
 ;--------------------------------------------------------
@@ -258,21 +258,21 @@ __latch_3_data	res	1
 ; ; Starting pCode block
 S_glcd__latched_lcd_data	code
 _latched_lcd_data:
-;	.line	363; glcd.c	void latched_lcd_data(unsigned char value) {
+;	.line	366; glcd.c	void latched_lcd_data(unsigned char value) {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
 	MOVLW	0x02
 	MOVFF	PLUSW2, r0x00
-;	.line	364; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
+;	.line	367; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
 	CLRF	_TRISD
-;	.line	365; glcd.c	LATCH_DATA = value;
+;	.line	368; glcd.c	LATCH_DATA = value;
 	MOVFF	r0x00, _LATD
-;	.line	366; glcd.c	LATCH_4 = LATCH_4_ENABLED;
+;	.line	369; glcd.c	LATCH_4 = LATCH_4_ENABLED;
 	BSF	_LATCbits, 2
-;	.line	367; glcd.c	LATCH_4 = LATCH_4_DISABLED;
+;	.line	370; glcd.c	LATCH_4 = LATCH_4_DISABLED;
 	BCF	_LATCbits, 2
-;	.line	368; glcd.c	LATCH_DATA = 0x00;
+;	.line	371; glcd.c	LATCH_DATA = 0x00;
 	CLRF	_LATD
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
@@ -281,35 +281,35 @@ _latched_lcd_data:
 ; ; Starting pCode block
 S_glcd__latched_lcd_cs1	code
 _latched_lcd_cs1:
-;	.line	348; glcd.c	void latched_lcd_cs1(unsigned char value) {
+;	.line	351; glcd.c	void latched_lcd_cs1(unsigned char value) {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
 	MOVLW	0x02
 	MOVFF	PLUSW2, r0x00
-;	.line	349; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
+;	.line	352; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
 	CLRF	_TRISD
-;	.line	350; glcd.c	if (value) {	// set it
+;	.line	353; glcd.c	if (value) {	// set it
 	MOVF	r0x00, W
-	BZ	_00290_DS_
+	BZ	_00268_DS_
 	BANKSEL	__latch_3_data
-;	.line	351; glcd.c	_latch_3_data |= 0b00100000;
+;	.line	354; glcd.c	_latch_3_data |= 0b00100000;
 	BSF	__latch_3_data, 5, B
-;	.line	352; glcd.c	LATCH_DATA = _latch_3_data;
+;	.line	355; glcd.c	LATCH_DATA = _latch_3_data;
 	MOVFF	__latch_3_data, _LATD
-	BRA	_00291_DS_
-_00290_DS_:
+	BRA	_00269_DS_
+_00268_DS_:
 	BANKSEL	__latch_3_data
-;	.line	355; glcd.c	_latch_3_data &= 0b11011111;
+;	.line	358; glcd.c	_latch_3_data &= 0b11011111;
 	BCF	__latch_3_data, 5, B
-;	.line	356; glcd.c	LATCH_DATA = _latch_3_data;
+;	.line	359; glcd.c	LATCH_DATA = _latch_3_data;
 	MOVFF	__latch_3_data, _LATD
-_00291_DS_:
-;	.line	358; glcd.c	LATCH_3 = LATCH_3_ENABLED;
+_00269_DS_:
+;	.line	361; glcd.c	LATCH_3 = LATCH_3_ENABLED;
 	BSF	_LATAbits, 6
-;	.line	359; glcd.c	LATCH_3 = LATCH_3_DISABLED;
+;	.line	362; glcd.c	LATCH_3 = LATCH_3_DISABLED;
 	BCF	_LATAbits, 6
-;	.line	360; glcd.c	LATCH_DATA = 0x00;
+;	.line	363; glcd.c	LATCH_DATA = 0x00;
 	CLRF	_LATD
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
@@ -318,35 +318,35 @@ _00291_DS_:
 ; ; Starting pCode block
 S_glcd__latched_lcd_cs2	code
 _latched_lcd_cs2:
-;	.line	333; glcd.c	void latched_lcd_cs2(unsigned char value) {
+;	.line	336; glcd.c	void latched_lcd_cs2(unsigned char value) {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
 	MOVLW	0x02
 	MOVFF	PLUSW2, r0x00
-;	.line	334; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
+;	.line	337; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
 	CLRF	_TRISD
-;	.line	335; glcd.c	if (value) {	// set it
+;	.line	338; glcd.c	if (value) {	// set it
 	MOVF	r0x00, W
-	BZ	_00282_DS_
+	BZ	_00260_DS_
 	BANKSEL	__latch_3_data
-;	.line	336; glcd.c	_latch_3_data |= 0b00010000;
+;	.line	339; glcd.c	_latch_3_data |= 0b00010000;
 	BSF	__latch_3_data, 4, B
-;	.line	337; glcd.c	LATCH_DATA = _latch_3_data;
+;	.line	340; glcd.c	LATCH_DATA = _latch_3_data;
 	MOVFF	__latch_3_data, _LATD
-	BRA	_00283_DS_
-_00282_DS_:
+	BRA	_00261_DS_
+_00260_DS_:
 	BANKSEL	__latch_3_data
-;	.line	340; glcd.c	_latch_3_data &= 0b11101111;
+;	.line	343; glcd.c	_latch_3_data &= 0b11101111;
 	BCF	__latch_3_data, 4, B
-;	.line	341; glcd.c	LATCH_DATA = _latch_3_data;
+;	.line	344; glcd.c	LATCH_DATA = _latch_3_data;
 	MOVFF	__latch_3_data, _LATD
-_00283_DS_:
-;	.line	343; glcd.c	LATCH_3 = LATCH_3_ENABLED;
+_00261_DS_:
+;	.line	346; glcd.c	LATCH_3 = LATCH_3_ENABLED;
 	BSF	_LATAbits, 6
-;	.line	344; glcd.c	LATCH_3 = LATCH_3_DISABLED;
+;	.line	347; glcd.c	LATCH_3 = LATCH_3_DISABLED;
 	BCF	_LATAbits, 6
-;	.line	345; glcd.c	LATCH_DATA = 0x00;
+;	.line	348; glcd.c	LATCH_DATA = 0x00;
 	CLRF	_LATD
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
@@ -355,35 +355,35 @@ _00283_DS_:
 ; ; Starting pCode block
 S_glcd__latched_lcd_rst	code
 _latched_lcd_rst:
-;	.line	318; glcd.c	void latched_lcd_rst(unsigned char value) {
+;	.line	321; glcd.c	void latched_lcd_rst(unsigned char value) {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
 	MOVLW	0x02
 	MOVFF	PLUSW2, r0x00
-;	.line	319; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
+;	.line	322; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
 	CLRF	_TRISD
-;	.line	320; glcd.c	if (value) {	// set it
+;	.line	323; glcd.c	if (value) {	// set it
 	MOVF	r0x00, W
-	BZ	_00274_DS_
+	BZ	_00252_DS_
 	BANKSEL	__latch_3_data
-;	.line	321; glcd.c	_latch_3_data |= 0b00001000;
+;	.line	324; glcd.c	_latch_3_data |= 0b00001000;
 	BSF	__latch_3_data, 3, B
-;	.line	322; glcd.c	LATCH_DATA = _latch_3_data;
+;	.line	325; glcd.c	LATCH_DATA = _latch_3_data;
 	MOVFF	__latch_3_data, _LATD
-	BRA	_00275_DS_
-_00274_DS_:
+	BRA	_00253_DS_
+_00252_DS_:
 	BANKSEL	__latch_3_data
-;	.line	325; glcd.c	_latch_3_data &= 0b11110111;
+;	.line	328; glcd.c	_latch_3_data &= 0b11110111;
 	BCF	__latch_3_data, 3, B
-;	.line	326; glcd.c	LATCH_DATA = _latch_3_data;
+;	.line	329; glcd.c	LATCH_DATA = _latch_3_data;
 	MOVFF	__latch_3_data, _LATD
-_00275_DS_:
-;	.line	328; glcd.c	LATCH_3 = LATCH_3_ENABLED;
+_00253_DS_:
+;	.line	331; glcd.c	LATCH_3 = LATCH_3_ENABLED;
 	BSF	_LATAbits, 6
-;	.line	329; glcd.c	LATCH_3 = LATCH_3_DISABLED;
+;	.line	332; glcd.c	LATCH_3 = LATCH_3_DISABLED;
 	BCF	_LATAbits, 6
-;	.line	330; glcd.c	LATCH_DATA = 0x00;
+;	.line	333; glcd.c	LATCH_DATA = 0x00;
 	CLRF	_LATD
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
@@ -392,35 +392,35 @@ _00275_DS_:
 ; ; Starting pCode block
 S_glcd__latched_lcd_rw	code
 _latched_lcd_rw:
-;	.line	303; glcd.c	void latched_lcd_rw(unsigned char value) {
+;	.line	306; glcd.c	void latched_lcd_rw(unsigned char value) {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
 	MOVLW	0x02
 	MOVFF	PLUSW2, r0x00
-;	.line	304; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
+;	.line	307; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
 	CLRF	_TRISD
-;	.line	305; glcd.c	if (value) {	// set it
+;	.line	308; glcd.c	if (value) {	// set it
 	MOVF	r0x00, W
-	BZ	_00266_DS_
+	BZ	_00244_DS_
 	BANKSEL	__latch_3_data
-;	.line	306; glcd.c	_latch_3_data |= 0b00000100;
+;	.line	309; glcd.c	_latch_3_data |= 0b00000100;
 	BSF	__latch_3_data, 2, B
-;	.line	307; glcd.c	LATCH_DATA = _latch_3_data;
+;	.line	310; glcd.c	LATCH_DATA = _latch_3_data;
 	MOVFF	__latch_3_data, _LATD
-	BRA	_00267_DS_
-_00266_DS_:
+	BRA	_00245_DS_
+_00244_DS_:
 	BANKSEL	__latch_3_data
-;	.line	310; glcd.c	_latch_3_data &= 0b11111011;
+;	.line	313; glcd.c	_latch_3_data &= 0b11111011;
 	BCF	__latch_3_data, 2, B
-;	.line	311; glcd.c	LATCH_DATA = _latch_3_data;
+;	.line	314; glcd.c	LATCH_DATA = _latch_3_data;
 	MOVFF	__latch_3_data, _LATD
-_00267_DS_:
-;	.line	313; glcd.c	LATCH_3 = LATCH_3_ENABLED;
+_00245_DS_:
+;	.line	316; glcd.c	LATCH_3 = LATCH_3_ENABLED;
 	BSF	_LATAbits, 6
-;	.line	314; glcd.c	LATCH_3 = LATCH_3_DISABLED;
+;	.line	317; glcd.c	LATCH_3 = LATCH_3_DISABLED;
 	BCF	_LATAbits, 6
-;	.line	315; glcd.c	LATCH_DATA = 0x00;
+;	.line	318; glcd.c	LATCH_DATA = 0x00;
 	CLRF	_LATD
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
@@ -429,35 +429,35 @@ _00267_DS_:
 ; ; Starting pCode block
 S_glcd__latched_lcd_di	code
 _latched_lcd_di:
-;	.line	288; glcd.c	void latched_lcd_di(unsigned char value) {
+;	.line	291; glcd.c	void latched_lcd_di(unsigned char value) {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
 	MOVLW	0x02
 	MOVFF	PLUSW2, r0x00
-;	.line	289; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
+;	.line	292; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
 	CLRF	_TRISD
-;	.line	290; glcd.c	if (value) {	// set it
+;	.line	293; glcd.c	if (value) {	// set it
 	MOVF	r0x00, W
-	BZ	_00258_DS_
+	BZ	_00236_DS_
 	BANKSEL	__latch_3_data
-;	.line	291; glcd.c	_latch_3_data |= 0b00000010;
+;	.line	294; glcd.c	_latch_3_data |= 0b00000010;
 	BSF	__latch_3_data, 1, B
-;	.line	292; glcd.c	LATCH_DATA = _latch_3_data;
+;	.line	295; glcd.c	LATCH_DATA = _latch_3_data;
 	MOVFF	__latch_3_data, _LATD
-	BRA	_00259_DS_
-_00258_DS_:
+	BRA	_00237_DS_
+_00236_DS_:
 	BANKSEL	__latch_3_data
-;	.line	295; glcd.c	_latch_3_data &= 0b11111101;
+;	.line	298; glcd.c	_latch_3_data &= 0b11111101;
 	BCF	__latch_3_data, 1, B
-;	.line	296; glcd.c	LATCH_DATA = _latch_3_data;
+;	.line	299; glcd.c	LATCH_DATA = _latch_3_data;
 	MOVFF	__latch_3_data, _LATD
-_00259_DS_:
-;	.line	298; glcd.c	LATCH_3 = LATCH_3_ENABLED;
+_00237_DS_:
+;	.line	301; glcd.c	LATCH_3 = LATCH_3_ENABLED;
 	BSF	_LATAbits, 6
-;	.line	299; glcd.c	LATCH_3 = LATCH_3_DISABLED;
+;	.line	302; glcd.c	LATCH_3 = LATCH_3_DISABLED;
 	BCF	_LATAbits, 6
-;	.line	300; glcd.c	LATCH_DATA = 0x00;
+;	.line	303; glcd.c	LATCH_DATA = 0x00;
 	CLRF	_LATD
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
@@ -466,35 +466,35 @@ _00259_DS_:
 ; ; Starting pCode block
 S_glcd__latched_lcd_enable	code
 _latched_lcd_enable:
-;	.line	273; glcd.c	void latched_lcd_enable(unsigned char value) {
+;	.line	276; glcd.c	void latched_lcd_enable(unsigned char value) {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
 	MOVLW	0x02
 	MOVFF	PLUSW2, r0x00
-;	.line	274; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
+;	.line	277; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
 	CLRF	_TRISD
-;	.line	275; glcd.c	if (value) {	// set it
+;	.line	278; glcd.c	if (value) {	// set it
 	MOVF	r0x00, W
-	BZ	_00250_DS_
+	BZ	_00228_DS_
 	BANKSEL	__latch_3_data
-;	.line	276; glcd.c	_latch_3_data |= 0b00000001;
+;	.line	279; glcd.c	_latch_3_data |= 0b00000001;
 	BSF	__latch_3_data, 0, B
-;	.line	277; glcd.c	LATCH_DATA = _latch_3_data;
+;	.line	280; glcd.c	LATCH_DATA = _latch_3_data;
 	MOVFF	__latch_3_data, _LATD
-	BRA	_00251_DS_
-_00250_DS_:
+	BRA	_00229_DS_
+_00228_DS_:
 	BANKSEL	__latch_3_data
-;	.line	280; glcd.c	_latch_3_data &= 0b11111110;
+;	.line	283; glcd.c	_latch_3_data &= 0b11111110;
 	BCF	__latch_3_data, 0, B
-;	.line	281; glcd.c	LATCH_DATA = _latch_3_data;
+;	.line	284; glcd.c	LATCH_DATA = _latch_3_data;
 	MOVFF	__latch_3_data, _LATD
-_00251_DS_:
-;	.line	283; glcd.c	LATCH_3 = LATCH_3_ENABLED;
+_00229_DS_:
+;	.line	286; glcd.c	LATCH_3 = LATCH_3_ENABLED;
 	BSF	_LATAbits, 6
-;	.line	284; glcd.c	LATCH_3 = LATCH_3_DISABLED;
+;	.line	287; glcd.c	LATCH_3 = LATCH_3_DISABLED;
 	BCF	_LATAbits, 6
-;	.line	285; glcd.c	LATCH_DATA = 0x00;
+;	.line	288; glcd.c	LATCH_DATA = 0x00;
 	CLRF	_LATD
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
@@ -503,35 +503,35 @@ _00251_DS_:
 ; ; Starting pCode block
 S_glcd__latched_lcd_power	code
 _latched_lcd_power:
-;	.line	258; glcd.c	void latched_lcd_power(unsigned char value) {
+;	.line	261; glcd.c	void latched_lcd_power(unsigned char value) {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
 	MOVLW	0x02
 	MOVFF	PLUSW2, r0x00
-;	.line	259; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
+;	.line	262; glcd.c	LATCH_DATA_TRIS = 0x00;		// outputs
 	CLRF	_TRISD
-;	.line	260; glcd.c	if (value) {	// set it
+;	.line	263; glcd.c	if (value) {	// set it
 	MOVF	r0x00, W
-	BZ	_00242_DS_
+	BZ	_00220_DS_
 	BANKSEL	__latch_3_data
-;	.line	261; glcd.c	_latch_3_data |= 0b10000000;
+;	.line	264; glcd.c	_latch_3_data |= 0b10000000;
 	BSF	__latch_3_data, 7, B
-;	.line	262; glcd.c	LATCH_DATA = _latch_3_data;
+;	.line	265; glcd.c	LATCH_DATA = _latch_3_data;
 	MOVFF	__latch_3_data, _LATD
-	BRA	_00243_DS_
-_00242_DS_:
+	BRA	_00221_DS_
+_00220_DS_:
 	BANKSEL	__latch_3_data
-;	.line	265; glcd.c	_latch_3_data &= 0b01111111;
+;	.line	268; glcd.c	_latch_3_data &= 0b01111111;
 	BCF	__latch_3_data, 7, B
-;	.line	266; glcd.c	LATCH_DATA = _latch_3_data;
+;	.line	269; glcd.c	LATCH_DATA = _latch_3_data;
 	MOVFF	__latch_3_data, _LATD
-_00243_DS_:
-;	.line	268; glcd.c	LATCH_3 = LATCH_3_ENABLED;
+_00221_DS_:
+;	.line	271; glcd.c	LATCH_3 = LATCH_3_ENABLED;
 	BSF	_LATAbits, 6
-;	.line	269; glcd.c	LATCH_3 = LATCH_3_DISABLED;
+;	.line	272; glcd.c	LATCH_3 = LATCH_3_DISABLED;
 	BCF	_LATAbits, 6
-;	.line	270; glcd.c	LATCH_DATA = 0x00;
+;	.line	273; glcd.c	LATCH_DATA = 0x00;
 	CLRF	_LATD
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
@@ -540,7 +540,7 @@ _00243_DS_:
 ; ; Starting pCode block
 S_glcd__lcd_plot_pixel	code
 _lcd_plot_pixel:
-;	.line	238; glcd.c	void lcd_plot_pixel(unsigned char rx, unsigned char ry) {
+;	.line	241; glcd.c	void lcd_plot_pixel(unsigned char rx, unsigned char ry) {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
@@ -550,23 +550,23 @@ _lcd_plot_pixel:
 	MOVFF	PLUSW2, r0x00
 	MOVLW	0x03
 	MOVFF	PLUSW2, r0x01
-;	.line	243; glcd.c	if (rx & 64) {
+;	.line	246; glcd.c	if (rx & 64) {
 	BTFSS	r0x00, 6
-	BRA	_00225_DS_
-;	.line	244; glcd.c	lcd_selectside(LCD_RIGHT);
+	BRA	_00203_DS_
+;	.line	247; glcd.c	lcd_selectside(LCD_RIGHT);
 	MOVLW	0x02
 	MOVWF	POSTDEC1
 	CALL	_lcd_selectside
 	MOVF	POSTINC1, F
-	BRA	_00226_DS_
-_00225_DS_:
-;	.line	247; glcd.c	lcd_selectside(LCD_LEFT);
+	BRA	_00204_DS_
+_00203_DS_:
+;	.line	250; glcd.c	lcd_selectside(LCD_LEFT);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
 	CALL	_lcd_selectside
 	MOVF	POSTINC1, F
-_00226_DS_:
-;	.line	250; glcd.c	lcd_setpage( ry >> 3);		// fast /8
+_00204_DS_:
+;	.line	253; glcd.c	lcd_setpage( ry >> 3);		// fast /8
 	SWAPF	r0x01, W
 	RLNCF	WREG, W
 	ANDLW	0x1f
@@ -575,37 +575,37 @@ _00226_DS_:
 	MOVWF	POSTDEC1
 	CALL	_lcd_setpage
 	MOVF	POSTINC1, F
-;	.line	251; glcd.c	lcd_setyaddr( rx & 0b00111111);
+;	.line	254; glcd.c	lcd_setyaddr( rx & 0b00111111);
 	MOVLW	0x3f
 	ANDWF	r0x00, F
 	MOVF	r0x00, W
 	MOVWF	POSTDEC1
 	CALL	_lcd_setyaddr
 	MOVF	POSTINC1, F
-;	.line	252; glcd.c	d = lcd_read();				// read to move data to GLCD buffer,
+;	.line	255; glcd.c	d = lcd_read();				// read to move data to GLCD buffer,
 	CALL	_lcd_read
-;	.line	253; glcd.c	d = lcd_read();				// read again to transfer to pic
+;	.line	256; glcd.c	d = lcd_read();				// read again to transfer to pic
 	CALL	_lcd_read
 	MOVWF	r0x02
-;	.line	254; glcd.c	lcd_setyaddr( rx & 0b00111111); 
+;	.line	257; glcd.c	lcd_setyaddr( rx & 0b00111111); 
 	MOVF	r0x00, W
 	MOVWF	POSTDEC1
 	CALL	_lcd_setyaddr
 	MOVF	POSTINC1, F
-;	.line	255; glcd.c	lcd_write (d | (1 << (ry & 0b111)));
+;	.line	258; glcd.c	lcd_write (d | (1 << (ry & 0b111)));
 	MOVLW	0x07
 	ANDWF	r0x01, F
 	MOVLW	0x01
 	MOVWF	r0x00
 	MOVF	r0x01, W
-	BZ	_00235_DS_
+	BZ	_00213_DS_
 	NEGF	WREG
 	BCF	STATUS, 0
-_00236_DS_:
+_00214_DS_:
 	RLCF	r0x00, F
 	ADDLW	0x01
-	BNC	_00236_DS_
-_00235_DS_:
+	BNC	_00214_DS_
+_00213_DS_:
 	MOVF	r0x00, W
 	IORWF	r0x02, F
 	MOVF	r0x02, W
@@ -624,8 +624,10 @@ _lcd_read:
 ;	.line	222; glcd.c	unsigned char lcd_read (void) {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
-;	.line	234; glcd.c	return 1;
-	MOVLW	0x01
+;	.line	236; glcd.c	lcd_enable();
+	CALL	_lcd_enable
+;	.line	237; glcd.c	return 0;
+	CLRF	WREG
 	MOVFF	PREINC1, FSR2L
 	RETURN	
 
@@ -640,36 +642,36 @@ _lcd_selectside:
 	MOVFF	PLUSW2, r0x00
 ;	.line	200; glcd.c	if (sides & LCD_LEFT) {
 	BTFSS	r0x00, 0
-	BRA	_00200_DS_
+	BRA	_00178_DS_
 ;	.line	202; glcd.c	latched_lcd_cs1(0);
 	MOVLW	0x00
 	MOVWF	POSTDEC1
 	CALL	_latched_lcd_cs1
 	MOVF	POSTINC1, F
-	BRA	_00201_DS_
-_00200_DS_:
+	BRA	_00179_DS_
+_00178_DS_:
 ;	.line	206; glcd.c	latched_lcd_cs1(1);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
 	CALL	_latched_lcd_cs1
 	MOVF	POSTINC1, F
-_00201_DS_:
+_00179_DS_:
 ;	.line	209; glcd.c	if (sides & LCD_RIGHT) {
 	BTFSS	r0x00, 1
-	BRA	_00203_DS_
+	BRA	_00181_DS_
 ;	.line	211; glcd.c	latched_lcd_cs2(0);
 	MOVLW	0x00
 	MOVWF	POSTDEC1
 	CALL	_latched_lcd_cs2
 	MOVF	POSTINC1, F
-	BRA	_00205_DS_
-_00203_DS_:
+	BRA	_00183_DS_
+_00181_DS_:
 ;	.line	215; glcd.c	latched_lcd_cs2(1);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
 	CALL	_latched_lcd_cs2
 	MOVF	POSTINC1, F
-_00205_DS_:
+_00183_DS_:
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
 	RETURN	
@@ -712,19 +714,8 @@ _lcd_waitbusy:
 ;	.line	177; glcd.c	void lcd_waitbusy(void) {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
-	MOVFF	r0x00, POSTDEC1
-_00178_DS_:
-;	.line	178; glcd.c	while (lcd_status() & 0b10000000) {
-	CALL	_lcd_status
-	MOVWF	r0x00
-	BTFSS	r0x00, 7
-	BRA	_00181_DS_
-_00189_DS_:
 	nop 
 	nop 
-	BRA	_00178_DS_
-_00181_DS_:
-	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
 	RETURN	
 
@@ -813,7 +804,7 @@ _lcd_cls:
 	MOVF	POSTINC1, F
 ;	.line	122; glcd.c	for (x = 0; x < 8; x++) {
 	CLRF	r0x00
-_00146_DS_:
+_00135_DS_:
 ;	.line	124; glcd.c	lcd_setpage(x);
 	MOVF	r0x00, W
 	MOVWF	POSTDEC1
@@ -842,7 +833,7 @@ _00146_DS_:
 ;	.line	136; glcd.c	for (y = 0; y < 64; y++) {
 	MOVLW	0x40
 	MOVWF	r0x01
-_00145_DS_:
+_00134_DS_:
 ;	.line	137; glcd.c	lcd_enable(); 
 	CALL	_lcd_enable
 	nop 
@@ -853,12 +844,12 @@ _00145_DS_:
 	MOVWF	r0x01
 ;	.line	136; glcd.c	for (y = 0; y < 64; y++) {
 	MOVF	r0x01, W
-	BNZ	_00145_DS_
+	BNZ	_00134_DS_
 ;	.line	122; glcd.c	for (x = 0; x < 8; x++) {
 	INCF	r0x00, F
 	MOVLW	0x08
 	SUBWF	r0x00, W
-	BNC	_00146_DS_
+	BNC	_00135_DS_
 ;	.line	143; glcd.c	lcd_selectside(LCD_LEFT);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
@@ -920,7 +911,6 @@ _lcd_reset:
 ;	.line	79; glcd.c	void lcd_reset(void) {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
-	MOVFF	r0x00, POSTDEC1
 ;	.line	86; glcd.c	sleep_ms(1);
 	MOVLW	0x00
 	MOVWF	POSTDEC1
@@ -955,27 +945,6 @@ _lcd_reset:
 	MOVWF	POSTDEC1
 	CALL	_latched_lcd_rst
 	MOVF	POSTINC1, F
-_00120_DS_:
-;	.line	94; glcd.c	while (lcd_status() & 0b00010000) {
-	CALL	_lcd_status
-	MOVWF	r0x00
-	BTFSS	r0x00, 4
-	BRA	_00123_DS_
-;	.line	95; glcd.c	sleep_ms(1);
-	MOVLW	0x00
-	MOVWF	POSTDEC1
-	MOVLW	0x00
-	MOVWF	POSTDEC1
-	MOVLW	0x00
-	MOVWF	POSTDEC1
-	MOVLW	0x01
-	MOVWF	POSTDEC1
-	CALL	_sleep_ms
-	MOVLW	0x04
-	ADDWF	FSR1L, F
-	BRA	_00120_DS_
-_00123_DS_:
-	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
 	RETURN	
 
@@ -985,14 +954,14 @@ _lcd_status:
 ;	.line	52; glcd.c	unsigned char lcd_status(void) {
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
-;	.line	74; glcd.c	sleep_ms(100);	
+;	.line	74; glcd.c	sleep_ms(10);	
 	MOVLW	0x00
 	MOVWF	POSTDEC1
 	MOVLW	0x00
 	MOVWF	POSTDEC1
 	MOVLW	0x00
 	MOVWF	POSTDEC1
-	MOVLW	0x64
+	MOVLW	0x0a
 	MOVWF	POSTDEC1
 	CALL	_sleep_ms
 	MOVLW	0x04
@@ -1064,8 +1033,8 @@ _lcd_init:
 
 
 ; Statistics:
-; code size:	 1458 (0x05b2) bytes ( 1.11%)
-;           	  729 (0x02d9) words
+; code size:	 1398 (0x0576) bytes ( 1.07%)
+;           	  699 (0x02bb) words
 ; udata size:	    2 (0x0002) bytes ( 0.05%)
 ; access size:	    3 (0x0003) bytes
 
