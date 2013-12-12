@@ -78,4 +78,5 @@ void init_latches();
 
 void set_ac_power(unsigned char header_mask, unsigned char value);
 unsigned char get_inputs();
+void my_usart_open();
 void _debug();

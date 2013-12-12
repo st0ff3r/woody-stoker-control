@@ -32,7 +32,14 @@ void main(void) {
 	smoke_temp = 0;
 	chimney_temp = 0;
 	
+    // set up interrupt and timers
+    RCONbits.IPEN = 1;
+
 	init_timers();
+
+	// USART interrupt low priority
+	IPR1bits.RCIP = 0;
+	IPR1bits.TXIP = 0;
 	/*
 	usart_open(	USART_TX_INT_OFF &
 				USART_RX_INT_ON & 
@@ -42,8 +49,8 @@ void main(void) {
 				USART_CONT_RX,
 				12     // 19200 kbps @ 4 MHz
 	);
-				*/
-//	my_usart_open();
+	*/
+	my_usart_open();
 
 /*
 	sleep_ms(100);
@@ -61,16 +68,25 @@ void main(void) {
 	latched_lcd_power(1);
 //	lcd_init();
 //	lcd_print("OpenStoker starting...", 0, NON_INVERTED); // starting...");
-	sleep_ms(1000);
 	set_ac_power(0x00, 0x00);
+	sleep_ms(1000);
 	RELAY = 1;
 	
-	TRISCbits.TRISC7 = 0x1;	// rx
-	TRISCbits.TRISC6 = 0x0;	// tx
-	while (1) {
-		LATCbits.LATC6 = PORTCbits.RC7;
+	last_inputs = get_inputs();
+	for (i = 0; i < 100; i++) {
+		lcd_plot_pixel(i, i);
 	}
-	
+	while (1) {
+		usart_puts("serial working\n\r");
+		if (get_inputs() != last_inputs) {
+			last_inputs = get_inputs();
+			_debug();
+		}
+		set_ac_power(/* EXT_FEEDER_L1 | */ FAN_L2 | INT_FEEDER_L3 | L5 | L6, 0xff);
+		sleep_ms(200);
+		set_ac_power(/* EXT_FEEDER_L1 | */ FAN_L2 | INT_FEEDER_L3 | L5 | L6, 0x00);
+		sleep_ms(200);
+	}
 }
 
 static void timer_control(void) __interrupt 1 {
@@ -79,7 +95,15 @@ static void timer_control(void) __interrupt 1 {
 		PIR1bits.TMR2IF = 0;
 		timer_2++;
 	}
-	// serial rx interrupt
+}
+
+static void slow_timer_control(void) __interrupt 2 {
+	if (PIR2bits.TMR3IF) {
+		TMR3H = (unsigned char)(TIMER3_RELOAD >> 8);    // 8 ms delay at 8 MHz
+		TMR3L = (unsigned char)TIMER3_RELOAD;
+		PIR2bits.TMR3IF = 0;    /* Clear the Timer Flag  */
+
+	}	// serial rx interrupt
 	if (usart_drdy()) {
 		// retransmit it
 		usart_putc(usart_getc());
@@ -116,7 +140,7 @@ void init_timers() {
 	T3CONbits.T3CKPS0 = 1;
 	IPR2bits.TMR3IP = 0;		// low priority
 	T3CONbits.TMR3ON = 1;
-//	PIE2bits.TMR3IE = 1;
+	PIE2bits.TMR3IE = 1;
 	PIR2bits.TMR3IF = 1;
 
 	INTCONbits.PEIE = 1;
@@ -162,6 +186,36 @@ unsigned char get_inputs() {
 	LATCH_1 = LATCH_1_DISABLED;
 //	LATCH_DATA_TRIS = prev_tris;
 	return data;
+}
+
+void my_usart_open() {
+	SPBRG = 103;					// 4MHz => 9615 baud
+	TXSTAbits.BRGH = 1;	// (1 = high speed)
+	TXSTAbits.SYNC = 0;	// (0 = asynchronous)
+	BAUDCONbits.BRG16 = 1;
+	
+	// SPEN - Serial Port Enable Bit 
+	RCSTAbits.SPEN = 1; // (1 = serial port enabled)
+
+	// TXIE - USART Transmit Interupt Enable Bit
+	PIE1bits.TXIE = 0; // (1 = enabled)
+	IPR1bits.TXIP = 0; // USART Tx on low priority interrupt
+
+	// RCIE - USART Receive Interupt Enable Bit
+	PIE1bits.RCIE = 1; // (1 = enabled)
+	IPR1bits.RCIP = 0; // USART Rx on low priority interrupt
+	
+	// TX9 - 9-bit Transmit Enable Bit
+	TXSTAbits.TX9 = 0; // (0 = 8-bit transmit)
+	
+	// RX9 - 9-bit Receive Enable Bit
+	RCSTAbits.RX9 = 0; // (0 = 8-bit reception)
+	
+	// CREN - Continuous Receive Enable Bit
+	RCSTAbits.CREN = 1; // (1 = Enables receiver)
+	
+	// TXEN - Trasmit Enable Bit
+	TXSTAbits.TXEN = 1; // (1 = transmit enabled)
 }
 
 void _debug() {
