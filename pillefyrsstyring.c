@@ -9,25 +9,30 @@
 #include "glcd.h"
 //#include "menu_system.h"
 
+#define AC_POWER_OUTS 6
 #define DEBUG
 
 unsigned int i;
-unsigned long timer_2;
+unsigned long timer_1_ms;
 unsigned int boiler_temp;
 unsigned int smoke_temp;
 unsigned int chimney_temp;
 
 unsigned char lcd_buf[22];
 
-unsigned char last_button;
+//unsigned char last_button;
 
+volatile unsigned char sensor_inputs;
 unsigned char last_inputs;
+
+unsigned char output_ac_power_pwm[AC_POWER_OUTS];
+volatile unsigned char _output_ac_power_pwm[AC_POWER_OUTS];
 
 void main(void) {
     OSCCONbits.SCS = 0x10;
-    OSCCONbits.IRCF = 0x6;	// 4 MHz
+    OSCCONbits.IRCF = 0x7;	// 8 MHz
 
-	timer_2 = 0;
+	timer_1_ms = 0;
 	boiler_temp = 0;
 	smoke_temp = 0;
 	chimney_temp = 0;
@@ -58,7 +63,7 @@ void main(void) {
 	usart_puts(debug_buf);
 	sleep_ms(500);
 */
-//	usart_puts("serial working\n");
+	usart_puts("OpenStoker starting... serial working\n\r");
 
 	// set up ad
 //	adc_open(6, ADC_FOSC_64, ADC_CFG_6A, ADC_FRM_RJUST | ADC_INT_OFF | ADC_VCFG_VDD_AN2);
@@ -66,44 +71,58 @@ void main(void) {
 	// init io
 	init_latches();
 	latched_lcd_power(1);
-//	lcd_init();
+	lcd_init();
 //	lcd_print("OpenStoker starting...", 0, NON_INVERTED); // starting...");
 	set_ac_power(0x00, 0x00);
+	
 	sleep_ms(1000);
 	RELAY = 1;
 	
 	last_inputs = get_inputs();
+	output_ac_power_pwm[AC_POWER_OUTS] = (127, 127, 127, 127, 127, 127);
+
 	for (i = 0; i < 100; i++) {
 		lcd_plot_pixel(i, i);
 	}
 	while (1) {
-		usart_puts("serial working\n\r");
-		if (get_inputs() != last_inputs) {
-			last_inputs = get_inputs();
-			_debug();
+		if (sensor_inputs != last_inputs) {
+			last_inputs = sensor_inputs;
+			_debug();	// blocks main for a while :-/
 		}
-		set_ac_power(/* EXT_FEEDER_L1 | */ FAN_L2 | INT_FEEDER_L3 | L5 | L6, 0xff);
-		sleep_ms(200);
-		set_ac_power(/* EXT_FEEDER_L1 | */ FAN_L2 | INT_FEEDER_L3 | L5 | L6, 0x00);
-		sleep_ms(200);
 	}
 }
 
-static void timer_control(void) __interrupt 1 {
-	if (PIR1bits.TMR2IF) {
-		PR2 = TIMER2_RELOAD;		// 1 ms delay at 4 MHz
-		PIR1bits.TMR2IF = 0;
-		timer_2++;
+static void isr_high_prio(void) __interrupt 1 {
+	if (INTCONbits.TMR0IF) {
+		TMR0H = (unsigned char)(TIMER0_RELOAD >> 8);
+		TMR0L = (unsigned char)TIMER0_RELOAD;   /* Reload the Timer ASAP */
+		INTCONbits.TMR0IF = 0;  /* Clear the Timer Flag  */
+	}
+	// get inputs
+	sensor_inputs = get_inputs();
+	// set outputs
+	for (i = 0; i < AC_POWER_OUTS; i++) {
+		if (_output_ac_power_pwm[i] == 0) {
+			// turn OFF ac power
+			set_ac_power(/* EXT_FEEDER_L1 | */ FAN_L2 | INT_FEEDER_L3 | L5 | L6, 0x00);
+			_output_ac_power_pwm[i] = output_ac_power_pwm[i];		// reload values
+		}
+		else {
+			set_ac_power(/* EXT_FEEDER_L1 | */ FAN_L2 | INT_FEEDER_L3 | L5 | L6, 0xff);
+			_output_ac_power_pwm[i]--;
+		}
 	}
 }
 
-static void slow_timer_control(void) __interrupt 2 {
-	if (PIR2bits.TMR3IF) {
-		TMR3H = (unsigned char)(TIMER3_RELOAD >> 8);    // 8 ms delay at 8 MHz
-		TMR3L = (unsigned char)TIMER3_RELOAD;
-		PIR2bits.TMR3IF = 0;    /* Clear the Timer Flag  */
+static void isr_low_prio(void) __interrupt 2 {
+	if (PIR1bits.TMR1IF) {
+		TMR1H = (unsigned char)(TIMER1_RELOAD >> 8);    // 8 ms delay at 8 MHz
+		TMR1L = (unsigned char)TIMER1_RELOAD;
+		PIR1bits.TMR1IF = 0;    /* Clear the Timer Flag  */
+		timer_1_ms++;
+	}
 
-	}	// serial rx interrupt
+	// serial rx interrupt
 	if (usart_drdy()) {
 		// retransmit it
 		usart_putc(usart_getc());
@@ -111,37 +130,35 @@ static void slow_timer_control(void) __interrupt 2 {
 }
 
 void sleep_ms(unsigned long ms) {
-	unsigned long start_timer_2;
-	start_timer_2 = timer_2;	
+	unsigned long start_timer_1_ms;
+	start_timer_1_ms = timer_1_ms;	
 
 // while the absolute value of the time diff < ms
-	while ( (((signed long)(timer_2 - start_timer_2) < 0) ? (-1 * (timer_2 - start_timer_2)) : (timer_2 - start_timer_2)) < ms) {
+	while ( (((signed long)(timer_1_ms - start_timer_1_ms) < 0) ? (-1 * (timer_1_ms - start_timer_1_ms)) : (timer_1_ms - start_timer_1_ms)) < ms) {
 		// do nothing
 	}
 }
 
 void init_timers() {
-	// timer 2
-    T2CONbits.T2CKPS0 = 1;
-    T2CONbits.T2CKPS1 = 0;
-    T2CONbits.T2OUTPS0 = 1;
-    T2CONbits.T2OUTPS1 = 0;
-    T2CONbits.T2OUTPS2 = 0;
-    T2CONbits.T2OUTPS3 = 1;
-	IPR1bits.TMR2IP = 1;		// high priority
-	PIR1bits.TMR2IF = 1;
-	T2CONbits.TMR2ON = 1;
-	PIE1bits.TMR2IE = 1;
+	// timer 0
+	T0CONbits.TMR0ON = 1;
+	T0CONbits.T08BIT = 0;   // use timer0 16-bit counter
+	T0CONbits.T0CS = 0;             // internal clock source
+	T0CONbits.PSA = 1;              // disable timer0 prescaler
+	INTCON2bits.TMR0IP = 1; // high priority
+	INTCONbits.T0IE = 1;    // Ensure that TMR0 Interrupt is enabled
+	INTCONbits.TMR0IF = 1;  // Force Instant entry to Timer 0 Interrupt
 
-	// timer 3
-	T3CONbits.RD16 = 1;
-	T3CONbits.TMR3CS = 0;	// internal clock source
-	T3CONbits.T3CKPS0 = 1;
-	T3CONbits.T3CKPS0 = 1;
-	IPR2bits.TMR3IP = 0;		// low priority
-	T3CONbits.TMR3ON = 1;
-	PIE2bits.TMR3IE = 1;
-	PIR2bits.TMR3IF = 1;
+	// timer 1
+	T1CONbits.TMR1ON = 1;
+	T1CONbits.RD16 = 1;
+	T1CONbits.TMR1CS = 0;   // internal clock source
+	T1CONbits.T1OSCEN = 0;  // dont put t1 on pin
+	T1CONbits.T1CKPS0 = 1;
+	T1CONbits.T1CKPS1 = 1;
+	IPR1bits.TMR1IP = 0;	// low priority
+	PIE1bits.TMR1IE = 1;	// Ensure that TMR1 Interrupt is enabled
+	PIR1bits.TMR1IF = 1;	// Force Instant entry to Timer 1 Interrupt
 
 	INTCONbits.PEIE = 1;
 	INTCONbits.GIE = 1;	/* Enable Global interrupts   */	
@@ -189,7 +206,7 @@ unsigned char get_inputs() {
 }
 
 void my_usart_open() {
-	SPBRG = 103;					// 4MHz => 9615 baud
+	SPBRG = 103;					// 8MHz => 19230 baud
 	TXSTAbits.BRGH = 1;	// (1 = high speed)
 	TXSTAbits.SYNC = 0;	// (0 = asynchronous)
 	BAUDCONbits.BRG16 = 1;

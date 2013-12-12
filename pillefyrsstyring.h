@@ -1,3 +1,5 @@
+#define TIMER0_RELOAD 0xFF5D    // 39 us @ 20MHz
+#define TIMER1_RELOAD 0xFEC8    // ~ 1 ms @ 8MHz
 #define TIMER2_RELOAD	0x18	// 1 ms @ 4MHz
 #define TIMER3_RELOAD	0x0000	// ~ 131 ms @ 4MHz
 
