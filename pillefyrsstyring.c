@@ -10,32 +10,34 @@
 //#include "menu_system.h"
 
 #define AC_POWER_OUTS 6
-#define DEBUG
+//#define DEBUG
 
 unsigned int i;
 unsigned long timer_1_ms;
-unsigned int boiler_temp;
-unsigned int smoke_temp;
-unsigned int chimney_temp;
+//unsigned int boiler_temp;
+//unsigned int smoke_temp;
+//unsigned int chimney_temp;
 
-unsigned char lcd_buf[22];
+//unsigned char lcd_buf[22];
 
 //unsigned char last_button;
 
 volatile unsigned char sensor_inputs;
 unsigned char last_inputs;
 
-unsigned char output_ac_power_pwm[AC_POWER_OUTS];
-volatile unsigned char _output_ac_power_pwm[AC_POWER_OUTS];
+volatile unsigned char output_ac_power_pwm[AC_POWER_OUTS];
+volatile unsigned char ac_power_pwm_counter;
+
+unsigned char _latch_2_data;
 
 void main(void) {
     OSCCONbits.SCS = 0x10;
     OSCCONbits.IRCF = 0x7;	// 8 MHz
 
 	timer_1_ms = 0;
-	boiler_temp = 0;
-	smoke_temp = 0;
-	chimney_temp = 0;
+//	boiler_temp = 0;
+//	smoke_temp = 0;
+//	chimney_temp = 0;
 	
     // set up interrupt and timers
     RCONbits.IPEN = 1;
@@ -79,7 +81,13 @@ void main(void) {
 	RELAY = 1;
 	
 	last_inputs = get_inputs();
-	output_ac_power_pwm[AC_POWER_OUTS] = (127, 127, 127, 127, 127, 127);
+//	output_ac_power_pwm[AC_POWER_OUTS] = (0, 0, 0, 0, 0, 0);
+	output_ac_power_pwm[0] = 0;
+	output_ac_power_pwm[1] = 50;
+	output_ac_power_pwm[2] = 90;
+	output_ac_power_pwm[3] = 130;
+	output_ac_power_pwm[4] = 170;
+	output_ac_power_pwm[5] = 0;
 
 	for (i = 0; i < 100; i++) {
 		lcd_plot_pixel(i, i);
@@ -97,26 +105,38 @@ static void isr_high_prio(void) __interrupt 1 {
 		TMR0H = (unsigned char)(TIMER0_RELOAD >> 8);
 		TMR0L = (unsigned char)TIMER0_RELOAD;   /* Reload the Timer ASAP */
 		INTCONbits.TMR0IF = 0;  /* Clear the Timer Flag  */
-	}
-	// get inputs
-	sensor_inputs = get_inputs();
-	// set outputs
-	for (i = 0; i < AC_POWER_OUTS; i++) {
-		if (_output_ac_power_pwm[i] == 0) {
-			// turn OFF ac power
-			set_ac_power(/* EXT_FEEDER_L1 | */ FAN_L2 | INT_FEEDER_L3 | L5 | L6, 0x00);
-			_output_ac_power_pwm[i] = output_ac_power_pwm[i];		// reload values
+
+		// get inputs
+//		sensor_inputs = get_inputs();
+		// set outputs
+
+		for (i = 0; i < AC_POWER_OUTS; i++) {
+			if (ac_power_pwm_counter < output_ac_power_pwm[i]) {
+				// turn ON ac power
+				set_ac_power(1 << i, 0xff);
+#ifdef DEBUG
+				if (i == 0) {
+					RELAY = 1;
+				}
+#endif
+			}
+			else {
+				// turn OFF ac power
+				set_ac_power(1 << i, 0x00);
+#ifdef DEBUG
+				if (i == 0) {
+					RELAY = 0;
+				}
+#endif
+			}
 		}
-		else {
-			set_ac_power(/* EXT_FEEDER_L1 | */ FAN_L2 | INT_FEEDER_L3 | L5 | L6, 0xff);
-			_output_ac_power_pwm[i]--;
-		}
+		ac_power_pwm_counter++;
 	}
 }
 
 static void isr_low_prio(void) __interrupt 2 {
 	if (PIR1bits.TMR1IF) {
-		TMR1H = (unsigned char)(TIMER1_RELOAD >> 8);    // 8 ms delay at 8 MHz
+		TMR1H = (unsigned char)(TIMER1_RELOAD >> 8);    // 1 ms delay at 8 MHz
 		TMR1L = (unsigned char)TIMER1_RELOAD;
 		PIR1bits.TMR1IF = 0;    /* Clear the Timer Flag  */
 		timer_1_ms++;
@@ -142,9 +162,12 @@ void sleep_ms(unsigned long ms) {
 void init_timers() {
 	// timer 0
 	T0CONbits.TMR0ON = 1;
+	T0CONbits.T0PS0 = 0;
+	T0CONbits.T0PS1 = 0;
+	T0CONbits.T0PS2 = 0;	// prescaler 1:2
 	T0CONbits.T08BIT = 0;   // use timer0 16-bit counter
 	T0CONbits.T0CS = 0;             // internal clock source
-	T0CONbits.PSA = 1;              // disable timer0 prescaler
+	T0CONbits.PSA = 0;              // enable timer0 prescaler
 	INTCON2bits.TMR0IP = 1; // high priority
 	INTCONbits.T0IE = 1;    // Ensure that TMR0 Interrupt is enabled
 	INTCONbits.TMR0IF = 1;  // Force Instant entry to Timer 0 Interrupt
@@ -171,6 +194,7 @@ void init_latches() {
 	
 	LATCH_2_TRIS = 0x0; 			// output
 	LATCH_2 = LATCH_2_DISABLED;
+	_latch_2_data = 0x00;
 	
 	LATCH_3_TRIS = 0x0; 			// output
 	LATCH_3 = LATCH_3_DISABLED;
@@ -187,7 +211,14 @@ void set_ac_power(unsigned char header_mask, unsigned char value) {
 	header_mask &= 0b00111111;		// only 6 outputs on this hardware
 	value &= header_mask;
 	LATCH_DATA_TRIS = 0x00;		// outputs
-	LATCH_DATA = value;
+	if (value) {	// set it
+		_latch_2_data |= header_mask;
+		LATCH_DATA = _latch_2_data;
+	}
+	else {			// clear it
+		_latch_2_data &= ~header_mask;
+		LATCH_DATA = _latch_2_data;
+	}
 	LATCH_2 = LATCH_2_ENABLED;
 	LATCH_2 = LATCH_2_DISABLED;
 	LATCH_DATA = 0x00;
