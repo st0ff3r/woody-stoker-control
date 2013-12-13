@@ -81,4 +81,7 @@ void init_latches();
 void set_ac_power(unsigned char header_mask, unsigned char value);
 unsigned char get_inputs();
 void my_usart_open();
+unsigned char fifo_in_use();
+unsigned char fifo_put(unsigned char c);
+unsigned char fifo_get(unsigned char *c);
 void _debug();

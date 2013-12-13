@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 //#include <pic16/adc.h>
 #include <usart.h>
 #include "config.h"
@@ -10,17 +11,11 @@
 //#include "menu_system.h"
 
 #define AC_POWER_OUTS 6
-//#define DEBUG
+#define DEBUG
+//#define DEBUG_PWM_ON_LED
 
 unsigned int i;
 unsigned long timer_1_ms;
-//unsigned int boiler_temp;
-//unsigned int smoke_temp;
-//unsigned int chimney_temp;
-
-//unsigned char lcd_buf[22];
-
-//unsigned char last_button;
 
 volatile unsigned char sensor_inputs;
 unsigned char last_inputs;
@@ -28,16 +23,29 @@ unsigned char last_inputs;
 volatile unsigned char output_ac_power_pwm[AC_POWER_OUTS];
 volatile unsigned char ac_power_pwm_counter;
 
+// command queue
+#define QUEUE_SIZE	10
+volatile unsigned int fifo_head, fifo_tail;
+volatile unsigned char fifo_buffer[QUEUE_SIZE];
+
+#define COMMAND_LENGTH AC_POWER_OUTS + 1
+unsigned char command[COMMAND_LENGTH + 1];
+unsigned char command_index;
+
 unsigned char _latch_2_data;
 
 void main(void) {
+	volatile unsigned char c;
+	unsigned char j;
+	
     OSCCONbits.SCS = 0x10;
     OSCCONbits.IRCF = 0x7;	// 8 MHz
 
 	timer_1_ms = 0;
-//	boiler_temp = 0;
-//	smoke_temp = 0;
-//	chimney_temp = 0;
+	
+	fifo_head = 0;
+	fifo_tail = 0;
+	command_index = 0;
 	
     // set up interrupt and timers
     RCONbits.IPEN = 1;
@@ -73,9 +81,8 @@ void main(void) {
 	// init io
 	init_latches();
 	latched_lcd_power(1);
-	lcd_init();
+//	lcd_init();
 //	lcd_print("OpenStoker starting...", 0, NON_INVERTED); // starting...");
-	set_ac_power(0x00, 0x00);
 	
 	sleep_ms(1000);
 	RELAY = 1;
@@ -83,16 +90,54 @@ void main(void) {
 	last_inputs = get_inputs();
 //	output_ac_power_pwm[AC_POWER_OUTS] = (0, 0, 0, 0, 0, 0);
 	output_ac_power_pwm[0] = 0;
-	output_ac_power_pwm[1] = 50;
-	output_ac_power_pwm[2] = 90;
-	output_ac_power_pwm[3] = 130;
-	output_ac_power_pwm[4] = 170;
-	output_ac_power_pwm[5] = 0;
+	output_ac_power_pwm[1] = 0;
+	output_ac_power_pwm[2] = 0;
+	output_ac_power_pwm[3] = 0;
+	output_ac_power_pwm[4] = 8;
+	output_ac_power_pwm[5] = 127;
 
-	for (i = 0; i < 100; i++) {
-		lcd_plot_pixel(i, i);
-	}
+//	for (i = 0; i < 100; i++) {
+//		lcd_plot_pixel(i, i);
+//	}
 	while (1) {
+		if (fifo_get(&c)) {
+			if (c == '.') {
+				// end of command
+				command[command_index - 1] = '\0';	// null terminate it
+				command_index = 0;
+
+				switch (command[0]) {					// only look at first character
+					case 's':	// set ac power values
+						for (j = 0; j < AC_POWER_OUTS; j++) {
+							output_ac_power_pwm[j] = command[j + 1];
+						}
+						usart_puts("\n\r");
+					//	usart_puts(command);
+					break;
+					case 'x':
+						usart_puts("\n\r");
+				//		for (j = 1; j < strlen(command); j++) {
+				//			usart_putc(command[j]);
+				//		}
+				//		usart_puts("\n\r");
+						usart_puts(command);
+					break;
+				}		
+			}
+			else {
+				// add character to command and check for overflow
+				if (command_index <= COMMAND_LENGTH) {
+					command[command_index] = c;
+					command_index++;
+				}
+				else {
+					command[COMMAND_LENGTH] = '\0';	// null terminate it
+					command_index = 0;
+					usart_puts("\n\roverflow\n\r");		
+				}
+			}
+		}
+
 		if (sensor_inputs != last_inputs) {
 			last_inputs = sensor_inputs;
 			_debug();	// blocks main for a while :-/
@@ -114,7 +159,7 @@ static void isr_high_prio(void) __interrupt 1 {
 			if (ac_power_pwm_counter < output_ac_power_pwm[i]) {
 				// turn ON ac power
 				set_ac_power(1 << i, 0xff);
-#ifdef DEBUG
+#ifdef DEBUG_PWM_ON_LED
 				if (i == 0) {
 					RELAY = 1;
 				}
@@ -123,7 +168,7 @@ static void isr_high_prio(void) __interrupt 1 {
 			else {
 				// turn OFF ac power
 				set_ac_power(1 << i, 0x00);
-#ifdef DEBUG
+#ifdef DEBUG_PWM_ON_LED
 				if (i == 0) {
 					RELAY = 0;
 				}
@@ -135,6 +180,7 @@ static void isr_high_prio(void) __interrupt 1 {
 }
 
 static void isr_low_prio(void) __interrupt 2 {
+	unsigned char c;
 	if (PIR1bits.TMR1IF) {
 		TMR1H = (unsigned char)(TIMER1_RELOAD >> 8);    // 1 ms delay at 8 MHz
 		TMR1L = (unsigned char)TIMER1_RELOAD;
@@ -145,7 +191,9 @@ static void isr_low_prio(void) __interrupt 2 {
 	// serial rx interrupt
 	if (usart_drdy()) {
 		// retransmit it
-		usart_putc(usart_getc());
+		c = usart_getc();
+		fifo_put(c);
+		usart_putc(c);
 	}
 }
 
@@ -264,6 +312,30 @@ void my_usart_open() {
 	
 	// TXEN - Trasmit Enable Bit
 	TXSTAbits.TXEN = 1; // (1 = transmit enabled)
+}
+
+unsigned char fifo_in_use() {
+	return fifo_head - fifo_tail;
+}
+
+unsigned char fifo_put(unsigned char c) {
+	if (fifo_in_use() != QUEUE_SIZE) {
+		fifo_buffer[fifo_head++ % QUEUE_SIZE] = c;
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
+
+unsigned char fifo_get(unsigned char *c) {
+	if (fifo_in_use() != 0) {
+		*c = fifo_buffer[fifo_tail++ % QUEUE_SIZE];
+		return 1;
+	}
+	else {
+		return 0;
+	}
 }
 
 void _debug() {
