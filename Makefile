@@ -30,6 +30,7 @@ pillefyrsstyring: pillefyrsstyring.c
 	--use-crt=crt0.o \
 	--use-non-free \
 	-I"./" glcd.o \
+	-Wl '-m' \
 	-p$(PROCESSOR) \
 	$<
 #	-Wl '-m -s18f4620.lkr' \

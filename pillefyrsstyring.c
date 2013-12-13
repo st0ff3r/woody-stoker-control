@@ -12,7 +12,7 @@
 
 #define AC_POWER_OUTS 6
 #define DEBUG
-//#define DEBUG_PWM_ON_LED
+#define DEBUG_PWM_ON_LED
 
 unsigned int i;
 unsigned long timer_1_ms;
@@ -28,7 +28,7 @@ volatile unsigned char ac_power_pwm_counter;
 volatile unsigned int fifo_head, fifo_tail;
 volatile unsigned char fifo_buffer[QUEUE_SIZE];
 
-#define COMMAND_LENGTH AC_POWER_OUTS + 1
+#define COMMAND_LENGTH 20 //AC_POWER_OUTS + 1
 unsigned char command[COMMAND_LENGTH + 1];
 unsigned char command_index;
 
@@ -111,7 +111,8 @@ void main(void) {
 						for (j = 0; j < AC_POWER_OUTS; j++) {
 							output_ac_power_pwm[j] = command[j + 1];
 						}
-						usart_puts("\n\r");
+						usart_putc('!');
+					//	usart_puts("ok\n\r");
 					//	usart_puts(command);
 					break;
 					case 'x':
