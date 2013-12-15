@@ -71,6 +71,7 @@ void main(void) {
 	*/
 	my_usart_open();
 
+	sleep_ms(1000);	// let stuff settle...
 	usart_puts("OpenStoker starting... serial working\n\r");
 
 	// set up ad
@@ -105,7 +106,7 @@ void main(void) {
 			if (c == '\n' || c == '.') {
 				// end of command
 				command_index = 0;
-				sleep_ms(10);	// let the client have some time to set up reading
+				sleep_ms(100);	// let the client have some time to set up reading
 
 				if (validate_command(command, valid_command)) {
 					clr_wdt();
