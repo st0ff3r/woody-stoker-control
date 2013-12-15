@@ -78,11 +78,15 @@ void main(void) {
 
 	// init io
 	init_latches();
-//	lcd_init();
-//	latched_lcd_power(1);
+	lcd_init();
 //	lcd_print("OpenStoker starting...", 0, NON_INVERTED); // starting...");
 	
-	sleep_ms(1000);
+	while (!fifo_in_use()) {
+		latched_lcd_power(1);
+		sleep_ms(1000);
+		latched_lcd_power(0);
+		sleep_ms(1000);
+	}
 	
 	last_inputs = get_inputs();
 //	output_ac_power_pwm[AC_POWER_OUTS] = (0, 0, 0, 0, 0, 0);
@@ -100,17 +104,13 @@ void main(void) {
 		if (fifo_get(&c)) {
 			if (c == '\n' || c == '.') {
 				// end of command
-		//		command[command_index - 1] = '\0';	// null terminate it
 				command_index = 0;
 				sleep_ms(10);	// let the client have some time to set up reading
 
 				if (validate_command(command, valid_command)) {
 					clr_wdt();
+					latched_lcd_power(1);
 					RELAY = 1;
-//					sprintf(buffer, "\n\r%s", valid_command);
-//					buffer[9] = '\0';
-//					usart_puts(buffer);
-//					usart_puts("\n\r");
 
 					switch (valid_command[0]) {					// only look at first character
 						case 's':	// set ac power values
@@ -118,9 +118,6 @@ void main(void) {
 								output_ac_power_pwm[j] = valid_command[j + 1];
 							}
 							usart_putc('!');	// ok values set to ac power pwm system
-//							usart_puts("\n\r");
-						//	usart_puts("ok\n\r");
-						//	usart_puts(command);
 							break;
 						case 'z':
 							usart_putc('z');
@@ -128,7 +125,6 @@ void main(void) {
 							break;
 						default:
 							usart_putc('?');	// unknown command
-//							usart_puts("\n\r");
 					}		
 				}
 				else {
