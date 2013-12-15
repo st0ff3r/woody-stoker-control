@@ -88,6 +88,8 @@ void main(void) {
 		latched_lcd_power(0);
 		sleep_ms(1000);
 	}
+	latched_lcd_power(1);
+	RELAY = 1;
 	
 	last_inputs = get_inputs();
 //	output_ac_power_pwm[AC_POWER_OUTS] = (0, 0, 0, 0, 0, 0);
@@ -110,8 +112,6 @@ void main(void) {
 
 				if (validate_command(command, valid_command)) {
 					clr_wdt();
-					latched_lcd_power(1);
-					RELAY = 1;
 
 					switch (valid_command[0]) {					// only look at first character
 						case 's':	// set ac power values

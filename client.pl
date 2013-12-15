@@ -48,6 +48,9 @@ foreach (split(//, $command)) {
 $encoded_command .= $hex_checksum . "\n";
 #warn Dumper $encoded_command;
 
+#$port_obj->write(".");
+#usleep(10_000);
+
 my ($c, $s);
 my ($timeout, $chars, $status);
 do {
@@ -71,8 +74,8 @@ do {
 		#warn "timed out\n";
 	}
 	warn Dumper $status;
-	usleep 100_000;
-} while (!($status =~ /\!$/m)) ;
+	usleep 2000_000;
+} while (!($status =~ /\!/m)) ;
 
 END {
 	if (defined($port_obj)) {
