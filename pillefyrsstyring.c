@@ -99,36 +99,35 @@ void main(void) {
 //	}
 	while (1) {
 		if (fifo_get(&c)) {
-			if (c == '.') {
+			if (c == '\n' || c == '.') {
 				// end of command
 		//		command[command_index - 1] = '\0';	// null terminate it
 				command_index = 0;
+				sleep_ms(10);	// let the client have some time to set up reading
 
-			//	crc = crc16(command, AC_POWER_OUTS + 1, 0);
-			//	crc_high = crc >> 8;
-			//	crc_low = crc & 0xff;
-			//	sprintf(buffer, "\n\r%ud\n\r%d\n\r%d\n\r", crc, crc_high, crc_low);
-			//	usart_puts(buffer);
 				if (validate_command(command, valid_command)) {
-					sprintf(buffer, "\n\r%s", valid_command);
-					buffer[9] = '\0';
-					usart_puts(buffer);
-					usart_puts("\n\r");
+//					sprintf(buffer, "\n\r%s", valid_command);
+//					buffer[9] = '\0';
+//					usart_puts(buffer);
+//					usart_puts("\n\r");
 
 					switch (valid_command[0]) {					// only look at first character
 						case 's':	// set ac power values
 							for (j = 0; j < AC_POWER_OUTS; j++) {
 								output_ac_power_pwm[j] = valid_command[j + 1];
 							}
-							sleep_ms(10);
-							usart_putc('!');
+							usart_putc('!');	// ok values set to ac power pwm system
+							usart_puts("\n\r");
 						//	usart_puts("ok\n\r");
 						//	usart_puts(command);
 						break;
+						default:
+							usart_putc('?');	// unknown command
+							usart_puts("\n\r");
 					}		
 				}
 				else {
-					usart_puts("error\n\r");
+					usart_putc('?');
 				}
 
 			}
@@ -141,7 +140,8 @@ void main(void) {
 				else {
 					command[COMMAND_LENGTH] = '\0';	// null terminate it
 					command_index = 0;
-					usart_puts("\n\roverflow\n\r");		
+					usart_putc('+');		// overflow
+					usart_puts("\n\r");
 				}
 			}
 		}
