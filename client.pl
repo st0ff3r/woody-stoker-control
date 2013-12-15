@@ -6,8 +6,9 @@ use Data::Dumper qw(Dumper);
 use Time::HiRes  qw( usleep );
 use Digest::CRC;
 
-my $port_name = '/dev/ttyUSB1';
+my $port_name = '/dev/ttyUSB0';
 my $port_obj;
+my $command;
 
 $port_obj = new Device::SerialPort($port_name) || die "Can't open $port_name: $!\n";
 $port_obj->baudrate(19200);
@@ -16,9 +17,13 @@ $port_obj->stopbits(1);
 $port_obj->parity("none");
 
 $_ = chr($ARGV[0]);
-
-
-my $command = 's' . $_ x 6;
+print Dumper @ARGV;
+if (@ARGV) {
+	$command = 's' . $_ x 6;
+}
+else {
+	$command = 'z' . '0' x 6;
+}
 
 my $ctx = Digest::CRC->new(width=>16, poly=>0x1021);
 $ctx->add($command);

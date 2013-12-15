@@ -87,4 +87,5 @@ unsigned char fifo_get(unsigned char *c);
 void base64decode(unsigned char *s, unsigned char *buffer);
 void base64encode(unsigned char *s);
 unsigned char validate_command(unsigned char *encoded_command, unsigned char *validated_command);
+void reset();
 void _debug();

@@ -12,7 +12,7 @@
 
 #define AC_POWER_OUTS 6
 #define DEBUG
-#define DEBUG_PWM_ON_LED
+//#define DEBUG_PWM_ON_LED
 
 unsigned int i;
 unsigned long timer_1_ms;
@@ -39,8 +39,6 @@ unsigned char _latch_2_data;
 void main(void) {
 	volatile unsigned char c;
 	unsigned char j;
-//	unsigned int crc;
-//	unsigned char crc_high, crc_low;
 	
     OSCCONbits.SCS = 0x10;
     OSCCONbits.IRCF = 0x7;	// 8 MHz
@@ -87,12 +85,12 @@ void main(void) {
 	
 	last_inputs = get_inputs();
 //	output_ac_power_pwm[AC_POWER_OUTS] = (0, 0, 0, 0, 0, 0);
-	output_ac_power_pwm[0] = 10;
-	output_ac_power_pwm[1] = 10;
-	output_ac_power_pwm[2] = 10;
-	output_ac_power_pwm[3] = 10;
-	output_ac_power_pwm[4] = 10;
-	output_ac_power_pwm[5] = 10;
+	output_ac_power_pwm[0] = 0;
+	output_ac_power_pwm[1] = 0;
+	output_ac_power_pwm[2] = 0;
+	output_ac_power_pwm[3] = 0;
+	output_ac_power_pwm[4] = 0;
+	output_ac_power_pwm[5] = 0;
 
 //	for (i = 0; i < 100; i++) {
 //		lcd_plot_pixel(i, i);
@@ -120,7 +118,10 @@ void main(void) {
 							usart_puts("\n\r");
 						//	usart_puts("ok\n\r");
 						//	usart_puts(command);
-						break;
+							break;
+						case 'z':
+							reset();
+							break;
 						default:
 							usart_putc('?');	// unknown command
 							usart_puts("\n\r");
@@ -386,6 +387,12 @@ unsigned char validate_command(unsigned char *encoded_command, unsigned char *va
     else {
         return 0;
     }
+}
+
+void reset() {
+__asm 
+  reset
+__endasm;
 }
 
 void _debug() {
