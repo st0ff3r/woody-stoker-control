@@ -72,7 +72,7 @@
 
 #define PHOTO_SENSOR_TRIS	PORTBbits.RB4
 
-//#define clrwdt() __asm clrwdt __endasm
+#define clr_wdt() __asm clrwdt __endasm
 
 void sleep_ms(unsigned long ms);
 void init_timers();

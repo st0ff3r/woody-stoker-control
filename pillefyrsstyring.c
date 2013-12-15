@@ -42,6 +42,8 @@ void main(void) {
 	
     OSCCONbits.SCS = 0x10;
     OSCCONbits.IRCF = 0x7;	// 8 MHz
+	WDTCONbits.SWDTEN = 1;	// enable watchdog
+	clr_wdt();
 
 	timer_1_ms = 0;
 	
@@ -81,7 +83,6 @@ void main(void) {
 //	lcd_print("OpenStoker starting...", 0, NON_INVERTED); // starting...");
 	
 	sleep_ms(1000);
-	RELAY = 1;
 	
 	last_inputs = get_inputs();
 //	output_ac_power_pwm[AC_POWER_OUTS] = (0, 0, 0, 0, 0, 0);
@@ -104,6 +105,8 @@ void main(void) {
 				sleep_ms(10);	// let the client have some time to set up reading
 
 				if (validate_command(command, valid_command)) {
+					clr_wdt();
+					RELAY = 1;
 //					sprintf(buffer, "\n\r%s", valid_command);
 //					buffer[9] = '\0';
 //					usart_puts(buffer);
@@ -115,16 +118,17 @@ void main(void) {
 								output_ac_power_pwm[j] = valid_command[j + 1];
 							}
 							usart_putc('!');	// ok values set to ac power pwm system
-							usart_puts("\n\r");
+//							usart_puts("\n\r");
 						//	usart_puts("ok\n\r");
 						//	usart_puts(command);
 							break;
 						case 'z':
+							usart_putc('z');
 							reset();
 							break;
 						default:
 							usart_putc('?');	// unknown command
-							usart_puts("\n\r");
+//							usart_puts("\n\r");
 					}		
 				}
 				else {
