@@ -16,6 +16,7 @@
 
 unsigned int i;
 unsigned long timer_1_ms;
+unsigned char buffer[32];
 
 volatile unsigned char sensor_inputs;
 unsigned char last_inputs;
@@ -31,12 +32,15 @@ volatile unsigned char fifo_buffer[QUEUE_SIZE];
 #define COMMAND_LENGTH 20 //AC_POWER_OUTS + 1
 unsigned char command[COMMAND_LENGTH + 1];
 unsigned char command_index;
+unsigned char valid_command[AC_POWER_OUTS + 1];
 
 unsigned char _latch_2_data;
 
 void main(void) {
 	volatile unsigned char c;
 	unsigned char j;
+//	unsigned int crc;
+//	unsigned char crc_high, crc_low;
 	
     OSCCONbits.SCS = 0x10;
     OSCCONbits.IRCF = 0x7;	// 8 MHz
@@ -67,12 +71,6 @@ void main(void) {
 	*/
 	my_usart_open();
 
-/*
-	sleep_ms(100);
-	sprintf(debug_buf, "Hardware ID: '%d'", eeprom_id);
-	usart_puts(debug_buf);
-	sleep_ms(500);
-*/
 	usart_puts("OpenStoker starting... serial working\n\r");
 
 	// set up ad
@@ -80,8 +78,8 @@ void main(void) {
 
 	// init io
 	init_latches();
-	latched_lcd_power(1);
 //	lcd_init();
+//	latched_lcd_power(1);
 //	lcd_print("OpenStoker starting...", 0, NON_INVERTED); // starting...");
 	
 	sleep_ms(1000);
@@ -89,12 +87,12 @@ void main(void) {
 	
 	last_inputs = get_inputs();
 //	output_ac_power_pwm[AC_POWER_OUTS] = (0, 0, 0, 0, 0, 0);
-	output_ac_power_pwm[0] = 0;
-	output_ac_power_pwm[1] = 0;
-	output_ac_power_pwm[2] = 0;
-	output_ac_power_pwm[3] = 0;
-	output_ac_power_pwm[4] = 8;
-	output_ac_power_pwm[5] = 127;
+	output_ac_power_pwm[0] = 10;
+	output_ac_power_pwm[1] = 10;
+	output_ac_power_pwm[2] = 10;
+	output_ac_power_pwm[3] = 10;
+	output_ac_power_pwm[4] = 10;
+	output_ac_power_pwm[5] = 10;
 
 //	for (i = 0; i < 100; i++) {
 //		lcd_plot_pixel(i, i);
@@ -103,27 +101,36 @@ void main(void) {
 		if (fifo_get(&c)) {
 			if (c == '.') {
 				// end of command
-				command[command_index - 1] = '\0';	// null terminate it
+		//		command[command_index - 1] = '\0';	// null terminate it
 				command_index = 0;
 
-				switch (command[0]) {					// only look at first character
-					case 's':	// set ac power values
-						for (j = 0; j < AC_POWER_OUTS; j++) {
-							output_ac_power_pwm[j] = command[j + 1];
-						}
-						usart_putc('!');
-					//	usart_puts("ok\n\r");
-					//	usart_puts(command);
-					break;
-					case 'x':
-						usart_puts("\n\r");
-				//		for (j = 1; j < strlen(command); j++) {
-				//			usart_putc(command[j]);
-				//		}
-				//		usart_puts("\n\r");
-						usart_puts(command);
-					break;
-				}		
+			//	crc = crc16(command, AC_POWER_OUTS + 1, 0);
+			//	crc_high = crc >> 8;
+			//	crc_low = crc & 0xff;
+			//	sprintf(buffer, "\n\r%ud\n\r%d\n\r%d\n\r", crc, crc_high, crc_low);
+			//	usart_puts(buffer);
+				if (validate_command(command, valid_command)) {
+					sprintf(buffer, "\n\r%s", valid_command);
+					buffer[9] = '\0';
+					usart_puts(buffer);
+					usart_puts("\n\r");
+
+					switch (valid_command[0]) {					// only look at first character
+						case 's':	// set ac power values
+							for (j = 0; j < AC_POWER_OUTS; j++) {
+								output_ac_power_pwm[j] = valid_command[j + 1];
+							}
+							sleep_ms(10);
+							usart_putc('!');
+						//	usart_puts("ok\n\r");
+						//	usart_puts(command);
+						break;
+					}		
+				}
+				else {
+					usart_puts("error\n\r");
+				}
+
 			}
 			else {
 				// add character to command and check for overflow
@@ -153,7 +160,7 @@ static void isr_high_prio(void) __interrupt 1 {
 		INTCONbits.TMR0IF = 0;  /* Clear the Timer Flag  */
 
 		// get inputs
-//		sensor_inputs = get_inputs();
+		sensor_inputs = get_inputs();
 		// set outputs
 
 		for (i = 0; i < AC_POWER_OUTS; i++) {
@@ -275,7 +282,7 @@ void set_ac_power(unsigned char header_mask, unsigned char value) {
 
 unsigned char get_inputs() {
 	unsigned char data;
-	unsigned char prev_tris;
+//	unsigned char prev_tris;
 //	prev_tris = LATCH_DATA_TRIS;
 	LATCH_DATA_TRIS = 0xff;		// inputs
 	LATCH_1 = LATCH_1_ENABLED;
@@ -337,6 +344,48 @@ unsigned char fifo_get(unsigned char *c) {
 	else {
 		return 0;
 	}
+}
+
+void base64decode(unsigned char *s, unsigned char *buffer) {
+    char *h = s; /* this will walk through the hex string */
+    char *b = buffer; /* point inside the buffer */
+    
+    /* offset into this string is the numeric value */
+    char xlate[] = "0123456789abcdef";
+    
+    while (*h) {
+        *b = ((strchr(xlate, *h) - xlate) * 16) /* multiply leading digit by 16 */
+        + ((strchr(xlate, *(h+1)) - xlate));
+        h += 2;
+        b++;
+    }
+}
+
+void base64encode(unsigned char *s) {
+//    unsigned char * buffer = malloc((strlen(s) * 2) + 1);
+    
+//    char *h = s; /* this will walk through the hex string */
+//    char *b = buffer; /* point inside the buffer */
+//    while (*h) {
+        
+//    }
+}
+
+unsigned char validate_command(unsigned char *encoded_command, unsigned char *validated_command) {
+    unsigned char decoded_command[7 + 2];
+    unsigned int checksum, received_checksum;
+    
+    base64decode(encoded_command, decoded_command);
+    received_checksum = (decoded_command[7] << 8) + decoded_command[8];
+	checksum = crc16(decoded_command, 7, 0);
+    
+    if (received_checksum == checksum) {
+		memcpy(validated_command, decoded_command, 7);
+        return 1;
+    }
+    else {
+        return 0;
+    }
 }
 
 void _debug() {

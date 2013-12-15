@@ -26,9 +26,9 @@ void lcd_init(void) {
 	_latch_3_data = 0x00;
 	
 //	CS1 = 1;
-	latched_lcd_cs1(1);
+	latched_lcd_cs1(0);
 //	CS2 = 1;
-	latched_lcd_cs2(1);
+	latched_lcd_cs2(0);
 	
 //	_sides = LCD_NONE;
 //	_page = 0;
@@ -85,10 +85,10 @@ void lcd_reset(void) {
 	
 	sleep_ms(1);
 	//RESET = 1;
-	latched_lcd_rst(1);
+	latched_lcd_rst(0);
 	sleep_ms(1);
     //RESET = 0;
-	latched_lcd_rst(0);
+	latched_lcd_rst(1);
 
     // check status, and wait if necessary
 //	while (lcd_status() & 0b00010000) {
@@ -100,9 +100,9 @@ void lcd_reset(void) {
 void lcd_screenon(unsigned char on) {
 	// turn the display on or off
 	//CS1 = 0;
-	latched_lcd_cs1(0);
+	latched_lcd_cs1(1);
 	//CS2 = 0;
-	latched_lcd_cs2(0);
+	latched_lcd_cs2(1);
 	//RW = 0;
 	latched_lcd_rw(0);
 	//DI = 0;
@@ -177,6 +177,7 @@ void lcd_setyaddr(unsigned char y) {
 void lcd_waitbusy(void) {
 //	while (lcd_status() & 0b10000000) {
 		delay_2us();
+		sleep_ms(10);
 //	}
 }
 
@@ -199,20 +200,20 @@ void lcd_selectside(unsigned char sides) {
 //	if (sides != _sides) {	// only call lcd_selectside if needed. Keep local state
 		if (sides & LCD_LEFT) {
 			//CS1 = 0;
-			latched_lcd_cs1(0);
+			latched_lcd_cs1(1);
 		}
 		else {
 			//CS1 = 1;
-			latched_lcd_cs1(1);
+			latched_lcd_cs1(0);
 		}
 	
 		if (sides & LCD_RIGHT) {
 			//CS2 = 0;
-			latched_lcd_cs2(0);
+			latched_lcd_cs2(1);
 		}
 		else {
 			//CS2 = 1;
-			latched_lcd_cs2(1);
+			latched_lcd_cs2(0);
 		}
 //		_sides = sides;		// update local copy
 //	}

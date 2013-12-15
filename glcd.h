@@ -42,7 +42,8 @@ unsigned char lcd_read (void);
 void lcd_plot_pixel(unsigned char rx, unsigned char ry);
 
 //void delay_20us();
-#define delay_2us()	__asm nop __endasm; __asm nop __endasm;
+//#define delay_2us()	__asm nop __endasm; __asm nop __endasm;	__asm nop __endasm; __asm nop __endasm;
+#define delay_2us()	__asm nop __endasm; __asm nop __endasm;	__asm nop __endasm; __asm nop __endasm;	__asm nop __endasm; __asm nop __endasm;	__asm nop __endasm; __asm nop __endasm;
 //void delay_500us();
 
 void latched_lcd_power(unsigned char value);
