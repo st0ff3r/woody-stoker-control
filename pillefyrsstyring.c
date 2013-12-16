@@ -25,7 +25,7 @@ volatile unsigned char output_ac_power_pwm[AC_POWER_OUTS];
 volatile unsigned char ac_power_pwm_counter;
 
 // command queue
-#define QUEUE_SIZE	10
+#define QUEUE_SIZE	100
 volatile unsigned int fifo_head, fifo_tail;
 volatile unsigned char fifo_buffer[QUEUE_SIZE];
 
@@ -79,7 +79,7 @@ void main(void) {
 
 	// init io
 	init_latches();
-	lcd_init();
+//	lcd_init();
 //	lcd_print("OpenStoker starting...", 0, NON_INVERTED); // starting...");
 	
 	while (!fifo_in_use()) {

@@ -6,8 +6,8 @@ use Data::Dumper qw( Dumper );
 use Time::HiRes  qw( usleep );
 use Digest::CRC;
 
-my $port_name = '/dev/ttyUSB0';		# read hardware
-#my $port_name = '/dev/ttyUSB1';	# programmer board
+#my $port_name = '/dev/ttyUSB0';		# read hardware
+my $port_name = '/dev/ttyUSB1';	# programmer board
 my $port_obj;
 my $command;
 
@@ -56,6 +56,10 @@ my ($timeout, $chars, $status);
 do {
 	# send command
 	$port_obj->write($encoded_command);
+#	foreach (split(//, $encoded_command)) {
+#		$port_obj->write($_);
+#		usleep(10_000);
+#	}
 
 	# read status
 	$timeout = 1;
@@ -74,7 +78,7 @@ do {
 		#warn "timed out\n";
 	}
 	warn Dumper $status;
-	usleep 2000_000;
+#	usleep 2000_000;
 } while (!($status =~ /\!/m)) ;
 
 END {
