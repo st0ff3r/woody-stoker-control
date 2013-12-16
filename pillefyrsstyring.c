@@ -16,7 +16,7 @@
 
 unsigned int i;
 unsigned long timer_1_ms;
-unsigned char buffer[32];
+//unsigned char buffer[32];
 
 volatile unsigned char sensor_inputs;
 unsigned char last_inputs;
@@ -39,6 +39,7 @@ unsigned char _latch_2_data;
 void main(void) {
 	volatile unsigned char c;
 	unsigned char j;
+	unsigned char buffer[10];
 	
     OSCCONbits.SCS = 0x10;
     OSCCONbits.IRCF = 0x7;	// 8 MHz
@@ -108,8 +109,6 @@ void main(void) {
 			if (c == '\n' || c == '.') {
 				// end of command
 				command_index = 0;
-				//sleep_ms(100);	// let the client have some time to set up reading
-
 				if (validate_command(command, valid_command)) {
 					clr_wdt();
 
@@ -119,9 +118,15 @@ void main(void) {
 								output_ac_power_pwm[j] = valid_command[j + 1];
 							}
 							usart_putc('!');	// ok values set to ac power pwm system
+							usart_puts("\n\r");
+							break;
+						case 'g':
+							sprintf(buffer, "g%02x\n\r", sensor_inputs);
+							usart_puts(buffer);
 							break;
 						case 'z':
 							usart_putc('z');
+							usart_puts("\n\r");
 							sleep_ms(100);
 							reset();
 							break;
@@ -130,7 +135,7 @@ void main(void) {
 					}		
 				}
 				else {
-					usart_putc('?');
+					usart_putc('?');			// command not valid
 				}
 
 			}
@@ -398,8 +403,8 @@ __endasm;
 }
 
 void _debug() {
-	latched_lcd_power(1);
-	sleep_ms(500);
 	latched_lcd_power(0);
-	sleep_ms(500);
+	sleep_ms(200);
+	latched_lcd_power(1);
+	sleep_ms(200);
 }

@@ -1,4 +1,5 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
+ # -w
 
 use strict;
 use Device::SerialPort;
@@ -23,11 +24,14 @@ $port_obj->read_const_time(100);
 $_ = chr($ARGV[0]);
 
 # build command
-if (@ARGV) {
-	$command = 's' . $_ x 6;
+if ($ARGV[0] =~ /z/i) {
+	$command = 'z' . '0' x 6;
+}
+elsif ($ARGV[0] =~ /g/i) {
+	$command = 'g' . '0' x 6;
 }
 else {
-	$command = 'z' . '0' x 6;
+	$command = 's' . $_ x 6;
 }
 
 # calculate checksum
@@ -51,6 +55,7 @@ $encoded_command .= $hex_checksum . "\n";
 #$port_obj->write(".");
 #usleep(10_000);
 
+warn Dumper $encoded_command;
 my ($c, $s);
 my ($timeout, $chars, $status);
 do {
@@ -79,7 +84,7 @@ do {
 	}
 	warn Dumper $status;
 #	usleep 2000_000;
-} while (!($status =~ /[\!z]/m)) ;
+} while (!($status =~ /[\!zg]/m)) ;
 
 END {
 	if (defined($port_obj)) {
