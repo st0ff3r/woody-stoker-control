@@ -1,0 +1,23 @@
+Bug fixes
+=========
+- Menu-system færdigt
+- Flere og bedre skrifttyper
+- LCD (glcd) er generisk og laaaaangsomt.
+  Kan optimeres ved at optegne blokvis og i x-retningen.
+- Implementere egentlig funktionalitet:
+	- modes
+		optænding
+		drift
+		rensning
+		stop
+	- PID styring
+- Status-grafik
+
+Features
+========
+- Ca. eksisterende menupunkter + 
+- Manuelle programmer
+- Tilslutning af ekstra io via moduler til serielporten
+- Hold pil op nede lidt længere tid og gå tilbage til overordnet menu og
+  dobbelt-tryk for hovedmenuen
+  

@@ -1,0 +1,526 @@
+gplink-0.13.7 beta
+Map File - Created 12-18-2012  04:56:14
+ 
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+           S_crt0___entry       code   00000000    program   0x000004
+      S_adcconv__adc_conv       code   0x000004    program   0x000004
+S_pillefyrsstyring_ivec_0x1_timer_control       code   0x000008    program   0x000004
+                    .code       code   0x00000c    program   0x0006a4
+ S_menu_system__lcd_print       code   0x0006b0    program   0x000298
+      S_mullong___mullong       code   0x000948    program   0x000214
+ S_pillefyrsstyring__main       code   0x000b5c    program   0x00015c
+S_pillefyrsstyring__sleep_ms       code   0x000cb8    program   0x000150
+S_menu_system__do_menu_update       code   0x000e08    program   0x000130
+S_pillefyrsstyring__timer_control       code   0x000f38    program   0x000124
+         S_strcat__strcat       code   0x00105c    program   0x0000f2
+         S_strcpy__strcpy       code   0x00114e    program   0x0000d2
+   S_glcd__lcd_plot_pixel       code   0x001220    program   0x0000a4
+      S_uopen__usart_open       code   0x0012c4    program   0x000086
+      S_adcopen__adc_open       code   0x00134a    program   0x000082
+        S_glcd__lcd_reset       code   0x0013cc    program   0x00006e
+          S_glcd__lcd_cls       code   0x00143a    program   0x000068
+S_pillefyrsstyring__write_EEPROM       code   0x0014a2    program   0x000058
+S_menu_system__button_released       code   0x0014fa    program   0x000048
+S_adcsetch__adc_setchannel       code   0x001542    program   0x00003a
+       S_glcd__lcd_status       code   0x00157c    program   0x000038
+     S_glcd__lcd_screenon       code   0x0015b4    program   0x000034
+     S_glcd__lcd_setyaddr       code   0x0015e8    program   0x000032
+         S_glcd__lcd_init       code   0x00161a    program   0x000032
+   S_glcd__lcd_selectside       code   0x00164c    program   0x000030
+        S_glcd__lcd_write       code   0x00167c    program   0x00002e
+      S_glcd__lcd_setpage       code   0x0016aa    program   0x00002e
+         S_glcd__lcd_read       code   0x0016d8    program   0x00002a
+      S_ugetc__usart_getc       code   0x001702    program   0x000028
+S_pillefyrsstyring__read_EEPROM       code   0x00172a    program   0x000026
+     S_glcd__lcd_waitbusy       code   0x001750    program   0x000026
+S_pillefyrsstyring__my_usart_open       code   0x001776    program   0x000024
+    S_gptrget1___gptrget1       code   0x00179a    program   0x000022
+       S_glcd__lcd_enable       code   0x0017bc    program   0x00001a
+         S_crt0___startup       code   0x0017d6    program   0x000014
+    S_gptrput1___gptrput1       code   0x0017ea    program   0x000014
+      S_uputc__usart_putc       code   0x0017fe    program   0x000010
+S_menu_system__button_pressed       code   0x00180e    program   0x00000e
+                   .cinit       code   0x00181c    program   0x00000e
+      S_adcread__adc_read       code   0x00182a    program   0x000008
+      S_udrdy__usart_drdy       code   0x001832    program   0x000008
+      S_adcbusy__adc_busy       code   0x00183a    program   0x000008
+                 .idata_i       code   0x001842    program   0x000002
+                  .config       code   0x300000    program   0x00000e
+                   .idata      idata   0x0000ce       data   0x000001
+               .registers      udata   00000000       data   0x000017
+ udata_pillefyrsstyring_4      udata   0x000080       data   0x000016
+      udata_menu_system_0      udata   0x000096       data   0x000016
+ udata_pillefyrsstyring_5      udata   0x0000ac       data   0x000004
+          udata_mullong_0      udata   0x0000b0       data   0x000004
+          udata_mullong_1      udata   0x0000b4       data   0x000004
+          udata_mullong_2      udata   0x0000b8       data   0x000004
+          udata_mullong_3      udata   0x0000bc       data   0x000004
+          udata_mullong_4      udata   0x0000c0       data   0x000004
+ udata_pillefyrsstyring_0      udata   0x0000c4       data   0x000002
+ udata_pillefyrsstyring_1      udata   0x0000c6       data   0x000002
+ udata_pillefyrsstyring_2      udata   0x0000c8       data   0x000002
+ udata_pillefyrsstyring_3      udata   0x0000ca       data   0x000002
+ udata_pillefyrsstyring_6      udata   0x0000cc       data   0x000001
+             udata_glcd_0      udata   0x0000cd       data   0x000001
+           udata_usartd_0      udata   0x0000cf       data   0x000001
+            stack_section      udata   0x000700       data   0x000100
+      ustat_pic18f4620_00      udata   0x000f80       data   0x000005
+      ustat_pic18f4620_01      udata   0x000f89       data   0x000005
+      ustat_pic18f4620_02      udata   0x000f92       data   0x000005
+      ustat_pic18f4620_03      udata   0x000f9b       data   0x000001
+      ustat_pic18f4620_04      udata   0x000f9d       data   0x000006
+      ustat_pic18f4620_05      udata   0x000fa6       data   0x000013
+      ustat_pic18f4620_06      udata   0x000fba       data   0x00001a
+      ustat_pic18f4620_07      udata   0x000fd5       data   0x00002b
+ 
+                              Program Memory Usage
+                               Start         End
+                           ---------   ---------
+                            0x300000    0x30000d
+                            0x000008    0x00000b
+                            0x000b5c    0x000cb7
+                            0x0014a2    0x0014f9
+                            0x00172a    0x00174f
+                            0x001776    0x001799
+                            0x000cb8    0x000e07
+                            0x000f38    0x00105b
+                            0x001220    0x0012c3
+                            0x0016d8    0x001701
+                            0x00164c    0x00167b
+                            0x00167c    0x0016a9
+                            0x001750    0x001775
+                            0x0015e8    0x001619
+                            0x0016aa    0x0016d7
+                            0x00143a    0x0014a1
+                            0x0015b4    0x0015e7
+                            0x0013cc    0x001439
+                            0x00157c    0x0015b3
+                            0x0017bc    0x0017d5
+                            0x00161a    0x00164b
+                            0x001842    0x001843
+                            0x0014fa    0x001541
+                            0x00180e    0x00181b
+                            0x0006b0    0x000947
+                            0x000e08    0x000f37
+                            0x00000c    0x0006af
+                            00000000    0x000003
+                            0x0017d6    0x0017e9
+                            0x000948    0x000b5b
+                            0x00179a    0x0017bb
+                            0x00105c    0x00114d
+                            0x00114e    0x00121f
+                            0x0017fe    0x00180d
+                            0x00182a    0x001831
+                            0x0012c4    0x001349
+                            0x000004    0x000007
+                            0x001542    0x00157b
+                            0x001832    0x001839
+                            0x001702    0x001729
+                            0x00134a    0x0013cb
+                            0x00183a    0x001841
+                            0x0017ea    0x0017fd
+                            0x00181c    0x001829
+ 
+                            3113 program addresses used
+ 
+                              Symbols
+                     Name    Address   Location    Storage File
+                ---------  ---------  ---------  --------- ---------
+                    r0x00   00000000       data     static pillefyrsstyring.asm
+                    r0x01   0x000001       data     static pillefyrsstyring.asm
+                    r0x02   0x000002       data     static pillefyrsstyring.asm
+                    r0x03   0x000003       data     static pillefyrsstyring.asm
+                    r0x04   0x000004       data     static pillefyrsstyring.asm
+                    r0x05   0x000005       data     static pillefyrsstyring.asm
+                    r0x06   0x000006       data     static pillefyrsstyring.asm
+                    r0x07   0x000007       data     static pillefyrsstyring.asm
+                    r0x08   0x000008       data     static pillefyrsstyring.asm
+                    r0x09   0x000009       data     static pillefyrsstyring.asm
+                    r0x0a   0x00000a       data     static pillefyrsstyring.asm
+                    r0x0b   0x00000b       data     static pillefyrsstyring.asm
+                    r0x0c   0x00000c       data     static pillefyrsstyring.asm
+                    r0x0d   0x00000d       data     static pillefyrsstyring.asm
+                    r0x0e   0x00000e       data     static pillefyrsstyring.asm
+                    r0x0f   0x00000f       data     static pillefyrsstyring.asm
+                       _i   0x0000c4       data     extern pillefyrsstyring.asm
+             _boiler_temp   0x0000c6       data     extern pillefyrsstyring.asm
+              _smoke_temp   0x0000c8       data     extern pillefyrsstyring.asm
+            _chimney_temp   0x0000ca       data     extern pillefyrsstyring.asm
+                 _lcd_buf   0x000080       data     extern pillefyrsstyring.asm
+                 _timer_2   0x0000ac       data     extern pillefyrsstyring.asm
+             _last_button   0x0000cc       data     extern pillefyrsstyring.asm
+   ivec_0x1_timer_control   0x000008    program     static pillefyrsstyring.asm
+                    _main   0x000b5c    program     extern pillefyrsstyring.asm
+               _00133_DS_   0x000c3c    program     static pillefyrsstyring.asm
+               _00112_DS_   0x000c4c    program     static pillefyrsstyring.asm
+               _00113_DS_   0x000c64    program     static pillefyrsstyring.asm
+               _00121_DS_   0x000c74    program     static pillefyrsstyring.asm
+               _00122_DS_   0x000c8c    program     static pillefyrsstyring.asm
+               _00130_DS_   0x000c9c    program     static pillefyrsstyring.asm
+            _write_EEPROM   0x0014a2    program     extern pillefyrsstyring.asm
+               _00209_DS_   0x0014e2    program     static pillefyrsstyring.asm
+             _read_EEPROM   0x00172a    program     extern pillefyrsstyring.asm
+           _my_usart_open   0x001776    program     extern pillefyrsstyring.asm
+                _sleep_ms   0x000cb8    program     extern pillefyrsstyring.asm
+               _00185_DS_   0x000d28    program     static pillefyrsstyring.asm
+               _00190_DS_   0x000d98    program     static pillefyrsstyring.asm
+               _00191_DS_   0x000da8    program     static pillefyrsstyring.asm
+               _00194_DS_   0x000dbe    program     static pillefyrsstyring.asm
+           _timer_control   0x000f38    program     static pillefyrsstyring.asm
+               _10209_DS_   0x000f7c    program     static pillefyrsstyring.asm
+               _20210_DS_   0x000f82    program     static pillefyrsstyring.asm
+               _30211_DS_   0x000f88    program     static pillefyrsstyring.asm
+               _00166_DS_   0x000f8a    program     static pillefyrsstyring.asm
+               _00167_DS_   0x000fa2    program     static pillefyrsstyring.asm
+               _00170_DS_   0x000fc6    program     static pillefyrsstyring.asm
+               _00173_DS_   0x000fea    program     static pillefyrsstyring.asm
+               _00177_DS_   0x001000    program     static pillefyrsstyring.asm
+               _00180_DS_   0x001016    program     static pillefyrsstyring.asm
+                  __str_0   0x001044    program     static pillefyrsstyring.asm
+                    r0x00   00000000       data     static glcd.asm
+                    r0x01   0x000001       data     static glcd.asm
+                    r0x02   0x000002       data     static glcd.asm
+              _lcd_buffer   0x0000cd       data     extern glcd.asm
+          _lcd_plot_pixel   0x001220    program     extern glcd.asm
+               _00205_DS_   0x001250    program     static glcd.asm
+               _00206_DS_   0x00125a    program     static glcd.asm
+               _00214_DS_   0x00129e    program     static glcd.asm
+               _00213_DS_   0x0012a4    program     static glcd.asm
+                _lcd_read   0x0016d8    program     extern glcd.asm
+          _lcd_selectside   0x00164c    program     extern glcd.asm
+               _00184_DS_   0x001666    program     static glcd.asm
+               _00185_DS_   0x001668    program     static glcd.asm
+               _00187_DS_   0x001670    program     static glcd.asm
+               _00189_DS_   0x001672    program     static glcd.asm
+               _lcd_write   0x00167c    program     extern glcd.asm
+            _lcd_waitbusy   0x001750    program     extern glcd.asm
+               _00166_DS_   0x00175c    program     static glcd.asm
+               _00173_DS_   0x001766    program     static glcd.asm
+               _00169_DS_   0x00176c    program     static glcd.asm
+            _lcd_setyaddr   0x0015e8    program     extern glcd.asm
+             _lcd_setpage   0x0016aa    program     extern glcd.asm
+                 _lcd_cls   0x00143a    program     extern glcd.asm
+               _00140_DS_   0x001456    program     static glcd.asm
+               _00139_DS_   0x00147a    program     static glcd.asm
+               _00143_DS_   0x00148a    program     static glcd.asm
+            _lcd_screenon   0x0015b4    program     extern glcd.asm
+               _lcd_reset   0x0013cc    program     extern glcd.asm
+               _00120_DS_   0x00140c    program     static glcd.asm
+               _00123_DS_   0x001430    program     static glcd.asm
+              _lcd_status   0x00157c    program     extern glcd.asm
+              _lcd_enable   0x0017bc    program     extern glcd.asm
+                _lcd_init   0x00161a    program     extern glcd.asm
+                _selected   0x0000ce       data     extern menu_system.asm
+                    r0x00   00000000       data     static menu_system.asm
+                    r0x01   0x000001       data     static menu_system.asm
+                    r0x02   0x000002       data     static menu_system.asm
+                    r0x03   0x000003       data     static menu_system.asm
+                    r0x04   0x000004       data     static menu_system.asm
+                    r0x05   0x000005       data     static menu_system.asm
+                    r0x06   0x000006       data     static menu_system.asm
+                    r0x07   0x000007       data     static menu_system.asm
+                    r0x08   0x000008       data     static menu_system.asm
+                    r0x09   0x000009       data     static menu_system.asm
+                    r0x0a   0x00000a       data     static menu_system.asm
+                    r0x0b   0x00000b       data     static menu_system.asm
+                    r0x0c   0x00000c       data     static menu_system.asm
+                    r0x0d   0x00000d       data     static menu_system.asm
+                    r0x0e   0x00000e       data     static menu_system.asm
+                    r0x0f   0x00000f       data     static menu_system.asm
+                    r0x10   0x000010       data     static menu_system.asm
+                    r0x11   0x000011       data     static menu_system.asm
+                    r0x12   0x000012       data     static menu_system.asm
+                    r0x13   0x000013       data     static menu_system.asm
+                    r0x14   0x000014       data     static menu_system.asm
+                    r0x15   0x000015       data     static menu_system.asm
+                    r0x16   0x000016       data     static menu_system.asm
+_do_menu_update_menu_item_1_1   0x000096       data     static menu_system.asm
+         _button_released   0x0014fa    program     extern menu_system.asm
+               _00195_DS_   0x001512    program     static menu_system.asm
+               _00186_DS_   0x00151e    program     static menu_system.asm
+               _00187_DS_   0x001530    program     static menu_system.asm
+          _button_pressed   0x00180e    program     extern menu_system.asm
+               _lcd_print   0x0006b0    program     extern menu_system.asm
+               _00140_DS_   0x000740    program     static menu_system.asm
+               _00136_DS_   0x000776    program     static menu_system.asm
+               _00132_DS_   0x00078c    program     static menu_system.asm
+               _00161_DS_   0x0007e0    program     static menu_system.asm
+               _00160_DS_   0x0007e8    program     static menu_system.asm
+               _00164_DS_   0x00080c    program     static menu_system.asm
+               _00163_DS_   0x000818    program     static menu_system.asm
+               _00130_DS_   0x000838    program     static menu_system.asm
+               _00166_DS_   0x00087e    program     static menu_system.asm
+               _00165_DS_   0x000886    program     static menu_system.asm
+               _00169_DS_   0x0008aa    program     static menu_system.asm
+               _00168_DS_   0x0008b6    program     static menu_system.asm
+               _00134_DS_   0x0008d2    program     static menu_system.asm
+               _00138_DS_   0x0008d6    program     static menu_system.asm
+               _00142_DS_   0x0008da    program     static menu_system.asm
+               _00144_DS_   0x0008e6    program     static menu_system.asm
+          _do_menu_update   0x000e08    program     extern menu_system.asm
+               _00108_DS_   0x000e34    program     static menu_system.asm
+               _00106_DS_   0x000ee2    program     static menu_system.asm
+               _00110_DS_   0x000f0a    program     static menu_system.asm
+               _00112_DS_   0x000f12    program     static menu_system.asm
+                 _font8x5   0x00000c    program     extern menu_system.asm
+                    _menu   0x00060c    program     static menu_system.asm
+                  __str_0   0x0006ae    program     static menu_system.asm
+                  __entry   00000000    program     extern crt0.asm
+                __startup   0x0017d6    program     extern crt0.asm
+                   lockup   0x0017e8    program     static crt0.asm
+                   _PORTA   0x000f80       data     extern libdev18f4620_a-pic18f4620.asm
+               _PORTAbits   0x000f80       data     extern libdev18f4620_a-pic18f4620.asm
+                   _PORTB   0x000f81       data     extern libdev18f4620_a-pic18f4620.asm
+               _PORTBbits   0x000f81       data     extern libdev18f4620_a-pic18f4620.asm
+                   _PORTC   0x000f82       data     extern libdev18f4620_a-pic18f4620.asm
+               _PORTCbits   0x000f82       data     extern libdev18f4620_a-pic18f4620.asm
+                   _PORTD   0x000f83       data     extern libdev18f4620_a-pic18f4620.asm
+               _PORTDbits   0x000f83       data     extern libdev18f4620_a-pic18f4620.asm
+                   _PORTE   0x000f84       data     extern libdev18f4620_a-pic18f4620.asm
+               _PORTEbits   0x000f84       data     extern libdev18f4620_a-pic18f4620.asm
+                    _LATA   0x000f89       data     extern libdev18f4620_a-pic18f4620.asm
+                _LATAbits   0x000f89       data     extern libdev18f4620_a-pic18f4620.asm
+                    _LATB   0x000f8a       data     extern libdev18f4620_a-pic18f4620.asm
+                _LATBbits   0x000f8a       data     extern libdev18f4620_a-pic18f4620.asm
+                    _LATC   0x000f8b       data     extern libdev18f4620_a-pic18f4620.asm
+                _LATCbits   0x000f8b       data     extern libdev18f4620_a-pic18f4620.asm
+                    _LATD   0x000f8c       data     extern libdev18f4620_a-pic18f4620.asm
+                _LATDbits   0x000f8c       data     extern libdev18f4620_a-pic18f4620.asm
+                    _LATE   0x000f8d       data     extern libdev18f4620_a-pic18f4620.asm
+                _LATEbits   0x000f8d       data     extern libdev18f4620_a-pic18f4620.asm
+                   _TRISA   0x000f92       data     extern libdev18f4620_a-pic18f4620.asm
+               _TRISAbits   0x000f92       data     extern libdev18f4620_a-pic18f4620.asm
+                   _TRISB   0x000f93       data     extern libdev18f4620_a-pic18f4620.asm
+               _TRISBbits   0x000f93       data     extern libdev18f4620_a-pic18f4620.asm
+                   _TRISC   0x000f94       data     extern libdev18f4620_a-pic18f4620.asm
+               _TRISCbits   0x000f94       data     extern libdev18f4620_a-pic18f4620.asm
+                   _TRISD   0x000f95       data     extern libdev18f4620_a-pic18f4620.asm
+               _TRISDbits   0x000f95       data     extern libdev18f4620_a-pic18f4620.asm
+                   _TRISE   0x000f96       data     extern libdev18f4620_a-pic18f4620.asm
+               _TRISEbits   0x000f96       data     extern libdev18f4620_a-pic18f4620.asm
+                 _OSCTUNE   0x000f9b       data     extern libdev18f4620_a-pic18f4620.asm
+             _OSCTUNEbits   0x000f9b       data     extern libdev18f4620_a-pic18f4620.asm
+                    _PIE1   0x000f9d       data     extern libdev18f4620_a-pic18f4620.asm
+                _PIE1bits   0x000f9d       data     extern libdev18f4620_a-pic18f4620.asm
+                    _PIR1   0x000f9e       data     extern libdev18f4620_a-pic18f4620.asm
+                _PIR1bits   0x000f9e       data     extern libdev18f4620_a-pic18f4620.asm
+                    _IPR1   0x000f9f       data     extern libdev18f4620_a-pic18f4620.asm
+                _IPR1bits   0x000f9f       data     extern libdev18f4620_a-pic18f4620.asm
+                    _PIE2   0x000fa0       data     extern libdev18f4620_a-pic18f4620.asm
+                _PIE2bits   0x000fa0       data     extern libdev18f4620_a-pic18f4620.asm
+                    _PIR2   0x000fa1       data     extern libdev18f4620_a-pic18f4620.asm
+                _PIR2bits   0x000fa1       data     extern libdev18f4620_a-pic18f4620.asm
+                    _IPR2   0x000fa2       data     extern libdev18f4620_a-pic18f4620.asm
+                _IPR2bits   0x000fa2       data     extern libdev18f4620_a-pic18f4620.asm
+                  _EECON1   0x000fa6       data     extern libdev18f4620_a-pic18f4620.asm
+              _EECON1bits   0x000fa6       data     extern libdev18f4620_a-pic18f4620.asm
+                  _EECON2   0x000fa7       data     extern libdev18f4620_a-pic18f4620.asm
+                  _EEDATA   0x000fa8       data     extern libdev18f4620_a-pic18f4620.asm
+                   _EEADR   0x000fa9       data     extern libdev18f4620_a-pic18f4620.asm
+                  _EEADRH   0x000faa       data     extern libdev18f4620_a-pic18f4620.asm
+                   _RCSTA   0x000fab       data     extern libdev18f4620_a-pic18f4620.asm
+               _RCSTAbits   0x000fab       data     extern libdev18f4620_a-pic18f4620.asm
+                   _TXSTA   0x000fac       data     extern libdev18f4620_a-pic18f4620.asm
+               _TXSTAbits   0x000fac       data     extern libdev18f4620_a-pic18f4620.asm
+                   _TXREG   0x000fad       data     extern libdev18f4620_a-pic18f4620.asm
+                   _RCREG   0x000fae       data     extern libdev18f4620_a-pic18f4620.asm
+                   _SPBRG   0x000faf       data     extern libdev18f4620_a-pic18f4620.asm
+                  _SPBRGH   0x000fb0       data     extern libdev18f4620_a-pic18f4620.asm
+                   _T3CON   0x000fb1       data     extern libdev18f4620_a-pic18f4620.asm
+               _T3CONbits   0x000fb1       data     extern libdev18f4620_a-pic18f4620.asm
+                   _TMR3L   0x000fb2       data     extern libdev18f4620_a-pic18f4620.asm
+                   _TMR3H   0x000fb3       data     extern libdev18f4620_a-pic18f4620.asm
+                   _CMCON   0x000fb4       data     extern libdev18f4620_a-pic18f4620.asm
+               _CMCONbits   0x000fb4       data     extern libdev18f4620_a-pic18f4620.asm
+                  _CVRCON   0x000fb5       data     extern libdev18f4620_a-pic18f4620.asm
+              _CVRCONbits   0x000fb5       data     extern libdev18f4620_a-pic18f4620.asm
+                 _ECCP1AS   0x000fb6       data     extern libdev18f4620_a-pic18f4620.asm
+             _ECCP1ASbits   0x000fb6       data     extern libdev18f4620_a-pic18f4620.asm
+                 _PWM1CON   0x000fb7       data     extern libdev18f4620_a-pic18f4620.asm
+             _PWM1CONbits   0x000fb7       data     extern libdev18f4620_a-pic18f4620.asm
+                 _BAUDCON   0x000fb8       data     extern libdev18f4620_a-pic18f4620.asm
+             _BAUDCONbits   0x000fb8       data     extern libdev18f4620_a-pic18f4620.asm
+                 _CCP2CON   0x000fba       data     extern libdev18f4620_a-pic18f4620.asm
+             _CCP2CONbits   0x000fba       data     extern libdev18f4620_a-pic18f4620.asm
+                  _CCPR2L   0x000fbb       data     extern libdev18f4620_a-pic18f4620.asm
+                  _CCPR2H   0x000fbc       data     extern libdev18f4620_a-pic18f4620.asm
+                 _CCP1CON   0x000fbd       data     extern libdev18f4620_a-pic18f4620.asm
+             _CCP1CONbits   0x000fbd       data     extern libdev18f4620_a-pic18f4620.asm
+                  _CCPR1L   0x000fbe       data     extern libdev18f4620_a-pic18f4620.asm
+                  _CCPR1H   0x000fbf       data     extern libdev18f4620_a-pic18f4620.asm
+                  _ADCON2   0x000fc0       data     extern libdev18f4620_a-pic18f4620.asm
+              _ADCON2bits   0x000fc0       data     extern libdev18f4620_a-pic18f4620.asm
+                  _ADCON1   0x000fc1       data     extern libdev18f4620_a-pic18f4620.asm
+              _ADCON1bits   0x000fc1       data     extern libdev18f4620_a-pic18f4620.asm
+                  _ADCON0   0x000fc2       data     extern libdev18f4620_a-pic18f4620.asm
+              _ADCON0bits   0x000fc2       data     extern libdev18f4620_a-pic18f4620.asm
+                  _ADRESL   0x000fc3       data     extern libdev18f4620_a-pic18f4620.asm
+                  _ADRESH   0x000fc4       data     extern libdev18f4620_a-pic18f4620.asm
+                 _SSPCON2   0x000fc5       data     extern libdev18f4620_a-pic18f4620.asm
+             _SSPCON2bits   0x000fc5       data     extern libdev18f4620_a-pic18f4620.asm
+                 _SSPCON1   0x000fc6       data     extern libdev18f4620_a-pic18f4620.asm
+             _SSPCON1bits   0x000fc6       data     extern libdev18f4620_a-pic18f4620.asm
+                 _SSPSTAT   0x000fc7       data     extern libdev18f4620_a-pic18f4620.asm
+             _SSPSTATbits   0x000fc7       data     extern libdev18f4620_a-pic18f4620.asm
+                  _SSPADD   0x000fc8       data     extern libdev18f4620_a-pic18f4620.asm
+                  _SSPBUF   0x000fc9       data     extern libdev18f4620_a-pic18f4620.asm
+                   _T2CON   0x000fca       data     extern libdev18f4620_a-pic18f4620.asm
+               _T2CONbits   0x000fca       data     extern libdev18f4620_a-pic18f4620.asm
+                     _PR2   0x000fcb       data     extern libdev18f4620_a-pic18f4620.asm
+                    _TMR2   0x000fcc       data     extern libdev18f4620_a-pic18f4620.asm
+                   _T1CON   0x000fcd       data     extern libdev18f4620_a-pic18f4620.asm
+               _T1CONbits   0x000fcd       data     extern libdev18f4620_a-pic18f4620.asm
+                   _TMR1L   0x000fce       data     extern libdev18f4620_a-pic18f4620.asm
+                   _TMR1H   0x000fcf       data     extern libdev18f4620_a-pic18f4620.asm
+                    _RCON   0x000fd0       data     extern libdev18f4620_a-pic18f4620.asm
+                _RCONbits   0x000fd0       data     extern libdev18f4620_a-pic18f4620.asm
+                  _WDTCON   0x000fd1       data     extern libdev18f4620_a-pic18f4620.asm
+              _WDTCONbits   0x000fd1       data     extern libdev18f4620_a-pic18f4620.asm
+                 _HLVDCON   0x000fd2       data     extern libdev18f4620_a-pic18f4620.asm
+             _HLVDCONbits   0x000fd2       data     extern libdev18f4620_a-pic18f4620.asm
+                  _OSCCON   0x000fd3       data     extern libdev18f4620_a-pic18f4620.asm
+              _OSCCONbits   0x000fd3       data     extern libdev18f4620_a-pic18f4620.asm
+                   _T0CON   0x000fd5       data     extern libdev18f4620_a-pic18f4620.asm
+               _T0CONbits   0x000fd5       data     extern libdev18f4620_a-pic18f4620.asm
+                   _TMR0L   0x000fd6       data     extern libdev18f4620_a-pic18f4620.asm
+                   _TMR0H   0x000fd7       data     extern libdev18f4620_a-pic18f4620.asm
+                  _STATUS   0x000fd8       data     extern libdev18f4620_a-pic18f4620.asm
+              _STATUSbits   0x000fd8       data     extern libdev18f4620_a-pic18f4620.asm
+                   _FSR2L   0x000fd9       data     extern libdev18f4620_a-pic18f4620.asm
+                   _FSR2H   0x000fda       data     extern libdev18f4620_a-pic18f4620.asm
+               _FSR2Hbits   0x000fda       data     extern libdev18f4620_a-pic18f4620.asm
+                  _PLUSW2   0x000fdb       data     extern libdev18f4620_a-pic18f4620.asm
+                 _PREINC2   0x000fdc       data     extern libdev18f4620_a-pic18f4620.asm
+                _POSTDEC2   0x000fdd       data     extern libdev18f4620_a-pic18f4620.asm
+                _POSTINC2   0x000fde       data     extern libdev18f4620_a-pic18f4620.asm
+                   _INDF2   0x000fdf       data     extern libdev18f4620_a-pic18f4620.asm
+                     _BSR   0x000fe0       data     extern libdev18f4620_a-pic18f4620.asm
+                 _BSRbits   0x000fe0       data     extern libdev18f4620_a-pic18f4620.asm
+                   _FSR1L   0x000fe1       data     extern libdev18f4620_a-pic18f4620.asm
+                   _FSR1H   0x000fe2       data     extern libdev18f4620_a-pic18f4620.asm
+               _FSR1Hbits   0x000fe2       data     extern libdev18f4620_a-pic18f4620.asm
+                  _PLUSW1   0x000fe3       data     extern libdev18f4620_a-pic18f4620.asm
+                 _PREINC1   0x000fe4       data     extern libdev18f4620_a-pic18f4620.asm
+                _POSTDEC1   0x000fe5       data     extern libdev18f4620_a-pic18f4620.asm
+                _POSTINC1   0x000fe6       data     extern libdev18f4620_a-pic18f4620.asm
+                   _INDF1   0x000fe7       data     extern libdev18f4620_a-pic18f4620.asm
+                    _WREG   0x000fe8       data     extern libdev18f4620_a-pic18f4620.asm
+                   _FSR0L   0x000fe9       data     extern libdev18f4620_a-pic18f4620.asm
+                   _FSR0H   0x000fea       data     extern libdev18f4620_a-pic18f4620.asm
+               _FSR0Hbits   0x000fea       data     extern libdev18f4620_a-pic18f4620.asm
+                  _PLUSW0   0x000feb       data     extern libdev18f4620_a-pic18f4620.asm
+                 _PREINC0   0x000fec       data     extern libdev18f4620_a-pic18f4620.asm
+                _POSTDEC0   0x000fed       data     extern libdev18f4620_a-pic18f4620.asm
+                _POSTINC0   0x000fee       data     extern libdev18f4620_a-pic18f4620.asm
+                   _INDF0   0x000fef       data     extern libdev18f4620_a-pic18f4620.asm
+                 _INTCON3   0x000ff0       data     extern libdev18f4620_a-pic18f4620.asm
+             _INTCON3bits   0x000ff0       data     extern libdev18f4620_a-pic18f4620.asm
+                 _INTCON2   0x000ff1       data     extern libdev18f4620_a-pic18f4620.asm
+             _INTCON2bits   0x000ff1       data     extern libdev18f4620_a-pic18f4620.asm
+                  _INTCON   0x000ff2       data     extern libdev18f4620_a-pic18f4620.asm
+              _INTCONbits   0x000ff2       data     extern libdev18f4620_a-pic18f4620.asm
+                   _PRODL   0x000ff3       data     extern libdev18f4620_a-pic18f4620.asm
+                   _PRODH   0x000ff4       data     extern libdev18f4620_a-pic18f4620.asm
+                  _TABLAT   0x000ff5       data     extern libdev18f4620_a-pic18f4620.asm
+                 _TBLPTRL   0x000ff6       data     extern libdev18f4620_a-pic18f4620.asm
+                 _TBLPTRH   0x000ff7       data     extern libdev18f4620_a-pic18f4620.asm
+                 _TBLPTRU   0x000ff8       data     extern libdev18f4620_a-pic18f4620.asm
+             _TBLPTRUbits   0x000ff8       data     extern libdev18f4620_a-pic18f4620.asm
+                     _PCL   0x000ff9       data     extern libdev18f4620_a-pic18f4620.asm
+                  _PCLATH   0x000ffa       data     extern libdev18f4620_a-pic18f4620.asm
+              _PCLATHbits   0x000ffa       data     extern libdev18f4620_a-pic18f4620.asm
+                  _PCLATU   0x000ffb       data     extern libdev18f4620_a-pic18f4620.asm
+              _PCLATUbits   0x000ffb       data     extern libdev18f4620_a-pic18f4620.asm
+                  _STKPTR   0x000ffc       data     extern libdev18f4620_a-pic18f4620.asm
+              _STKPTRbits   0x000ffc       data     extern libdev18f4620_a-pic18f4620.asm
+                    _TOSL   0x000ffd       data     extern libdev18f4620_a-pic18f4620.asm
+                    _TOSH   0x000ffe       data     extern libdev18f4620_a-pic18f4620.asm
+                    _TOSU   0x000fff       data     extern libdev18f4620_a-pic18f4620.asm
+                _TOSUbits   0x000fff       data     extern libdev18f4620_a-pic18f4620.asm
+                    r0x00   00000000       data     static mullong.asm
+                    r0x01   0x000001       data     static mullong.asm
+                    r0x02   0x000002       data     static mullong.asm
+                    r0x03   0x000003       data     static mullong.asm
+                    r0x04   0x000004       data     static mullong.asm
+                    r0x05   0x000005       data     static mullong.asm
+                    r0x06   0x000006       data     static mullong.asm
+                    r0x07   0x000007       data     static mullong.asm
+          __mullong_x_1_1   0x0000b0       data     static mullong.asm
+          __mullong_y_1_1   0x0000b4       data     static mullong.asm
+          __mullong_t_1_1   0x0000b8       data     static mullong.asm
+         __mullong_t1_1_1   0x0000bc       data     static mullong.asm
+         __mullong_t2_1_1   0x0000c0       data     static mullong.asm
+                __mullong   0x000948    program     extern mullong.asm
+                   _stack   0x000700       data     extern stack/stack.S
+               _stack_end   0x0007ff       data     extern stack/stack.S
+               __gptrget1   0x00179a    program     extern gptrget1.asm
+                 _lab_01_   0x0017a6    program     static gptrget1.asm
+                 _lab_02_   0x0017ba    program     static gptrget1.asm
+                    _end_   0x0017ba    program     static gptrget1.asm
+                    r0x00   00000000       data     static strcat.asm
+                    r0x01   0x000001       data     static strcat.asm
+                    r0x02   0x000002       data     static strcat.asm
+                    r0x03   0x000003       data     static strcat.asm
+                    r0x04   0x000004       data     static strcat.asm
+                    r0x05   0x000005       data     static strcat.asm
+                    r0x06   0x000006       data     static strcat.asm
+                    r0x07   0x000007       data     static strcat.asm
+                    r0x08   0x000008       data     static strcat.asm
+                    r0x09   0x000009       data     static strcat.asm
+                  _strcat   0x00105c    program     extern strcat.asm
+               _00105_DS_   0x0010bc    program     static strcat.asm
+               _00108_DS_   0x0010dc    program     static strcat.asm
+                    r0x00   00000000       data     static strcpy.asm
+                    r0x01   0x000001       data     static strcpy.asm
+                    r0x02   0x000002       data     static strcpy.asm
+                    r0x03   0x000003       data     static strcpy.asm
+                    r0x04   0x000004       data     static strcpy.asm
+                    r0x05   0x000005       data     static strcpy.asm
+                    r0x06   0x000006       data     static strcpy.asm
+                    r0x07   0x000007       data     static strcpy.asm
+                    r0x08   0x000008       data     static strcpy.asm
+                    r0x09   0x000009       data     static strcpy.asm
+                  _strcpy   0x00114e    program     extern strcpy.asm
+               _00105_DS_   0x0011ae    program     static strcpy.asm
+              _usart_putc   0x0017fe    program     extern libio18f4620_a-uputc.asm
+                     _01_   0x00180a    program     static libio18f4620_a-uputc.asm
+                _adc_read   0x00182a    program     extern libio18f4620_a-adcread.asm
+                    r0x00   00000000       data     static libio18f4620_a-uopen.asm
+                    r0x01   0x000001       data     static libio18f4620_a-uopen.asm
+                    r0x02   0x000002       data     static libio18f4620_a-uopen.asm
+              _usart_open   0x0012c4    program     extern libio18f4620_a-uopen.asm
+               _00108_DS_   0x0012f6    program     static libio18f4620_a-uopen.asm
+               _00110_DS_   0x0012fc    program     static libio18f4620_a-uopen.asm
+               _00112_DS_   0x001304    program     static libio18f4620_a-uopen.asm
+               _00113_DS_   0x001306    program     static libio18f4620_a-uopen.asm
+               _00115_DS_   0x00130e    program     static libio18f4620_a-uopen.asm
+               _00116_DS_   0x001310    program     static libio18f4620_a-uopen.asm
+               _00118_DS_   0x00131a    program     static libio18f4620_a-uopen.asm
+               _00119_DS_   0x00131c    program     static libio18f4620_a-uopen.asm
+               _00121_DS_   0x001326    program     static libio18f4620_a-uopen.asm
+               _00122_DS_   0x001328    program     static libio18f4620_a-uopen.asm
+                _adc_conv   0x000004    program     extern libio18f4620_a-adcconv.asm
+                    r0x00   00000000       data     static libio18f4620_a-adcsetch.asm
+                    r0x01   0x000001       data     static libio18f4620_a-adcsetch.asm
+          _adc_setchannel   0x001542    program     extern libio18f4620_a-adcsetch.asm
+            _USART_Status   0x0000cf       data     extern libio18f4620_a-usartd.asm
+              _usart_drdy   0x001832    program     extern libio18f4620_a-udrdy.asm
+              _usart_getc   0x001702    program     extern libio18f4620_a-ugetc.asm
+               _10105_DS_   0x001716    program     static libio18f4620_a-ugetc.asm
+               _00108_DS_   0x001716    program     static libio18f4620_a-ugetc.asm
+               _00110_DS_   0x00171e    program     static libio18f4620_a-ugetc.asm
+               _00112_DS_   0x001726    program     static libio18f4620_a-ugetc.asm
+                    r0x00   00000000       data     static libio18f4620_a-adcopen.asm
+                    r0x01   0x000001       data     static libio18f4620_a-adcopen.asm
+                    r0x02   0x000002       data     static libio18f4620_a-adcopen.asm
+                    r0x03   0x000003       data     static libio18f4620_a-adcopen.asm
+                _adc_open   0x00134a    program     extern libio18f4620_a-adcopen.asm
+               _00106_DS_   0x0013b4    program     static libio18f4620_a-adcopen.asm
+                _adc_busy   0x00183a    program     extern libio18f4620_a-adcbusy.asm
+               __gptrput1   0x0017ea    program     extern gptrput1.asm
+                 _lab_01_   0x0017f8    program     static gptrput1.asm
+                 _lab_02_   0x0017fc    program     static gptrput1.asm
+                   _cinit   0x00181c    program     extern  
+ 

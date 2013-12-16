@@ -1,0 +1,2340 @@
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00001 ;--------------------------------------------------------
+               00002 ; File Created by SDCC : free open source ANSI-C Compiler
+               00003 ; Version 3.0.0 #6037 (Jul 16 2012) (Mac OS X x86_64)
+               00004 ; This file was generated Sat Dec 15 23:24:12 2012
+               00005 ;--------------------------------------------------------
+               00006 ; PIC16 port for the Microchip 16-bit core micros
+               00007 ;--------------------------------------------------------
+               00008         list    p=18f4620
+               00009 
+               00010         radix dec
+               00011 
+               00012 ;--------------------------------------------------------
+               00013 ; public variables in this module
+               00014 ;--------------------------------------------------------
+               00015         global _lcd_init
+               00016         global _lcd_enable
+               00017         global _lcd_status
+               00018         global _lcd_reset
+               00019         global _lcd_screenon
+               00020         global _lcd_cls
+               00021         global _lcd_setpage
+               00022         global _lcd_setyaddr
+               00023         global _lcd_waitbusy
+               00024         global _lcd_write
+               00025         global _lcd_selectside
+               00026         global _lcd_read
+               00027         global _lcd_plotpixel
+               00028         global _lcd_debug
+               00029         global _delay_20us
+               00030         global _delay_500us
+               00031         global _font8x5
+               00032 
+               00033 ;--------------------------------------------------------
+               00034 ; extern variables in this module
+               00035 ;--------------------------------------------------------
+               00036         extern __gptrget1
+               00037         extern _PORTAbits
+               00038         extern _PORTBbits
+               00039         extern _PORTCbits
+               00040         extern _PORTDbits
+               00041         extern _PORTEbits
+               00042         extern _LATAbits
+               00043         extern _LATBbits
+               00044         extern _LATCbits
+               00045         extern _LATDbits
+               00046         extern _LATEbits
+               00047         extern _TRISAbits
+               00048         extern _TRISBbits
+               00049         extern _TRISCbits
+               00050         extern _TRISDbits
+               00051         extern _TRISEbits
+               00052         extern _OSCTUNEbits
+               00053         extern _PIE1bits
+               00054         extern _PIR1bits
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00055         extern _IPR1bits
+               00056         extern _PIE2bits
+               00057         extern _PIR2bits
+               00058         extern _IPR2bits
+               00059         extern _EECON1bits
+               00060         extern _RCSTAbits
+               00061         extern _TXSTAbits
+               00062         extern _T3CONbits
+               00063         extern _CMCONbits
+               00064         extern _CVRCONbits
+               00065         extern _ECCP1ASbits
+               00066         extern _PWM1CONbits
+               00067         extern _BAUDCONbits
+               00068         extern _CCP2CONbits
+               00069         extern _CCP1CONbits
+               00070         extern _ADCON2bits
+               00071         extern _ADCON1bits
+               00072         extern _ADCON0bits
+               00073         extern _SSPCON2bits
+               00074         extern _SSPCON1bits
+               00075         extern _SSPSTATbits
+               00076         extern _T2CONbits
+               00077         extern _T1CONbits
+               00078         extern _RCONbits
+               00079         extern _WDTCONbits
+               00080         extern _HLVDCONbits
+               00081         extern _OSCCONbits
+               00082         extern _T0CONbits
+               00083         extern _STATUSbits
+               00084         extern _FSR2Hbits
+               00085         extern _BSRbits
+               00086         extern _FSR1Hbits
+               00087         extern _FSR0Hbits
+               00088         extern _INTCON3bits
+               00089         extern _INTCON2bits
+               00090         extern _INTCONbits
+               00091         extern _TBLPTRUbits
+               00092         extern _PCLATHbits
+               00093         extern _PCLATUbits
+               00094         extern _STKPTRbits
+               00095         extern _TOSUbits
+               00096         extern _PORTA
+               00097         extern _PORTB
+               00098         extern _PORTC
+               00099         extern _PORTD
+               00100         extern _PORTE
+               00101         extern _LATA
+               00102         extern _LATB
+               00103         extern _LATC
+               00104         extern _LATD
+               00105         extern _LATE
+               00106         extern _TRISA
+               00107         extern _TRISB
+               00108         extern _TRISC
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00109         extern _TRISD
+               00110         extern _TRISE
+               00111         extern _OSCTUNE
+               00112         extern _PIE1
+               00113         extern _PIR1
+               00114         extern _IPR1
+               00115         extern _PIE2
+               00116         extern _PIR2
+               00117         extern _IPR2
+               00118         extern _EECON1
+               00119         extern _EECON2
+               00120         extern _EEDATA
+               00121         extern _EEADR
+               00122         extern _EEADRH
+               00123         extern _RCSTA
+               00124         extern _TXSTA
+               00125         extern _TXREG
+               00126         extern _RCREG
+               00127         extern _SPBRG
+               00128         extern _SPBRGH
+               00129         extern _T3CON
+               00130         extern _TMR3L
+               00131         extern _TMR3H
+               00132         extern _CMCON
+               00133         extern _CVRCON
+               00134         extern _ECCP1AS
+               00135         extern _PWM1CON
+               00136         extern _BAUDCON
+               00137         extern _CCP2CON
+               00138         extern _CCPR2L
+               00139         extern _CCPR2H
+               00140         extern _CCP1CON
+               00141         extern _CCPR1L
+               00142         extern _CCPR1H
+               00143         extern _ADCON2
+               00144         extern _ADCON1
+               00145         extern _ADCON0
+               00146         extern _ADRESL
+               00147         extern _ADRESH
+               00148         extern _SSPCON2
+               00149         extern _SSPCON1
+               00150         extern _SSPSTAT
+               00151         extern _SSPADD
+               00152         extern _SSPBUF
+               00153         extern _T2CON
+               00154         extern _PR2
+               00155         extern _TMR2
+               00156         extern _T1CON
+               00157         extern _TMR1L
+               00158         extern _TMR1H
+               00159         extern _RCON
+               00160         extern _WDTCON
+               00161         extern _HLVDCON
+               00162         extern _OSCCON
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00163         extern _T0CON
+               00164         extern _TMR0L
+               00165         extern _TMR0H
+               00166         extern _STATUS
+               00167         extern _FSR2L
+               00168         extern _FSR2H
+               00169         extern _PLUSW2
+               00170         extern _PREINC2
+               00171         extern _POSTDEC2
+               00172         extern _POSTINC2
+               00173         extern _INDF2
+               00174         extern _BSR
+               00175         extern _FSR1L
+               00176         extern _FSR1H
+               00177         extern _PLUSW1
+               00178         extern _PREINC1
+               00179         extern _POSTDEC1
+               00180         extern _POSTINC1
+               00181         extern _INDF1
+               00182         extern _WREG
+               00183         extern _FSR0L
+               00184         extern _FSR0H
+               00185         extern _PLUSW0
+               00186         extern _PREINC0
+               00187         extern _POSTDEC0
+               00188         extern _POSTINC0
+               00189         extern _INDF0
+               00190         extern _INTCON3
+               00191         extern _INTCON2
+               00192         extern _INTCON
+               00193         extern _PRODL
+               00194         extern _PRODH
+               00195         extern _TABLAT
+               00196         extern _TBLPTRL
+               00197         extern _TBLPTRH
+               00198         extern _TBLPTRU
+               00199         extern _PCL
+               00200         extern _PCLATH
+               00201         extern _PCLATU
+               00202         extern _STKPTR
+               00203         extern _TOSL
+               00204         extern _TOSH
+               00205         extern _TOSU
+               00206         extern _strlen
+               00207 ;--------------------------------------------------------
+               00208 ;       Equates to used internal registers
+               00209 ;--------------------------------------------------------
+  00000FD8     00210 STATUS  equ     0xfd8
+  00000FE8     00211 WREG    equ     0xfe8
+  00000FF6     00212 TBLPTRL equ     0xff6
+  00000FF7     00213 TBLPTRH equ     0xff7
+  00000FF8     00214 TBLPTRU equ     0xff8
+  00000FF5     00215 TABLAT  equ     0xff5
+  00000FE9     00216 FSR0L   equ     0xfe9
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+  00000FE1     00217 FSR1L   equ     0xfe1
+  00000FD9     00218 FSR2L   equ     0xfd9
+  00000FE5     00219 POSTDEC1        equ     0xfe5
+  00000FE4     00220 PREINC1 equ     0xfe4
+  00000FDB     00221 PLUSW2  equ     0xfdb
+  00000FF3     00222 PRODL   equ     0xff3
+  00000FF4     00223 PRODH   equ     0xff4
+               00224 
+               00225 
+               00226 ; Internal registers
+               00227 .registers      udata_ovr       0x0000
+               00228 r0x00   res     1
+               00229 r0x01   res     1
+               00230 r0x02   res     1
+               00231 r0x03   res     1
+               00232 r0x04   res     1
+               00233 r0x05   res     1
+               00234 r0x06   res     1
+               00235 r0x07   res     1
+               00236 r0x08   res     1
+               00237 r0x09   res     1
+               00238 r0x0a   res     1
+               00239 r0x0b   res     1
+               00240 r0x0c   res     1
+               00241 r0x0d   res     1
+               00242 r0x0e   res     1
+               00243 r0x0f   res     1
+               00244 r0x10   res     1
+               00245 
+               00246 ;--------------------------------------------------------
+               00247 ; global & static initialisations
+               00248 ;--------------------------------------------------------
+               00249 ; I code from now on!
+               00250 ; ; Starting pCode block
+               00251 S_glcd__delay_500us     code
+0000 00252 _delay_500us:
+               00253 ;       .line   263; glcd.c     void delay_500us() {
+0000 CFD9 FFE5 00254         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00255         MOVFF   FSR1L, FSR2L
+0008 0000      00256         nop
+000A 0000      00257         nop
+000C 0000      00258         nop
+000E 0000      00259         nop
+0010 0000      00260         nop
+0012 0000      00261         nop
+0014 0000      00262         nop
+0016 0000      00263         nop
+0018 0000      00264         nop
+001A 0000      00265         nop
+001C 0000      00266         nop
+001E 0000      00267         nop
+0020 0000      00268         nop
+0022 0000      00269         nop
+0024 0000      00270         nop
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0026 0000      00271         nop
+0028 0000      00272         nop
+002A 0000      00273         nop
+002C 0000      00274         nop
+002E 0000      00275         nop
+0030 0000      00276         nop
+0032 0000      00277         nop
+0034 0000      00278         nop
+0036 0000      00279         nop
+0038 0000      00280         nop
+003A 0000      00281         nop
+003C 0000      00282         nop
+003E 0000      00283         nop
+0040 0000      00284         nop
+0042 0000      00285         nop
+0044 0000      00286         nop
+0046 0000      00287         nop
+0048 0000      00288         nop
+004A 0000      00289         nop
+004C 0000      00290         nop
+004E 0000      00291         nop
+0050 0000      00292         nop
+0052 0000      00293         nop
+0054 0000      00294         nop
+0056 0000      00295         nop
+0058 0000      00296         nop
+005A 0000      00297         nop
+005C 0000      00298         nop
+005E 0000      00299         nop
+0060 0000      00300         nop
+0062 0000      00301         nop
+0064 0000      00302         nop
+0066 0000      00303         nop
+0068 0000      00304         nop
+006A 0000      00305         nop
+006C 0000      00306         nop
+006E 0000      00307         nop
+0070 0000      00308         nop
+0072 0000      00309         nop
+0074 0000      00310         nop
+0076 0000      00311         nop
+0078 0000      00312         nop
+007A 0000      00313         nop
+007C 0000      00314         nop
+007E 0000      00315         nop
+0080 0000      00316         nop
+0082 0000      00317         nop
+0084 0000      00318         nop
+0086 0000      00319         nop
+0088 0000      00320         nop
+008A 0000      00321         nop
+008C 0000      00322         nop
+008E 0000      00323         nop
+0090 0000      00324         nop
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0092 0000      00325         nop
+0094 0000      00326         nop
+0096 0000      00327         nop
+0098 0000      00328         nop
+009A 0000      00329         nop
+009C 0000      00330         nop
+009E 0000      00331         nop
+00A0 0000      00332         nop
+00A2 0000      00333         nop
+00A4 0000      00334         nop
+00A6 0000      00335         nop
+00A8 0000      00336         nop
+00AA 0000      00337         nop
+00AC 0000      00338         nop
+00AE 0000      00339         nop
+00B0 0000      00340         nop
+00B2 0000      00341         nop
+00B4 0000      00342         nop
+00B6 0000      00343         nop
+00B8 0000      00344         nop
+00BA 0000      00345         nop
+00BC 0000      00346         nop
+00BE 0000      00347         nop
+00C0 0000      00348         nop
+00C2 0000      00349         nop
+00C4 0000      00350         nop
+00C6 0000      00351         nop
+00C8 0000      00352         nop
+00CA 0000      00353         nop
+00CC 0000      00354         nop
+00CE 0000      00355         nop
+00D0 0000      00356         nop
+00D2 0000      00357         nop
+00D4 0000      00358         nop
+00D6 0000      00359         nop
+00D8 0000      00360         nop
+00DA 0000      00361         nop
+00DC 0000      00362         nop
+00DE 0000      00363         nop
+00E0 0000      00364         nop
+00E2 0000      00365         nop
+00E4 0000      00366         nop
+00E6 0000      00367         nop
+00E8 0000      00368         nop
+00EA 0000      00369         nop
+00EC 0000      00370         nop
+00EE 0000      00371         nop
+00F0 0000      00372         nop
+00F2 0000      00373         nop
+00F4 0000      00374         nop
+00F6 0000      00375         nop
+00F8 0000      00376         nop
+00FA 0000      00377         nop
+00FC 0000      00378         nop
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00FE 0000      00379         nop
+0100 0000      00380         nop
+0102 0000      00381         nop
+0104 0000      00382         nop
+0106 0000      00383         nop
+0108 0000      00384         nop
+010A 0000      00385         nop
+010C 0000      00386         nop
+010E 0000      00387         nop
+0110 0000      00388         nop
+0112 0000      00389         nop
+0114 0000      00390         nop
+0116 0000      00391         nop
+0118 0000      00392         nop
+011A 0000      00393         nop
+011C 0000      00394         nop
+011E 0000      00395         nop
+0120 0000      00396         nop
+0122 0000      00397         nop
+0124 0000      00398         nop
+0126 0000      00399         nop
+0128 0000      00400         nop
+012A 0000      00401         nop
+012C 0000      00402         nop
+012E 0000      00403         nop
+0130 0000      00404         nop
+0132 0000      00405         nop
+0134 0000      00406         nop
+0136 0000      00407         nop
+0138 0000      00408         nop
+013A 0000      00409         nop
+013C 0000      00410         nop
+013E 0000      00411         nop
+0140 0000      00412         nop
+0142 0000      00413         nop
+0144 0000      00414         nop
+0146 0000      00415         nop
+0148 0000      00416         nop
+014A 0000      00417         nop
+014C 0000      00418         nop
+014E 0000      00419         nop
+0150 0000      00420         nop
+0152 0000      00421         nop
+0154 0000      00422         nop
+0156 0000      00423         nop
+0158 0000      00424         nop
+015A 0000      00425         nop
+015C 0000      00426         nop
+015E 0000      00427         nop
+0160 0000      00428         nop
+0162 0000      00429         nop
+0164 0000      00430         nop
+0166 0000      00431         nop
+0168 0000      00432         nop
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+016A 0000      00433         nop
+016C 0000      00434         nop
+016E 0000      00435         nop
+0170 0000      00436         nop
+0172 0000      00437         nop
+0174 0000      00438         nop
+0176 0000      00439         nop
+0178 0000      00440         nop
+017A 0000      00441         nop
+017C 0000      00442         nop
+017E 0000      00443         nop
+0180 0000      00444         nop
+0182 0000      00445         nop
+0184 0000      00446         nop
+0186 0000      00447         nop
+0188 0000      00448         nop
+018A 0000      00449         nop
+018C 0000      00450         nop
+018E 0000      00451         nop
+0190 0000      00452         nop
+0192 0000      00453         nop
+0194 0000      00454         nop
+0196 0000      00455         nop
+0198 0000      00456         nop
+019A 0000      00457         nop
+019C 0000      00458         nop
+019E 0000      00459         nop
+01A0 0000      00460         nop
+01A2 0000      00461         nop
+01A4 0000      00462         nop
+01A6 0000      00463         nop
+01A8 0000      00464         nop
+01AA 0000      00465         nop
+01AC 0000      00466         nop
+01AE 0000      00467         nop
+01B0 0000      00468         nop
+01B2 0000      00469         nop
+01B4 0000      00470         nop
+01B6 0000      00471         nop
+01B8 0000      00472         nop
+01BA 0000      00473         nop
+01BC 0000      00474         nop
+01BE 0000      00475         nop
+01C0 0000      00476         nop
+01C2 0000      00477         nop
+01C4 0000      00478         nop
+01C6 0000      00479         nop
+01C8 0000      00480         nop
+01CA 0000      00481         nop
+01CC 0000      00482         nop
+01CE 0000      00483         nop
+01D0 0000      00484         nop
+01D2 0000      00485         nop
+01D4 0000      00486         nop
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+01D6 0000      00487         nop
+01D8 0000      00488         nop
+01DA 0000      00489         nop
+01DC 0000      00490         nop
+01DE 0000      00491         nop
+01E0 0000      00492         nop
+01E2 0000      00493         nop
+01E4 0000      00494         nop
+01E6 0000      00495         nop
+01E8 0000      00496         nop
+01EA 0000      00497         nop
+01EC 0000      00498         nop
+01EE 0000      00499         nop
+01F0 0000      00500         nop
+01F2 0000      00501         nop
+01F4 0000      00502         nop
+01F6 0000      00503         nop
+01F8 0000      00504         nop
+01FA 0000      00505         nop
+01FC 0000      00506         nop
+01FE 0000      00507         nop
+0200 0000      00508         nop
+0202 0000      00509         nop
+0204 0000      00510         nop
+0206 0000      00511         nop
+0208 0000      00512         nop
+020A 0000      00513         nop
+020C 0000      00514         nop
+020E 0000      00515         nop
+0210 0000      00516         nop
+0212 0000      00517         nop
+0214 0000      00518         nop
+0216 0000      00519         nop
+0218 0000      00520         nop
+021A 0000      00521         nop
+021C 0000      00522         nop
+021E 0000      00523         nop
+0220 0000      00524         nop
+0222 0000      00525         nop
+0224 0000      00526         nop
+0226 0000      00527         nop
+0228 0000      00528         nop
+022A 0000      00529         nop
+022C 0000      00530         nop
+022E 0000      00531         nop
+0230 0000      00532         nop
+0232 0000      00533         nop
+0234 0000      00534         nop
+0236 0000      00535         nop
+0238 0000      00536         nop
+023A 0000      00537         nop
+023C 0000      00538         nop
+023E 0000      00539         nop
+0240 0000      00540         nop
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0242 0000      00541         nop
+0244 0000      00542         nop
+0246 0000      00543         nop
+0248 0000      00544         nop
+024A 0000      00545         nop
+024C 0000      00546         nop
+024E 0000      00547         nop
+0250 0000      00548         nop
+0252 0000      00549         nop
+0254 0000      00550         nop
+0256 0000      00551         nop
+0258 0000      00552         nop
+025A 0000      00553         nop
+025C 0000      00554         nop
+025E 0000      00555         nop
+0260 0000      00556         nop
+0262 0000      00557         nop
+0264 0000      00558         nop
+0266 0000      00559         nop
+0268 0000      00560         nop
+026A 0000      00561         nop
+026C 0000      00562         nop
+026E 0000      00563         nop
+0270 0000      00564         nop
+0272 0000      00565         nop
+0274 0000      00566         nop
+0276 0000      00567         nop
+0278 0000      00568         nop
+027A 0000      00569         nop
+027C 0000      00570         nop
+027E 0000      00571         nop
+0280 0000      00572         nop
+0282 0000      00573         nop
+0284 0000      00574         nop
+0286 0000      00575         nop
+0288 0000      00576         nop
+028A 0000      00577         nop
+028C 0000      00578         nop
+028E 0000      00579         nop
+0290 0000      00580         nop
+0292 0000      00581         nop
+0294 0000      00582         nop
+0296 0000      00583         nop
+0298 0000      00584         nop
+029A 0000      00585         nop
+029C 0000      00586         nop
+029E 0000      00587         nop
+02A0 0000      00588         nop
+02A2 0000      00589         nop
+02A4 0000      00590         nop
+02A6 0000      00591         nop
+02A8 0000      00592         nop
+02AA 0000      00593         nop
+02AC 0000      00594         nop
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+02AE 0000      00595         nop
+02B0 0000      00596         nop
+02B2 0000      00597         nop
+02B4 0000      00598         nop
+02B6 0000      00599         nop
+02B8 0000      00600         nop
+02BA 0000      00601         nop
+02BC 0000      00602         nop
+02BE 0000      00603         nop
+02C0 0000      00604         nop
+02C2 0000      00605         nop
+02C4 0000      00606         nop
+02C6 0000      00607         nop
+02C8 0000      00608         nop
+02CA 0000      00609         nop
+02CC 0000      00610         nop
+02CE 0000      00611         nop
+02D0 0000      00612         nop
+02D2 0000      00613         nop
+02D4 0000      00614         nop
+02D6 0000      00615         nop
+02D8 0000      00616         nop
+02DA 0000      00617         nop
+02DC 0000      00618         nop
+02DE 0000      00619         nop
+02E0 0000      00620         nop
+02E2 0000      00621         nop
+02E4 0000      00622         nop
+02E6 0000      00623         nop
+02E8 0000      00624         nop
+02EA 0000      00625         nop
+02EC 0000      00626         nop
+02EE 0000      00627         nop
+02F0 0000      00628         nop
+02F2 0000      00629         nop
+02F4 0000      00630         nop
+02F6 0000      00631         nop
+02F8 0000      00632         nop
+02FA 0000      00633         nop
+02FC 0000      00634         nop
+02FE 0000      00635         nop
+0300 0000      00636         nop
+0302 0000      00637         nop
+0304 0000      00638         nop
+0306 0000      00639         nop
+0308 0000      00640         nop
+030A 0000      00641         nop
+030C 0000      00642         nop
+030E 0000      00643         nop
+0310 0000      00644         nop
+0312 0000      00645         nop
+0314 0000      00646         nop
+0316 0000      00647         nop
+0318 0000      00648         nop
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 13
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+031A 0000      00649         nop
+031C 0000      00650         nop
+031E 0000      00651         nop
+0320 0000      00652         nop
+0322 0000      00653         nop
+0324 0000      00654         nop
+0326 0000      00655         nop
+0328 0000      00656         nop
+032A 0000      00657         nop
+032C 0000      00658         nop
+032E 0000      00659         nop
+0330 0000      00660         nop
+0332 0000      00661         nop
+0334 0000      00662         nop
+0336 0000      00663         nop
+0338 0000      00664         nop
+033A 0000      00665         nop
+033C 0000      00666         nop
+033E 0000      00667         nop
+0340 0000      00668         nop
+0342 0000      00669         nop
+0344 0000      00670         nop
+0346 0000      00671         nop
+0348 0000      00672         nop
+034A 0000      00673         nop
+034C 0000      00674         nop
+034E 0000      00675         nop
+0350 0000      00676         nop
+0352 0000      00677         nop
+0354 0000      00678         nop
+0356 0000      00679         nop
+0358 0000      00680         nop
+035A 0000      00681         nop
+035C 0000      00682         nop
+035E 0000      00683         nop
+0360 0000      00684         nop
+0362 0000      00685         nop
+0364 0000      00686         nop
+0366 0000      00687         nop
+0368 0000      00688         nop
+036A 0000      00689         nop
+036C 0000      00690         nop
+036E 0000      00691         nop
+0370 0000      00692         nop
+0372 0000      00693         nop
+0374 0000      00694         nop
+0376 0000      00695         nop
+0378 0000      00696         nop
+037A 0000      00697         nop
+037C 0000      00698         nop
+037E 0000      00699         nop
+0380 0000      00700         nop
+0382 0000      00701         nop
+0384 0000      00702         nop
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 14
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0386 0000      00703         nop
+0388 0000      00704         nop
+038A 0000      00705         nop
+038C 0000      00706         nop
+038E 0000      00707         nop
+0390 0000      00708         nop
+0392 0000      00709         nop
+0394 0000      00710         nop
+0396 0000      00711         nop
+0398 0000      00712         nop
+039A 0000      00713         nop
+039C 0000      00714         nop
+039E 0000      00715         nop
+03A0 0000      00716         nop
+03A2 0000      00717         nop
+03A4 0000      00718         nop
+03A6 0000      00719         nop
+03A8 0000      00720         nop
+03AA 0000      00721         nop
+03AC 0000      00722         nop
+03AE 0000      00723         nop
+03B0 0000      00724         nop
+03B2 0000      00725         nop
+03B4 0000      00726         nop
+03B6 0000      00727         nop
+03B8 0000      00728         nop
+03BA 0000      00729         nop
+03BC 0000      00730         nop
+03BE 0000      00731         nop
+03C0 0000      00732         nop
+03C2 0000      00733         nop
+03C4 0000      00734         nop
+03C6 0000      00735         nop
+03C8 0000      00736         nop
+03CA 0000      00737         nop
+03CC 0000      00738         nop
+03CE 0000      00739         nop
+03D0 0000      00740         nop
+03D2 0000      00741         nop
+03D4 0000      00742         nop
+03D6 0000      00743         nop
+03D8 0000      00744         nop
+03DA 0000      00745         nop
+               00746         
+03DC CFE4 FFD9 00747         MOVFF   PREINC1, FSR2L
+03E0 0012      00748         RETURN  
+               00749 
+               00750 ; ; Starting pCode block
+               00751 S_glcd__delay_20us      code
+0000 00752 _delay_20us:
+               00753 ;       .line   248; glcd.c     void delay_20us() {
+0000 CFD9 FFE5 00754         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00755         MOVFF   FSR1L, FSR2L
+0008 0000      00756         nop
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 15
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+000A 0000      00757         nop
+000C 0000      00758         nop
+000E 0000      00759         nop
+0010 0000      00760         nop
+0012 0000      00761         nop
+0014 0000      00762         nop
+0016 0000      00763         nop
+0018 0000      00764         nop
+001A 0000      00765         nop
+               00766         
+001C CFE4 FFD9 00767         MOVFF   PREINC1, FSR2L
+0020 0012      00768         RETURN  
+               00769 
+               00770 ; ; Starting pCode block
+               00771 S_glcd__lcd_debug       code
+0000 00772 _lcd_debug:
+               00773 ;       .line   230; glcd.c     void lcd_debug(unsigned char *s, unsigned char line) {
+0000 CFD9 FFE5 00774         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00775         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00776         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00777         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00778         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 00779         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 00780         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 00781         MOVFF   r0x05, POSTDEC1
+0020 C000 FFE5 00782         MOVFF   r0x06, POSTDEC1
+0024 C000 FFE5 00783         MOVFF   r0x07, POSTDEC1
+0028 C000 FFE5 00784         MOVFF   r0x08, POSTDEC1
+002C C000 FFE5 00785         MOVFF   r0x09, POSTDEC1
+0030 C000 FFE5 00786         MOVFF   r0x0a, POSTDEC1
+0034 C000 FFE5 00787         MOVFF   r0x0b, POSTDEC1
+0038 C000 FFE5 00788         MOVFF   r0x0c, POSTDEC1
+003C C000 FFE5 00789         MOVFF   r0x0d, POSTDEC1
+0040 C000 FFE5 00790         MOVFF   r0x0e, POSTDEC1
+0044 C000 FFE5 00791         MOVFF   r0x0f, POSTDEC1
+0048 C000 FFE5 00792         MOVFF   r0x10, POSTDEC1
+004C 0E02      00793         MOVLW   0x02
+004E CFDB F000 00794         MOVFF   PLUSW2, r0x00
+0052 0E03      00795         MOVLW   0x03
+0054 CFDB F000 00796         MOVFF   PLUSW2, r0x01
+0058 0E04      00797         MOVLW   0x04
+005A CFDB F000 00798         MOVFF   PLUSW2, r0x02
+005E 0E05      00799         MOVLW   0x05
+0060 CFDB F000 00800         MOVFF   PLUSW2, r0x03
+               00801 ; ;multiply lit val:0x08 by variable r0x03 and store in r0x03
+               00802 ; ;Unrolled 8 X 8 multiplication
+               00803 ; ;FIXME: the function does not support result==WREG
+               00804 ;       .line   236; glcd.c     for (n = 0; n < strlen(s); n++) {
+0064 5000      00805         MOVF    r0x03, W
+0066 0D08      00806         MULLW   0x08
+0068 CFF3 F000 00807         MOVFF   PRODL, r0x03
+006C 6A00      00808         CLRF    r0x04
+006E 6A00      00809         CLRF    r0x05
+0070 00810 _00242_DS_:
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 16
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0070 5000      00811         MOVF    r0x02, W
+0072 6EE5      00812         MOVWF   POSTDEC1
+0074 5000      00813         MOVF    r0x01, W
+0076 6EE5      00814         MOVWF   POSTDEC1
+0078 5000      00815         MOVF    r0x00, W
+007A 6EE5      00816         MOVWF   POSTDEC1
+007C EC00 F000 00817         CALL    _strlen
+0080 6E00      00818         MOVWF   r0x06
+0082 CFF3 F000 00819         MOVFF   PRODL, r0x07
+0086 0E03      00820         MOVLW   0x03
+0088 26E1      00821         ADDWF   FSR1L, F
+008A C000 F000 00822         MOVFF   r0x04, r0x08
+008E 6A00      00823         CLRF    r0x09
+0090 5000      00824         MOVF    r0x09, W
+0092 0F80      00825         ADDLW   0x80
+0094 6EF3      00826         MOVWF   PRODL
+0096 5000      00827         MOVF    r0x07, W
+0098 0F80      00828         ADDLW   0x80
+009A 5CF3      00829         SUBWF   PRODL, W
+009C E100      00830         BNZ     _00258_DS_
+009E 5000      00831         MOVF    r0x06, W
+00A0 5C00      00832         SUBWF   r0x08, W
+00A2 00833 _00258_DS_:
+00A2 B0D8      00834         BTFSC   STATUS, 0
+00A4 D000      00835         BRA     _00246_DS_
+               00836 ;       .line   237; glcd.c     for (x = 0; x < FONT_WIDTH; x++) {
+00A6 5000      00837         MOVF    r0x04, W
+00A8 2400      00838         ADDWF   r0x00, W
+00AA 6E00      00839         MOVWF   r0x06
+00AC 6AE8      00840         CLRF    WREG
+00AE 2000      00841         ADDWFC  r0x01, W
+00B0 6E00      00842         MOVWF   r0x07
+00B2 6AE8      00843         CLRF    WREG
+00B4 2000      00844         ADDWFC  r0x02, W
+00B6 6E00      00845         MOVWF   r0x08
+00B8 6A00      00846         CLRF    r0x09
+00BA 00847 _00238_DS_:
+00BA 0E06      00848         MOVLW   0x06
+00BC 5C00      00849         SUBWF   r0x09, W
+00BE B0D8      00850         BTFSC   STATUS, 0
+00C0 D000      00851         BRA     _00244_DS_
+               00852 ;       .line   238; glcd.c     for (y = 0; y < FONT_HEIGHT; y++) {
+00C2 5000      00853         MOVF    r0x05, W
+00C4 2400      00854         ADDWF   r0x09, W
+00C6 6E00      00855         MOVWF   r0x0a
+00C8 6A00      00856         CLRF    r0x0b
+00CA 00857 _00234_DS_:
+00CA 0E08      00858         MOVLW   0x08
+00CC 5C00      00859         SUBWF   r0x0b, W
+00CE B0D8      00860         BTFSC   STATUS, 0
+00D0 D000      00861         BRA     _00240_DS_
+               00862 ;       .line   239; glcd.c     if ((font8x5[ s[n] ][x] & (1 << y)) >> y) {
+00D2 C000 FFE9 00863         MOVFF   r0x06, FSR0L
+00D6 C000 FFF3 00864         MOVFF   r0x07, PRODL
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 17
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00DA 5000      00865         MOVF    r0x08, W
+00DC EC00 F000 00866         CALL    __gptrget1
+00E0 6E00      00867         MOVWF   r0x0c
+               00868 ; ;multiply lit val:0x06 by variable r0x0c and store in r0x0c
+               00869 ; ;Unrolled 8 X 8 multiplication
+               00870 ; ;FIXME: the function does not support result==WREG
+00E2 5000      00871         MOVF    r0x0c, W
+00E4 0D06      00872         MULLW   0x06
+00E6 CFF3 F000 00873         MOVFF   PRODL, r0x0c
+00EA CFF4 F000 00874         MOVFF   PRODH, r0x0d
+00EE 6A00      00875         CLRF    r0x0e
+00F0 0E00      00876         MOVLW   LOW(_font8x5)
+00F2 2600      00877         ADDWF   r0x0c, F
+00F4 0E00      00878         MOVLW   HIGH(_font8x5)
+00F6 2200      00879         ADDWFC  r0x0d, F
+00F8 0E00      00880         MOVLW   UPPER(_font8x5)
+00FA 2200      00881         ADDWFC  r0x0e, F
+00FC 5000      00882         MOVF    r0x09, W
+00FE 2600      00883         ADDWF   r0x0c, F
+0100 6AE8      00884         CLRF    WREG
+0102 2200      00885         ADDWFC  r0x0d, F
+0104 6AE8      00886         CLRF    WREG
+0106 2200      00887         ADDWFC  r0x0e, F
+0108 0E01      00888         MOVLW   0x01
+010A 6E00      00889         MOVWF   r0x0f
+010C 0E00      00890         MOVLW   0x00
+010E 6E00      00891         MOVWF   r0x10
+0110 5000      00892         MOVF    r0x0b, W
+0112 E000      00893         BZ      _00261_DS_
+0114 6CE8      00894         NEGF    WREG
+0116 90D8      00895         BCF     STATUS, 0
+0118 00896 _00262_DS_:
+0118 3600      00897         RLCF    r0x0f, F
+011A 3600      00898         RLCF    r0x10, F
+011C 0F01      00899         ADDLW   0x01
+011E E300      00900         BNC     _00262_DS_
+0120 00901 _00261_DS_:
+0120 C000 FFF6 00902         MOVFF   r0x0c, TBLPTRL
+0124 C000 FFF7 00903         MOVFF   r0x0d, TBLPTRH
+0128 C000 FFF8 00904         MOVFF   r0x0e, TBLPTRU
+012C 0009      00905         TBLRD*+ 
+012E CFF5 F000 00906         MOVFF   TABLAT, r0x0c
+0132 6A00      00907         CLRF    r0x0d
+0134 5000      00908         MOVF    r0x0c, W
+0136 1600      00909         ANDWF   r0x0f, F
+0138 5000      00910         MOVF    r0x0d, W
+013A 1600      00911         ANDWF   r0x10, F
+013C 5000      00912         MOVF    r0x0b, W
+013E E000      00913         BZ      _00264_DS_
+0140 6CE8      00914         NEGF    WREG
+0142 90D8      00915         BCF     STATUS, 0
+0144 00916 _00265_DS_:
+0144 BE00      00917         BTFSC   r0x10, 7
+0146 80D8      00918         BSF     STATUS, 0
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 18
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0148 3200      00919         RRCF    r0x10, F
+014A 3200      00920         RRCF    r0x0f, F
+014C 0F01      00921         ADDLW   0x01
+014E E300      00922         BNC     _00265_DS_
+0150 00923 _00264_DS_:
+0150 5000      00924         MOVF    r0x0f, W
+0152 1000      00925         IORWF   r0x10, W
+0154 E000      00926         BZ      _00236_DS_
+               00927 ;       .line   240; glcd.c     lcd_plotpixel(x + n * FONT_WIDTH, y + line * FONT_HEIGHT);
+0156 5000      00928         MOVF    r0x03, W
+0158 2400      00929         ADDWF   r0x0b, W
+015A 6E00      00930         MOVWF   r0x0c
+015C 5000      00931         MOVF    r0x0c, W
+015E 6EE5      00932         MOVWF   POSTDEC1
+0160 5000      00933         MOVF    r0x0a, W
+0162 6EE5      00934         MOVWF   POSTDEC1
+0164 EC00 F000 00935         CALL    _lcd_plotpixel
+0168 0E02      00936         MOVLW   0x02
+016A 26E1      00937         ADDWF   FSR1L, F
+016C 00938 _00236_DS_:
+               00939 ;       .line   238; glcd.c     for (y = 0; y < FONT_HEIGHT; y++) {
+016C 2A00      00940         INCF    r0x0b, F
+016E D000      00941         BRA     _00234_DS_
+0170 00942 _00240_DS_:
+               00943 ;       .line   237; glcd.c     for (x = 0; x < FONT_WIDTH; x++) {
+0170 2A00      00944         INCF    r0x09, F
+0172 D000      00945         BRA     _00238_DS_
+0174 00946 _00244_DS_:
+               00947 ;       .line   236; glcd.c     for (n = 0; n < strlen(s); n++) {
+0174 0E06      00948         MOVLW   0x06
+0176 2600      00949         ADDWF   r0x05, F
+0178 2A00      00950         INCF    r0x04, F
+017A D000      00951         BRA     _00242_DS_
+017C 00952 _00246_DS_:
+017C CFE4 F000 00953         MOVFF   PREINC1, r0x10
+0180 CFE4 F000 00954         MOVFF   PREINC1, r0x0f
+0184 CFE4 F000 00955         MOVFF   PREINC1, r0x0e
+0188 CFE4 F000 00956         MOVFF   PREINC1, r0x0d
+018C CFE4 F000 00957         MOVFF   PREINC1, r0x0c
+0190 CFE4 F000 00958         MOVFF   PREINC1, r0x0b
+0194 CFE4 F000 00959         MOVFF   PREINC1, r0x0a
+0198 CFE4 F000 00960         MOVFF   PREINC1, r0x09
+019C CFE4 F000 00961         MOVFF   PREINC1, r0x08
+01A0 CFE4 F000 00962         MOVFF   PREINC1, r0x07
+01A4 CFE4 F000 00963         MOVFF   PREINC1, r0x06
+01A8 CFE4 F000 00964         MOVFF   PREINC1, r0x05
+01AC CFE4 F000 00965         MOVFF   PREINC1, r0x04
+01B0 CFE4 F000 00966         MOVFF   PREINC1, r0x03
+01B4 CFE4 F000 00967         MOVFF   PREINC1, r0x02
+01B8 CFE4 F000 00968         MOVFF   PREINC1, r0x01
+01BC CFE4 F000 00969         MOVFF   PREINC1, r0x00
+01C0 CFE4 FFD9 00970         MOVFF   PREINC1, FSR2L
+01C4 0012      00971         RETURN  
+               00972 
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 19
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00973 ; ; Starting pCode block
+               00974 S_glcd__lcd_plotpixel   code
+0000 00975 _lcd_plotpixel:
+               00976 ;       .line   209; glcd.c     void lcd_plotpixel(unsigned char rx, unsigned char ry) {
+0000 CFD9 FFE5 00977         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00978         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00979         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00980         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00981         MOVFF   r0x02, POSTDEC1
+0014 0E02      00982         MOVLW   0x02
+0016 CFDB F000 00983         MOVFF   PLUSW2, r0x00
+001A 0E03      00984         MOVLW   0x03
+001C CFDB F000 00985         MOVFF   PLUSW2, r0x01
+               00986 ;       .line   215; glcd.c     if (rx & 64) {
+0020 AC00      00987         BTFSS   r0x00, 6
+0022 D000      00988         BRA     _00218_DS_
+               00989 ;       .line   216; glcd.c     lcd_selectside(RIGHT);
+0024 0E02      00990         MOVLW   0x02
+0026 6EE5      00991         MOVWF   POSTDEC1
+0028 EC00 F000 00992         CALL    _lcd_selectside
+002C 2AE1      00993         INCF    FSR1L, F
+002E D000      00994         BRA     _00219_DS_
+0030 00995 _00218_DS_:
+               00996 ;       .line   219; glcd.c     lcd_selectside(LEFT);
+0030 0E01      00997         MOVLW   0x01
+0032 6EE5      00998         MOVWF   POSTDEC1
+0034 EC00 F000 00999         CALL    _lcd_selectside
+0038 2AE1      01000         INCF    FSR1L, F
+003A 01001 _00219_DS_:
+               01002 ;       .line   222; glcd.c     lcd_setpage( ry >> 3);
+003A 3800      01003         SWAPF   r0x01, W
+003C 44E8      01004         RLNCF   WREG, W
+003E 0B1F      01005         ANDLW   0x1f
+0040 6E00      01006         MOVWF   r0x02
+0042 5000      01007         MOVF    r0x02, W
+0044 6EE5      01008         MOVWF   POSTDEC1
+0046 EC00 F000 01009         CALL    _lcd_setpage
+004A 2AE1      01010         INCF    FSR1L, F
+               01011 ;       .line   223; glcd.c     lcd_setyaddr( rx & 0b00111111);
+004C 0E3F      01012         MOVLW   0x3f
+004E 1600      01013         ANDWF   r0x00, F
+0050 5000      01014         MOVF    r0x00, W
+0052 6EE5      01015         MOVWF   POSTDEC1
+0054 EC00 F000 01016         CALL    _lcd_setyaddr
+0058 2AE1      01017         INCF    FSR1L, F
+               01018 ;       .line   224; glcd.c     d = lcd_read(); // dummy read needed here
+005A EC00 F000 01019         CALL    _lcd_read
+               01020 ;       .line   225; glcd.c     d = lcd_read();
+005E EC00 F000 01021         CALL    _lcd_read
+0062 6E00      01022         MOVWF   r0x02
+               01023 ;       .line   226; glcd.c     lcd_setyaddr( rx & 0b00111111); 
+0064 5000      01024         MOVF    r0x00, W
+0066 6EE5      01025         MOVWF   POSTDEC1
+0068 EC00 F000 01026         CALL    _lcd_setyaddr
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 20
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+006C 2AE1      01027         INCF    FSR1L, F
+               01028 ;       .line   227; glcd.c     lcd_write (d | (1 << (ry & 0b111)));
+006E 0E07      01029         MOVLW   0x07
+0070 1600      01030         ANDWF   r0x01, F
+0072 0E01      01031         MOVLW   0x01
+0074 6E00      01032         MOVWF   r0x00
+0076 5000      01033         MOVF    r0x01, W
+0078 E000      01034         BZ      _00226_DS_
+007A 6CE8      01035         NEGF    WREG
+007C 90D8      01036         BCF     STATUS, 0
+007E 01037 _00227_DS_:
+007E 3600      01038         RLCF    r0x00, F
+0080 0F01      01039         ADDLW   0x01
+0082 E300      01040         BNC     _00227_DS_
+0084 01041 _00226_DS_:
+0084 5000      01042         MOVF    r0x00, W
+0086 1200      01043         IORWF   r0x02, F
+0088 5000      01044         MOVF    r0x02, W
+008A 6EE5      01045         MOVWF   POSTDEC1
+008C EC00 F000 01046         CALL    _lcd_write
+0090 2AE1      01047         INCF    FSR1L, F
+0092 CFE4 F000 01048         MOVFF   PREINC1, r0x02
+0096 CFE4 F000 01049         MOVFF   PREINC1, r0x01
+009A CFE4 F000 01050         MOVFF   PREINC1, r0x00
+009E CFE4 FFD9 01051         MOVFF   PREINC1, FSR2L
+00A2 0012      01052         RETURN  
+               01053 
+               01054 ; ; Starting pCode block
+               01055 S_glcd__lcd_read        code
+0000 01056 _lcd_read:
+               01057 ;       .line   194; glcd.c     unsigned char lcd_read (void) {
+0000 CFD9 FFE5 01058         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01059         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01060         MOVFF   r0x00, POSTDEC1
+               01061 ;       .line   197; glcd.c     LCD_TRIS = 0xFF;
+000C 0EFF      01062         MOVLW   0xff
+000E 6E00      01063         MOVWF   _TRISD
+               01064 ;       .line   198; glcd.c     RW = 1; // read
+0010 8200      01065         BSF     _PORTEbits, 1
+               01066 ;       .line   199; glcd.c     DI = 1; // data
+0012 8000      01067         BSF     _PORTEbits, 0
+               01068 ;       .line   201; glcd.c     lcd_enable();
+0014 EC00 F000 01069         CALL    _lcd_enable
+               01070 ;       .line   202; glcd.c     d = LCD_DATA;
+0018 C000 F000 01071         MOVFF   _PORTD, r0x00
+               01072 ;       .line   203; glcd.c     LCD_TRIS = 0x00;
+001C 6A00      01073         CLRF    _TRISD
+               01074 ;       .line   205; glcd.c     return d;
+001E 5000      01075         MOVF    r0x00, W
+0020 CFE4 F000 01076         MOVFF   PREINC1, r0x00
+0024 CFE4 FFD9 01077         MOVFF   PREINC1, FSR2L
+0028 0012      01078         RETURN  
+               01079 
+               01080 ; ; Starting pCode block
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 21
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               01081 S_glcd__lcd_selectside  code
+0000 01082 _lcd_selectside:
+               01083 ;       .line   176; glcd.c     void lcd_selectside(unsigned char sides) {
+0000 CFD9 FFE5 01084         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01085         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01086         MOVFF   r0x00, POSTDEC1
+000C 0E02      01087         MOVLW   0x02
+000E CFDB F000 01088         MOVFF   PLUSW2, r0x00
+               01089 ;       .line   178; glcd.c     if (sides & LEFT) {
+0012 A000      01090         BTFSS   r0x00, 0
+0014 D000      01091         BRA     _00197_DS_
+               01092 ;       .line   179; glcd.c     CS1 = 0;
+0016 9000      01093         BCF     _PORTCbits, 0
+0018 D000      01094         BRA     _00198_DS_
+001A 01095 _00197_DS_:
+               01096 ;       .line   182; glcd.c     CS1 = 1;
+001A 8000      01097         BSF     _PORTCbits, 0
+001C 01098 _00198_DS_:
+               01099 ;       .line   185; glcd.c     if (sides & RIGHT) {
+001C A200      01100         BTFSS   r0x00, 1
+001E D000      01101         BRA     _00200_DS_
+               01102 ;       .line   186; glcd.c     CS2 = 0;
+0020 9200      01103         BCF     _PORTCbits, 1
+0022 D000      01104         BRA     _00202_DS_
+0024 01105 _00200_DS_:
+               01106 ;       .line   189; glcd.c     CS2 = 1;
+0024 8200      01107         BSF     _PORTCbits, 1
+0026 01108 _00202_DS_:
+0026 CFE4 F000 01109         MOVFF   PREINC1, r0x00
+002A CFE4 FFD9 01110         MOVFF   PREINC1, FSR2L
+002E 0012      01111         RETURN  
+               01112 
+               01113 ; ; Starting pCode block
+               01114 S_glcd__lcd_write       code
+0000 01115 _lcd_write:
+               01116 ;       .line   166; glcd.c     void lcd_write (unsigned char d) {
+0000 CFD9 FFE5 01117         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01118         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01119         MOVFF   r0x00, POSTDEC1
+000C 0E02      01120         MOVLW   0x02
+000E CFDB F000 01121         MOVFF   PLUSW2, r0x00
+               01122 ;       .line   167; glcd.c     lcd_waitbusy();
+0012 EC00 F000 01123         CALL    _lcd_waitbusy
+               01124 ;       .line   168; glcd.c     DI = 1; // data
+0016 8000      01125         BSF     _PORTEbits, 0
+               01126 ;       .line   169; glcd.c     RW = 0; // write
+0018 9200      01127         BCF     _PORTEbits, 1
+               01128 ;       .line   170; glcd.c     LCD_TRIS = 0; 
+001A 6A00      01129         CLRF    _TRISD
+               01130 ;       .line   171; glcd.c     LCD_DATA = d;
+001C C000 F000 01131         MOVFF   r0x00, _PORTD
+               01132 ;       .line   172; glcd.c     lcd_enable();
+0020 EC00 F000 01133         CALL    _lcd_enable
+0024 CFE4 F000 01134         MOVFF   PREINC1, r0x00
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 22
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0028 CFE4 FFD9 01135         MOVFF   PREINC1, FSR2L
+002C 0012      01136         RETURN  
+               01137 
+               01138 ; ; Starting pCode block
+               01139 S_glcd__lcd_waitbusy    code
+0000 01140 _lcd_waitbusy:
+               01141 ;       .line   159; glcd.c     void lcd_waitbusy(void) {
+0000 CFD9 FFE5 01142         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01143         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01144         MOVFF   r0x00, POSTDEC1
+000C 01145 _00179_DS_:
+               01146 ;       .line   160; glcd.c     while (lcd_status() & 0b10000000) {
+000C EC00 F000 01147         CALL    _lcd_status
+0010 6E00      01148         MOVWF   r0x00
+0012 AE00      01149         BTFSS   r0x00, 7
+0014 D000      01150         BRA     _00182_DS_
+               01151 ;       .line   161; glcd.c     delay_500us();
+0016 EC00 F000 01152         CALL    _delay_500us
+001A D000      01153         BRA     _00179_DS_
+001C 01154 _00182_DS_:
+001C CFE4 F000 01155         MOVFF   PREINC1, r0x00
+0020 CFE4 FFD9 01156         MOVFF   PREINC1, FSR2L
+0024 0012      01157         RETURN  
+               01158 
+               01159 ; ; Starting pCode block
+               01160 S_glcd__lcd_setyaddr    code
+0000 01161 _lcd_setyaddr:
+               01162 ;       .line   151; glcd.c     void lcd_setyaddr(unsigned char y) {
+0000 CFD9 FFE5 01163         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01164         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01165         MOVFF   r0x00, POSTDEC1
+000C 0E02      01166         MOVLW   0x02
+000E CFDB F000 01167         MOVFF   PLUSW2, r0x00
+               01168 ;       .line   152; glcd.c     lcd_waitbusy();
+0012 EC00 F000 01169         CALL    _lcd_waitbusy
+               01170 ;       .line   153; glcd.c     DI = 0; RW = 0;
+0016 9000      01171         BCF     _PORTEbits, 0
+0018 9200      01172         BCF     _PORTEbits, 1
+               01173 ;       .line   154; glcd.c     LCD_DATA = 0b01000000 | (y & 0b00111111);
+001A 0E3F      01174         MOVLW   0x3f
+001C 1600      01175         ANDWF   r0x00, F
+001E 0E40      01176         MOVLW   0x40
+0020 1000      01177         IORWF   r0x00, W
+0022 6E00      01178         MOVWF   _PORTD
+               01179 ;       .line   155; glcd.c     lcd_enable();
+0024 EC00 F000 01180         CALL    _lcd_enable
+0028 CFE4 F000 01181         MOVFF   PREINC1, r0x00
+002C CFE4 FFD9 01182         MOVFF   PREINC1, FSR2L
+0030 0012      01183         RETURN  
+               01184 
+               01185 ; ; Starting pCode block
+               01186 S_glcd__lcd_setpage     code
+0000 01187 _lcd_setpage:
+               01188 ;       .line   142; glcd.c     void lcd_setpage(unsigned char page) {
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 23
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0000 CFD9 FFE5 01189         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01190         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01191         MOVFF   r0x00, POSTDEC1
+000C 0E02      01192         MOVLW   0x02
+000E CFDB F000 01193         MOVFF   PLUSW2, r0x00
+               01194 ;       .line   143; glcd.c     lcd_waitbusy();
+0012 EC00 F000 01195         CALL    _lcd_waitbusy
+               01196 ;       .line   144; glcd.c     DI = 0; RW = 0; 
+0016 9000      01197         BCF     _PORTEbits, 0
+0018 9200      01198         BCF     _PORTEbits, 1
+               01199 ;       .line   145; glcd.c     LCD_DATA = 0b10111000 | page;
+001A 0EB8      01200         MOVLW   0xb8
+001C 1000      01201         IORWF   r0x00, W
+001E 6E00      01202         MOVWF   _PORTD
+               01203 ;       .line   146; glcd.c     lcd_enable();
+0020 EC00 F000 01204         CALL    _lcd_enable
+0024 CFE4 F000 01205         MOVFF   PREINC1, r0x00
+0028 CFE4 FFD9 01206         MOVFF   PREINC1, FSR2L
+002C 0012      01207         RETURN  
+               01208 
+               01209 ; ; Starting pCode block
+               01210 S_glcd__lcd_cls code
+0000 01211 _lcd_cls:
+               01212 ;       .line   95; glcd.c      void lcd_cls(void) {
+0000 CFD9 FFE5 01213         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01214         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01215         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 01216         MOVFF   r0x01, POSTDEC1
+               01217 ;       .line   99; glcd.c      lcd_selectside(LEFT);
+0010 0E01      01218         MOVLW   0x01
+0012 6EE5      01219         MOVWF   POSTDEC1
+0014 EC00 F000 01220         CALL    _lcd_selectside
+0018 2AE1      01221         INCF    FSR1L, F
+               01222 ;       .line   100; glcd.c     for (x=0; x<8; x++) {
+001A 6A00      01223         CLRF    r0x00
+001C 01224 _00140_DS_:
+001C 0E08      01225         MOVLW   0x08
+001E 5C00      01226         SUBWF   r0x00, W
+0020 E200      01227         BC      _00143_DS_
+               01228 ;       .line   102; glcd.c     lcd_setpage(x);
+0022 5000      01229         MOVF    r0x00, W
+0024 6EE5      01230         MOVWF   POSTDEC1
+0026 EC00 F000 01231         CALL    _lcd_setpage
+002A 2AE1      01232         INCF    FSR1L, F
+               01233 ;       .line   105; glcd.c     lcd_setyaddr(0);
+002C 0E00      01234         MOVLW   0x00
+002E 6EE5      01235         MOVWF   POSTDEC1
+0030 EC00 F000 01236         CALL    _lcd_setyaddr
+0034 2AE1      01237         INCF    FSR1L, F
+               01238 ;       .line   108; glcd.c     LCD_DATA = 0; RW = 0; DI = 1;
+0036 6A00      01239         CLRF    _PORTD
+0038 9200      01240         BCF     _PORTEbits, 1
+003A 8000      01241         BSF     _PORTEbits, 0
+               01242 ;       .line   111; glcd.c     for (y=0; y<64; y++) {
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 24
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+003C 0E40      01243         MOVLW   0x40
+003E 6E00      01244         MOVWF   r0x01
+0040 01245 _00139_DS_:
+               01246 ;       .line   112; glcd.c     lcd_enable(); 
+0040 EC00 F000 01247         CALL    _lcd_enable
+               01248 ;       .line   113; glcd.c     delay_20us();
+0044 EC00 F000 01249         CALL    _delay_20us
+0048 0600      01250         DECF    r0x01, F
+               01251 ;       .line   111; glcd.c     for (y=0; y<64; y++) {
+004A 5000      01252         MOVF    r0x01, W
+004C E100      01253         BNZ     _00139_DS_
+               01254 ;       .line   100; glcd.c     for (x=0; x<8; x++) {
+004E 2A00      01255         INCF    r0x00, F
+0050 D000      01256         BRA     _00140_DS_
+0052 01257 _00143_DS_:
+               01258 ;       .line   118; glcd.c     lcd_selectside(RIGHT);
+0052 0E02      01259         MOVLW   0x02
+0054 6EE5      01260         MOVWF   POSTDEC1
+0056 EC00 F000 01261         CALL    _lcd_selectside
+005A 2AE1      01262         INCF    FSR1L, F
+               01263 ;       .line   119; glcd.c     for (x=0; x<8; x++) {
+005C 6A00      01264         CLRF    r0x00
+005E 01265 _00147_DS_:
+005E 0E08      01266         MOVLW   0x08
+0060 5C00      01267         SUBWF   r0x00, W
+0062 E200      01268         BC      _00150_DS_
+               01269 ;       .line   121; glcd.c     lcd_setpage(x);
+0064 5000      01270         MOVF    r0x00, W
+0066 6EE5      01271         MOVWF   POSTDEC1
+0068 EC00 F000 01272         CALL    _lcd_setpage
+006C 2AE1      01273         INCF    FSR1L, F
+               01274 ;       .line   124; glcd.c     lcd_setyaddr(0);
+006E 0E00      01275         MOVLW   0x00
+0070 6EE5      01276         MOVWF   POSTDEC1
+0072 EC00 F000 01277         CALL    _lcd_setyaddr
+0076 2AE1      01278         INCF    FSR1L, F
+               01279 ;       .line   127; glcd.c     LCD_DATA = 0; RW = 0; DI = 1;
+0078 6A00      01280         CLRF    _PORTD
+007A 9200      01281         BCF     _PORTEbits, 1
+007C 8000      01282         BSF     _PORTEbits, 0
+               01283 ;       .line   130; glcd.c     for (y=0; y<64; y++) {
+007E 0E40      01284         MOVLW   0x40
+0080 6E00      01285         MOVWF   r0x01
+0082 01286 _00146_DS_:
+               01287 ;       .line   131; glcd.c     lcd_enable(); 
+0082 EC00 F000 01288         CALL    _lcd_enable
+               01289 ;       .line   132; glcd.c     delay_20us();
+0086 EC00 F000 01290         CALL    _delay_20us
+008A 2E00      01291         DECFSZ  r0x01, F
+008C D000      01292         BRA     _00146_DS_
+               01293 ;       .line   119; glcd.c     for (x=0; x<8; x++) {
+008E 2A00      01294         INCF    r0x00, F
+0090 D000      01295         BRA     _00147_DS_
+0092 01296 _00150_DS_:
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 25
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               01297 ;       .line   137; glcd.c     lcd_selectside(LEFT);
+0092 0E01      01298         MOVLW   0x01
+0094 6EE5      01299         MOVWF   POSTDEC1
+0096 EC00 F000 01300         CALL    _lcd_selectside
+009A 2AE1      01301         INCF    FSR1L, F
+009C CFE4 F000 01302         MOVFF   PREINC1, r0x01
+00A0 CFE4 F000 01303         MOVFF   PREINC1, r0x00
+00A4 CFE4 FFD9 01304         MOVFF   PREINC1, FSR2L
+00A8 0012      01305         RETURN  
+               01306 
+               01307 ; ; Starting pCode block
+               01308 S_glcd__lcd_screenon    code
+0000 01309 _lcd_screenon:
+               01310 ;       .line   83; glcd.c      void lcd_screenon(unsigned char on) {
+0000 CFD9 FFE5 01311         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01312         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01313         MOVFF   r0x00, POSTDEC1
+000C 0E02      01314         MOVLW   0x02
+000E CFDB F000 01315         MOVFF   PLUSW2, r0x00
+               01316 ;       .line   85; glcd.c      CS1 = 0;
+0012 9000      01317         BCF     _PORTCbits, 0
+               01318 ;       .line   86; glcd.c      CS2 = 0;
+0014 9200      01319         BCF     _PORTCbits, 1
+               01320 ;       .line   87; glcd.c      RW = 0;
+0016 9200      01321         BCF     _PORTEbits, 1
+               01322 ;       .line   88; glcd.c      DI = 0;
+0018 9000      01323         BCF     _PORTEbits, 0
+               01324 ;       .line   89; glcd.c      LCD_TRIS = 0;   // all outputs  
+001A 6A00      01325         CLRF    _TRISD
+               01326 ;       .line   90; glcd.c      LATD = 0b00111110 | (on & 0b00000001);  // main screen turn on!
+001C 0E01      01327         MOVLW   0x01
+001E 1600      01328         ANDWF   r0x00, F
+0020 0E3E      01329         MOVLW   0x3e
+0022 1000      01330         IORWF   r0x00, W
+0024 6E00      01331         MOVWF   _LATD
+               01332 ;       .line   91; glcd.c      lcd_enable();
+0026 EC00 F000 01333         CALL    _lcd_enable
+002A CFE4 F000 01334         MOVFF   PREINC1, r0x00
+002E CFE4 FFD9 01335         MOVFF   PREINC1, FSR2L
+0032 0012      01336         RETURN  
+               01337 
+               01338 ; ; Starting pCode block
+               01339 S_glcd__lcd_reset       code
+0000 01340 _lcd_reset:
+               01341 ;       .line   64; glcd.c      void lcd_reset(void) {
+0000 CFD9 FFE5 01342         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01343         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01344         MOVFF   r0x00, POSTDEC1
+               01345 ;       .line   71; glcd.c      delay_500us();  
+000C EC00 F000 01346         CALL    _delay_500us
+               01347 ;       .line   72; glcd.c      RESET = 1;
+0010 8A00      01348         BSF     _PORTCbits, 5
+               01349 ;       .line   73; glcd.c      delay_500us();
+0012 EC00 F000 01350         CALL    _delay_500us
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 26
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               01351 ;       .line   74; glcd.c      RESET = 0;
+0016 9A00      01352         BCF     _PORTCbits, 5
+0018 01353 _00120_DS_:
+               01354 ;       .line   77; glcd.c      while (lcd_status() & 0b00010000) {
+0018 EC00 F000 01355         CALL    _lcd_status
+001C 6E00      01356         MOVWF   r0x00
+001E A800      01357         BTFSS   r0x00, 4
+0020 D000      01358         BRA     _00123_DS_
+               01359 ;       .line   78; glcd.c      delay_500us();
+0022 EC00 F000 01360         CALL    _delay_500us
+0026 D000      01361         BRA     _00120_DS_
+0028 01362 _00123_DS_:
+0028 CFE4 F000 01363         MOVFF   PREINC1, r0x00
+002C CFE4 FFD9 01364         MOVFF   PREINC1, FSR2L
+0030 0012      01365         RETURN  
+               01366 
+               01367 ; ; Starting pCode block
+               01368 S_glcd__lcd_status      code
+0000 01369 _lcd_status:
+               01370 ;       .line   41; glcd.c      unsigned char lcd_status(void) {
+0000 CFD9 FFE5 01371         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01372         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01373         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 01374         MOVFF   r0x01, POSTDEC1
+               01375 ;       .line   48; glcd.c      _lcd_tris = LCD_TRIS;
+0010 C000 F000 01376         MOVFF   _TRISD, r0x00
+               01377 ;       .line   51; glcd.c      LCD_TRIS = 0xFF;        // all inputs
+0014 0EFF      01378         MOVLW   0xff
+0016 6E00      01379         MOVWF   _TRISD
+               01380 ;       .line   52; glcd.c      DI = 0; RW = 1;         // command/read
+0018 9000      01381         BCF     _PORTEbits, 0
+001A 8200      01382         BSF     _PORTEbits, 1
+               01383 ;       .line   54; glcd.c      lcd_enable();
+001C EC00 F000 01384         CALL    _lcd_enable
+               01385 ;       .line   55; glcd.c      _status = LCD_DATA;
+0020 C000 F000 01386         MOVFF   _PORTD, r0x01
+               01387 ;       .line   58; glcd.c      LCD_TRIS = _lcd_tris;
+0024 C000 F000 01388         MOVFF   r0x00, _TRISD
+               01389 ;       .line   60; glcd.c      return _status;
+0028 5000      01390         MOVF    r0x01, W
+002A CFE4 F000 01391         MOVFF   PREINC1, r0x01
+002E CFE4 F000 01392         MOVFF   PREINC1, r0x00
+0032 CFE4 FFD9 01393         MOVFF   PREINC1, FSR2L
+0036 0012      01394         RETURN  
+               01395 
+               01396 ; ; Starting pCode block
+               01397 S_glcd__lcd_enable      code
+0000 01398 _lcd_enable:
+               01399 ;       .line   33; glcd.c      void lcd_enable(void) {
+0000 CFD9 FFE5 01400         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01401         MOVFF   FSR1L, FSR2L
+               01402 ;       .line   34; glcd.c      ENABLE = 1;
+0008 8400      01403         BSF     _PORTEbits, 2
+               01404 ;       .line   35; glcd.c      delay_20us();
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 27
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+000A EC00 F000 01405         CALL    _delay_20us
+               01406 ;       .line   36; glcd.c      ENABLE = 0;
+000E 9400      01407         BCF     _PORTEbits, 2
+               01408 ;       .line   37; glcd.c      delay_20us();
+0010 EC00 F000 01409         CALL    _delay_20us
+0014 CFE4 FFD9 01410         MOVFF   PREINC1, FSR2L
+0018 0012      01411         RETURN  
+               01412 
+               01413 ; ; Starting pCode block
+               01414 S_glcd__lcd_init        code
+0000 01415 _lcd_init:
+               01416 ;       .line   16; glcd.c      void lcd_init(void) {
+0000 CFD9 FFE5 01417         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01418         MOVFF   FSR1L, FSR2L
+               01419 ;       .line   17; glcd.c      LCD_TRIS = 0x00;
+0008 6A00      01420         CLRF    _TRISD
+               01421 ;       .line   18; glcd.c      ENABLE_TRIS = 0;
+000A 9400      01422         BCF     _TRISEbits, 2
+               01423 ;       .line   19; glcd.c      RW_TRIS = 0;
+000C 9200      01424         BCF     _TRISEbits, 1
+               01425 ;       .line   20; glcd.c      DI_TRIS = 0;
+000E 9000      01426         BCF     _TRISEbits, 0
+               01427 ;       .line   21; glcd.c      RESET_TRIS = 0;
+0010 9A00      01428         BCF     _TRISCbits, 5
+               01429 ;       .line   22; glcd.c      CS1_TRIS = 0;
+0012 9000      01430         BCF     _TRISCbits, 0
+               01431 ;       .line   23; glcd.c      CS2_TRIS = 0;
+0014 9200      01432         BCF     _TRISCbits, 1
+               01433 ;       .line   25; glcd.c      CS1 = 1;
+0016 8000      01434         BSF     _PORTCbits, 0
+               01435 ;       .line   26; glcd.c      CS2 = 1;
+0018 8200      01436         BSF     _PORTCbits, 1
+               01437 ;       .line   28; glcd.c      lcd_reset();
+001A EC00 F000 01438         CALL    _lcd_reset
+               01439 ;       .line   29; glcd.c      lcd_screenon(1);
+001E 0E01      01440         MOVLW   0x01
+0020 6EE5      01441         MOVWF   POSTDEC1
+0022 EC00 F000 01442         CALL    _lcd_screenon
+0026 2AE1      01443         INCF    FSR1L, F
+               01444 ;       .line   30; glcd.c      lcd_cls();
+0028 EC00 F000 01445         CALL    _lcd_cls
+002C CFE4 FFD9 01446         MOVFF   PREINC1, FSR2L
+0030 0012      01447         RETURN  
+               01448 
+               01449 ; ; Starting pCode block for Ival
+               01450         code
+0000 01451 _font8x5:
+0000 0000 0000 01452         DB      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x64, 0x18, 0x04, 0x64, 0x18
+     0000 6400 
+     0418 1864 
+000C 3C00 4040 01453         DB      0x00, 0x3c, 0x40, 0x40, 0x20, 0x7c, 0x00, 0x0c, 0x30, 0x40, 0x30, 0x0c
+     7C20 0C00 
+     4030 0C30 
+0018 3C00 3040 01454         DB      0x00, 0x3c, 0x40, 0x30, 0x40, 0x3c, 0x00, 0x00, 0x3e, 0x1c, 0x08, 0x00
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 28
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+     3C40 0000 
+     1C3E 0008 
+0024 0400 1F1E 01455         DB      0x00, 0x04, 0x1e, 0x1f, 0x1e, 0x04, 0x00, 0x10, 0x3c, 0x7c, 0x3c, 0x10
+     041E 1000 
+     7C3C 103C 
+0030 2000 3E40 01456         DB      0x00, 0x20, 0x40, 0x3e, 0x01, 0x02, 0x00, 0x22, 0x14, 0x08, 0x14, 0x22
+     0201 2200 
+     0814 2214 
+003C 0000 2838 01457         DB      0x00, 0x00, 0x38, 0x28, 0x38, 0x00, 0x00, 0x00, 0x10, 0x38, 0x10, 0x00
+     0038 0000 
+     3810 0010 
+0048 0000 1000 01458         DB      0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x08, 0x78, 0x08, 0x00, 0x00
+     0000 0800 
+     0878 0000 
+0054 0000 1515 01459         DB      0x00, 0x00, 0x15, 0x15, 0x0a, 0x00, 0x00, 0x7f, 0x7f, 0x09, 0x09, 0x01
+     000A 7F00 
+     097F 0109 
+0060 1000 7F20 01460         DB      0x00, 0x10, 0x20, 0x7f, 0x01, 0x01, 0x00, 0x04, 0x04, 0x00, 0x01, 0x1f
+     0101 0400 
+     0004 1F01 
+006C 0000 1519 01461         DB      0x00, 0x00, 0x19, 0x15, 0x12, 0x00, 0x00, 0x40, 0x60, 0x50, 0x48, 0x44
+     0012 4000 
+     5060 4448 
+0078 0600 0909 01462         DB      0x00, 0x06, 0x09, 0x09, 0x06, 0x00, 0x00, 0x0f, 0x02, 0x01, 0x01, 0x00
+     0006 0F00 
+     0102 0001 
+0084 0000 1F01 01463         DB      0x00, 0x00, 0x01, 0x1f, 0x01, 0x00, 0x00, 0x44, 0x44, 0x4a, 0x4a, 0x51
+     0001 4400 
+     4A44 514A 
+0090 1400 1C74 01464         DB      0x00, 0x14, 0x74, 0x1c, 0x17, 0x14, 0x00, 0x51, 0x4a, 0x4a, 0x44, 0x44
+     1417 5100 
+     4A4A 4444 
+009C 0000 0400 01465         DB      0x00, 0x00, 0x00, 0x04, 0x04, 0x04, 0x00, 0x00, 0x7c, 0x54, 0x54, 0x44
+     0404 0000 
+     547C 4454 
+00A8 0800 2A08 01466         DB      0x00, 0x08, 0x08, 0x2a, 0x1c, 0x08, 0x00, 0x7c, 0x00, 0x7c, 0x44, 0x7c
+     081C 7C00 
+     7C00 7C44 
+00B4 0400 7F02 01467         DB      0x00, 0x04, 0x02, 0x7f, 0x02, 0x04, 0x00, 0x10, 0x20, 0x7f, 0x20, 0x10
+     0402 1000 
+     7F20 1020 
+00C0 0000 0000 01468         DB      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x6f, 0x00, 0x00
+     0000 0000 
+     6F00 0000 
+00CC 0000 0007 01469         DB      0x00, 0x00, 0x07, 0x00, 0x07, 0x00, 0x00, 0x14, 0x7f, 0x14, 0x7f, 0x14
+     0007 1400 
+     147F 147F 
+00D8 0000 0407 01470         DB      0x00, 0x00, 0x07, 0x04, 0x1e, 0x00, 0x00, 0x23, 0x13, 0x08, 0x64, 0x62
+     001E 2300 
+     0813 6264 
+00E4 3600 5649 01471         DB      0x00, 0x36, 0x49, 0x56, 0x20, 0x50, 0x00, 0x00, 0x00, 0x07, 0x00, 0x00
+     5020 0000 
+     0700 0000 
+00F0 0000 221C 01472         DB      0x00, 0x00, 0x1c, 0x22, 0x41, 0x00, 0x00, 0x00, 0x41, 0x22, 0x1c, 0x00
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 29
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+     0041 0000 
+     2241 001C 
+00FC 1400 3E08 01473         DB      0x00, 0x14, 0x08, 0x3e, 0x08, 0x14, 0x00, 0x08, 0x08, 0x3e, 0x08, 0x08
+     1408 0800 
+     3E08 0808 
+0108 0000 3050 01474         DB      0x00, 0x00, 0x50, 0x30, 0x00, 0x00, 0x00, 0x08, 0x08, 0x08, 0x08, 0x08
+     0000 0800 
+     0808 0808 
+0114 0000 6060 01475         DB      0x00, 0x00, 0x60, 0x60, 0x00, 0x00, 0x00, 0x20, 0x10, 0x08, 0x04, 0x02
+     0000 2000 
+     0810 0204 
+0120 3E00 4951 01476         DB      0x00, 0x3e, 0x51, 0x49, 0x45, 0x3e, 0x00, 0x00, 0x42, 0x7f, 0x40, 0x00
+     3E45 0000 
+     7F42 0040 
+012C 4200 5161 01477         DB      0x00, 0x42, 0x61, 0x51, 0x49, 0x46, 0x00, 0x21, 0x41, 0x45, 0x4b, 0x31
+     4649 2100 
+     4541 314B 
+0138 1800 1214 01478         DB      0x00, 0x18, 0x14, 0x12, 0x7f, 0x10, 0x00, 0x27, 0x45, 0x45, 0x45, 0x39
+     107F 2700 
+     4545 3945 
+0144 3C00 494A 01479         DB      0x00, 0x3c, 0x4a, 0x49, 0x49, 0x30, 0x00, 0x01, 0x71, 0x09, 0x05, 0x03
+     3049 0100 
+     0971 0305 
+0150 3600 4949 01480         DB      0x00, 0x36, 0x49, 0x49, 0x49, 0x36, 0x00, 0x06, 0x49, 0x49, 0x29, 0x1e
+     3649 0600 
+     4949 1E29 
+015C 0000 3636 01481         DB      0x00, 0x00, 0x36, 0x36, 0x00, 0x00, 0x00, 0x00, 0x56, 0x36, 0x00, 0x00
+     0000 0000 
+     3656 0000 
+0168 0800 2214 01482         DB      0x00, 0x08, 0x14, 0x22, 0x41, 0x00, 0x00, 0x14, 0x14, 0x14, 0x14, 0x14
+     0041 1400 
+     1414 1414 
+0174 0000 2241 01483         DB      0x00, 0x00, 0x41, 0x22, 0x14, 0x08, 0x00, 0x02, 0x01, 0x51, 0x09, 0x06
+     0814 0200 
+     5101 0609 
+0180 3E00 5D41 01484         DB      0x00, 0x3e, 0x41, 0x5d, 0x49, 0x4e, 0x00, 0x7e, 0x09, 0x09, 0x09, 0x7e
+     4E49 7E00 
+     0909 7E09 
+018C 7F00 4949 01485         DB      0x00, 0x7f, 0x49, 0x49, 0x49, 0x36, 0x00, 0x3e, 0x41, 0x41, 0x41, 0x22
+     3649 3E00 
+     4141 2241 
+0198 7F00 4141 01486         DB      0x00, 0x7f, 0x41, 0x41, 0x41, 0x3e, 0x00, 0x7f, 0x49, 0x49, 0x49, 0x41
+     3E41 7F00 
+     4949 4149 
+01A4 7F00 0909 01487         DB      0x00, 0x7f, 0x09, 0x09, 0x09, 0x01, 0x00, 0x3e, 0x41, 0x49, 0x49, 0x7a
+     0109 3E00 
+     4941 7A49 
+01B0 7F00 0808 01488         DB      0x00, 0x7f, 0x08, 0x08, 0x08, 0x7f, 0x00, 0x00, 0x41, 0x7f, 0x41, 0x00
+     7F08 0000 
+     7F41 0041 
+01BC 2000 4140 01489         DB      0x00, 0x20, 0x40, 0x41, 0x3f, 0x01, 0x00, 0x7f, 0x08, 0x14, 0x22, 0x41
+     013F 7F00 
+     1408 4122 
+01C8 7F00 4040 01490         DB      0x00, 0x7f, 0x40, 0x40, 0x40, 0x40, 0x00, 0x7f, 0x02, 0x0c, 0x02, 0x7f
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 30
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+     4040 7F00 
+     0C02 7F02 
+01D4 7F00 0804 01491         DB      0x00, 0x7f, 0x04, 0x08, 0x10, 0x7f, 0x00, 0x3e, 0x41, 0x41, 0x41, 0x3e
+     7F10 3E00 
+     4141 3E41 
+01E0 7F00 0909 01492         DB      0x00, 0x7f, 0x09, 0x09, 0x09, 0x06, 0x00, 0x3e, 0x41, 0x51, 0x21, 0x5e
+     0609 3E00 
+     5141 5E21 
+01EC 7F00 1909 01493         DB      0x00, 0x7f, 0x09, 0x19, 0x29, 0x46, 0x00, 0x46, 0x49, 0x49, 0x49, 0x31
+     4629 4600 
+     4949 3149 
+01F8 0100 7F01 01494         DB      0x00, 0x01, 0x01, 0x7f, 0x01, 0x01, 0x00, 0x3f, 0x40, 0x40, 0x40, 0x3f
+     0101 3F00 
+     4040 3F40 
+0204 0F00 4030 01495         DB      0x00, 0x0f, 0x30, 0x40, 0x30, 0x0f, 0x00, 0x3f, 0x40, 0x30, 0x40, 0x3f
+     0F30 3F00 
+     3040 3F40 
+0210 6300 0814 01496         DB      0x00, 0x63, 0x14, 0x08, 0x14, 0x63, 0x00, 0x07, 0x08, 0x70, 0x08, 0x07
+     6314 0700 
+     7008 0708 
+021C 6100 4951 01497         DB      0x00, 0x61, 0x51, 0x49, 0x45, 0x43, 0x00, 0x3c, 0x4a, 0x49, 0x29, 0x1e
+     4345 3C00 
+     494A 1E29 
+0228 0200 0804 01498         DB      0x00, 0x02, 0x04, 0x08, 0x10, 0x20, 0x00, 0x00, 0x41, 0x7f, 0x00, 0x00
+     2010 0000 
+     7F41 0000 
+0234 0400 0102 01499         DB      0x00, 0x04, 0x02, 0x01, 0x02, 0x04, 0x00, 0x40, 0x40, 0x40, 0x40, 0x40
+     0402 4000 
+     4040 4040 
+0240 0000 0300 01500         DB      0x00, 0x00, 0x00, 0x03, 0x04, 0x00, 0x00, 0x20, 0x54, 0x54, 0x54, 0x78
+     0004 2000 
+     5454 7854 
+024C 7F00 4448 01501         DB      0x00, 0x7f, 0x48, 0x44, 0x44, 0x38, 0x00, 0x38, 0x44, 0x44, 0x44, 0x20
+     3844 3800 
+     4444 2044 
+0258 3800 4444 01502         DB      0x00, 0x38, 0x44, 0x44, 0x48, 0x7f, 0x00, 0x38, 0x54, 0x54, 0x54, 0x18
+     7F48 3800 
+     5454 1854 
+0264 0800 097E 01503         DB      0x00, 0x08, 0x7e, 0x09, 0x01, 0x02, 0x00, 0x0c, 0x52, 0x52, 0x52, 0x3e
+     0201 0C00 
+     5252 3E52 
+0270 7F00 0408 01504         DB      0x00, 0x7f, 0x08, 0x04, 0x04, 0x78, 0x00, 0x00, 0x44, 0x7d, 0x40, 0x00
+     7804 0000 
+     7D44 0040 
+027C 2000 4440 01505         DB      0x00, 0x20, 0x40, 0x44, 0x3d, 0x00, 0x00, 0x00, 0x7f, 0x10, 0x28, 0x44
+     003D 0000 
+     107F 4428 
+0288 0000 7F41 01506         DB      0x00, 0x00, 0x41, 0x7f, 0x40, 0x00, 0x00, 0x7c, 0x04, 0x18, 0x04, 0x78
+     0040 7C00 
+     1804 7804 
+0294 7C00 0408 01507         DB      0x00, 0x7c, 0x08, 0x04, 0x04, 0x78, 0x00, 0x38, 0x44, 0x44, 0x44, 0x38
+     7804 3800 
+     4444 3844 
+02A0 7C00 1414 01508         DB      0x00, 0x7c, 0x14, 0x14, 0x14, 0x08, 0x00, 0x08, 0x14, 0x14, 0x18, 0x7c
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 31
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+     0814 0800 
+     1414 7C18 
+02AC 7C00 0408 01509         DB      0x00, 0x7c, 0x08, 0x04, 0x04, 0x08, 0x00, 0x48, 0x54, 0x54, 0x54, 0x20
+     0804 4800 
+     5454 2054 
+02B8 0400 443F 01510         DB      0x00, 0x04, 0x3f, 0x44, 0x40, 0x20, 0x00, 0x3c, 0x40, 0x40, 0x20, 0x7c
+     2040 3C00 
+     4040 7C20 
+02C4 1C00 4020 01511         DB      0x00, 0x1c, 0x20, 0x40, 0x20, 0x1c, 0x00, 0x3c, 0x40, 0x30, 0x40, 0x3c
+     1C20 3C00 
+     3040 3C40 
+02D0 4400 1028 01512         DB      0x00, 0x44, 0x28, 0x10, 0x28, 0x44, 0x00, 0x0c, 0x50, 0x50, 0x50, 0x3c
+     4428 0C00 
+     5050 3C50 
+02DC 4400 5464 01513         DB      0x00, 0x44, 0x64, 0x54, 0x4c, 0x44, 0x00, 0x00, 0x08, 0x36, 0x41, 0x41
+     444C 0000 
+     3608 4141 
+02E8 0000 7F00 01514         DB      0x00, 0x00, 0x00, 0x7f, 0x00, 0x00, 0x00, 0x41, 0x41, 0x36, 0x08, 0x00
+     0000 4100 
+     3641 0008 
+02F4 0400 0402 01515         DB      0x00, 0x04, 0x02, 0x04, 0x08, 0x04, 0x00, 0x7f, 0x6b, 0x6b, 0x6b, 0x7f
+     0408 7F00 
+     6B6B 7F6B 
+0300 0000 447C 01516         DB      0x00, 0x00, 0x7c, 0x44, 0x7c, 0x00, 0x00, 0x00, 0x08, 0x7c, 0x00, 0x00
+     007C 0000 
+     7C08 0000 
+030C 0000 5464 01517         DB      0x00, 0x00, 0x64, 0x54, 0x48, 0x00, 0x00, 0x00, 0x44, 0x54, 0x28, 0x00
+     0048 0000 
+     5444 0028 
+0318 0000 101C 01518         DB      0x00, 0x00, 0x1c, 0x10, 0x78, 0x00, 0x00, 0x00, 0x5c, 0x54, 0x24, 0x00
+     0078 0000 
+     545C 0024 
+0324 0000 5478 01519         DB      0x00, 0x00, 0x78, 0x54, 0x74, 0x00, 0x00, 0x00, 0x64, 0x14, 0x0c, 0x00
+     0074 0000 
+     1464 000C 
+0330 0000 547C 01520         DB      0x00, 0x00, 0x7c, 0x54, 0x7c, 0x00, 0x00, 0x00, 0x5c, 0x54, 0x3c, 0x00
+     007C 0000 
+     545C 003C 
+033C 7800 2624 01521         DB      0x00, 0x78, 0x24, 0x26, 0x25, 0x78, 0x00, 0x78, 0x25, 0x26, 0x24, 0x78
+     7825 7800 
+     2625 7824 
+0348 7000 292A 01522         DB      0x00, 0x70, 0x2a, 0x29, 0x2a, 0x70, 0x00, 0x78, 0x25, 0x24, 0x25, 0x78
+     702A 7800 
+     2425 7825 
+0354 2000 5654 01523         DB      0x00, 0x20, 0x54, 0x56, 0x55, 0x78, 0x00, 0x20, 0x55, 0x56, 0x54, 0x78
+     7855 2000 
+     5655 7854 
+0360 2000 5556 01524         DB      0x00, 0x20, 0x56, 0x55, 0x56, 0x78, 0x00, 0x20, 0x55, 0x54, 0x55, 0x78
+     7856 2000 
+     5455 7855 
+036C 7C00 5654 01525         DB      0x00, 0x7c, 0x54, 0x56, 0x55, 0x44, 0x00, 0x7c, 0x55, 0x56, 0x54, 0x44
+     4455 7C00 
+     5655 4454 
+0378 7C00 5556 01526         DB      0x00, 0x7c, 0x56, 0x55, 0x56, 0x44, 0x00, 0x7c, 0x55, 0x54, 0x55, 0x44
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 32
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+     4456 7C00 
+     5455 4455 
+0384 3800 5654 01527         DB      0x00, 0x38, 0x54, 0x56, 0x55, 0x18, 0x00, 0x38, 0x55, 0x56, 0x54, 0x18
+     1855 3800 
+     5655 1854 
+0390 3800 5556 01528         DB      0x00, 0x38, 0x56, 0x55, 0x56, 0x18, 0x00, 0x38, 0x55, 0x54, 0x55, 0x18
+     1856 3800 
+     5455 1855 
+039C 0000 7E44 01529         DB      0x00, 0x00, 0x44, 0x7e, 0x45, 0x00, 0x00, 0x00, 0x45, 0x7e, 0x44, 0x00
+     0045 0000 
+     7E45 0044 
+03A8 0000 7D46 01530         DB      0x00, 0x00, 0x46, 0x7d, 0x46, 0x00, 0x00, 0x00, 0x45, 0x7c, 0x45, 0x00
+     0046 0000 
+     7C45 0045 
+03B4 0000 7A48 01531         DB      0x00, 0x00, 0x48, 0x7a, 0x41, 0x00, 0x00, 0x00, 0x49, 0x7a, 0x40, 0x00
+     0041 0000 
+     7A49 0040 
+03C0 0000 794A 01532         DB      0x00, 0x00, 0x4a, 0x79, 0x42, 0x00, 0x00, 0x00, 0x49, 0x78, 0x41, 0x00
+     0042 0000 
+     7849 0041 
+03CC 3800 4644 01533         DB      0x00, 0x38, 0x44, 0x46, 0x45, 0x38, 0x00, 0x38, 0x45, 0x46, 0x44, 0x38
+     3845 3800 
+     4645 3844 
+03D8 3800 4546 01534         DB      0x00, 0x38, 0x46, 0x45, 0x46, 0x38, 0x00, 0x38, 0x45, 0x44, 0x45, 0x38
+     3846 3800 
+     4445 3845 
+03E4 3000 4A48 01535         DB      0x00, 0x30, 0x48, 0x4a, 0x49, 0x30, 0x00, 0x30, 0x49, 0x4a, 0x48, 0x30
+     3049 3000 
+     4A49 3048 
+03F0 3000 494A 01536         DB      0x00, 0x30, 0x4a, 0x49, 0x4a, 0x30, 0x00, 0x30, 0x49, 0x48, 0x49, 0x30
+     304A 3000 
+     4849 3049 
+03FC 3C00 4240 01537         DB      0x00, 0x3c, 0x40, 0x42, 0x41, 0x3c, 0x00, 0x3c, 0x41, 0x42, 0x40, 0x3c
+     3C41 3C00 
+     4241 3C40 
+0408 3C00 4142 01538         DB      0x00, 0x3c, 0x42, 0x41, 0x42, 0x3c, 0x00, 0x3c, 0x41, 0x40, 0x41, 0x3c
+     3C42 3C00 
+     4041 3C41 
+0414 3C00 4240 01539         DB      0x00, 0x3c, 0x40, 0x42, 0x21, 0x7c, 0x00, 0x3c, 0x41, 0x42, 0x20, 0x7c
+     7C21 3C00 
+     4241 7C20 
+0420 3800 4142 01540         DB      0x00, 0x38, 0x42, 0x41, 0x22, 0x78, 0x00, 0x3c, 0x41, 0x40, 0x21, 0x7c
+     7822 3C00 
+     4041 7C21 
+042C 4E00 7151 01541         DB      0x00, 0x4e, 0x51, 0x71, 0x11, 0x0a, 0x00, 0x58, 0x64, 0x64, 0x24, 0x10
+     0A11 5800 
+     6464 1024 
+0438 7C00 110A 01542         DB      0x00, 0x7c, 0x0a, 0x11, 0x22, 0x7d, 0x00, 0x78, 0x12, 0x09, 0x0a, 0x71
+     7D22 7800 
+     0912 710A 
+0444 0000 0400 01543         DB      0x00, 0x00, 0x00, 0x04, 0x02, 0x01, 0x00, 0x01, 0x02, 0x04, 0x00, 0x00
+     0102 0100 
+     0402 0000 
+0450 0000 0002 01544         DB      0x00, 0x00, 0x02, 0x00, 0x02, 0x00, 0x00, 0x30, 0x48, 0x45, 0x40, 0x20
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 33
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+     0002 3000 
+     4548 2040 
+045C 0000 7B00 01545         DB      0x00, 0x00, 0x00, 0x7b, 0x00, 0x00, 0x00, 0x38, 0x44, 0x44, 0x38, 0x44
+     0000 3800 
+     4444 4438 
+0468 4000 493E 01546         DB      0x00, 0x40, 0x3e, 0x49, 0x49, 0x36, 0x00, 0x08, 0x04, 0x08, 0x70, 0x0c
+     3649 0800 
+     0804 0C70 
+0474 6000 4850 01547         DB      0x00, 0x60, 0x50, 0x48, 0x50, 0x60, 0x00, 0x20, 0x52, 0x55, 0x59, 0x30
+     6050 2000 
+     5552 3059 
+0480 3800 5454 01548         DB      0x00, 0x38, 0x54, 0x54, 0x54, 0x00, 0x00, 0x00, 0x00, 0x7f, 0x41, 0x00
+     0054 0000 
+     7F00 0041 
+048C 4000 1422 01549         DB      0x00, 0x40, 0x22, 0x14, 0x18, 0x60, 0x00, 0x7c, 0x20, 0x20, 0x1c, 0x20
+     6018 7C00 
+     2020 201C 
+0498 4400 043C 01550         DB      0x00, 0x44, 0x3c, 0x04, 0x7c, 0x44, 0x00, 0x40, 0x3c, 0x12, 0x12, 0x0c
+     447C 4000 
+     123C 0C12 
+04A4 4100 5563 01551         DB      0x00, 0x41, 0x63, 0x55, 0x49, 0x41, 0x00, 0x38, 0x44, 0x44, 0x3c, 0x04
+     4149 3800 
+     4444 043C 
+04B0 0800 3C04 01552         DB      0x00, 0x08, 0x04, 0x3c, 0x44, 0x24, 0x00, 0x08, 0x14, 0x7f, 0x14, 0x08
+     2444 0800 
+     7F14 0814 
+04BC 4E00 0171 01553         DB      0x00, 0x4e, 0x71, 0x01, 0x71, 0x4e, 0x00, 0x45, 0x29, 0x11, 0x29, 0x45
+     4E71 4500 
+     1129 4529 
+04C8 0D00 5151 01554         DB      0x00, 0x0d, 0x51, 0x51, 0x51, 0x3d, 0x00, 0x00, 0x00, 0x05, 0x02, 0x05
+     3D51 0000 
+     0500 0502 
+04D4 4000 4000 01555         DB      0x00, 0x40, 0x00, 0x40, 0x00, 0x40, 0x00, 0x00, 0x08, 0x1c, 0x3e, 0x00
+     4000 0000 
+     1C08 003E 
+04E0 1C00 1C1C 01556         DB      0x00, 0x1c, 0x1c, 0x1c, 0x00, 0x00, 0x00, 0x00, 0x70, 0x08, 0x07, 0x00
+     0000 0000 
+     0870 0007 
+04EC 0000 0808 01557         DB      0x00, 0x00, 0x08, 0x08, 0x08, 0x00, 0x00, 0x00, 0x1d, 0x15, 0x17, 0x00
+     0008 0000 
+     151D 0017 
+04F8 0000 0507 01558         DB      0x00, 0x00, 0x07, 0x05, 0x07, 0x00, 0x00, 0x00, 0x11, 0x15, 0x0a, 0x00
+     0007 0000 
+     1511 000A 
+0504 0000 0000 01559         DB      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x3c, 0x41, 0x20, 0x00
+     0000 0400 
+     413C 0020 
+0510 7C00 1516 01560         DB      0x00, 0x7c, 0x16, 0x15, 0x16, 0x08, 0x00, 0x21, 0x16, 0x08, 0x34, 0x42
+     0816 2100 
+     0816 4234 
+051C 7F00 1D09 01561         DB      0x00, 0x7f, 0x09, 0x1d, 0x01, 0x03, 0x00, 0x38, 0x54, 0x54, 0x14, 0x08
+     0301 3800 
+     5454 0814 
+0528 0000 7C00 01562         DB      0x00, 0x00, 0x00, 0x7c, 0x40, 0x40, 0x00, 0x7f, 0x0e, 0x1c, 0x38, 0x7f
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 34
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+     4040 7F00 
+     1C0E 7F38 
+0534 4100 5D22 01563         DB      0x00, 0x41, 0x22, 0x5d, 0x22, 0x1c, 0x00, 0x1c, 0x3e, 0x1c, 0x08, 0x00
+     1C22 1C00 
+     1C3E 0008 
+0540 7F00 7F7F 01564         DB      0x00, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x00, 0x77, 0x7b, 0x01, 0x7b, 0x77
+     7F7F 7700 
+     017B 777B 
+054C 7F00 7543 01565         DB      0x00, 0x7f, 0x43, 0x75, 0x43, 0x7f, 0x00, 0x7f, 0x6f, 0x55, 0x43, 0x7f
+     7F43 7F00 
+     556F 7F43 
+0558 4000 4040 01566         DB      0x00, 0x40, 0x40, 0x40, 0x40, 0x40, 0x00, 0x44, 0x42, 0x5f, 0x42, 0x44
+     4040 4400 
+     5F42 4442 
+0564 4000 455E 01567         DB      0x00, 0x40, 0x5e, 0x45, 0x5e, 0x40, 0x00, 0x40, 0x48, 0x55, 0x5e, 0x40
+     405E 4000 
+     5548 405E 
+0570 0000 0804 01568         DB      0x00, 0x00, 0x04, 0x08, 0x10, 0x20, 0x00, 0x03, 0x07, 0x0e, 0x1c, 0x38
+     2010 0300 
+     0E07 381C 
+057C 0100 0703 01569         DB      0x00, 0x01, 0x03, 0x07, 0x0f, 0x1f, 0x00, 0x7c, 0x78, 0x70, 0x60, 0x40
+     1F0F 7C00 
+     7078 4060 
+0588 0800 1C08 01570         DB      0x00, 0x08, 0x08, 0x1c, 0x22, 0x1c, 0x00, 0x00, 0x1c, 0x22, 0x1c, 0x00
+     1C22 0000 
+     221C 001C 
+0594 0200 0800 01571         DB      0x00, 0x02, 0x00, 0x08, 0x00, 0x20, 0x00, 0x04, 0x3e, 0x3f, 0x3e, 0x04
+     2000 0400 
+     3F3E 043E 
+05A0 1000 7E3E 01572         DB      0x00, 0x10, 0x3e, 0x7e, 0x3e, 0x10, 0x00, 0x55, 0x2a, 0x55, 0x2a, 0x55
+     103E 5500 
+     552A 552A 
+05AC 2400 7F2A 01573         DB      0x00, 0x24, 0x2a, 0x7f, 0x2a, 0x12, 0x00, 0x04, 0x1e, 0x1f, 0x1e, 0x04
+     122A 0400 
+     1F1E 041E 
+05B8 0000 0000 01574         DB      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+     0000 0000 
+     0000 0000 
+05C4 0000 0000 01575         DB      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+     0000 0000 
+     0000 0000 
+05D0 0000 0000 01576         DB      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+     0000 0000 
+     0000 0000 
+05DC 0000 0000 01577         DB      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+     0000 0000 
+     0000 0000 
+05E8 0000 0000 01578         DB      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+     0000 0000 
+     0000 0000 
+05F4 0000 0000 01579         DB      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+     0000 0000 
+     0000 0000 
+               01580 
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 35
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               01581 
+               01582 ; Statistics:
+               01583 ; code size:     2582 (0x0a16) bytes ( 1.97%)
+               01584 ;                1291 (0x050b) words
+               01585 ; udata size:       0 (0x0000) bytes ( 0.00%)
+               01586 ; access size:     17 (0x0011) bytes
+               01587 
+               01588 
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 36
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+FSR0L                             00000FE9
+FSR1L                             00000FE1
+FSR2L                             00000FD9
+PLUSW2                            00000FDB
+POSTDEC1                          00000FE5
+PREINC1                           00000FE4
+PRODH                             00000FF4
+PRODL                             00000FF3
+STATUS                            00000FD8
+TABLAT                            00000FF5
+TBLPTRH                           00000FF7
+TBLPTRL                           00000FF6
+TBLPTRU                           00000FF8
+WREG                              00000FE8
+_00120_DS_                        00000018
+_00123_DS_                        00000028
+_00139_DS_                        00000040
+_00140_DS_                        0000001C
+_00143_DS_                        00000052
+_00146_DS_                        00000082
+_00147_DS_                        0000005E
+_00150_DS_                        00000092
+_00179_DS_                        0000000C
+_00182_DS_                        0000001C
+_00197_DS_                        0000001A
+_00198_DS_                        0000001C
+_00200_DS_                        00000024
+_00202_DS_                        00000026
+_00218_DS_                        00000030
+_00219_DS_                        0000003A
+_00226_DS_                        00000084
+_00227_DS_                        0000007E
+_00234_DS_                        000000CA
+_00236_DS_                        0000016C
+_00238_DS_                        000000BA
+_00240_DS_                        00000170
+_00242_DS_                        00000070
+_00244_DS_                        00000174
+_00246_DS_                        0000017C
+_00258_DS_                        000000A2
+_00261_DS_                        00000120
+_00262_DS_                        00000118
+_00264_DS_                        00000150
+_00265_DS_                        00000144
+_ADCON0                           00000000
+_ADCON0bits                       00000000
+_ADCON1                           00000000
+_ADCON1bits                       00000000
+_ADCON2                           00000000
+_ADCON2bits                       00000000
+_ADRESH                           00000000
+_ADRESL                           00000000
+_BAUDCON                          00000000
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 37
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_BAUDCONbits                      00000000
+_BSR                              00000000
+_BSRbits                          00000000
+_CCP1CON                          00000000
+_CCP1CONbits                      00000000
+_CCP2CON                          00000000
+_CCP2CONbits                      00000000
+_CCPR1H                           00000000
+_CCPR1L                           00000000
+_CCPR2H                           00000000
+_CCPR2L                           00000000
+_CMCON                            00000000
+_CMCONbits                        00000000
+_CVRCON                           00000000
+_CVRCONbits                       00000000
+_ECCP1AS                          00000000
+_ECCP1ASbits                      00000000
+_EEADR                            00000000
+_EEADRH                           00000000
+_EECON1                           00000000
+_EECON1bits                       00000000
+_EECON2                           00000000
+_EEDATA                           00000000
+_FSR0H                            00000000
+_FSR0Hbits                        00000000
+_FSR0L                            00000000
+_FSR1H                            00000000
+_FSR1Hbits                        00000000
+_FSR1L                            00000000
+_FSR2H                            00000000
+_FSR2Hbits                        00000000
+_FSR2L                            00000000
+_HLVDCON                          00000000
+_HLVDCONbits                      00000000
+_INDF0                            00000000
+_INDF1                            00000000
+_INDF2                            00000000
+_INTCON                           00000000
+_INTCON2                          00000000
+_INTCON2bits                      00000000
+_INTCON3                          00000000
+_INTCON3bits                      00000000
+_INTCONbits                       00000000
+_IPR1                             00000000
+_IPR1bits                         00000000
+_IPR2                             00000000
+_IPR2bits                         00000000
+_LATA                             00000000
+_LATAbits                         00000000
+_LATB                             00000000
+_LATBbits                         00000000
+_LATC                             00000000
+_LATCbits                         00000000
+_LATD                             00000000
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 38
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_LATDbits                         00000000
+_LATE                             00000000
+_LATEbits                         00000000
+_OSCCON                           00000000
+_OSCCONbits                       00000000
+_OSCTUNE                          00000000
+_OSCTUNEbits                      00000000
+_PCL                              00000000
+_PCLATH                           00000000
+_PCLATHbits                       00000000
+_PCLATU                           00000000
+_PCLATUbits                       00000000
+_PIE1                             00000000
+_PIE1bits                         00000000
+_PIE2                             00000000
+_PIE2bits                         00000000
+_PIR1                             00000000
+_PIR1bits                         00000000
+_PIR2                             00000000
+_PIR2bits                         00000000
+_PLUSW0                           00000000
+_PLUSW1                           00000000
+_PLUSW2                           00000000
+_PORTA                            00000000
+_PORTAbits                        00000000
+_PORTB                            00000000
+_PORTBbits                        00000000
+_PORTC                            00000000
+_PORTCbits                        00000000
+_PORTD                            00000000
+_PORTDbits                        00000000
+_PORTE                            00000000
+_PORTEbits                        00000000
+_POSTDEC0                         00000000
+_POSTDEC1                         00000000
+_POSTDEC2                         00000000
+_POSTINC0                         00000000
+_POSTINC1                         00000000
+_POSTINC2                         00000000
+_PR2                              00000000
+_PREINC0                          00000000
+_PREINC1                          00000000
+_PREINC2                          00000000
+_PRODH                            00000000
+_PRODL                            00000000
+_PWM1CON                          00000000
+_PWM1CONbits                      00000000
+_RCON                             00000000
+_RCONbits                         00000000
+_RCREG                            00000000
+_RCSTA                            00000000
+_RCSTAbits                        00000000
+_SPBRG                            00000000
+_SPBRGH                           00000000
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 39
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_SSPADD                           00000000
+_SSPBUF                           00000000
+_SSPCON1                          00000000
+_SSPCON1bits                      00000000
+_SSPCON2                          00000000
+_SSPCON2bits                      00000000
+_SSPSTAT                          00000000
+_SSPSTATbits                      00000000
+_STATUS                           00000000
+_STATUSbits                       00000000
+_STKPTR                           00000000
+_STKPTRbits                       00000000
+_T0CON                            00000000
+_T0CONbits                        00000000
+_T1CON                            00000000
+_T1CONbits                        00000000
+_T2CON                            00000000
+_T2CONbits                        00000000
+_T3CON                            00000000
+_T3CONbits                        00000000
+_TABLAT                           00000000
+_TBLPTRH                          00000000
+_TBLPTRL                          00000000
+_TBLPTRU                          00000000
+_TBLPTRUbits                      00000000
+_TMR0H                            00000000
+_TMR0L                            00000000
+_TMR1H                            00000000
+_TMR1L                            00000000
+_TMR2                             00000000
+_TMR3H                            00000000
+_TMR3L                            00000000
+_TOSH                             00000000
+_TOSL                             00000000
+_TOSU                             00000000
+_TOSUbits                         00000000
+_TRISA                            00000000
+_TRISAbits                        00000000
+_TRISB                            00000000
+_TRISBbits                        00000000
+_TRISC                            00000000
+_TRISCbits                        00000000
+_TRISD                            00000000
+_TRISDbits                        00000000
+_TRISE                            00000000
+_TRISEbits                        00000000
+_TXREG                            00000000
+_TXSTA                            00000000
+_TXSTAbits                        00000000
+_WDTCON                           00000000
+_WDTCONbits                       00000000
+_WREG                             00000000
+__18F4620                         00000001
+__gptrget1                        00000000
+gpasm-0.13.7 beta               glcd.asm    12-15-2012  23:24:12         PAGE 40
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_delay_20us                       00000000
+_delay_500us                      00000000
+_font8x5                          00000000
+_lcd_cls                          00000000
+_lcd_debug                        00000000
+_lcd_enable                       00000000
+_lcd_init                         00000000
+_lcd_plotpixel                    00000000
+_lcd_read                         00000000
+_lcd_reset                        00000000
+_lcd_screenon                     00000000
+_lcd_selectside                   00000000
+_lcd_setpage                      00000000
+_lcd_setyaddr                     00000000
+_lcd_status                       00000000
+_lcd_waitbusy                     00000000
+_lcd_write                        00000000
+_strlen                           00000000
+r0x00                             00000000
+r0x01                             00000001
+r0x02                             00000002
+r0x03                             00000003
+r0x04                             00000004
+r0x05                             00000005
+r0x06                             00000006
+r0x07                             00000007
+r0x08                             00000008
+r0x09                             00000009
+r0x0a                             0000000A
+r0x0b                             0000000B
+r0x0c                             0000000C
+r0x0d                             0000000D
+r0x0e                             0000000E
+r0x0f                             0000000F
+r0x10                             00000010
+
+
+Errors   :       0
+Warnings :       0 reported,       0 suppressed
+Messages :       0 reported,       0 suppressed
+

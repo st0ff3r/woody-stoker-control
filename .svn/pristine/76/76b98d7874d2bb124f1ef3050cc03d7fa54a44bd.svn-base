@@ -1,0 +1,37 @@
+#define TIMER2_RELOAD	0x18	// 1 ms @ 4MHz
+#define TIMER3_RELOAD	0x0000	// ~ 131 ms @ 4MHz
+
+// outputs
+#define MOTOR			PORTBbits.RB0
+#define MOTOR_TRIS		TRISBbits.TRISB0
+
+#define FAN				PORTBbits.RB1
+#define FAN_TRIS		TRISBbits.TRISB1
+
+#define HEATER			PORTBbits.RB3
+#define HEATER_TRIS		TRISBbits.TRISB3
+
+#define HEATER			PORTBbits.RB3
+#define HEATER_TRIS		TRISBbits.TRISB3
+
+// inputs
+#define B_UP			PORTBbits.RB5
+#define B_UP_TRIS		TRISBbits.TRISB5
+
+#define B_MENU			PORTBbits.RB6
+#define B_MENU_TRIS		TRISBbits.TRISB6
+
+#define B_DOWN			PORTBbits.RB7
+#define B_DOWN_TRIS		TRISBbits.TRISB7
+
+// ad inputs
+#define BOILER_TEMP_TRIS	PORTAbits.RA3
+#define SMOKE_TEMP_TRIS		PORTAbits.RA4
+#define CHIMNEY_TEMP_TRIS	PORTAbits.RA1
+
+#define clrwdt() __asm clrwdt __endasm
+
+void sleep_ms(unsigned long ms);
+void my_usart_open();
+unsigned char read_EEPROM(unsigned char address);
+void write_EEPROM(unsigned char address, unsigned char d);
