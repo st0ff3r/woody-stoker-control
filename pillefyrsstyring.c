@@ -122,6 +122,7 @@ void main(void) {
 							break;
 						case 'z':
 							usart_putc('z');
+							sleep_ms(100);
 							reset();
 							break;
 						default:

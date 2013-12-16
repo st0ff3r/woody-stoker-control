@@ -79,7 +79,7 @@ do {
 	}
 	warn Dumper $status;
 #	usleep 2000_000;
-} while (!($status =~ /\!/m)) ;
+} while (!($status =~ /[\!z]/m)) ;
 
 END {
 	if (defined($port_obj)) {
