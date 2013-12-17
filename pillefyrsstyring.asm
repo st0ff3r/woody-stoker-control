@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.3.0 #8604 (Oct 27 2013) (Mac OS X x86_64)
-; This file was generated Wed Dec 18 00:22:53 2013
+; This file was generated Wed Dec 18 00:36:50 2013
 ;--------------------------------------------------------
 ; PIC16 port for the Microchip 16-bit core micros
 ;--------------------------------------------------------
@@ -1581,8 +1581,8 @@ _set_ac_power:
 	MOVFF	PLUSW2, r0x00
 	MOVLW	0x03
 	MOVFF	PLUSW2, r0x01
-;	.line	367; pillefyrsstyring.c	header_mask &= 0b00011111;		// only 6 outputs on this hardware
-	MOVLW	0x1f
+;	.line	366; pillefyrsstyring.c	header_mask &= (/*EXT_FEEDER_L1 |*/ FAN_L2 | INT_FEEDER_L3 | HEATER_L4 | L5/* | L6*/);	// BUG HERE! turning on L1 or L6 restarts
+	MOVLW	0x1e
 	ANDWF	r0x00, F
 ;	.line	368; pillefyrsstyring.c	value &= header_mask;
 	MOVF	r0x00, W

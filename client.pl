@@ -8,7 +8,7 @@ use Time::HiRes  qw( usleep );
 use Digest::CRC;
 
 #my $port_name = '/dev/ttyUSB0';		# read hardware
-my $port_name = '/dev/ttyUSB1';	# programmer board
+my $port_name = '/dev/ttyNBE';	# programmer board
 my $port_obj;
 my $command;
 

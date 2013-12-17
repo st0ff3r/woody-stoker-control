@@ -363,8 +363,8 @@ void init_latches() {
 }
 
 void set_ac_power(unsigned char header_mask, unsigned char value) {
-//	header_mask &= 0b00111111;		// only 6 outputs on this hardware
-	header_mask &= 0b00011111;		// only 6 outputs on this hardware
+	header_mask &= (/*EXT_FEEDER_L1 |*/ FAN_L2 | INT_FEEDER_L3 | HEATER_L4 | L5/* | L6*/);	// BUG HERE! turning on L1 or L6 restarts
+	
 	value &= header_mask;
 	LATCH_DATA_TRIS = 0x00;		// outputs
 	if (value) {	// set it
