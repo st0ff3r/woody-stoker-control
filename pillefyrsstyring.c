@@ -117,7 +117,7 @@ void main(void) {
 		* +-----+-----+-----+-----+-----+-----+-----+-----+
 	*/
 
-	adc_open(ADC_CHN_0, ADC_FOSC_64, ADC_CFG_12A, ADC_FRM_RJUST | ADC_INT_OFF | ADC_VCFG_AN3_AN2);
+	adc_open(ADC_CHN_0, ADC_FOSC_4 | ADC_ACQT_20, ADC_CFG_12A, ADC_FRM_RJUST | ADC_INT_OFF | ADC_VCFG_AN3_AN2);
 
 	// init io
 	init_latches();
@@ -131,7 +131,6 @@ void main(void) {
 		sleep_ms(1000);
 	}
 	latched_lcd_power(1);
-	RELAY = 1;
 	
 	last_inputs = get_inputs();
 //	output_ac_power_pwm[AC_POWER_OUTS] = (0, 0, 0, 0, 0, 0);
@@ -152,6 +151,7 @@ void main(void) {
 				command_index = 0;
 				if (validate_command(command, valid_command)) {
 					clr_wdt();
+					RELAY = 1;
 
 					switch (valid_command[0]) {					// only look at first character
 						case 's':	// set ac power values
@@ -266,7 +266,7 @@ static void isr_low_prio(void) __interrupt 2 {
 		// retransmit it
 		c = usart_getc();
 		fifo_put(c);
-//		usart_putc(c);
+		usart_putc(c);
 	}
 	// ad
 //	if (PIR2bits.TMR3IF) {
@@ -363,7 +363,8 @@ void init_latches() {
 }
 
 void set_ac_power(unsigned char header_mask, unsigned char value) {
-	header_mask &= 0b00111111;		// only 6 outputs on this hardware
+//	header_mask &= 0b00111111;		// only 6 outputs on this hardware
+	header_mask &= 0b00011111;		// only 6 outputs on this hardware
 	value &= header_mask;
 	LATCH_DATA_TRIS = 0x00;		// outputs
 	if (value) {	// set it
