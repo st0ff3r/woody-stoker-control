@@ -30,6 +30,9 @@ if ($ARGV[0] =~ /z/i) {
 elsif ($ARGV[0] =~ /g/i) {
 	$command = 'g' . '0' x 6;
 }
+elsif ($ARGV[0] =~ /a/i) {
+	$command = 'a' . '0' x 6;
+}
 else {
 	$command = 's' . $_ x 6;
 }

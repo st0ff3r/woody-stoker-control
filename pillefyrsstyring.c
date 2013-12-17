@@ -10,8 +10,9 @@
 //#include "menu_system.h"
 
 #define AC_POWER_OUTS 6
+#define AD_INPUTS 8
 #define DEBUG
-#define DEBUG_PWM_ON_LED
+//#define DEBUG_PWM_ON_LED
 
 unsigned int i;
 unsigned long timer_1_ms;
@@ -22,6 +23,8 @@ unsigned char last_inputs;
 
 volatile unsigned char output_ac_power_pwm[AC_POWER_OUTS];
 volatile unsigned char ac_power_pwm_counter;
+
+unsigned int ad_inputs[AD_INPUTS];
 
 // command queue
 #define QUEUE_SIZE	100
@@ -168,6 +171,12 @@ void main(void) {
 							sleep_ms(100);
 							reset();
 							break;
+						case 'a':
+							for (j = 0; j < AD_INPUTS; j++) {
+								sprintf(buffer, "ad%d: %04x\n\r", j, ad_inputs[0]);
+								usart_puts(buffer);
+							}
+							break;
 						default:
 							usart_putc('?');	// unknown command
 					}		
@@ -195,6 +204,16 @@ void main(void) {
 		if (sensor_inputs != last_inputs) {
 			last_inputs = sensor_inputs;
 			_debug();	// blocks main for a while :-/
+		}
+		
+		// get ad values
+		for (j = 0; j < AD_INPUTS; j++) {
+			adc_setchannel(j);
+			adc_conv();
+			while(adc_busy()) {
+				// wait
+			}
+			ad_inputs[j] = adc_read();
 		}
 	}
 }
@@ -247,8 +266,16 @@ static void isr_low_prio(void) __interrupt 2 {
 		// retransmit it
 		c = usart_getc();
 		fifo_put(c);
-		usart_putc(c);
+//		usart_putc(c);
 	}
+	// ad
+//	if (PIR2bits.TMR3IF) {
+//		TMR3H = (unsigned char)(TIMER3_RELOAD >> 8);    // 8 ms delay at 8 MHz
+//		TMR3L = (unsigned char)TIMER3_RELOAD;
+//		PIR2bits.TMR3IF = 0;    /* Clear the Timer Flag  */
+		
+//		usart_puts("yes\n\r");
+//    }
 }
 
 void sleep_ms(unsigned long ms) {
@@ -284,6 +311,32 @@ void init_timers() {
 	IPR1bits.TMR1IP = 0;	// low priority
 	PIE1bits.TMR1IE = 1;	// Ensure that TMR1 Interrupt is enabled
 	PIR1bits.TMR1IF = 1;	// Force Instant entry to Timer 1 Interrupt
+
+	/*
+    // timer 2
+    T2CONbits.TMR2ON = 1;
+    T2CONbits.T2CKPS0 = 1;
+    T2CONbits.T2CKPS1 = 1;
+    T2CONbits.T2OUTPS0 = 1;
+    T2CONbits.T2OUTPS1 = 1;
+    T2CONbits.T2OUTPS2 = 1;
+    T2CONbits.T2OUTPS3 = 1;
+    IPR1bits.TMR2IP = 0;            // low priority
+    PIE1bits.TMR2IE = 1;
+    PIR1bits.TMR2IF = 1;
+	*/
+
+	/*
+    // timer 3
+    T3CONbits.RD16 = 1;
+    T3CONbits.TMR3CS = 0;   // internal clock source
+    T3CONbits.T3CKPS0 = 1;
+    T3CONbits.T3CKPS0 = 1;
+    IPR2bits.TMR3IP = 0;            // low priority
+    T3CONbits.TMR3ON = 1;
+    PIE2bits.TMR3IE = 1;
+    PIR2bits.TMR3IF = 1;
+	*/
 
 	INTCONbits.PEIE = 1;
 	INTCONbits.GIE = 1;	/* Enable Global interrupts   */	
