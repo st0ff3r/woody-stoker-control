@@ -1,9 +1,8 @@
 #include <pic18fregs.h>
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-//#include <pic16/adc.h>
+#include <pic16/adc.h>
 #include <usart.h>
 #include "config.h"
 #include "pillefyrsstyring.h"
@@ -12,7 +11,7 @@
 
 #define AC_POWER_OUTS 6
 #define DEBUG
-//#define DEBUG_PWM_ON_LED
+#define DEBUG_PWM_ON_LED
 
 unsigned int i;
 unsigned long timer_1_ms;
@@ -76,7 +75,46 @@ void main(void) {
 	usart_puts("OpenStoker starting... serial working\n\r");
 
 	// set up ad
-//	adc_open(6, ADC_FOSC_64, ADC_CFG_6A, ADC_FRM_RJUST | ADC_INT_OFF | ADC_VCFG_VDD_AN2);
+	// #define __SDCC_ADC_STYLE    1822200
+   /*
+    * The reference voltage configuration should be factored out into
+    * the config argument (ADC_VCFG_*) to adc_open to facilitate a
+    * merger with the 1220-style ADC.
+    */
+	/*
+		#define ADC_CFG_16A     0x00
+	*/
+	/* 15 analog ports cannot be configured! */
+	/*
+		#define ADC_CFG_14A     0x01
+		#define ADC_CFG_13A     0x02
+		#define ADC_CFG_12A     0x03
+		#define ADC_CFG_11A     0x04
+		#define ADC_CFG_10A     0x05
+		#define ADC_CFG_9A      0x06
+		#define ADC_CFG_8A      0x07
+		#define ADC_CFG_7A      0x08
+		#define ADC_CFG_6A      0x09
+		#define ADC_CFG_5A      0x0a
+		#define ADC_CFG_4A      0x0b
+		#define ADC_CFG_3A      0x0c
+		#define ADC_CFG_2A      0x0d
+		#define ADC_CFG_1A      0x0e
+		#define ADC_CFG_0A      0x0f
+	*/
+	/*
+		* adc_open's `config' argument:
+		* ADCON1
+		*
+		* ADC_FRM_* | ADC_INT_* | ADC_VCFG_* | ADC_NVCFG_* | ADC_PVCFG_*
+		*
+		*    7     6     5     4     3     2     1     0
+		* +-----+-----+-----+-----+-----+-----+-----+-----+
+		* | FRM | INT |   VCFG    |   PVCFG   |   NVCFG   |
+		* +-----+-----+-----+-----+-----+-----+-----+-----+
+	*/
+
+	adc_open(ADC_CHN_0, ADC_FOSC_64, ADC_CFG_12A, ADC_FRM_RJUST | ADC_INT_OFF | ADC_VCFG_AN3_AN2);
 
 	// init io
 	init_latches();

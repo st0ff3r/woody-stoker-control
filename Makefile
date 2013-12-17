@@ -9,18 +9,7 @@ GPLINK = /opt/local/bin/gplink
 GPASM = /opt/local/bin/gpasm
 GPSIM =/usr/local/bin/gpsim
 
-all:	test glcd menu_system pillefyrsstyring
-
-test: test.c
-	$(SDCC) \
-	--verbose \
-	-V \
-	-m$(MODEL) \
-	--use-crt=crt0.o \
-	--use-non-free \
-	-p$(PROCESSOR) \
-	$<
-
+all:	glcd pillefyrsstyring
 
 pillefyrsstyring: pillefyrsstyring.c
 	$(SDCC) \
@@ -46,14 +35,14 @@ glcd: glcd.c
 	-p$(PROCESSOR) \
 	-c $<
 
-menu_system: menu_system.c
-	$(SDCC) \
-	--verbose \
-	-V \
-	-m$(MODEL) \
-	--use-non-free \
-	-p$(PROCESSOR) \
-	-c $<
+#menu_system: menu_system.c
+#	$(SDCC) \
+#	--verbose \
+#	-V \
+#	-m$(MODEL) \
+#	--use-non-free \
+#	-p$(PROCESSOR) \
+#	-c $<
 
 pillefyrsstyring.hex: pillefyrsstyring.o
 	$(GPLINK) \

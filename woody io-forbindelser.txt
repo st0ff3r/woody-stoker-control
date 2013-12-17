@@ -20,8 +20,8 @@ MAX3232
 -------
 R1OUT		RX
 T1IN		TX
-R2OUT		RB4	(BUS RX)
-T2IN		RB3	(BUS TX)
+R2OUT		RB4/AN11	(BUS RX)
+T2IN		RB3/AN9		(BUS TX)
 
 
 Knapper (inverterede)
