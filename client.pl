@@ -34,7 +34,12 @@ elsif ($ARGV[0] =~ /a/i) {
 	$command = 'a' . '0' x 6;
 }
 else {
-	$command = 's' . $_ x 6;
+#	$command = 's' . $_ . "\0" x 5;				# L1 - reboots
+#	$command = 's' . "\0" x 1 . $_ . "\0" x 4;	# L2 - ok
+	$command = 's' . "\0" x 2 . $_ . "\0" x 3;	# L3 - ok
+#	$command = 's' . "\0" x 3 . $_ . "\0" x 2;	# L4 - ok
+#	$command = 's' . "\0" x 4 . $_ . "\0" x 1;	# L5 - ok
+#	$command = 's' . "\0" x 5 . $_;				# L6 - ok
 }
 
 # calculate checksum

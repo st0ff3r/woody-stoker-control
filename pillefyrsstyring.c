@@ -13,7 +13,7 @@
 #define AD_INPUTS 8
 #define DEBUG
 //#define DEBUG_PWM_ON_LED
-#define WITHOUT_SERIAL
+//#define WITHOUT_SERIAL
 
 unsigned int i;
 unsigned long timer_1_ms;
@@ -55,6 +55,15 @@ void main(void) {
 	fifo_tail = 0;
 	command_index = 0;
 	
+	//output_ac_power_pwm[AC_POWER_OUTS] = (0, 0, 0, 0, 0, 0);
+	output_ac_power_pwm[0] = 0;
+	output_ac_power_pwm[1] = 0;
+	output_ac_power_pwm[2] = 0;
+	output_ac_power_pwm[3] = 0;
+	output_ac_power_pwm[4] = 0;
+	output_ac_power_pwm[5] = 0;
+	ac_power_pwm_counter = 0;
+
     // set up interrupt and timers
     RCONbits.IPEN = 1;
 
@@ -226,7 +235,7 @@ static void isr_high_prio(void) __interrupt 1 {
 		// set outputs
 
 		for (i = 0; i < AC_POWER_OUTS; i++) {
-			if (ac_power_pwm_counter < output_ac_power_pwm[i]) {
+			if (output_ac_power_pwm[i] && (ac_power_pwm_counter <= output_ac_power_pwm[i])) {
 				// turn ON ac power
 				set_ac_power(1 << i, 0xff);
 #ifdef DEBUG_PWM_ON_LED
@@ -360,7 +369,7 @@ void init_latches() {
 }
 
 void set_ac_power(unsigned char header_mask, unsigned char value) {
-	header_mask &= (/*EXT_FEEDER_L1 |*/ FAN_L2 | INT_FEEDER_L3 /*| HEATER_L4 | L5 | L6*/);	// BUG HERE! turning on L1 or L6 restarts
+	header_mask &= (EXT_FEEDER_L1 | FAN_L2 | INT_FEEDER_L3 |HEATER_L4 | L5 | L6);	// BUG HERE! turning on L1 or L6 restarts
 	
 	value &= header_mask;
 	LATCH_DATA_TRIS = 0x00;		// outputs

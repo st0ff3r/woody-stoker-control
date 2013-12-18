@@ -1,5 +1,5 @@
 gplink-1.2.0 #980 (Oct 25 2013)
-Map File - Created 12-18-2013  01:04:01
+Map File - Created 12-18-2013  01:20:58
 
                                  Section Info
                   Section       Type    Address   Location Size(Bytes)
@@ -16,117 +16,117 @@ S_strmusart____stream_usart_putchar       code   0x00000c    program   0x000008
       S_adcconv__adc_conv       code   0x000014    program   0x000004
 S_pillefyrsstyring_ivec_0x2_isr_low_prio       code   0x000018    program   0x000004
      S_vfprintf__vfprintf       code   0x00001c    program   0x00080c
- S_pillefyrsstyring__main       code   0x000828    program   0x0003b8
-      S_mullong___mullong       code   0x000be0    program   0x000214
-                    .code       code   0x000df4    program   0x000200
-S_pillefyrsstyring__base64decode       code   0x000ff4    program   0x0001d4
-            S_ltoa__ultoa       code   0x0011c8    program   0x0001b8
-S_pillefyrsstyring__isr_high_prio       code   0x001380    program   0x000156
-S_pillefyrsstyring__validate_command       code   0x0014d6    program   0x000152
-S_pillefyrsstyring__sleep_ms       code   0x001628    program   0x000150
-           S_crc16__crc16       code   0x001778    program   0x00014a
-    S_modulong___modulong       code   0x0018c2    program   0x00013a
-    S_divulong___divulong       code   0x0019fc    program   0x000118
-       S_sprintf__sprintf       code   0x001b14    program   0x000114
-S_strmputchar____stream_putchar       code   0x001c28    program   0x000112
-         S_memcpy__memcpy       code   0x001d3a    program   0x000104
-             S_ltoa__ltoa       code   0x001e3e    program   0x0000c6
-      S_moduint___moduint       code   0x001f04    program   0x0000ba
-S_pillefyrsstyring__fifo_get       code   0x001fbe    program   0x0000ae
-   S_glcd__lcd_plot_pixel       code   0x00206c    program   0x0000a4
-        S_mulint___mulint       code   0x002110    program   0x0000a0
-S_pillefyrsstyring__isr_low_prio       code   0x0021b0    program   0x00009e
-          S_glcd__lcd_cls       code   0x00224e    program   0x00009a
-         S_strchr__strchr       code   0x0022e8    program   0x000096
-S_pillefyrsstyring__fifo_put       code   0x00237e    program   0x000082
-      S_adcopen__adc_open       code   0x002400    program   0x00007c
-      S_uputs__usart_puts       code   0x00247c    program   0x000078
-     S_glcd__lcd_screenon       code   0x0024f4    program   0x00005a
-S_pillefyrsstyring__set_ac_power       code   0x00254e    program   0x000056
-S_pillefyrsstyring___debug       code   0x0025a4    program   0x000052
-        S_glcd__lcd_reset       code   0x0025f6    program   0x000052
-   S_glcd__lcd_selectside       code   0x002648    program   0x000050
-     S_glcd__lcd_setyaddr       code   0x002698    program   0x000048
-      S_glcd__lcd_setpage       code   0x0026e0    program   0x000046
-        S_glcd__lcd_write       code   0x002726    program   0x000042
-       S_glcd__lcd_enable       code   0x002768    program   0x000042
-         S_glcd__lcd_init       code   0x0027aa    program   0x000042
-    S_gptrget4___gptrget4       code   0x0027ec    program   0x000040
-  S_glcd__latched_lcd_cs1       code   0x00282c    program   0x00003a
-  S_glcd__latched_lcd_cs2       code   0x002866    program   0x00003a
-  S_glcd__latched_lcd_rst       code   0x0028a0    program   0x00003a
-   S_glcd__latched_lcd_rw       code   0x0028da    program   0x00003a
-   S_glcd__latched_lcd_di       code   0x002914    program   0x00003a
-S_glcd__latched_lcd_enable       code   0x00294e    program   0x00003a
-S_glcd__latched_lcd_power       code   0x002988    program   0x00003a
-S_adcsetch__adc_setchannel       code   0x0029c2    program   0x00003a
-S_eeprom16_gptrget4____eeprom16_gptrget4       code   0x0029fc    program   0x00003a
-S_pillefyrsstyring__init_timers       code   0x002a36    program   0x000038
-     S_glcd__lcd_waitbusy       code   0x002a6e    program   0x000036
-    S_gptrget3___gptrget3       code   0x002aa4    program   0x000036
-S_eeprom16_gptrput3____eeprom16_gptrput3       code   0x002ada    program   0x000034
-S_pillefyrsstyring__fifo_in_use       code   0x002b0e    program   0x000030
-S_eeprom16_gptrget3____eeprom16_gptrget3       code   0x002b3e    program   0x000030
-       S_islower__islower       code   0x002b6e    program   0x00002e
-    S_gptrget2___gptrget2       code   0x002b9c    program   0x00002c
-S_pillefyrsstyring__my_usart_open       code   0x002bc8    program   0x00002a
-S_pillefyrsstyring__init_latches       code   0x002bf2    program   0x000028
- S_glcd__latched_lcd_data       code   0x002c1a    program   0x000028
-       S_glcd__lcd_status       code   0x002c42    program   0x000028
-      S_ugetc__usart_getc       code   0x002c6a    program   0x000028
-S_eeprom16_gptrget2____eeprom16_gptrget2       code   0x002c92    program   0x000026
-S_pillefyrsstyring__get_inputs       code   0x002cb8    program   0x000024
-S_eeprom16_gptrput1____eeprom16_gptrput1       code   0x002cdc    program   0x000024
-    S_gptrget1___gptrget1       code   0x002d00    program   0x000022
-    S_gptrput3___gptrput3       code   0x002d22    program   0x00001e
-S_eeprom16_gptrget1____eeprom16_gptrget1       code   0x002d40    program   0x00001c
-    S_gptrput1___gptrput1       code   0x002d5c    program   0x000016
-         S_glcd__lcd_read       code   0x002d72    program   0x000014
-         S_crt0___startup       code   0x002d86    program   0x000014
-S_eeprom16_write____eeprom16_write       code   0x002d9a    program   0x000012
-S_pillefyrsstyring__reset       code   0x002dac    program   0x000010
-      S_uputc__usart_putc       code   0x002dbc    program   0x000010
-S_pillefyrsstyring__base64encode       code   0x002dcc    program   0x00000e
-      S_adcread__adc_read       code   0x002dda    program   0x000008
-      S_ubusy__usart_busy       code   0x002de2    program   0x000008
-      S_udrdy__usart_drdy       code   0x002dea    program   0x000008
-      S_adcbusy__adc_busy       code   0x002df2    program   0x000008
-S_strmgpsim____stream_gpsim_putchar       code   0x002dfa    program   0x000006
- S___eeprom_gptrput1_stub       code   0x002e00    program   0x000004
- S___eeprom_gptrget1_stub       code   0x002e04    program   0x000004
- S___eeprom_gptrget2_stub       code   0x002e08    program   0x000004
- S___eeprom_gptrget3_stub       code   0x002e0c    program   0x000004
- S___eeprom_gptrget4_stub       code   0x002e10    program   0x000004
- S___eeprom_gptrput3_stub       code   0x002e14    program   0x000004
-       S_putchar__putchar       code   0x002e18    program   0x000002
+ S_pillefyrsstyring__main       code   0x000828    program   0x000422
+      S_mullong___mullong       code   0x000c4a    program   0x000214
+                    .code       code   0x000e5e    program   0x000200
+S_pillefyrsstyring__base64decode       code   0x00105e    program   0x0001d4
+            S_ltoa__ultoa       code   0x001232    program   0x0001b8
+S_pillefyrsstyring__isr_high_prio       code   0x0013ea    program   0x000156
+S_pillefyrsstyring__validate_command       code   0x001540    program   0x000152
+S_pillefyrsstyring__sleep_ms       code   0x001692    program   0x000150
+           S_crc16__crc16       code   0x0017e2    program   0x00014a
+    S_modulong___modulong       code   0x00192c    program   0x00013a
+    S_divulong___divulong       code   0x001a66    program   0x000118
+       S_sprintf__sprintf       code   0x001b7e    program   0x000114
+S_strmputchar____stream_putchar       code   0x001c92    program   0x000112
+         S_memcpy__memcpy       code   0x001da4    program   0x000104
+             S_ltoa__ltoa       code   0x001ea8    program   0x0000c6
+      S_moduint___moduint       code   0x001f6e    program   0x0000ba
+S_pillefyrsstyring__fifo_get       code   0x002028    program   0x0000ae
+   S_glcd__lcd_plot_pixel       code   0x0020d6    program   0x0000a4
+        S_mulint___mulint       code   0x00217a    program   0x0000a0
+S_pillefyrsstyring__isr_low_prio       code   0x00221a    program   0x00009e
+          S_glcd__lcd_cls       code   0x0022b8    program   0x00009a
+         S_strchr__strchr       code   0x002352    program   0x000096
+S_pillefyrsstyring__fifo_put       code   0x0023e8    program   0x000082
+      S_adcopen__adc_open       code   0x00246a    program   0x00007c
+      S_uputs__usart_puts       code   0x0024e6    program   0x000078
+     S_glcd__lcd_screenon       code   0x00255e    program   0x00005a
+S_pillefyrsstyring__set_ac_power       code   0x0025b8    program   0x000056
+S_pillefyrsstyring___debug       code   0x00260e    program   0x000052
+        S_glcd__lcd_reset       code   0x002660    program   0x000052
+   S_glcd__lcd_selectside       code   0x0026b2    program   0x000050
+     S_glcd__lcd_setyaddr       code   0x002702    program   0x000048
+      S_glcd__lcd_setpage       code   0x00274a    program   0x000046
+        S_glcd__lcd_write       code   0x002790    program   0x000042
+       S_glcd__lcd_enable       code   0x0027d2    program   0x000042
+         S_glcd__lcd_init       code   0x002814    program   0x000042
+    S_gptrget4___gptrget4       code   0x002856    program   0x000040
+  S_glcd__latched_lcd_cs1       code   0x002896    program   0x00003a
+  S_glcd__latched_lcd_cs2       code   0x0028d0    program   0x00003a
+  S_glcd__latched_lcd_rst       code   0x00290a    program   0x00003a
+   S_glcd__latched_lcd_rw       code   0x002944    program   0x00003a
+   S_glcd__latched_lcd_di       code   0x00297e    program   0x00003a
+S_glcd__latched_lcd_enable       code   0x0029b8    program   0x00003a
+S_glcd__latched_lcd_power       code   0x0029f2    program   0x00003a
+S_adcsetch__adc_setchannel       code   0x002a2c    program   0x00003a
+S_eeprom16_gptrget4____eeprom16_gptrget4       code   0x002a66    program   0x00003a
+S_pillefyrsstyring__init_timers       code   0x002aa0    program   0x000038
+     S_glcd__lcd_waitbusy       code   0x002ad8    program   0x000036
+    S_gptrget3___gptrget3       code   0x002b0e    program   0x000036
+S_eeprom16_gptrput3____eeprom16_gptrput3       code   0x002b44    program   0x000034
+S_pillefyrsstyring__fifo_in_use       code   0x002b78    program   0x000030
+S_eeprom16_gptrget3____eeprom16_gptrget3       code   0x002ba8    program   0x000030
+       S_islower__islower       code   0x002bd8    program   0x00002e
+    S_gptrget2___gptrget2       code   0x002c06    program   0x00002c
+S_pillefyrsstyring__my_usart_open       code   0x002c32    program   0x00002a
+S_pillefyrsstyring__init_latches       code   0x002c5c    program   0x000028
+ S_glcd__latched_lcd_data       code   0x002c84    program   0x000028
+       S_glcd__lcd_status       code   0x002cac    program   0x000028
+      S_ugetc__usart_getc       code   0x002cd4    program   0x000028
+S_eeprom16_gptrget2____eeprom16_gptrget2       code   0x002cfc    program   0x000026
+S_pillefyrsstyring__get_inputs       code   0x002d22    program   0x000024
+S_eeprom16_gptrput1____eeprom16_gptrput1       code   0x002d46    program   0x000024
+    S_gptrget1___gptrget1       code   0x002d6a    program   0x000022
+    S_gptrput3___gptrput3       code   0x002d8c    program   0x00001e
+S_eeprom16_gptrget1____eeprom16_gptrget1       code   0x002daa    program   0x00001c
+    S_gptrput1___gptrput1       code   0x002dc6    program   0x000016
+         S_glcd__lcd_read       code   0x002ddc    program   0x000014
+         S_crt0___startup       code   0x002df0    program   0x000014
+S_eeprom16_write____eeprom16_write       code   0x002e04    program   0x000012
+S_pillefyrsstyring__reset       code   0x002e16    program   0x000010
+      S_uputc__usart_putc       code   0x002e26    program   0x000010
+S_pillefyrsstyring__base64encode       code   0x002e36    program   0x00000e
+      S_adcread__adc_read       code   0x002e44    program   0x000008
+      S_ubusy__usart_busy       code   0x002e4c    program   0x000008
+      S_udrdy__usart_drdy       code   0x002e54    program   0x000008
+      S_adcbusy__adc_busy       code   0x002e5c    program   0x000008
+S_strmgpsim____stream_gpsim_putchar       code   0x002e64    program   0x000006
+ S___eeprom_gptrput1_stub       code   0x002e6a    program   0x000004
+ S___eeprom_gptrget1_stub       code   0x002e6e    program   0x000004
+ S___eeprom_gptrget2_stub       code   0x002e72    program   0x000004
+ S___eeprom_gptrget3_stub       code   0x002e76    program   0x000004
+ S___eeprom_gptrget4_stub       code   0x002e7a    program   0x000004
+ S___eeprom_gptrput3_stub       code   0x002e7e    program   0x000004
+       S_putchar__putchar       code   0x002e82    program   0x000002
                .registers      udata   0x000000       data   0x00001f
 udata_pillefyrsstyring_15      udata   0x000080       data   0x000064
- udata_pillefyrsstyring_8      udata   0x0000e4       data   0x000015
- udata_pillefyrsstyring_9      udata   0x0000f9       data   0x000007
+ udata_pillefyrsstyring_9      udata   0x0000e4       data   0x000015
+udata_pillefyrsstyring_10      udata   0x0000f9       data   0x000007
             stack_section      udata   0x000700       data   0x000100
          udata_vfprintf_0      udata   0x000800       data   0x000003
  udata_pillefyrsstyring_1      udata   0x000803       data   0x000002
  udata_pillefyrsstyring_2      udata   0x000805       data   0x000002
-udata_pillefyrsstyring_12      udata   0x000807       data   0x000002
+udata_pillefyrsstyring_13      udata   0x000807       data   0x000002
            udata_mulint_0      udata   0x000809       data   0x000002
            udata_mulint_1      udata   0x00080b       data   0x000002
            udata_mulint_2      udata   0x00080d       data   0x000002
  udata_pillefyrsstyring_3      udata   0x00080f       data   0x000001
  udata_pillefyrsstyring_4      udata   0x000810       data   0x000001
- udata_pillefyrsstyring_5      udata   0x000811       data   0x000001
+ udata_pillefyrsstyring_6      udata   0x000811       data   0x000001
  udata_pillefyrsstyring_7      udata   0x000812       data   0x000001
-udata_pillefyrsstyring_13      udata   0x000813       data   0x000001
+ udata_pillefyrsstyring_8      udata   0x000813       data   0x000001
 udata_pillefyrsstyring_14      udata   0x000814       data   0x000001
              udata_glcd_0      udata   0x000815       data   0x000001
              udata_glcd_1      udata   0x000816       data   0x000001
            udata_usartd_0      udata   0x000817       data   0x000001
              udata_ltoa_0      udata   0x000f00       data   0x000020
 udata_pillefyrsstyring_16      udata   0x000f20       data   0x000011
-udata_pillefyrsstyring_11      udata   0x000f31       data   0x000010
+udata_pillefyrsstyring_12      udata   0x000f31       data   0x000010
          udata_vfprintf_1      udata   0x000f41       data   0x00000d
-udata_pillefyrsstyring_10      udata   0x000f4e       data   0x00000a
+udata_pillefyrsstyring_11      udata   0x000f4e       data   0x00000a
 udata_pillefyrsstyring_17      udata   0x000f58       data   0x000009
- udata_pillefyrsstyring_6      udata   0x000f61       data   0x000006
+ udata_pillefyrsstyring_5      udata   0x000f61       data   0x000006
  udata_pillefyrsstyring_0      udata   0x000f67       data   0x000004
           udata_mullong_0      udata   0x000f6b       data   0x000004
           udata_mullong_1      udata   0x000f6f       data   0x000004
@@ -149,100 +149,100 @@ udata_pillefyrsstyring_17      udata   0x000f58       data   0x000009
                            ---------   ---------
                             0x000008    0x00000b
                             0x000018    0x00001b
-                            0x000828    0x000bdf
-                            0x0025a4    0x0025f5
-                            0x002dac    0x002dbb
-                            0x0014d6    0x001627
-                            0x002dcc    0x002dd9
-                            0x000ff4    0x0011c7
-                            0x001fbe    0x00206b
-                            0x00237e    0x0023ff
-                            0x002b0e    0x002b3d
-                            0x002bc8    0x002bf1
-                            0x002cb8    0x002cdb
-                            0x00254e    0x0025a3
-                            0x002bf2    0x002c19
-                            0x002a36    0x002a6d
-                            0x001628    0x001777
-                            0x0021b0    0x00224d
-                            0x001380    0x0014d5
+                            0x000828    0x000c49
+                            0x00260e    0x00265f
+                            0x002e16    0x002e25
+                            0x001540    0x001691
+                            0x002e36    0x002e43
+                            0x00105e    0x001231
+                            0x002028    0x0020d5
+                            0x0023e8    0x002469
+                            0x002b78    0x002ba7
+                            0x002c32    0x002c5b
+                            0x002d22    0x002d45
+                            0x0025b8    0x00260d
+                            0x002c5c    0x002c83
+                            0x002aa0    0x002ad7
+                            0x001692    0x0017e1
+                            0x00221a    0x0022b7
+                            0x0013ea    0x00153f
                             0x300001    0x300001
                             0x300002    0x300002
                             0x300003    0x300003
                             0x300005    0x300005
                             0x300006    0x300006
-                            0x002c1a    0x002c41
-                            0x00282c    0x002865
-                            0x002866    0x00289f
-                            0x0028a0    0x0028d9
-                            0x0028da    0x002913
-                            0x002914    0x00294d
-                            0x00294e    0x002987
-                            0x002988    0x0029c1
-                            0x00206c    0x00210f
-                            0x002d72    0x002d85
-                            0x002648    0x002697
-                            0x002726    0x002767
-                            0x002a6e    0x002aa3
-                            0x002698    0x0026df
-                            0x0026e0    0x002725
-                            0x00224e    0x0022e7
-                            0x0024f4    0x00254d
-                            0x0025f6    0x002647
-                            0x002c42    0x002c69
-                            0x002768    0x0027a9
-                            0x0027aa    0x0027eb
+                            0x002c84    0x002cab
+                            0x002896    0x0028cf
+                            0x0028d0    0x002909
+                            0x00290a    0x002943
+                            0x002944    0x00297d
+                            0x00297e    0x0029b7
+                            0x0029b8    0x0029f1
+                            0x0029f2    0x002a2b
+                            0x0020d6    0x002179
+                            0x002ddc    0x002def
+                            0x0026b2    0x002701
+                            0x002790    0x0027d1
+                            0x002ad8    0x002b0d
+                            0x002702    0x002749
+                            0x00274a    0x00278f
+                            0x0022b8    0x002351
+                            0x00255e    0x0025b7
+                            0x002660    0x0026b1
+                            0x002cac    0x002cd3
+                            0x0027d2    0x002813
+                            0x002814    0x002855
                             0x000000    0x000003
-                            0x002d86    0x002d99
-                            0x000be0    0x000df3
-                            0x002d00    0x002d21
-                            0x001f04    0x001fbd
-                            0x002d5c    0x002d71
-                            0x001d3a    0x001e3d
-                            0x0022e8    0x00237d
-                            0x001778    0x0018c1
-                            0x000df4    0x000ff3
-                            0x001b14    0x001c27
+                            0x002df0    0x002e03
+                            0x000c4a    0x000e5d
+                            0x002d6a    0x002d8b
+                            0x001f6e    0x002027
+                            0x002dc6    0x002ddb
+                            0x001da4    0x001ea7
+                            0x002352    0x0023e7
+                            0x0017e2    0x00192b
+                            0x000e5e    0x00105d
+                            0x001b7e    0x001c91
                             0x00001c    0x000827
-                            0x001c28    0x001d39
+                            0x001c92    0x001da3
                             0x000004    0x000007
-                            0x002dfa    0x002dff
-                            0x001e3e    0x001f03
-                            0x0011c8    0x00137f
-                            0x002e18    0x002e19
+                            0x002e64    0x002e69
+                            0x001ea8    0x001f6d
+                            0x001232    0x0013e9
+                            0x002e82    0x002e83
                             0x00000c    0x000013
-                            0x002b6e    0x002b9b
-                            0x002dbc    0x002dcb
-                            0x00247c    0x0024f3
-                            0x002dda    0x002de1
-                            0x002400    0x00247b
+                            0x002bd8    0x002c05
+                            0x002e26    0x002e35
+                            0x0024e6    0x00255d
+                            0x002e44    0x002e4b
+                            0x00246a    0x0024e5
                             0x000014    0x000017
-                            0x0029c2    0x0029fb
-                            0x002de2    0x002de9
-                            0x002c6a    0x002c91
-                            0x002dea    0x002df1
-                            0x002df2    0x002df9
-                            0x002e00    0x002e03
-                            0x002e04    0x002e07
-                            0x0018c2    0x0019fb
-                            0x002d40    0x002d5b
-                            0x002b9c    0x002bc7
-                            0x002d22    0x002d3f
-                            0x002110    0x0021af
-                            0x0027ec    0x00282b
-                            0x0019fc    0x001b13
-                            0x002cdc    0x002cff
-                            0x002aa4    0x002ad9
-                            0x002d9a    0x002dab
-                            0x002e08    0x002e0b
-                            0x002e0c    0x002e0f
-                            0x002e10    0x002e13
-                            0x002e14    0x002e17
-                            0x002c92    0x002cb7
-                            0x002ada    0x002b0d
-                            0x0029fc    0x002a35
-                            0x002b3e    0x002b6d
-                            11807 program addresses used
+                            0x002a2c    0x002a65
+                            0x002e4c    0x002e53
+                            0x002cd4    0x002cfb
+                            0x002e54    0x002e5b
+                            0x002e5c    0x002e63
+                            0x002e6a    0x002e6d
+                            0x002e6e    0x002e71
+                            0x00192c    0x001a65
+                            0x002daa    0x002dc5
+                            0x002c06    0x002c31
+                            0x002d8c    0x002da9
+                            0x00217a    0x002219
+                            0x002856    0x002895
+                            0x001a66    0x001b7d
+                            0x002d46    0x002d69
+                            0x002b0e    0x002b43
+                            0x002e04    0x002e15
+                            0x002e72    0x002e75
+                            0x002e76    0x002e79
+                            0x002e7a    0x002e7d
+                            0x002e7e    0x002e81
+                            0x002cfc    0x002d21
+                            0x002b44    0x002b77
+                            0x002a66    0x002a9f
+                            0x002ba8    0x002bd7
+                            11913 program addresses used
 
 
 
@@ -250,92 +250,94 @@ udata_pillefyrsstyring_17      udata   0x000f58       data   0x000009
                      Name    Address   Location    Storage File
                 ---------  ---------  ---------  --------- ---------
                        @1   0x00000c    program     static strmusart.asm
-               _00105_DS_   0x0017ea    program     static crc16.asm
-               _00105_DS_   0x0024a6    program     static libio18f4620_a-uputs.asm
-               _00105_DS_   0x00097c    program     static pillefyrsstyring.asm
-               _00105_DS_   0x001db2    program     static memcpy.asm
-               _00106_DS_   0x002b90    program     static islower.asm
-               _00106_DS_   0x001282    program     static ltoa.asm
-               _00106_DS_   0x001f6a    program     static moduint.asm
-               _00106_DS_   0x00231c    program     static strchr.asm
-               _00106_DS_   0x002464    program     static libio18f4620_a-adcopen.asm
-               _00107_DS_   0x001882    program     static crc16.asm
-               _00107_DS_   0x001f44    program     static moduint.asm
-               _00107_DS_   0x001dfa    program     static memcpy.asm
-               _00107_DS_   0x001240    program     static ltoa.asm
-               _00107_DS_   0x0009e4    program     static pillefyrsstyring.asm
-               _00108_DS_   0x001d08    program     static strmputchar.asm
-               _00108_DS_   0x002340    program     static strchr.asm
-               _00108_DS_   0x002b92    program     static islower.asm
-               _00108_DS_   0x000a4c    program     static pillefyrsstyring.asm
-               _00108_DS_   0x002c7e    program     static libio18f4620_a-ugetc.asm
-               _00108_DS_   0x001978    program     static modulong.asm
+               _00105_DS_   0x001e1c    program     static memcpy.asm
+               _00105_DS_   0x002510    program     static libio18f4620_a-uputs.asm
+               _00105_DS_   0x001854    program     static crc16.asm
+               _00105_DS_   0x0008dc    program     static pillefyrsstyring.asm
+               _00106_DS_   0x001fd4    program     static moduint.asm
+               _00106_DS_   0x002386    program     static strchr.asm
+               _00106_DS_   0x0024ce    program     static libio18f4620_a-adcopen.asm
+               _00106_DS_   0x0012ec    program     static ltoa.asm
+               _00106_DS_   0x002bfa    program     static islower.asm
+               _00107_DS_   0x0012aa    program     static ltoa.asm
+               _00107_DS_   0x001e64    program     static memcpy.asm
+               _00107_DS_   0x0018ec    program     static crc16.asm
+               _00107_DS_   0x001fae    program     static moduint.asm
+               _00107_DS_   0x00092c    program     static pillefyrsstyring.asm
+               _00108_DS_   0x002bfc    program     static islower.asm
+               _00108_DS_   0x0009e6    program     static pillefyrsstyring.asm
+               _00108_DS_   0x0023aa    program     static strchr.asm
+               _00108_DS_   0x0019e2    program     static modulong.asm
+               _00108_DS_   0x001d72    program     static strmputchar.asm
+               _00108_DS_   0x002ce8    program     static libio18f4620_a-ugetc.asm
                _00108_DS_   0x000182    program     static vfprintf.asm
-               _00109_DS_   0x001a78    program     static divulong.asm
-               _00109_DS_   0x00193e    program     static modulong.asm
-               _00110_DS_   0x002c86    program     static libio18f4620_a-ugetc.asm
+               _00109_DS_   0x0019a8    program     static modulong.asm
+               _00109_DS_   0x001ae2    program     static divulong.asm
                _00110_DS_   0x000194    program     static vfprintf.asm
-               _00110_DS_   0x00235e    program     static strchr.asm
-               _00110_DS_   0x0012f2    program     static ltoa.asm
-               _00110_DS_   0x001ac4    program     static divulong.asm
-               _00111_DS_   0x002364    program     static strchr.asm
-               _00111_DS_   0x001cfa    program     static strmputchar.asm
-               _00111_DS_   0x001f86    program     static moduint.asm
-               _00111_DS_   0x000b10    program     static pillefyrsstyring.asm
-               _00112_DS_   0x002c8e    program     static libio18f4620_a-ugetc.asm
-               _00112_DS_   0x001f72    program     static moduint.asm
+               _00110_DS_   0x002cf0    program     static libio18f4620_a-ugetc.asm
+               _00110_DS_   0x00135c    program     static ltoa.asm
+               _00110_DS_   0x001b2e    program     static divulong.asm
+               _00110_DS_   0x0023c8    program     static strchr.asm
+               _00110_DS_   0x000a4e    program     static pillefyrsstyring.asm
+               _00111_DS_   0x001ff0    program     static moduint.asm
+               _00111_DS_   0x000ab6    program     static pillefyrsstyring.asm
+               _00111_DS_   0x0023ce    program     static strchr.asm
+               _00111_DS_   0x001d64    program     static strmputchar.asm
+               _00112_DS_   0x001fdc    program     static moduint.asm
                _00112_DS_   0x0001b2    program     static vfprintf.asm
-               _00113_DS_   0x0019a8    program     static modulong.asm
+               _00112_DS_   0x002cf8    program     static libio18f4620_a-ugetc.asm
+               _00113_DS_   0x001a12    program     static modulong.asm
+               _00114_DS_   0x0019ea    program     static modulong.asm
+               _00114_DS_   0x001d56    program     static strmputchar.asm
                _00114_DS_   0x0001d4    program     static vfprintf.asm
-               _00114_DS_   0x001cec    program     static strmputchar.asm
-               _00114_DS_   0x001980    program     static modulong.asm
-               _00114_DS_   0x000b18    program     static pillefyrsstyring.asm
+               _00114_DS_   0x000b7a    program     static pillefyrsstyring.asm
                _00116_DS_   0x0001f2    program     static vfprintf.asm
-               _00117_DS_   0x000b48    program     static pillefyrsstyring.asm
-               _00117_DS_   0x00182a    program     static crc16.asm
-               _00117_DS_   0x001dde    program     static memcpy.asm
-               _00117_DS_   0x0019ca    program     static modulong.asm
+               _00117_DS_   0x000b82    program     static pillefyrsstyring.asm
+               _00117_DS_   0x001894    program     static crc16.asm
+               _00117_DS_   0x001a34    program     static modulong.asm
+               _00117_DS_   0x001e48    program     static memcpy.asm
+               _00118_DS_   0x001e62    program     static memcpy.asm
                _00118_DS_   0x00021c    program     static vfprintf.asm
-               _00118_DS_   0x001df8    program     static memcpy.asm
-               _00119_DS_   0x00090e    program     static pillefyrsstyring.asm
-               _00119_DS_   0x001cda    program     static strmputchar.asm
-               _00120_DS_   0x0024da    program     static libio18f4620_a-uputs.asm
-               _00120_DS_   0x000b20    program     static pillefyrsstyring.asm
-               _00121_DS_   0x001d14    program     static strmputchar.asm
-               _00122_DS_   0x00193c    program     static modulong.asm
+               _00119_DS_   0x001d44    program     static strmputchar.asm
+               _00120_DS_   0x002544    program     static libio18f4620_a-uputs.asm
+               _00120_DS_   0x000bb2    program     static pillefyrsstyring.asm
+               _00121_DS_   0x001d7e    program     static strmputchar.asm
                _00122_DS_   0x000262    program     static vfprintf.asm
-               _00124_DS_   0x000b76    program     static pillefyrsstyring.asm
+               _00122_DS_   0x0019a6    program     static modulong.asm
+               _00122_DS_   0x000978    program     static pillefyrsstyring.asm
+               _00123_DS_   0x000b8a    program     static pillefyrsstyring.asm
                _00125_DS_   0x00028a    program     static vfprintf.asm
-               _00127_DS_   0x000b9c    program     static pillefyrsstyring.asm
-               _00128_DS_   0x00233e    program     static strchr.asm
-               _00128_DS_   0x001ab0    program     static divulong.asm
+               _00127_DS_   0x000be0    program     static pillefyrsstyring.asm
+               _00128_DS_   0x0023a8    program     static strchr.asm
+               _00128_DS_   0x001b1a    program     static divulong.asm
                _00129_DS_   0x0002d0    program     static vfprintf.asm
-               _00132_DS_   0x00132c    program     static ltoa.asm
-               _00132_DS_   0x0008d4    program     static pillefyrsstyring.asm
+               _00130_DS_   0x000c06    program     static pillefyrsstyring.asm
+               _00132_DS_   0x001396    program     static ltoa.asm
                _00133_DS_   0x0002f2    program     static vfprintf.asm
-               _00134_DS_   0x00097e    program     static pillefyrsstyring.asm
+               _00134_DS_   0x00230e    program     static glcd.asm
                _00134_DS_   0x000304    program     static vfprintf.asm
-               _00134_DS_   0x0022a4    program     static glcd.asm
-               _00135_DS_   0x00226e    program     static glcd.asm
-               _00136_DS_   0x000a92    program     static pillefyrsstyring.asm
-               _00136_DS_   0x001f60    program     static moduint.asm
+               _00135_DS_   0x0022d8    program     static glcd.asm
+               _00135_DS_   0x00093e    program     static pillefyrsstyring.asm
                _00136_DS_   0x000322    program     static vfprintf.asm
-               _00137_DS_   0x001f7c    program     static moduint.asm
-               _00138_DS_   0x000b8e    program     static pillefyrsstyring.asm
+               _00136_DS_   0x001fca    program     static moduint.asm
+               _00137_DS_   0x001fe6    program     static moduint.asm
+               _00137_DS_   0x0009e8    program     static pillefyrsstyring.asm
                _00138_DS_   0x000398    program     static vfprintf.asm
-               _00138_DS_   0x001ebe    program     static ltoa.asm
-               _00141_DS_   0x00196a    program     static modulong.asm
-               _00142_DS_   0x001996    program     static modulong.asm
-               _00143_DS_   0x001cbe    program     static strmputchar.asm
+               _00138_DS_   0x001f28    program     static ltoa.asm
+               _00139_DS_   0x000afc    program     static pillefyrsstyring.asm
+               _00141_DS_   0x0019d4    program     static modulong.asm
+               _00141_DS_   0x000bf8    program     static pillefyrsstyring.asm
+               _00142_DS_   0x001a00    program     static modulong.asm
+               _00143_DS_   0x001d28    program     static strmputchar.asm
                _00145_DS_   0x00037e    program     static vfprintf.asm
                _00148_DS_   0x000372    program     static vfprintf.asm
-               _00151_DS_   0x000a90    program     static pillefyrsstyring.asm
                _00151_DS_   0x000366    program     static vfprintf.asm
                _00154_DS_   0x00035c    program     static vfprintf.asm
-               _00157_DS_   0x000b88    program     static pillefyrsstyring.asm
+               _00156_DS_   0x000afa    program     static pillefyrsstyring.asm
                _00157_DS_   0x00034c    program     static vfprintf.asm
                _00160_DS_   0x000340    program     static vfprintf.asm
                _00161_DS_   0x0003be    program     static vfprintf.asm
+               _00162_DS_   0x000bf2    program     static pillefyrsstyring.asm
                _00162_DS_   0x0004c6    program     static vfprintf.asm
                _00165_DS_   0x00052e    program     static vfprintf.asm
                _00169_DS_   0x0004d6    program     static vfprintf.asm
@@ -343,84 +345,84 @@ udata_pillefyrsstyring_17      udata   0x000f58       data   0x000009
                _00173_DS_   0x000542    program     static vfprintf.asm
                _00175_DS_   0x00057e    program     static vfprintf.asm
                _00176_DS_   0x0005a2    program     static vfprintf.asm
-               _00178_DS_   0x00266a    program     static glcd.asm
-               _00179_DS_   0x002674    program     static glcd.asm
-               _00181_DS_   0x002684    program     static glcd.asm
+               _00178_DS_   0x0026d4    program     static glcd.asm
+               _00179_DS_   0x0026de    program     static glcd.asm
                _00181_DS_   0x0005d4    program     static vfprintf.asm
-               _00183_DS_   0x00268e    program     static glcd.asm
+               _00181_DS_   0x0026ee    program     static glcd.asm
+               _00183_DS_   0x0026f8    program     static glcd.asm
                _00184_DS_   0x000422    program     static vfprintf.asm
                _00187_DS_   0x000404    program     static vfprintf.asm
                _00190_DS_   0x000614    program     static vfprintf.asm
                _00193_DS_   0x00064c    program     static vfprintf.asm
-               _00199_DS_   0x000904    program     static pillefyrsstyring.asm
                _00199_DS_   0x0006f8    program     static vfprintf.asm
-               _00203_DS_   0x000964    program     static pillefyrsstyring.asm
-               _00203_DS_   0x00209c    program     static glcd.asm
-               _00204_DS_   0x0020a6    program     static glcd.asm
+               _00203_DS_   0x002106    program     static glcd.asm
                _00204_DS_   0x000694    program     static vfprintf.asm
-               _00205_DS_   0x00096c    program     static pillefyrsstyring.asm
+               _00204_DS_   0x002110    program     static glcd.asm
                _00205_DS_   0x0006c4    program     static vfprintf.asm
                _00207_DS_   0x00073e    program     static vfprintf.asm
-               _00209_DS_   0x00097a    program     static pillefyrsstyring.asm
-               _00213_DS_   0x0020f0    program     static glcd.asm
+               _00208_DS_   0x00096e    program     static pillefyrsstyring.asm
+               _00212_DS_   0x0009ce    program     static pillefyrsstyring.asm
                _00213_DS_   0x000762    program     static vfprintf.asm
+               _00213_DS_   0x00215a    program     static glcd.asm
+               _00214_DS_   0x002154    program     static glcd.asm
                _00214_DS_   0x000788    program     static vfprintf.asm
-               _00214_DS_   0x0020ea    program     static glcd.asm
+               _00214_DS_   0x0009d6    program     static pillefyrsstyring.asm
                _00215_DS_   0x0000fe    program     static vfprintf.asm
                _00217_DS_   0x000794    program     static vfprintf.asm
-               _00220_DS_   0x0029aa    program     static glcd.asm
+               _00218_DS_   0x0009e4    program     static pillefyrsstyring.asm
+               _00220_DS_   0x002a14    program     static glcd.asm
                _00220_DS_   0x0006f0    program     static vfprintf.asm
                _00221_DS_   0x0006f4    program     static vfprintf.asm
-               _00221_DS_   0x00141c    program     static pillefyrsstyring.asm
-               _00221_DS_   0x0029b2    program     static glcd.asm
-               _00226_DS_   0x0013ce    program     static pillefyrsstyring.asm
-               _00227_DS_   0x001444    program     static pillefyrsstyring.asm
-               _00228_DS_   0x001464    program     static pillefyrsstyring.asm
-               _00228_DS_   0x002970    program     static glcd.asm
-               _00229_DS_   0x002978    program     static glcd.asm
-               _00236_DS_   0x002936    program     static glcd.asm
-               _00237_DS_   0x00293e    program     static glcd.asm
-               _00243_DS_   0x00140a    program     static pillefyrsstyring.asm
-               _00244_DS_   0x001402    program     static pillefyrsstyring.asm
-               _00244_DS_   0x0028fc    program     static glcd.asm
-               _00245_DS_   0x002904    program     static glcd.asm
-               _00245_DS_   0x001434    program     static pillefyrsstyring.asm
-               _00246_DS_   0x00142c    program     static pillefyrsstyring.asm
-               _00247_DS_   0x00145c    program     static pillefyrsstyring.asm
-               _00252_DS_   0x0028c2    program     static glcd.asm
-               _00253_DS_   0x0028ca    program     static glcd.asm
-               _00253_DS_   0x002202    program     static pillefyrsstyring.asm
-               _00256_DS_   0x002222    program     static pillefyrsstyring.asm
-               _00260_DS_   0x002888    program     static glcd.asm
-               _00261_DS_   0x002890    program     static glcd.asm
+               _00221_DS_   0x002a1c    program     static glcd.asm
+               _00228_DS_   0x0029da    program     static glcd.asm
+               _00229_DS_   0x0029e2    program     static glcd.asm
+               _00230_DS_   0x001486    program     static pillefyrsstyring.asm
+               _00235_DS_   0x001438    program     static pillefyrsstyring.asm
+               _00236_DS_   0x0014ae    program     static pillefyrsstyring.asm
+               _00236_DS_   0x0029a0    program     static glcd.asm
+               _00237_DS_   0x0014ce    program     static pillefyrsstyring.asm
+               _00237_DS_   0x0029a8    program     static glcd.asm
+               _00244_DS_   0x002966    program     static glcd.asm
+               _00245_DS_   0x00296e    program     static glcd.asm
+               _00252_DS_   0x00292c    program     static glcd.asm
+               _00252_DS_   0x001474    program     static pillefyrsstyring.asm
+               _00253_DS_   0x00146c    program     static pillefyrsstyring.asm
+               _00253_DS_   0x002934    program     static glcd.asm
+               _00254_DS_   0x00149e    program     static pillefyrsstyring.asm
+               _00255_DS_   0x001496    program     static pillefyrsstyring.asm
+               _00256_DS_   0x0014c6    program     static pillefyrsstyring.asm
+               _00260_DS_   0x0028f2    program     static glcd.asm
+               _00261_DS_   0x0028fa    program     static glcd.asm
+               _00262_DS_   0x00226c    program     static pillefyrsstyring.asm
                _00263_DS_   0x000604    program     static vfprintf.asm
-               _00264_DS_   0x002202    program     static pillefyrsstyring.asm
-               _00268_DS_   0x00284e    program     static glcd.asm
-               _00269_DS_   0x001698    program     static pillefyrsstyring.asm
-               _00269_DS_   0x002856    program     static glcd.asm
+               _00265_DS_   0x00228c    program     static pillefyrsstyring.asm
+               _00268_DS_   0x0028b8    program     static glcd.asm
+               _00269_DS_   0x0028c0    program     static glcd.asm
                _00270_DS_   0x00067c    program     static vfprintf.asm
+               _00273_DS_   0x00226c    program     static pillefyrsstyring.asm
                _00274_DS_   0x000256    program     static vfprintf.asm
-               _00274_DS_   0x001708    program     static pillefyrsstyring.asm
                _00275_DS_   0x0002c4    program     static vfprintf.asm
-               _00275_DS_   0x001718    program     static pillefyrsstyring.asm
                _00276_DS_   0x000638    program     static vfprintf.asm
                _00277_DS_   0x000670    program     static vfprintf.asm
                _00278_DS_   0x000726    program     static vfprintf.asm
+               _00278_DS_   0x001702    program     static pillefyrsstyring.asm
                _00279_DS_   0x000780    program     static vfprintf.asm
-               _00282_DS_   0x00172e    program     static pillefyrsstyring.asm
-               _00298_DS_   0x002584    program     static pillefyrsstyring.asm
-               _00299_DS_   0x002590    program     static pillefyrsstyring.asm
-               _00321_DS_   0x0023ec    program     static pillefyrsstyring.asm
-               _00323_DS_   0x0023ee    program     static pillefyrsstyring.asm
-               _00335_DS_   0x002050    program     static pillefyrsstyring.asm
-               _00337_DS_   0x002052    program     static pillefyrsstyring.asm
-               _00342_DS_   0x0010b8    program     static pillefyrsstyring.asm
-               _00345_DS_   0x00118e    program     static pillefyrsstyring.asm
-               _00354_DS_   0x00118c    program     static pillefyrsstyring.asm
-               _00365_DS_   0x0015fc    program     static pillefyrsstyring.asm
-               _00367_DS_   0x0015fe    program     static pillefyrsstyring.asm
-               _00372_DS_   0x0015b6    program     static pillefyrsstyring.asm
-               _00373_DS_   0x0015b8    program     static pillefyrsstyring.asm
+               _00283_DS_   0x001772    program     static pillefyrsstyring.asm
+               _00284_DS_   0x001782    program     static pillefyrsstyring.asm
+               _00291_DS_   0x001798    program     static pillefyrsstyring.asm
+               _00307_DS_   0x0025ee    program     static pillefyrsstyring.asm
+               _00308_DS_   0x0025fa    program     static pillefyrsstyring.asm
+               _00330_DS_   0x002456    program     static pillefyrsstyring.asm
+               _00332_DS_   0x002458    program     static pillefyrsstyring.asm
+               _00344_DS_   0x0020ba    program     static pillefyrsstyring.asm
+               _00346_DS_   0x0020bc    program     static pillefyrsstyring.asm
+               _00351_DS_   0x001122    program     static pillefyrsstyring.asm
+               _00354_DS_   0x0011f8    program     static pillefyrsstyring.asm
+               _00363_DS_   0x0011f6    program     static pillefyrsstyring.asm
+               _00374_DS_   0x001666    program     static pillefyrsstyring.asm
+               _00376_DS_   0x001668    program     static pillefyrsstyring.asm
+               _00381_DS_   0x001620    program     static pillefyrsstyring.asm
+               _00382_DS_   0x001622    program     static pillefyrsstyring.asm
                _00393_DS_   0x000120    program     static vfprintf.asm
                _00394_DS_   0x000148    program     static vfprintf.asm
                _00397_DS_   0x000180    program     static vfprintf.asm
@@ -438,12 +440,12 @@ udata_pillefyrsstyring_17      udata   0x000f58       data   0x000009
                _00453_DS_   0x000634    program     static vfprintf.asm
                _00455_DS_   0x000718    program     static vfprintf.asm
                _00456_DS_   0x000790    program     static vfprintf.asm
-                     _01_   0x002dc8    program     static libio18f4620_a-uputc.asm
-               _10105_DS_   0x002c7e    program     static libio18f4620_a-ugetc.asm
-               _10383_DS_   0x002008    program     static pillefyrsstyring.asm
-               _20384_DS_   0x0023b6    program     static pillefyrsstyring.asm
-               _30385_DS_   0x002202    program     static pillefyrsstyring.asm
-               _40386_DS_   0x00144e    program     static pillefyrsstyring.asm
+                     _01_   0x002e32    program     static libio18f4620_a-uputc.asm
+               _10105_DS_   0x002ce8    program     static libio18f4620_a-ugetc.asm
+               _10392_DS_   0x002072    program     static pillefyrsstyring.asm
+               _20393_DS_   0x002420    program     static pillefyrsstyring.asm
+               _30394_DS_   0x00226c    program     static pillefyrsstyring.asm
+               _40395_DS_   0x0014b8    program     static pillefyrsstyring.asm
                   _ADCON0   0x000fc2       data     extern libdev18f4620_a-pic18f4620.asm
               _ADCON0bits   0x000fc2       data     extern libdev18f4620_a-pic18f4620.asm
                   _ADCON1   0x000fc1       data     extern libdev18f4620_a-pic18f4620.asm
@@ -630,141 +632,141 @@ udata_pillefyrsstyring_17      udata   0x000f58       data   0x000009
                   _WDTCON   0x000fd1       data     extern libdev18f4620_a-pic18f4620.asm
               _WDTCONbits   0x000fd1       data     extern libdev18f4620_a-pic18f4620.asm
                     _WREG   0x000fe8       data     extern libdev18f4620_a-pic18f4620.asm
-     ___eeprom16_gptrget1   0x002d40    program     extern eeprom16_gptrget1.asm
-     ___eeprom16_gptrget2   0x002c92    program     extern eeprom16_gptrget2.asm
-     ___eeprom16_gptrget3   0x002b3e    program     extern eeprom16_gptrget3.asm
-     ___eeprom16_gptrget4   0x0029fc    program     extern eeprom16_gptrget4.asm
-     ___eeprom16_gptrput1   0x002cdc    program     extern eeprom16_gptrput1.asm
-     ___eeprom16_gptrput3   0x002ada    program     extern eeprom16_gptrput3.asm
-        ___eeprom16_write   0x002d9a    program     extern eeprom16_write.asm
-       ___eeprom_gptrget1   0x002e04    program     extern gptr/eeprom16_gptrget1_dispatch.S
-       ___eeprom_gptrget2   0x002e08    program     extern gptr/eeprom16_gptrget2_dispatch.S
-       ___eeprom_gptrget3   0x002e0c    program     extern gptr/eeprom16_gptrget3_dispatch.S
-       ___eeprom_gptrget4   0x002e10    program     extern gptr/eeprom16_gptrget4_dispatch.S
-       ___eeprom_gptrput1   0x002e00    program     extern gptr/eeprom16_gptrput1_dispatch.S
-       ___eeprom_gptrput3   0x002e14    program     extern gptr/eeprom16_gptrput3_dispatch.S
-  ___stream_gpsim_putchar   0x002dfa    program     extern strmgpsim.asm
+     ___eeprom16_gptrget1   0x002daa    program     extern eeprom16_gptrget1.asm
+     ___eeprom16_gptrget2   0x002cfc    program     extern eeprom16_gptrget2.asm
+     ___eeprom16_gptrget3   0x002ba8    program     extern eeprom16_gptrget3.asm
+     ___eeprom16_gptrget4   0x002a66    program     extern eeprom16_gptrget4.asm
+     ___eeprom16_gptrput1   0x002d46    program     extern eeprom16_gptrput1.asm
+     ___eeprom16_gptrput3   0x002b44    program     extern eeprom16_gptrput3.asm
+        ___eeprom16_write   0x002e04    program     extern eeprom16_write.asm
+       ___eeprom_gptrget1   0x002e6e    program     extern gptr/eeprom16_gptrget1_dispatch.S
+       ___eeprom_gptrget2   0x002e72    program     extern gptr/eeprom16_gptrget2_dispatch.S
+       ___eeprom_gptrget3   0x002e76    program     extern gptr/eeprom16_gptrget3_dispatch.S
+       ___eeprom_gptrget4   0x002e7a    program     extern gptr/eeprom16_gptrget4_dispatch.S
+       ___eeprom_gptrput1   0x002e6a    program     extern gptr/eeprom16_gptrput1_dispatch.S
+       ___eeprom_gptrput3   0x002e7e    program     extern gptr/eeprom16_gptrput3_dispatch.S
+  ___stream_gpsim_putchar   0x002e64    program     extern strmgpsim.asm
    ___stream_mssp_putchar   0x000004    program     extern strmmssp.asm
-        ___stream_putchar   0x001c28    program     extern strmputchar.asm
+        ___stream_putchar   0x001c92    program     extern strmputchar.asm
   ___stream_usart_putchar   0x00000c    program     extern strmusart.asm
-                  __debug   0x0025a4    program     extern pillefyrsstyring.asm
-               __divulong   0x0019fc    program     extern divulong.asm
+                  __debug   0x00260e    program     extern pillefyrsstyring.asm
+               __divulong   0x001a66    program     extern divulong.asm
                   __entry   0x000000    program     extern crt0.asm
-               __gptrget1   0x002d00    program     extern gptrget1.asm
-               __gptrget2   0x002b9c    program     extern gptrget2.asm
-               __gptrget3   0x002aa4    program     extern gptrget3.asm
-               __gptrget4   0x0027ec    program     extern gptrget4.asm
-               __gptrput1   0x002d5c    program     extern gptrput1.asm
-               __gptrput3   0x002d22    program     extern gptrput3.asm
+               __gptrget1   0x002d6a    program     extern gptrget1.asm
+               __gptrget2   0x002c06    program     extern gptrget2.asm
+               __gptrget3   0x002b0e    program     extern gptrget3.asm
+               __gptrget4   0x002856    program     extern gptrget4.asm
+               __gptrput1   0x002dc6    program     extern gptrput1.asm
+               __gptrput3   0x002d8c    program     extern gptrput3.asm
            __latch_2_data   0x000814       data     extern pillefyrsstyring.asm
            __latch_3_data   0x000816       data     extern glcd.asm
-                __moduint   0x001f04    program     extern moduint.asm
-               __modulong   0x0018c2    program     extern modulong.asm
-                 __mulint   0x002110    program     extern mulint.asm
+                __moduint   0x001f6e    program     extern moduint.asm
+               __modulong   0x00192c    program     extern modulong.asm
+                 __mulint   0x00217a    program     extern mulint.asm
            __mulint_t_1_2   0x00080d       data     static mulint.asm
            __mulint_x_1_2   0x000809       data     static mulint.asm
            __mulint_y_1_2   0x00080b       data     static mulint.asm
-                __mullong   0x000be0    program     extern mullong.asm
+                __mullong   0x000c4a    program     extern mullong.asm
          __mullong_t1_1_2   0x000f77       data     static mullong.asm
          __mullong_t2_1_2   0x000f7b       data     static mullong.asm
           __mullong_t_1_2   0x000f73       data     static mullong.asm
           __mullong_x_1_2   0x000f6b       data     static mullong.asm
           __mullong_y_1_2   0x000f6f       data     static mullong.asm
-                __startup   0x002d86    program     extern crt0.asm
-                  __str_0   0x001494    program     static pillefyrsstyring.asm
+                __startup   0x002df0    program     extern crt0.asm
+                  __str_0   0x0014fe    program     static pillefyrsstyring.asm
                   __str_0   0x00081c    program     static vfprintf.asm
-                  __str_1   0x0014bc    program     static pillefyrsstyring.asm
-                  __str_2   0x0014c0    program     static pillefyrsstyring.asm
-                  __str_3   0x0014c8    program     static pillefyrsstyring.asm
-    _ac_power_pwm_counter   0x000813       data     extern pillefyrsstyring.asm
+                  __str_1   0x001526    program     static pillefyrsstyring.asm
+                  __str_2   0x00152a    program     static pillefyrsstyring.asm
+                  __str_3   0x001532    program     static pillefyrsstyring.asm
+    _ac_power_pwm_counter   0x000810       data     extern pillefyrsstyring.asm
                _ad_inputs   0x000f31       data     extern pillefyrsstyring.asm
-                _adc_busy   0x002df2    program     extern libio18f4620_a-adcbusy.asm
+                _adc_busy   0x002e5c    program     extern libio18f4620_a-adcbusy.asm
                 _adc_conv   0x000014    program     extern libio18f4620_a-adcconv.asm
-                _adc_open   0x002400    program     extern libio18f4620_a-adcopen.asm
-                _adc_read   0x002dda    program     extern libio18f4620_a-adcread.asm
-          _adc_setchannel   0x0029c2    program     extern libio18f4620_a-adcsetch.asm
-            _base64decode   0x000ff4    program     extern pillefyrsstyring.asm
-_base64decode_xlate_1_148   0x000f20       data     static pillefyrsstyring.asm
-            _base64encode   0x002dcc    program     extern pillefyrsstyring.asm
+                _adc_open   0x00246a    program     extern libio18f4620_a-adcopen.asm
+                _adc_read   0x002e44    program     extern libio18f4620_a-adcread.asm
+          _adc_setchannel   0x002a2c    program     extern libio18f4620_a-adcsetch.asm
+            _base64decode   0x00105e    program     extern pillefyrsstyring.asm
+_base64decode_xlate_1_149   0x000f20       data     static pillefyrsstyring.asm
+            _base64encode   0x002e36    program     extern pillefyrsstyring.asm
                  _command   0x0000e4       data     extern pillefyrsstyring.asm
            _command_index   0x00080f       data     extern pillefyrsstyring.asm
-                   _crc16   0x001778    program     extern crc16.asm
-               _crc_table   0x000df4    program     extern crc16.asm
+                   _crc16   0x0017e2    program     extern crc16.asm
+               _crc_table   0x000e5e    program     extern crc16.asm
              _fifo_buffer   0x000080       data     extern pillefyrsstyring.asm
-                _fifo_get   0x001fbe    program     extern pillefyrsstyring.asm
+                _fifo_get   0x002028    program     extern pillefyrsstyring.asm
                _fifo_head   0x000803       data     extern pillefyrsstyring.asm
-             _fifo_in_use   0x002b0e    program     extern pillefyrsstyring.asm
-                _fifo_put   0x00237e    program     extern pillefyrsstyring.asm
+             _fifo_in_use   0x002b78    program     extern pillefyrsstyring.asm
+                _fifo_put   0x0023e8    program     extern pillefyrsstyring.asm
                _fifo_tail   0x000805       data     extern pillefyrsstyring.asm
-              _get_inputs   0x002cb8    program     extern pillefyrsstyring.asm
+              _get_inputs   0x002d22    program     extern pillefyrsstyring.asm
                        _i   0x000807       data     extern pillefyrsstyring.asm
-            _init_latches   0x002bf2    program     extern pillefyrsstyring.asm
-             _init_timers   0x002a36    program     extern pillefyrsstyring.asm
-                 _islower   0x002b6e    program     extern islower.asm
-           _isr_high_prio   0x001380    program     static pillefyrsstyring.asm
-            _isr_low_prio   0x0021b0    program     static pillefyrsstyring.asm
-                 _lab_01_   0x002bac    program     static gptrget2.asm
-                 _lab_01_   0x002ab8    program     static gptrget3.asm
-                 _lab_01_   0x002d6a    program     static gptrput1.asm
-                 _lab_01_   0x002804    program     static gptrget4.asm
-                 _lab_01_   0x002d38    program     static gptrput3.asm
-                 _lab_01_   0x002d0c    program     static gptrget1.asm
-             _last_inputs   0x000810       data     extern pillefyrsstyring.asm
-         _latched_lcd_cs1   0x00282c    program     extern glcd.asm
-         _latched_lcd_cs2   0x002866    program     extern glcd.asm
-        _latched_lcd_data   0x002c1a    program     extern glcd.asm
-          _latched_lcd_di   0x002914    program     extern glcd.asm
-      _latched_lcd_enable   0x00294e    program     extern glcd.asm
-       _latched_lcd_power   0x002988    program     extern glcd.asm
-         _latched_lcd_rst   0x0028a0    program     extern glcd.asm
-          _latched_lcd_rw   0x0028da    program     extern glcd.asm
+            _init_latches   0x002c5c    program     extern pillefyrsstyring.asm
+             _init_timers   0x002aa0    program     extern pillefyrsstyring.asm
+                 _islower   0x002bd8    program     extern islower.asm
+           _isr_high_prio   0x0013ea    program     static pillefyrsstyring.asm
+            _isr_low_prio   0x00221a    program     static pillefyrsstyring.asm
+                 _lab_01_   0x002c16    program     static gptrget2.asm
+                 _lab_01_   0x002b22    program     static gptrget3.asm
+                 _lab_01_   0x002dd4    program     static gptrput1.asm
+                 _lab_01_   0x00286e    program     static gptrget4.asm
+                 _lab_01_   0x002da2    program     static gptrput3.asm
+                 _lab_01_   0x002d76    program     static gptrget1.asm
+             _last_inputs   0x000811       data     extern pillefyrsstyring.asm
+         _latched_lcd_cs1   0x002896    program     extern glcd.asm
+         _latched_lcd_cs2   0x0028d0    program     extern glcd.asm
+        _latched_lcd_data   0x002c84    program     extern glcd.asm
+          _latched_lcd_di   0x00297e    program     extern glcd.asm
+      _latched_lcd_enable   0x0029b8    program     extern glcd.asm
+       _latched_lcd_power   0x0029f2    program     extern glcd.asm
+         _latched_lcd_rst   0x00290a    program     extern glcd.asm
+          _latched_lcd_rw   0x002944    program     extern glcd.asm
               _lcd_buffer   0x000815       data     extern glcd.asm
-                 _lcd_cls   0x00224e    program     extern glcd.asm
-              _lcd_enable   0x002768    program     extern glcd.asm
-                _lcd_init   0x0027aa    program     extern glcd.asm
-          _lcd_plot_pixel   0x00206c    program     extern glcd.asm
-                _lcd_read   0x002d72    program     extern glcd.asm
-               _lcd_reset   0x0025f6    program     extern glcd.asm
-            _lcd_screenon   0x0024f4    program     extern glcd.asm
-          _lcd_selectside   0x002648    program     extern glcd.asm
-             _lcd_setpage   0x0026e0    program     extern glcd.asm
-            _lcd_setyaddr   0x002698    program     extern glcd.asm
-              _lcd_status   0x002c42    program     extern glcd.asm
-            _lcd_waitbusy   0x002a6e    program     extern glcd.asm
-               _lcd_write   0x002726    program     extern glcd.asm
-                    _ltoa   0x001e3e    program     extern ltoa.asm
+                 _lcd_cls   0x0022b8    program     extern glcd.asm
+              _lcd_enable   0x0027d2    program     extern glcd.asm
+                _lcd_init   0x002814    program     extern glcd.asm
+          _lcd_plot_pixel   0x0020d6    program     extern glcd.asm
+                _lcd_read   0x002ddc    program     extern glcd.asm
+               _lcd_reset   0x002660    program     extern glcd.asm
+            _lcd_screenon   0x00255e    program     extern glcd.asm
+          _lcd_selectside   0x0026b2    program     extern glcd.asm
+             _lcd_setpage   0x00274a    program     extern glcd.asm
+            _lcd_setyaddr   0x002702    program     extern glcd.asm
+              _lcd_status   0x002cac    program     extern glcd.asm
+            _lcd_waitbusy   0x002ad8    program     extern glcd.asm
+               _lcd_write   0x002790    program     extern glcd.asm
+                    _ltoa   0x001ea8    program     extern ltoa.asm
                     _main   0x000828    program     extern pillefyrsstyring.asm
        _main_buffer_1_102   0x000f4e       data     static pillefyrsstyring.asm
-            _main_c_1_102   0x000811       data     static pillefyrsstyring.asm
-                  _memcpy   0x001d3a    program     extern memcpy.asm
-           _my_usart_open   0x002bc8    program     extern pillefyrsstyring.asm
+            _main_c_1_102   0x000812       data     static pillefyrsstyring.asm
+                  _memcpy   0x001da4    program     extern memcpy.asm
+           _my_usart_open   0x002c32    program     extern pillefyrsstyring.asm
      _output_ac_power_pwm   0x000f61       data     extern pillefyrsstyring.asm
-                 _putchar   0x002e18    program     extern putchar.asm
-                   _reset   0x002dac    program     extern pillefyrsstyring.asm
-           _sensor_inputs   0x000812       data     extern pillefyrsstyring.asm
-            _set_ac_power   0x00254e    program     extern pillefyrsstyring.asm
-                _sleep_ms   0x001628    program     extern pillefyrsstyring.asm
-                 _sprintf   0x001b14    program     extern sprintf.asm
+                 _putchar   0x002e82    program     extern putchar.asm
+                   _reset   0x002e16    program     extern pillefyrsstyring.asm
+           _sensor_inputs   0x000813       data     extern pillefyrsstyring.asm
+            _set_ac_power   0x0025b8    program     extern pillefyrsstyring.asm
+                _sleep_ms   0x001692    program     extern pillefyrsstyring.asm
+                 _sprintf   0x001b7e    program     extern sprintf.asm
                    _stack   0x000700       data     extern stack/stack.S
                _stack_end   0x0007ff       data     extern stack/stack.S
-                  _strchr   0x0022e8    program     extern strchr.asm
+                  _strchr   0x002352    program     extern strchr.asm
               _timer_1_ms   0x000f67       data     extern pillefyrsstyring.asm
-                   _ultoa   0x0011c8    program     extern ltoa.asm
+                   _ultoa   0x001232    program     extern ltoa.asm
         _ultoa_buffer_1_2   0x000f00       data     static ltoa.asm
-              _usart_busy   0x002de2    program     extern libio18f4620_a-ubusy.asm
-              _usart_drdy   0x002dea    program     extern libio18f4620_a-udrdy.asm
-              _usart_getc   0x002c6a    program     extern libio18f4620_a-ugetc.asm
-              _usart_putc   0x002dbc    program     extern libio18f4620_a-uputc.asm
-              _usart_puts   0x00247c    program     extern libio18f4620_a-uputs.asm
+              _usart_busy   0x002e4c    program     extern libio18f4620_a-ubusy.asm
+              _usart_drdy   0x002e54    program     extern libio18f4620_a-udrdy.asm
+              _usart_getc   0x002cd4    program     extern libio18f4620_a-ugetc.asm
+              _usart_putc   0x002e26    program     extern libio18f4620_a-uputc.asm
+              _usart_puts   0x0024e6    program     extern libio18f4620_a-uputs.asm
            _valid_command   0x0000f9       data     extern pillefyrsstyring.asm
-        _validate_command   0x0014d6    program     extern pillefyrsstyring.asm
-_validate_command_decoded_command_1_153   0x000f58       data     static pillefyrsstyring.asm
+        _validate_command   0x001540    program     extern pillefyrsstyring.asm
+_validate_command_decoded_command_1_154   0x000f58       data     static pillefyrsstyring.asm
                 _vfprintf   0x00001c    program     extern vfprintf.asm
     _vfprintf_buffer_1_41   0x000f41       data     static vfprintf.asm
 _vfprintf_stringbuffer_1_41   0x000800       data     static vfprintf.asm
    ivec_0x1_isr_high_prio   0x000008    program     static pillefyrsstyring.asm
     ivec_0x2_isr_low_prio   0x000018    program     static pillefyrsstyring.asm
-                   lockup   0x002d98    program     static crt0.asm
+                   lockup   0x002e02    program     static crt0.asm
                     r0x00   0x000000       data     static pillefyrsstyring.asm
                     r0x00   0x000000       data     static memcpy.asm
                     r0x00   0x000000       data     static strchr.asm
@@ -934,81 +936,86 @@ _vfprintf_stringbuffer_1_41   0x000800       data     static vfprintf.asm
                     r0x1c   0x00001c       data     static vfprintf.asm
                     r0x1d   0x00001d       data     static vfprintf.asm
                     r0x1e   0x00001e       data     static vfprintf.asm
-           wait_till_done   0x002da4    program     static eeprom16_write.asm
+           wait_till_done   0x002e0e    program     static eeprom16_write.asm
 
 
 
                               Symbols - Sorted by Address
                      Name    Address   Location    Storage File
                 ---------  ---------  ---------  --------- ---------
-                    r0x00   0x000000       data     static libio18f4620_a-adcsetch.asm
                     r0x00   0x000000       data     static modulong.asm
-                    r0x00   0x000000       data     static mulint.asm
-                    r0x00   0x000000       data     static sprintf.asm
-                    r0x00   0x000000       data     static divulong.asm
-                    r0x00   0x000000       data     static pillefyrsstyring.asm
                     r0x00   0x000000       data     static crc16.asm
-                    r0x00   0x000000       data     static libio18f4620_a-uputs.asm
-                  __entry   0x000000    program     extern crt0.asm
-                    r0x00   0x000000       data     static memcpy.asm
                     r0x00   0x000000       data     static strchr.asm
+                    r0x00   0x000000       data     static memcpy.asm
+                    r0x00   0x000000       data     static pillefyrsstyring.asm
+                  __entry   0x000000    program     extern crt0.asm
+                    r0x00   0x000000       data     static divulong.asm
+                    r0x00   0x000000       data     static moduint.asm
+                    r0x00   0x000000       data     static sprintf.asm
+                    r0x00   0x000000       data     static vfprintf.asm
+                    r0x00   0x000000       data     static mullong.asm
+                    r0x00   0x000000       data     static glcd.asm
                     r0x00   0x000000       data     static strmputchar.asm
                     r0x00   0x000000       data     static ltoa.asm
                     r0x00   0x000000       data     static islower.asm
-                    r0x00   0x000000       data     static moduint.asm
-                    r0x00   0x000000       data     static glcd.asm
-                    r0x00   0x000000       data     static mullong.asm
+                    r0x00   0x000000       data     static libio18f4620_a-uputs.asm
                     r0x00   0x000000       data     static libio18f4620_a-adcopen.asm
-                    r0x00   0x000000       data     static vfprintf.asm
+                    r0x00   0x000000       data     static libio18f4620_a-adcsetch.asm
+                    r0x00   0x000000       data     static mulint.asm
+                    r0x01   0x000001       data     static modulong.asm
+                    r0x01   0x000001       data     static glcd.asm
+                    r0x01   0x000001       data     static pillefyrsstyring.asm
+                    r0x01   0x000001       data     static crc16.asm
+                    r0x01   0x000001       data     static memcpy.asm
+                    r0x01   0x000001       data     static libio18f4620_a-adcsetch.asm
+                    r0x01   0x000001       data     static mulint.asm
                     r0x01   0x000001       data     static strmputchar.asm
+                    r0x01   0x000001       data     static ltoa.asm
                     r0x01   0x000001       data     static libio18f4620_a-uputs.asm
                     r0x01   0x000001       data     static divulong.asm
                     r0x01   0x000001       data     static strchr.asm
                     r0x01   0x000001       data     static sprintf.asm
                     r0x01   0x000001       data     static moduint.asm
                     r0x01   0x000001       data     static libio18f4620_a-adcopen.asm
-                    r0x01   0x000001       data     static mullong.asm
                     r0x01   0x000001       data     static vfprintf.asm
-                    r0x01   0x000001       data     static glcd.asm
-                    r0x01   0x000001       data     static pillefyrsstyring.asm
-                    r0x01   0x000001       data     static crc16.asm
-                    r0x01   0x000001       data     static memcpy.asm
-                    r0x01   0x000001       data     static modulong.asm
-                    r0x01   0x000001       data     static libio18f4620_a-adcsetch.asm
-                    r0x01   0x000001       data     static mulint.asm
-                    r0x01   0x000001       data     static ltoa.asm
-                    r0x02   0x000002       data     static libio18f4620_a-adcopen.asm
+                    r0x01   0x000001       data     static mullong.asm
+                    r0x02   0x000002       data     static strchr.asm
+                    r0x02   0x000002       data     static vfprintf.asm
+                    r0x02   0x000002       data     static mullong.asm
+                    r0x02   0x000002       data     static strmputchar.asm
+                    r0x02   0x000002       data     static crc16.asm
+                    r0x02   0x000002       data     static modulong.asm
                     r0x02   0x000002       data     static glcd.asm
+                    r0x02   0x000002       data     static sprintf.asm
                     r0x02   0x000002       data     static pillefyrsstyring.asm
                     r0x02   0x000002       data     static mulint.asm
                     r0x02   0x000002       data     static ltoa.asm
+                    r0x02   0x000002       data     static libio18f4620_a-adcopen.asm
                     r0x02   0x000002       data     static moduint.asm
                     r0x02   0x000002       data     static divulong.asm
                     r0x02   0x000002       data     static memcpy.asm
-                    r0x02   0x000002       data     static mullong.asm
-                    r0x02   0x000002       data     static sprintf.asm
-                    r0x02   0x000002       data     static crc16.asm
-                    r0x02   0x000002       data     static strmputchar.asm
-                    r0x02   0x000002       data     static vfprintf.asm
                     r0x02   0x000002       data     static libio18f4620_a-uputs.asm
-                    r0x02   0x000002       data     static strchr.asm
-                    r0x02   0x000002       data     static modulong.asm
-                    r0x03   0x000003       data     static ltoa.asm
-                    r0x03   0x000003       data     static sprintf.asm
-                    r0x03   0x000003       data     static vfprintf.asm
-                    r0x03   0x000003       data     static libio18f4620_a-uputs.asm
-                    r0x03   0x000003       data     static strmputchar.asm
-                    r0x03   0x000003       data     static libio18f4620_a-adcopen.asm
-                    r0x03   0x000003       data     static divulong.asm
-                    r0x03   0x000003       data     static mullong.asm
-                    r0x03   0x000003       data     static moduint.asm
                     r0x03   0x000003       data     static pillefyrsstyring.asm
-                    r0x03   0x000003       data     static modulong.asm
-                    r0x03   0x000003       data     static memcpy.asm
-                    r0x03   0x000003       data     static strchr.asm
-                    r0x03   0x000003       data     static mulint.asm
+                    r0x03   0x000003       data     static moduint.asm
+                    r0x03   0x000003       data     static strmputchar.asm
+                    r0x03   0x000003       data     static libio18f4620_a-uputs.asm
                     r0x03   0x000003       data     static crc16.asm
+                    r0x03   0x000003       data     static strchr.asm
+                    r0x03   0x000003       data     static divulong.asm
+                    r0x03   0x000003       data     static vfprintf.asm
+                    r0x03   0x000003       data     static sprintf.asm
+                    r0x03   0x000003       data     static ltoa.asm
+                    r0x03   0x000003       data     static mullong.asm
+                    r0x03   0x000003       data     static memcpy.asm
+                    r0x03   0x000003       data     static libio18f4620_a-adcopen.asm
+                    r0x03   0x000003       data     static modulong.asm
+                    r0x03   0x000003       data     static mulint.asm
+                    r0x04   0x000004       data     static moduint.asm
+   ___stream_mssp_putchar   0x000004    program     extern strmmssp.asm
+                    r0x04   0x000004       data     static modulong.asm
+                    r0x04   0x000004       data     static memcpy.asm
                     r0x04   0x000004       data     static crc16.asm
+                    r0x04   0x000004       data     static sprintf.asm
                     r0x04   0x000004       data     static strchr.asm
                     r0x04   0x000004       data     static divulong.asm
                     r0x04   0x000004       data     static ltoa.asm
@@ -1016,35 +1023,28 @@ _vfprintf_stringbuffer_1_41   0x000800       data     static vfprintf.asm
                     r0x04   0x000004       data     static strmputchar.asm
                     r0x04   0x000004       data     static mullong.asm
                     r0x04   0x000004       data     static vfprintf.asm
-   ___stream_mssp_putchar   0x000004    program     extern strmmssp.asm
-                    r0x04   0x000004       data     static moduint.asm
-                    r0x04   0x000004       data     static modulong.asm
-                    r0x04   0x000004       data     static memcpy.asm
-                    r0x04   0x000004       data     static sprintf.asm
-                    r0x05   0x000005       data     static moduint.asm
                     r0x05   0x000005       data     static divulong.asm
-                    r0x05   0x000005       data     static mullong.asm
-                    r0x05   0x000005       data     static crc16.asm
-                    r0x05   0x000005       data     static strmputchar.asm
-                    r0x05   0x000005       data     static memcpy.asm
-                    r0x05   0x000005       data     static modulong.asm
-                    r0x05   0x000005       data     static sprintf.asm
-                    r0x05   0x000005       data     static pillefyrsstyring.asm
                     r0x05   0x000005       data     static vfprintf.asm
+                    r0x05   0x000005       data     static memcpy.asm
+                    r0x05   0x000005       data     static pillefyrsstyring.asm
+                    r0x05   0x000005       data     static modulong.asm
+                    r0x05   0x000005       data     static strmputchar.asm
+                    r0x05   0x000005       data     static crc16.asm
+                    r0x05   0x000005       data     static mullong.asm
                     r0x05   0x000005       data     static ltoa.asm
-                    r0x06   0x000006       data     static pillefyrsstyring.asm
+                    r0x05   0x000005       data     static moduint.asm
+                    r0x05   0x000005       data     static sprintf.asm
+                    r0x06   0x000006       data     static crc16.asm
                     r0x06   0x000006       data     static moduint.asm
                     r0x06   0x000006       data     static mullong.asm
                     r0x06   0x000006       data     static vfprintf.asm
+                    r0x06   0x000006       data     static pillefyrsstyring.asm
                     r0x06   0x000006       data     static sprintf.asm
                     r0x06   0x000006       data     static strmputchar.asm
                     r0x06   0x000006       data     static memcpy.asm
-                    r0x06   0x000006       data     static crc16.asm
                     r0x06   0x000006       data     static divulong.asm
                     r0x06   0x000006       data     static ltoa.asm
                     r0x06   0x000006       data     static modulong.asm
-                    r0x07   0x000007       data     static strmputchar.asm
-                    r0x07   0x000007       data     static pillefyrsstyring.asm
                     r0x07   0x000007       data     static mullong.asm
                     r0x07   0x000007       data     static divulong.asm
                     r0x07   0x000007       data     static sprintf.asm
@@ -1053,53 +1053,55 @@ _vfprintf_stringbuffer_1_41   0x000800       data     static vfprintf.asm
                     r0x07   0x000007       data     static vfprintf.asm
                     r0x07   0x000007       data     static ltoa.asm
                     r0x07   0x000007       data     static memcpy.asm
-                    r0x08   0x000008       data     static vfprintf.asm
-                    r0x08   0x000008       data     static crc16.asm
-                    r0x08   0x000008       data     static modulong.asm
+                    r0x07   0x000007       data     static strmputchar.asm
+                    r0x07   0x000007       data     static pillefyrsstyring.asm
                     r0x08   0x000008       data     static sprintf.asm
                     r0x08   0x000008       data     static ltoa.asm
-   ivec_0x1_isr_high_prio   0x000008    program     static pillefyrsstyring.asm
                     r0x08   0x000008       data     static divulong.asm
-                    r0x08   0x000008       data     static pillefyrsstyring.asm
                     r0x08   0x000008       data     static memcpy.asm
-                    r0x09   0x000009       data     static modulong.asm
-                    r0x09   0x000009       data     static vfprintf.asm
-                    r0x09   0x000009       data     static pillefyrsstyring.asm
-                    r0x09   0x000009       data     static memcpy.asm
-                    r0x09   0x000009       data     static ltoa.asm
+                    r0x08   0x000008       data     static vfprintf.asm
+   ivec_0x1_isr_high_prio   0x000008    program     static pillefyrsstyring.asm
+                    r0x08   0x000008       data     static modulong.asm
+                    r0x08   0x000008       data     static crc16.asm
+                    r0x08   0x000008       data     static pillefyrsstyring.asm
                     r0x09   0x000009       data     static divulong.asm
+                    r0x09   0x000009       data     static memcpy.asm
+                    r0x09   0x000009       data     static pillefyrsstyring.asm
                     r0x09   0x000009       data     static crc16.asm
-                    r0x0a   0x00000a       data     static memcpy.asm
+                    r0x09   0x000009       data     static vfprintf.asm
+                    r0x09   0x000009       data     static ltoa.asm
+                    r0x09   0x000009       data     static modulong.asm
+                    r0x0a   0x00000a       data     static crc16.asm
+                    r0x0a   0x00000a       data     static vfprintf.asm
+                    r0x0a   0x00000a       data     static modulong.asm
                     r0x0a   0x00000a       data     static divulong.asm
                     r0x0a   0x00000a       data     static ltoa.asm
-                    r0x0a   0x00000a       data     static modulong.asm
-                    r0x0a   0x00000a       data     static vfprintf.asm
-                    r0x0a   0x00000a       data     static crc16.asm
                     r0x0a   0x00000a       data     static pillefyrsstyring.asm
-                    r0x0b   0x00000b       data     static divulong.asm
-                    r0x0b   0x00000b       data     static crc16.asm
+                    r0x0a   0x00000a       data     static memcpy.asm
                     r0x0b   0x00000b       data     static ltoa.asm
-                    r0x0b   0x00000b       data     static pillefyrsstyring.asm
-                    r0x0b   0x00000b       data     static memcpy.asm
+                    r0x0b   0x00000b       data     static crc16.asm
                     r0x0b   0x00000b       data     static vfprintf.asm
-                    r0x0c   0x00000c       data     static vfprintf.asm
-  ___stream_usart_putchar   0x00000c    program     extern strmusart.asm
+                    r0x0b   0x00000b       data     static memcpy.asm
+                    r0x0b   0x00000b       data     static divulong.asm
+                    r0x0b   0x00000b       data     static pillefyrsstyring.asm
                     r0x0c   0x00000c       data     static memcpy.asm
                        @1   0x00000c    program     static strmusart.asm
-                    r0x0c   0x00000c       data     static divulong.asm
-                    r0x0c   0x00000c       data     static ltoa.asm
+  ___stream_usart_putchar   0x00000c    program     extern strmusart.asm
                     r0x0c   0x00000c       data     static pillefyrsstyring.asm
                     r0x0c   0x00000c       data     static crc16.asm
+                    r0x0c   0x00000c       data     static vfprintf.asm
+                    r0x0c   0x00000c       data     static ltoa.asm
+                    r0x0c   0x00000c       data     static divulong.asm
                     r0x0d   0x00000d       data     static ltoa.asm
                     r0x0d   0x00000d       data     static divulong.asm
-                    r0x0d   0x00000d       data     static vfprintf.asm
                     r0x0d   0x00000d       data     static pillefyrsstyring.asm
-                    r0x0e   0x00000e       data     static pillefyrsstyring.asm
+                    r0x0d   0x00000d       data     static vfprintf.asm
                     r0x0e   0x00000e       data     static ltoa.asm
+                    r0x0e   0x00000e       data     static pillefyrsstyring.asm
                     r0x0e   0x00000e       data     static vfprintf.asm
-                    r0x0f   0x00000f       data     static vfprintf.asm
                     r0x0f   0x00000f       data     static pillefyrsstyring.asm
                     r0x0f   0x00000f       data     static ltoa.asm
+                    r0x0f   0x00000f       data     static vfprintf.asm
                     r0x10   0x000010       data     static vfprintf.asm
                     r0x11   0x000011       data     static vfprintf.asm
                     r0x12   0x000012       data     static vfprintf.asm
@@ -1114,8 +1116,8 @@ _vfprintf_stringbuffer_1_41   0x000800       data     static vfprintf.asm
                     r0x19   0x000019       data     static vfprintf.asm
                     r0x1a   0x00001a       data     static vfprintf.asm
                     r0x1b   0x00001b       data     static vfprintf.asm
-                _vfprintf   0x00001c    program     extern vfprintf.asm
                     r0x1c   0x00001c       data     static vfprintf.asm
+                _vfprintf   0x00001c    program     extern vfprintf.asm
                     r0x1d   0x00001d       data     static vfprintf.asm
                     r0x1e   0x00001e       data     static vfprintf.asm
              _fifo_buffer   0x000080       data     extern pillefyrsstyring.asm
@@ -1130,8 +1132,8 @@ _vfprintf_stringbuffer_1_41   0x000800       data     static vfprintf.asm
                _00400_DS_   0x000194    program     static vfprintf.asm
                _00112_DS_   0x0001b2    program     static vfprintf.asm
                _00403_DS_   0x0001b2    program     static vfprintf.asm
-               _00114_DS_   0x0001d4    program     static vfprintf.asm
                _00406_DS_   0x0001d4    program     static vfprintf.asm
+               _00114_DS_   0x0001d4    program     static vfprintf.asm
                _00409_DS_   0x0001f2    program     static vfprintf.asm
                _00116_DS_   0x0001f2    program     static vfprintf.asm
                _00118_DS_   0x00021c    program     static vfprintf.asm
@@ -1198,44 +1200,46 @@ _vfprintf_stringbuffer_1_41   0x000800       data     static vfprintf.asm
            __mulint_y_1_2   0x00080b       data     static mulint.asm
            __mulint_t_1_2   0x00080d       data     static mulint.asm
            _command_index   0x00080f       data     extern pillefyrsstyring.asm
-             _last_inputs   0x000810       data     extern pillefyrsstyring.asm
-            _main_c_1_102   0x000811       data     static pillefyrsstyring.asm
-           _sensor_inputs   0x000812       data     extern pillefyrsstyring.asm
-    _ac_power_pwm_counter   0x000813       data     extern pillefyrsstyring.asm
+    _ac_power_pwm_counter   0x000810       data     extern pillefyrsstyring.asm
+             _last_inputs   0x000811       data     extern pillefyrsstyring.asm
+            _main_c_1_102   0x000812       data     static pillefyrsstyring.asm
+           _sensor_inputs   0x000813       data     extern pillefyrsstyring.asm
            __latch_2_data   0x000814       data     extern pillefyrsstyring.asm
               _lcd_buffer   0x000815       data     extern glcd.asm
            __latch_3_data   0x000816       data     extern glcd.asm
             _USART_Status   0x000817       data     extern libio18f4620_a-usartd.asm
                   __str_0   0x00081c    program     static vfprintf.asm
                     _main   0x000828    program     extern pillefyrsstyring.asm
-               _00132_DS_   0x0008d4    program     static pillefyrsstyring.asm
-               _00199_DS_   0x000904    program     static pillefyrsstyring.asm
-               _00119_DS_   0x00090e    program     static pillefyrsstyring.asm
-               _00203_DS_   0x000964    program     static pillefyrsstyring.asm
-               _00205_DS_   0x00096c    program     static pillefyrsstyring.asm
-               _00209_DS_   0x00097a    program     static pillefyrsstyring.asm
-               _00105_DS_   0x00097c    program     static pillefyrsstyring.asm
-               _00134_DS_   0x00097e    program     static pillefyrsstyring.asm
-               _00107_DS_   0x0009e4    program     static pillefyrsstyring.asm
-               _00108_DS_   0x000a4c    program     static pillefyrsstyring.asm
-               _00151_DS_   0x000a90    program     static pillefyrsstyring.asm
-               _00136_DS_   0x000a92    program     static pillefyrsstyring.asm
-               _00111_DS_   0x000b10    program     static pillefyrsstyring.asm
-               _00114_DS_   0x000b18    program     static pillefyrsstyring.asm
-               _00120_DS_   0x000b20    program     static pillefyrsstyring.asm
-               _00117_DS_   0x000b48    program     static pillefyrsstyring.asm
-               _00124_DS_   0x000b76    program     static pillefyrsstyring.asm
-               _00157_DS_   0x000b88    program     static pillefyrsstyring.asm
-               _00138_DS_   0x000b8e    program     static pillefyrsstyring.asm
-               _00127_DS_   0x000b9c    program     static pillefyrsstyring.asm
-                __mullong   0x000be0    program     extern mullong.asm
-               _crc_table   0x000df4    program     extern crc16.asm
+               _00105_DS_   0x0008dc    program     static pillefyrsstyring.asm
+               _00107_DS_   0x00092c    program     static pillefyrsstyring.asm
+               _00135_DS_   0x00093e    program     static pillefyrsstyring.asm
+               _00208_DS_   0x00096e    program     static pillefyrsstyring.asm
+               _00122_DS_   0x000978    program     static pillefyrsstyring.asm
+               _00212_DS_   0x0009ce    program     static pillefyrsstyring.asm
+               _00214_DS_   0x0009d6    program     static pillefyrsstyring.asm
+               _00218_DS_   0x0009e4    program     static pillefyrsstyring.asm
+               _00108_DS_   0x0009e6    program     static pillefyrsstyring.asm
+               _00137_DS_   0x0009e8    program     static pillefyrsstyring.asm
+               _00110_DS_   0x000a4e    program     static pillefyrsstyring.asm
+               _00111_DS_   0x000ab6    program     static pillefyrsstyring.asm
+               _00156_DS_   0x000afa    program     static pillefyrsstyring.asm
+               _00139_DS_   0x000afc    program     static pillefyrsstyring.asm
+               _00114_DS_   0x000b7a    program     static pillefyrsstyring.asm
+               _00117_DS_   0x000b82    program     static pillefyrsstyring.asm
+               _00123_DS_   0x000b8a    program     static pillefyrsstyring.asm
+               _00120_DS_   0x000bb2    program     static pillefyrsstyring.asm
+               _00127_DS_   0x000be0    program     static pillefyrsstyring.asm
+               _00162_DS_   0x000bf2    program     static pillefyrsstyring.asm
+               _00141_DS_   0x000bf8    program     static pillefyrsstyring.asm
+               _00130_DS_   0x000c06    program     static pillefyrsstyring.asm
+                __mullong   0x000c4a    program     extern mullong.asm
+               _crc_table   0x000e5e    program     extern crc16.asm
         _ultoa_buffer_1_2   0x000f00       data     static ltoa.asm
-_base64decode_xlate_1_148   0x000f20       data     static pillefyrsstyring.asm
+_base64decode_xlate_1_149   0x000f20       data     static pillefyrsstyring.asm
                _ad_inputs   0x000f31       data     extern pillefyrsstyring.asm
     _vfprintf_buffer_1_41   0x000f41       data     static vfprintf.asm
        _main_buffer_1_102   0x000f4e       data     static pillefyrsstyring.asm
-_validate_command_decoded_command_1_153   0x000f58       data     static pillefyrsstyring.asm
+_validate_command_decoded_command_1_154   0x000f58       data     static pillefyrsstyring.asm
      _output_ac_power_pwm   0x000f61       data     extern pillefyrsstyring.asm
               _timer_1_ms   0x000f67       data     extern pillefyrsstyring.asm
           __mullong_x_1_2   0x000f6b       data     static mullong.asm
@@ -1243,62 +1247,62 @@ _validate_command_decoded_command_1_153   0x000f58       data     static pillefy
           __mullong_t_1_2   0x000f73       data     static mullong.asm
          __mullong_t1_1_2   0x000f77       data     static mullong.asm
          __mullong_t2_1_2   0x000f7b       data     static mullong.asm
-                   _PORTA   0x000f80       data     extern libdev18f4620_a-pic18f4620.asm
                _PORTAbits   0x000f80       data     extern libdev18f4620_a-pic18f4620.asm
+                   _PORTA   0x000f80       data     extern libdev18f4620_a-pic18f4620.asm
                _PORTBbits   0x000f81       data     extern libdev18f4620_a-pic18f4620.asm
                    _PORTB   0x000f81       data     extern libdev18f4620_a-pic18f4620.asm
-                   _PORTC   0x000f82       data     extern libdev18f4620_a-pic18f4620.asm
                _PORTCbits   0x000f82       data     extern libdev18f4620_a-pic18f4620.asm
-                   _PORTD   0x000f83       data     extern libdev18f4620_a-pic18f4620.asm
+                   _PORTC   0x000f82       data     extern libdev18f4620_a-pic18f4620.asm
                _PORTDbits   0x000f83       data     extern libdev18f4620_a-pic18f4620.asm
-                   _PORTE   0x000f84       data     extern libdev18f4620_a-pic18f4620.asm
+                   _PORTD   0x000f83       data     extern libdev18f4620_a-pic18f4620.asm
                _PORTEbits   0x000f84       data     extern libdev18f4620_a-pic18f4620.asm
+                   _PORTE   0x000f84       data     extern libdev18f4620_a-pic18f4620.asm
                     _LATA   0x000f89       data     extern libdev18f4620_a-pic18f4620.asm
                 _LATAbits   0x000f89       data     extern libdev18f4620_a-pic18f4620.asm
-                _LATBbits   0x000f8a       data     extern libdev18f4620_a-pic18f4620.asm
                     _LATB   0x000f8a       data     extern libdev18f4620_a-pic18f4620.asm
-                _LATCbits   0x000f8b       data     extern libdev18f4620_a-pic18f4620.asm
+                _LATBbits   0x000f8a       data     extern libdev18f4620_a-pic18f4620.asm
                     _LATC   0x000f8b       data     extern libdev18f4620_a-pic18f4620.asm
+                _LATCbits   0x000f8b       data     extern libdev18f4620_a-pic18f4620.asm
                 _LATDbits   0x000f8c       data     extern libdev18f4620_a-pic18f4620.asm
                     _LATD   0x000f8c       data     extern libdev18f4620_a-pic18f4620.asm
                     _LATE   0x000f8d       data     extern libdev18f4620_a-pic18f4620.asm
                 _LATEbits   0x000f8d       data     extern libdev18f4620_a-pic18f4620.asm
-                    _DDRA   0x000f92       data     extern libdev18f4620_a-pic18f4620.asm
                _TRISAbits   0x000f92       data     extern libdev18f4620_a-pic18f4620.asm
                    _TRISA   0x000f92       data     extern libdev18f4620_a-pic18f4620.asm
+                    _DDRA   0x000f92       data     extern libdev18f4620_a-pic18f4620.asm
                 _DDRAbits   0x000f92       data     extern libdev18f4620_a-pic18f4620.asm
                    _TRISB   0x000f93       data     extern libdev18f4620_a-pic18f4620.asm
                 _DDRBbits   0x000f93       data     extern libdev18f4620_a-pic18f4620.asm
                     _DDRB   0x000f93       data     extern libdev18f4620_a-pic18f4620.asm
                _TRISBbits   0x000f93       data     extern libdev18f4620_a-pic18f4620.asm
                     _DDRC   0x000f94       data     extern libdev18f4620_a-pic18f4620.asm
-               _TRISCbits   0x000f94       data     extern libdev18f4620_a-pic18f4620.asm
                    _TRISC   0x000f94       data     extern libdev18f4620_a-pic18f4620.asm
+               _TRISCbits   0x000f94       data     extern libdev18f4620_a-pic18f4620.asm
                 _DDRCbits   0x000f94       data     extern libdev18f4620_a-pic18f4620.asm
-               _TRISDbits   0x000f95       data     extern libdev18f4620_a-pic18f4620.asm
-                    _DDRD   0x000f95       data     extern libdev18f4620_a-pic18f4620.asm
-                _DDRDbits   0x000f95       data     extern libdev18f4620_a-pic18f4620.asm
                    _TRISD   0x000f95       data     extern libdev18f4620_a-pic18f4620.asm
+                _DDRDbits   0x000f95       data     extern libdev18f4620_a-pic18f4620.asm
+                    _DDRD   0x000f95       data     extern libdev18f4620_a-pic18f4620.asm
+               _TRISDbits   0x000f95       data     extern libdev18f4620_a-pic18f4620.asm
                     _DDRE   0x000f96       data     extern libdev18f4620_a-pic18f4620.asm
-                _DDREbits   0x000f96       data     extern libdev18f4620_a-pic18f4620.asm
                _TRISEbits   0x000f96       data     extern libdev18f4620_a-pic18f4620.asm
                    _TRISE   0x000f96       data     extern libdev18f4620_a-pic18f4620.asm
+                _DDREbits   0x000f96       data     extern libdev18f4620_a-pic18f4620.asm
                  _OSCTUNE   0x000f9b       data     extern libdev18f4620_a-pic18f4620.asm
              _OSCTUNEbits   0x000f9b       data     extern libdev18f4620_a-pic18f4620.asm
-                _PIE1bits   0x000f9d       data     extern libdev18f4620_a-pic18f4620.asm
                     _PIE1   0x000f9d       data     extern libdev18f4620_a-pic18f4620.asm
-                    _PIR1   0x000f9e       data     extern libdev18f4620_a-pic18f4620.asm
+                _PIE1bits   0x000f9d       data     extern libdev18f4620_a-pic18f4620.asm
                 _PIR1bits   0x000f9e       data     extern libdev18f4620_a-pic18f4620.asm
-                    _IPR1   0x000f9f       data     extern libdev18f4620_a-pic18f4620.asm
+                    _PIR1   0x000f9e       data     extern libdev18f4620_a-pic18f4620.asm
                 _IPR1bits   0x000f9f       data     extern libdev18f4620_a-pic18f4620.asm
+                    _IPR1   0x000f9f       data     extern libdev18f4620_a-pic18f4620.asm
                 _PIE2bits   0x000fa0       data     extern libdev18f4620_a-pic18f4620.asm
                     _PIE2   0x000fa0       data     extern libdev18f4620_a-pic18f4620.asm
-                    _PIR2   0x000fa1       data     extern libdev18f4620_a-pic18f4620.asm
                 _PIR2bits   0x000fa1       data     extern libdev18f4620_a-pic18f4620.asm
-                _IPR2bits   0x000fa2       data     extern libdev18f4620_a-pic18f4620.asm
+                    _PIR2   0x000fa1       data     extern libdev18f4620_a-pic18f4620.asm
                     _IPR2   0x000fa2       data     extern libdev18f4620_a-pic18f4620.asm
-              _EECON1bits   0x000fa6       data     extern libdev18f4620_a-pic18f4620.asm
+                _IPR2bits   0x000fa2       data     extern libdev18f4620_a-pic18f4620.asm
                   _EECON1   0x000fa6       data     extern libdev18f4620_a-pic18f4620.asm
+              _EECON1bits   0x000fa6       data     extern libdev18f4620_a-pic18f4620.asm
                   _EECON2   0x000fa7       data     extern libdev18f4620_a-pic18f4620.asm
                   _EEDATA   0x000fa8       data     extern libdev18f4620_a-pic18f4620.asm
                    _EEADR   0x000fa9       data     extern libdev18f4620_a-pic18f4620.asm
@@ -1311,25 +1315,25 @@ _validate_command_decoded_command_1_153   0x000f58       data     static pillefy
                    _RCREG   0x000fae       data     extern libdev18f4620_a-pic18f4620.asm
                    _SPBRG   0x000faf       data     extern libdev18f4620_a-pic18f4620.asm
                   _SPBRGH   0x000fb0       data     extern libdev18f4620_a-pic18f4620.asm
-                   _T3CON   0x000fb1       data     extern libdev18f4620_a-pic18f4620.asm
                _T3CONbits   0x000fb1       data     extern libdev18f4620_a-pic18f4620.asm
+                   _T3CON   0x000fb1       data     extern libdev18f4620_a-pic18f4620.asm
                    _TMR3L   0x000fb2       data     extern libdev18f4620_a-pic18f4620.asm
                     _TMR3   0x000fb2       data     extern libdev18f4620_a-pic18f4620.asm
                    _TMR3H   0x000fb3       data     extern libdev18f4620_a-pic18f4620.asm
-               _CMCONbits   0x000fb4       data     extern libdev18f4620_a-pic18f4620.asm
                    _CMCON   0x000fb4       data     extern libdev18f4620_a-pic18f4620.asm
-              _CVRCONbits   0x000fb5       data     extern libdev18f4620_a-pic18f4620.asm
+               _CMCONbits   0x000fb4       data     extern libdev18f4620_a-pic18f4620.asm
                   _CVRCON   0x000fb5       data     extern libdev18f4620_a-pic18f4620.asm
+              _CVRCONbits   0x000fb5       data     extern libdev18f4620_a-pic18f4620.asm
                  _ECCP1AS   0x000fb6       data     extern libdev18f4620_a-pic18f4620.asm
              _ECCP1ASbits   0x000fb6       data     extern libdev18f4620_a-pic18f4620.asm
-             _PWM1CONbits   0x000fb7       data     extern libdev18f4620_a-pic18f4620.asm
                  _PWM1CON   0x000fb7       data     extern libdev18f4620_a-pic18f4620.asm
-                 _BAUDCTL   0x000fb8       data     extern libdev18f4620_a-pic18f4620.asm
+             _PWM1CONbits   0x000fb7       data     extern libdev18f4620_a-pic18f4620.asm
              _BAUDCONbits   0x000fb8       data     extern libdev18f4620_a-pic18f4620.asm
+                 _BAUDCTL   0x000fb8       data     extern libdev18f4620_a-pic18f4620.asm
              _BAUDCTLbits   0x000fb8       data     extern libdev18f4620_a-pic18f4620.asm
                  _BAUDCON   0x000fb8       data     extern libdev18f4620_a-pic18f4620.asm
-             _CCP2CONbits   0x000fba       data     extern libdev18f4620_a-pic18f4620.asm
                  _CCP2CON   0x000fba       data     extern libdev18f4620_a-pic18f4620.asm
+             _CCP2CONbits   0x000fba       data     extern libdev18f4620_a-pic18f4620.asm
                    _CCPR2   0x000fbb       data     extern libdev18f4620_a-pic18f4620.asm
                   _CCPR2L   0x000fbb       data     extern libdev18f4620_a-pic18f4620.asm
                   _CCPR2H   0x000fbc       data     extern libdev18f4620_a-pic18f4620.asm
@@ -1338,8 +1342,8 @@ _validate_command_decoded_command_1_153   0x000f58       data     static pillefy
                   _CCPR1L   0x000fbe       data     extern libdev18f4620_a-pic18f4620.asm
                    _CCPR1   0x000fbe       data     extern libdev18f4620_a-pic18f4620.asm
                   _CCPR1H   0x000fbf       data     extern libdev18f4620_a-pic18f4620.asm
-              _ADCON2bits   0x000fc0       data     extern libdev18f4620_a-pic18f4620.asm
                   _ADCON2   0x000fc0       data     extern libdev18f4620_a-pic18f4620.asm
+              _ADCON2bits   0x000fc0       data     extern libdev18f4620_a-pic18f4620.asm
                   _ADCON1   0x000fc1       data     extern libdev18f4620_a-pic18f4620.asm
               _ADCON1bits   0x000fc1       data     extern libdev18f4620_a-pic18f4620.asm
               _ADCON0bits   0x000fc2       data     extern libdev18f4620_a-pic18f4620.asm
@@ -1349,8 +1353,8 @@ _validate_command_decoded_command_1_153   0x000f58       data     static pillefy
                   _ADRESH   0x000fc4       data     extern libdev18f4620_a-pic18f4620.asm
                  _SSPCON2   0x000fc5       data     extern libdev18f4620_a-pic18f4620.asm
              _SSPCON2bits   0x000fc5       data     extern libdev18f4620_a-pic18f4620.asm
-             _SSPCON1bits   0x000fc6       data     extern libdev18f4620_a-pic18f4620.asm
                  _SSPCON1   0x000fc6       data     extern libdev18f4620_a-pic18f4620.asm
+             _SSPCON1bits   0x000fc6       data     extern libdev18f4620_a-pic18f4620.asm
                  _SSPSTAT   0x000fc7       data     extern libdev18f4620_a-pic18f4620.asm
              _SSPSTATbits   0x000fc7       data     extern libdev18f4620_a-pic18f4620.asm
                   _SSPADD   0x000fc8       data     extern libdev18f4620_a-pic18f4620.asm
@@ -1361,17 +1365,17 @@ _validate_command_decoded_command_1_153   0x000f58       data     static pillefy
                     _TMR2   0x000fcc       data     extern libdev18f4620_a-pic18f4620.asm
                    _T1CON   0x000fcd       data     extern libdev18f4620_a-pic18f4620.asm
                _T1CONbits   0x000fcd       data     extern libdev18f4620_a-pic18f4620.asm
-                   _TMR1L   0x000fce       data     extern libdev18f4620_a-pic18f4620.asm
                     _TMR1   0x000fce       data     extern libdev18f4620_a-pic18f4620.asm
+                   _TMR1L   0x000fce       data     extern libdev18f4620_a-pic18f4620.asm
                    _TMR1H   0x000fcf       data     extern libdev18f4620_a-pic18f4620.asm
                 _RCONbits   0x000fd0       data     extern libdev18f4620_a-pic18f4620.asm
                     _RCON   0x000fd0       data     extern libdev18f4620_a-pic18f4620.asm
                   _WDTCON   0x000fd1       data     extern libdev18f4620_a-pic18f4620.asm
               _WDTCONbits   0x000fd1       data     extern libdev18f4620_a-pic18f4620.asm
-                 _HLVDCON   0x000fd2       data     extern libdev18f4620_a-pic18f4620.asm
               _LVDCONbits   0x000fd2       data     extern libdev18f4620_a-pic18f4620.asm
-             _HLVDCONbits   0x000fd2       data     extern libdev18f4620_a-pic18f4620.asm
                   _LVDCON   0x000fd2       data     extern libdev18f4620_a-pic18f4620.asm
+             _HLVDCONbits   0x000fd2       data     extern libdev18f4620_a-pic18f4620.asm
+                 _HLVDCON   0x000fd2       data     extern libdev18f4620_a-pic18f4620.asm
               _OSCCONbits   0x000fd3       data     extern libdev18f4620_a-pic18f4620.asm
                   _OSCCON   0x000fd3       data     extern libdev18f4620_a-pic18f4620.asm
                    _T0CON   0x000fd5       data     extern libdev18f4620_a-pic18f4620.asm
@@ -1379,8 +1383,8 @@ _validate_command_decoded_command_1_153   0x000f58       data     static pillefy
                     _TMR0   0x000fd6       data     extern libdev18f4620_a-pic18f4620.asm
                    _TMR0L   0x000fd6       data     extern libdev18f4620_a-pic18f4620.asm
                    _TMR0H   0x000fd7       data     extern libdev18f4620_a-pic18f4620.asm
-                  _STATUS   0x000fd8       data     extern libdev18f4620_a-pic18f4620.asm
               _STATUSbits   0x000fd8       data     extern libdev18f4620_a-pic18f4620.asm
+                  _STATUS   0x000fd8       data     extern libdev18f4620_a-pic18f4620.asm
                    _FSR2L   0x000fd9       data     extern libdev18f4620_a-pic18f4620.asm
                    _FSR2H   0x000fda       data     extern libdev18f4620_a-pic18f4620.asm
                   _PLUSW2   0x000fdb       data     extern libdev18f4620_a-pic18f4620.asm
@@ -1404,23 +1408,22 @@ _validate_command_decoded_command_1_153   0x000f58       data     static pillefy
                 _POSTDEC0   0x000fed       data     extern libdev18f4620_a-pic18f4620.asm
                 _POSTINC0   0x000fee       data     extern libdev18f4620_a-pic18f4620.asm
                    _INDF0   0x000fef       data     extern libdev18f4620_a-pic18f4620.asm
-             _INTCON3bits   0x000ff0       data     extern libdev18f4620_a-pic18f4620.asm
                  _INTCON3   0x000ff0       data     extern libdev18f4620_a-pic18f4620.asm
+             _INTCON3bits   0x000ff0       data     extern libdev18f4620_a-pic18f4620.asm
                  _INTCON2   0x000ff1       data     extern libdev18f4620_a-pic18f4620.asm
              _INTCON2bits   0x000ff1       data     extern libdev18f4620_a-pic18f4620.asm
                   _INTCON   0x000ff2       data     extern libdev18f4620_a-pic18f4620.asm
               _INTCONbits   0x000ff2       data     extern libdev18f4620_a-pic18f4620.asm
                     _PROD   0x000ff3       data     extern libdev18f4620_a-pic18f4620.asm
                    _PRODL   0x000ff3       data     extern libdev18f4620_a-pic18f4620.asm
-            _base64decode   0x000ff4    program     extern pillefyrsstyring.asm
                    _PRODH   0x000ff4       data     extern libdev18f4620_a-pic18f4620.asm
                   _TABLAT   0x000ff5       data     extern libdev18f4620_a-pic18f4620.asm
                  _TBLPTRL   0x000ff6       data     extern libdev18f4620_a-pic18f4620.asm
                   _TBLPTR   0x000ff6       data     extern libdev18f4620_a-pic18f4620.asm
                  _TBLPTRH   0x000ff7       data     extern libdev18f4620_a-pic18f4620.asm
                  _TBLPTRU   0x000ff8       data     extern libdev18f4620_a-pic18f4620.asm
-                      _PC   0x000ff9       data     extern libdev18f4620_a-pic18f4620.asm
                      _PCL   0x000ff9       data     extern libdev18f4620_a-pic18f4620.asm
+                      _PC   0x000ff9       data     extern libdev18f4620_a-pic18f4620.asm
                   _PCLATH   0x000ffa       data     extern libdev18f4620_a-pic18f4620.asm
                   _PCLATU   0x000ffb       data     extern libdev18f4620_a-pic18f4620.asm
                   _STKPTR   0x000ffc       data     extern libdev18f4620_a-pic18f4620.asm
@@ -1429,203 +1432,204 @@ _validate_command_decoded_command_1_153   0x000f58       data     static pillefy
                     _TOSL   0x000ffd       data     extern libdev18f4620_a-pic18f4620.asm
                     _TOSH   0x000ffe       data     extern libdev18f4620_a-pic18f4620.asm
                     _TOSU   0x000fff       data     extern libdev18f4620_a-pic18f4620.asm
-               _00342_DS_   0x0010b8    program     static pillefyrsstyring.asm
-               _00354_DS_   0x00118c    program     static pillefyrsstyring.asm
-               _00345_DS_   0x00118e    program     static pillefyrsstyring.asm
-                   _ultoa   0x0011c8    program     extern ltoa.asm
-               _00107_DS_   0x001240    program     static ltoa.asm
-               _00106_DS_   0x001282    program     static ltoa.asm
-               _00110_DS_   0x0012f2    program     static ltoa.asm
-               _00132_DS_   0x00132c    program     static ltoa.asm
-           _isr_high_prio   0x001380    program     static pillefyrsstyring.asm
-               _00226_DS_   0x0013ce    program     static pillefyrsstyring.asm
-               _00244_DS_   0x001402    program     static pillefyrsstyring.asm
-               _00243_DS_   0x00140a    program     static pillefyrsstyring.asm
-               _00221_DS_   0x00141c    program     static pillefyrsstyring.asm
-               _00246_DS_   0x00142c    program     static pillefyrsstyring.asm
-               _00245_DS_   0x001434    program     static pillefyrsstyring.asm
-               _00227_DS_   0x001444    program     static pillefyrsstyring.asm
-               _40386_DS_   0x00144e    program     static pillefyrsstyring.asm
-               _00247_DS_   0x00145c    program     static pillefyrsstyring.asm
-               _00228_DS_   0x001464    program     static pillefyrsstyring.asm
-                  __str_0   0x001494    program     static pillefyrsstyring.asm
-                  __str_1   0x0014bc    program     static pillefyrsstyring.asm
-                  __str_2   0x0014c0    program     static pillefyrsstyring.asm
-                  __str_3   0x0014c8    program     static pillefyrsstyring.asm
-        _validate_command   0x0014d6    program     extern pillefyrsstyring.asm
-               _00372_DS_   0x0015b6    program     static pillefyrsstyring.asm
-               _00373_DS_   0x0015b8    program     static pillefyrsstyring.asm
-               _00365_DS_   0x0015fc    program     static pillefyrsstyring.asm
-               _00367_DS_   0x0015fe    program     static pillefyrsstyring.asm
-                _sleep_ms   0x001628    program     extern pillefyrsstyring.asm
-               _00269_DS_   0x001698    program     static pillefyrsstyring.asm
-               _00274_DS_   0x001708    program     static pillefyrsstyring.asm
-               _00275_DS_   0x001718    program     static pillefyrsstyring.asm
-               _00282_DS_   0x00172e    program     static pillefyrsstyring.asm
-                   _crc16   0x001778    program     extern crc16.asm
-               _00105_DS_   0x0017ea    program     static crc16.asm
-               _00117_DS_   0x00182a    program     static crc16.asm
-               _00107_DS_   0x001882    program     static crc16.asm
-               __modulong   0x0018c2    program     extern modulong.asm
-               _00122_DS_   0x00193c    program     static modulong.asm
-               _00109_DS_   0x00193e    program     static modulong.asm
-               _00141_DS_   0x00196a    program     static modulong.asm
-               _00108_DS_   0x001978    program     static modulong.asm
-               _00114_DS_   0x001980    program     static modulong.asm
-               _00142_DS_   0x001996    program     static modulong.asm
-               _00113_DS_   0x0019a8    program     static modulong.asm
-               _00117_DS_   0x0019ca    program     static modulong.asm
-               __divulong   0x0019fc    program     extern divulong.asm
-               _00109_DS_   0x001a78    program     static divulong.asm
-               _00128_DS_   0x001ab0    program     static divulong.asm
-               _00110_DS_   0x001ac4    program     static divulong.asm
-                 _sprintf   0x001b14    program     extern sprintf.asm
-        ___stream_putchar   0x001c28    program     extern strmputchar.asm
-               _00143_DS_   0x001cbe    program     static strmputchar.asm
-               _00119_DS_   0x001cda    program     static strmputchar.asm
-               _00114_DS_   0x001cec    program     static strmputchar.asm
-               _00111_DS_   0x001cfa    program     static strmputchar.asm
-               _00108_DS_   0x001d08    program     static strmputchar.asm
-               _00121_DS_   0x001d14    program     static strmputchar.asm
-                  _memcpy   0x001d3a    program     extern memcpy.asm
-               _00105_DS_   0x001db2    program     static memcpy.asm
-               _00117_DS_   0x001dde    program     static memcpy.asm
-               _00118_DS_   0x001df8    program     static memcpy.asm
-               _00107_DS_   0x001dfa    program     static memcpy.asm
-                    _ltoa   0x001e3e    program     extern ltoa.asm
-               _00138_DS_   0x001ebe    program     static ltoa.asm
-                __moduint   0x001f04    program     extern moduint.asm
-               _00107_DS_   0x001f44    program     static moduint.asm
-               _00136_DS_   0x001f60    program     static moduint.asm
-               _00106_DS_   0x001f6a    program     static moduint.asm
-               _00112_DS_   0x001f72    program     static moduint.asm
-               _00137_DS_   0x001f7c    program     static moduint.asm
-               _00111_DS_   0x001f86    program     static moduint.asm
-                _fifo_get   0x001fbe    program     extern pillefyrsstyring.asm
-               _10383_DS_   0x002008    program     static pillefyrsstyring.asm
-               _00335_DS_   0x002050    program     static pillefyrsstyring.asm
-               _00337_DS_   0x002052    program     static pillefyrsstyring.asm
-          _lcd_plot_pixel   0x00206c    program     extern glcd.asm
-               _00203_DS_   0x00209c    program     static glcd.asm
-               _00204_DS_   0x0020a6    program     static glcd.asm
-               _00214_DS_   0x0020ea    program     static glcd.asm
-               _00213_DS_   0x0020f0    program     static glcd.asm
-                 __mulint   0x002110    program     extern mulint.asm
-            _isr_low_prio   0x0021b0    program     static pillefyrsstyring.asm
-               _00253_DS_   0x002202    program     static pillefyrsstyring.asm
-               _00264_DS_   0x002202    program     static pillefyrsstyring.asm
-               _30385_DS_   0x002202    program     static pillefyrsstyring.asm
-               _00256_DS_   0x002222    program     static pillefyrsstyring.asm
-                 _lcd_cls   0x00224e    program     extern glcd.asm
-               _00135_DS_   0x00226e    program     static glcd.asm
-               _00134_DS_   0x0022a4    program     static glcd.asm
-                  _strchr   0x0022e8    program     extern strchr.asm
-               _00106_DS_   0x00231c    program     static strchr.asm
-               _00128_DS_   0x00233e    program     static strchr.asm
-               _00108_DS_   0x002340    program     static strchr.asm
-               _00110_DS_   0x00235e    program     static strchr.asm
-               _00111_DS_   0x002364    program     static strchr.asm
-                _fifo_put   0x00237e    program     extern pillefyrsstyring.asm
-               _20384_DS_   0x0023b6    program     static pillefyrsstyring.asm
-               _00321_DS_   0x0023ec    program     static pillefyrsstyring.asm
-               _00323_DS_   0x0023ee    program     static pillefyrsstyring.asm
-                _adc_open   0x002400    program     extern libio18f4620_a-adcopen.asm
-               _00106_DS_   0x002464    program     static libio18f4620_a-adcopen.asm
-              _usart_puts   0x00247c    program     extern libio18f4620_a-uputs.asm
-               _00105_DS_   0x0024a6    program     static libio18f4620_a-uputs.asm
-               _00120_DS_   0x0024da    program     static libio18f4620_a-uputs.asm
-            _lcd_screenon   0x0024f4    program     extern glcd.asm
-            _set_ac_power   0x00254e    program     extern pillefyrsstyring.asm
-               _00298_DS_   0x002584    program     static pillefyrsstyring.asm
-               _00299_DS_   0x002590    program     static pillefyrsstyring.asm
-                  __debug   0x0025a4    program     extern pillefyrsstyring.asm
-               _lcd_reset   0x0025f6    program     extern glcd.asm
-          _lcd_selectside   0x002648    program     extern glcd.asm
-               _00178_DS_   0x00266a    program     static glcd.asm
-               _00179_DS_   0x002674    program     static glcd.asm
-               _00181_DS_   0x002684    program     static glcd.asm
-               _00183_DS_   0x00268e    program     static glcd.asm
-            _lcd_setyaddr   0x002698    program     extern glcd.asm
-             _lcd_setpage   0x0026e0    program     extern glcd.asm
-               _lcd_write   0x002726    program     extern glcd.asm
-              _lcd_enable   0x002768    program     extern glcd.asm
-                _lcd_init   0x0027aa    program     extern glcd.asm
-               __gptrget4   0x0027ec    program     extern gptrget4.asm
-                 _lab_01_   0x002804    program     static gptrget4.asm
-         _latched_lcd_cs1   0x00282c    program     extern glcd.asm
-               _00268_DS_   0x00284e    program     static glcd.asm
-               _00269_DS_   0x002856    program     static glcd.asm
-         _latched_lcd_cs2   0x002866    program     extern glcd.asm
-               _00260_DS_   0x002888    program     static glcd.asm
-               _00261_DS_   0x002890    program     static glcd.asm
-         _latched_lcd_rst   0x0028a0    program     extern glcd.asm
-               _00252_DS_   0x0028c2    program     static glcd.asm
-               _00253_DS_   0x0028ca    program     static glcd.asm
-          _latched_lcd_rw   0x0028da    program     extern glcd.asm
-               _00244_DS_   0x0028fc    program     static glcd.asm
-               _00245_DS_   0x002904    program     static glcd.asm
-          _latched_lcd_di   0x002914    program     extern glcd.asm
-               _00236_DS_   0x002936    program     static glcd.asm
-               _00237_DS_   0x00293e    program     static glcd.asm
-      _latched_lcd_enable   0x00294e    program     extern glcd.asm
-               _00228_DS_   0x002970    program     static glcd.asm
-               _00229_DS_   0x002978    program     static glcd.asm
-       _latched_lcd_power   0x002988    program     extern glcd.asm
-               _00220_DS_   0x0029aa    program     static glcd.asm
-               _00221_DS_   0x0029b2    program     static glcd.asm
-          _adc_setchannel   0x0029c2    program     extern libio18f4620_a-adcsetch.asm
-     ___eeprom16_gptrget4   0x0029fc    program     extern eeprom16_gptrget4.asm
-             _init_timers   0x002a36    program     extern pillefyrsstyring.asm
-            _lcd_waitbusy   0x002a6e    program     extern glcd.asm
-               __gptrget3   0x002aa4    program     extern gptrget3.asm
-                 _lab_01_   0x002ab8    program     static gptrget3.asm
-     ___eeprom16_gptrput3   0x002ada    program     extern eeprom16_gptrput3.asm
-             _fifo_in_use   0x002b0e    program     extern pillefyrsstyring.asm
-     ___eeprom16_gptrget3   0x002b3e    program     extern eeprom16_gptrget3.asm
-                 _islower   0x002b6e    program     extern islower.asm
-               _00106_DS_   0x002b90    program     static islower.asm
-               _00108_DS_   0x002b92    program     static islower.asm
-               __gptrget2   0x002b9c    program     extern gptrget2.asm
-                 _lab_01_   0x002bac    program     static gptrget2.asm
-           _my_usart_open   0x002bc8    program     extern pillefyrsstyring.asm
-            _init_latches   0x002bf2    program     extern pillefyrsstyring.asm
-        _latched_lcd_data   0x002c1a    program     extern glcd.asm
-              _lcd_status   0x002c42    program     extern glcd.asm
-              _usart_getc   0x002c6a    program     extern libio18f4620_a-ugetc.asm
-               _10105_DS_   0x002c7e    program     static libio18f4620_a-ugetc.asm
-               _00108_DS_   0x002c7e    program     static libio18f4620_a-ugetc.asm
-               _00110_DS_   0x002c86    program     static libio18f4620_a-ugetc.asm
-               _00112_DS_   0x002c8e    program     static libio18f4620_a-ugetc.asm
-     ___eeprom16_gptrget2   0x002c92    program     extern eeprom16_gptrget2.asm
-              _get_inputs   0x002cb8    program     extern pillefyrsstyring.asm
-     ___eeprom16_gptrput1   0x002cdc    program     extern eeprom16_gptrput1.asm
-               __gptrget1   0x002d00    program     extern gptrget1.asm
-                 _lab_01_   0x002d0c    program     static gptrget1.asm
-               __gptrput3   0x002d22    program     extern gptrput3.asm
-                 _lab_01_   0x002d38    program     static gptrput3.asm
-     ___eeprom16_gptrget1   0x002d40    program     extern eeprom16_gptrget1.asm
-               __gptrput1   0x002d5c    program     extern gptrput1.asm
-                 _lab_01_   0x002d6a    program     static gptrput1.asm
-                _lcd_read   0x002d72    program     extern glcd.asm
-                __startup   0x002d86    program     extern crt0.asm
-                   lockup   0x002d98    program     static crt0.asm
-        ___eeprom16_write   0x002d9a    program     extern eeprom16_write.asm
-           wait_till_done   0x002da4    program     static eeprom16_write.asm
-                   _reset   0x002dac    program     extern pillefyrsstyring.asm
-              _usart_putc   0x002dbc    program     extern libio18f4620_a-uputc.asm
-                     _01_   0x002dc8    program     static libio18f4620_a-uputc.asm
-            _base64encode   0x002dcc    program     extern pillefyrsstyring.asm
-                _adc_read   0x002dda    program     extern libio18f4620_a-adcread.asm
-              _usart_busy   0x002de2    program     extern libio18f4620_a-ubusy.asm
-              _usart_drdy   0x002dea    program     extern libio18f4620_a-udrdy.asm
-                _adc_busy   0x002df2    program     extern libio18f4620_a-adcbusy.asm
-  ___stream_gpsim_putchar   0x002dfa    program     extern strmgpsim.asm
-       ___eeprom_gptrput1   0x002e00    program     extern gptr/eeprom16_gptrput1_dispatch.S
-       ___eeprom_gptrget1   0x002e04    program     extern gptr/eeprom16_gptrget1_dispatch.S
-       ___eeprom_gptrget2   0x002e08    program     extern gptr/eeprom16_gptrget2_dispatch.S
-       ___eeprom_gptrget3   0x002e0c    program     extern gptr/eeprom16_gptrget3_dispatch.S
-       ___eeprom_gptrget4   0x002e10    program     extern gptr/eeprom16_gptrget4_dispatch.S
-       ___eeprom_gptrput3   0x002e14    program     extern gptr/eeprom16_gptrput3_dispatch.S
-                 _putchar   0x002e18    program     extern putchar.asm
+            _base64decode   0x00105e    program     extern pillefyrsstyring.asm
+               _00351_DS_   0x001122    program     static pillefyrsstyring.asm
+               _00363_DS_   0x0011f6    program     static pillefyrsstyring.asm
+               _00354_DS_   0x0011f8    program     static pillefyrsstyring.asm
+                   _ultoa   0x001232    program     extern ltoa.asm
+               _00107_DS_   0x0012aa    program     static ltoa.asm
+               _00106_DS_   0x0012ec    program     static ltoa.asm
+               _00110_DS_   0x00135c    program     static ltoa.asm
+               _00132_DS_   0x001396    program     static ltoa.asm
+           _isr_high_prio   0x0013ea    program     static pillefyrsstyring.asm
+               _00235_DS_   0x001438    program     static pillefyrsstyring.asm
+               _00253_DS_   0x00146c    program     static pillefyrsstyring.asm
+               _00252_DS_   0x001474    program     static pillefyrsstyring.asm
+               _00230_DS_   0x001486    program     static pillefyrsstyring.asm
+               _00255_DS_   0x001496    program     static pillefyrsstyring.asm
+               _00254_DS_   0x00149e    program     static pillefyrsstyring.asm
+               _00236_DS_   0x0014ae    program     static pillefyrsstyring.asm
+               _40395_DS_   0x0014b8    program     static pillefyrsstyring.asm
+               _00256_DS_   0x0014c6    program     static pillefyrsstyring.asm
+               _00237_DS_   0x0014ce    program     static pillefyrsstyring.asm
+                  __str_0   0x0014fe    program     static pillefyrsstyring.asm
+                  __str_1   0x001526    program     static pillefyrsstyring.asm
+                  __str_2   0x00152a    program     static pillefyrsstyring.asm
+                  __str_3   0x001532    program     static pillefyrsstyring.asm
+        _validate_command   0x001540    program     extern pillefyrsstyring.asm
+               _00381_DS_   0x001620    program     static pillefyrsstyring.asm
+               _00382_DS_   0x001622    program     static pillefyrsstyring.asm
+               _00374_DS_   0x001666    program     static pillefyrsstyring.asm
+               _00376_DS_   0x001668    program     static pillefyrsstyring.asm
+                _sleep_ms   0x001692    program     extern pillefyrsstyring.asm
+               _00278_DS_   0x001702    program     static pillefyrsstyring.asm
+               _00283_DS_   0x001772    program     static pillefyrsstyring.asm
+               _00284_DS_   0x001782    program     static pillefyrsstyring.asm
+               _00291_DS_   0x001798    program     static pillefyrsstyring.asm
+                   _crc16   0x0017e2    program     extern crc16.asm
+               _00105_DS_   0x001854    program     static crc16.asm
+               _00117_DS_   0x001894    program     static crc16.asm
+               _00107_DS_   0x0018ec    program     static crc16.asm
+               __modulong   0x00192c    program     extern modulong.asm
+               _00122_DS_   0x0019a6    program     static modulong.asm
+               _00109_DS_   0x0019a8    program     static modulong.asm
+               _00141_DS_   0x0019d4    program     static modulong.asm
+               _00108_DS_   0x0019e2    program     static modulong.asm
+               _00114_DS_   0x0019ea    program     static modulong.asm
+               _00142_DS_   0x001a00    program     static modulong.asm
+               _00113_DS_   0x001a12    program     static modulong.asm
+               _00117_DS_   0x001a34    program     static modulong.asm
+               __divulong   0x001a66    program     extern divulong.asm
+               _00109_DS_   0x001ae2    program     static divulong.asm
+               _00128_DS_   0x001b1a    program     static divulong.asm
+               _00110_DS_   0x001b2e    program     static divulong.asm
+                 _sprintf   0x001b7e    program     extern sprintf.asm
+        ___stream_putchar   0x001c92    program     extern strmputchar.asm
+               _00143_DS_   0x001d28    program     static strmputchar.asm
+               _00119_DS_   0x001d44    program     static strmputchar.asm
+               _00114_DS_   0x001d56    program     static strmputchar.asm
+               _00111_DS_   0x001d64    program     static strmputchar.asm
+               _00108_DS_   0x001d72    program     static strmputchar.asm
+               _00121_DS_   0x001d7e    program     static strmputchar.asm
+                  _memcpy   0x001da4    program     extern memcpy.asm
+               _00105_DS_   0x001e1c    program     static memcpy.asm
+               _00117_DS_   0x001e48    program     static memcpy.asm
+               _00118_DS_   0x001e62    program     static memcpy.asm
+               _00107_DS_   0x001e64    program     static memcpy.asm
+                    _ltoa   0x001ea8    program     extern ltoa.asm
+               _00138_DS_   0x001f28    program     static ltoa.asm
+                __moduint   0x001f6e    program     extern moduint.asm
+               _00107_DS_   0x001fae    program     static moduint.asm
+               _00136_DS_   0x001fca    program     static moduint.asm
+               _00106_DS_   0x001fd4    program     static moduint.asm
+               _00112_DS_   0x001fdc    program     static moduint.asm
+               _00137_DS_   0x001fe6    program     static moduint.asm
+               _00111_DS_   0x001ff0    program     static moduint.asm
+                _fifo_get   0x002028    program     extern pillefyrsstyring.asm
+               _10392_DS_   0x002072    program     static pillefyrsstyring.asm
+               _00344_DS_   0x0020ba    program     static pillefyrsstyring.asm
+               _00346_DS_   0x0020bc    program     static pillefyrsstyring.asm
+          _lcd_plot_pixel   0x0020d6    program     extern glcd.asm
+               _00203_DS_   0x002106    program     static glcd.asm
+               _00204_DS_   0x002110    program     static glcd.asm
+               _00214_DS_   0x002154    program     static glcd.asm
+               _00213_DS_   0x00215a    program     static glcd.asm
+                 __mulint   0x00217a    program     extern mulint.asm
+            _isr_low_prio   0x00221a    program     static pillefyrsstyring.asm
+               _30394_DS_   0x00226c    program     static pillefyrsstyring.asm
+               _00262_DS_   0x00226c    program     static pillefyrsstyring.asm
+               _00273_DS_   0x00226c    program     static pillefyrsstyring.asm
+               _00265_DS_   0x00228c    program     static pillefyrsstyring.asm
+                 _lcd_cls   0x0022b8    program     extern glcd.asm
+               _00135_DS_   0x0022d8    program     static glcd.asm
+               _00134_DS_   0x00230e    program     static glcd.asm
+                  _strchr   0x002352    program     extern strchr.asm
+               _00106_DS_   0x002386    program     static strchr.asm
+               _00128_DS_   0x0023a8    program     static strchr.asm
+               _00108_DS_   0x0023aa    program     static strchr.asm
+               _00110_DS_   0x0023c8    program     static strchr.asm
+               _00111_DS_   0x0023ce    program     static strchr.asm
+                _fifo_put   0x0023e8    program     extern pillefyrsstyring.asm
+               _20393_DS_   0x002420    program     static pillefyrsstyring.asm
+               _00330_DS_   0x002456    program     static pillefyrsstyring.asm
+               _00332_DS_   0x002458    program     static pillefyrsstyring.asm
+                _adc_open   0x00246a    program     extern libio18f4620_a-adcopen.asm
+               _00106_DS_   0x0024ce    program     static libio18f4620_a-adcopen.asm
+              _usart_puts   0x0024e6    program     extern libio18f4620_a-uputs.asm
+               _00105_DS_   0x002510    program     static libio18f4620_a-uputs.asm
+               _00120_DS_   0x002544    program     static libio18f4620_a-uputs.asm
+            _lcd_screenon   0x00255e    program     extern glcd.asm
+            _set_ac_power   0x0025b8    program     extern pillefyrsstyring.asm
+               _00307_DS_   0x0025ee    program     static pillefyrsstyring.asm
+               _00308_DS_   0x0025fa    program     static pillefyrsstyring.asm
+                  __debug   0x00260e    program     extern pillefyrsstyring.asm
+               _lcd_reset   0x002660    program     extern glcd.asm
+          _lcd_selectside   0x0026b2    program     extern glcd.asm
+               _00178_DS_   0x0026d4    program     static glcd.asm
+               _00179_DS_   0x0026de    program     static glcd.asm
+               _00181_DS_   0x0026ee    program     static glcd.asm
+               _00183_DS_   0x0026f8    program     static glcd.asm
+            _lcd_setyaddr   0x002702    program     extern glcd.asm
+             _lcd_setpage   0x00274a    program     extern glcd.asm
+               _lcd_write   0x002790    program     extern glcd.asm
+              _lcd_enable   0x0027d2    program     extern glcd.asm
+                _lcd_init   0x002814    program     extern glcd.asm
+               __gptrget4   0x002856    program     extern gptrget4.asm
+                 _lab_01_   0x00286e    program     static gptrget4.asm
+         _latched_lcd_cs1   0x002896    program     extern glcd.asm
+               _00268_DS_   0x0028b8    program     static glcd.asm
+               _00269_DS_   0x0028c0    program     static glcd.asm
+         _latched_lcd_cs2   0x0028d0    program     extern glcd.asm
+               _00260_DS_   0x0028f2    program     static glcd.asm
+               _00261_DS_   0x0028fa    program     static glcd.asm
+         _latched_lcd_rst   0x00290a    program     extern glcd.asm
+               _00252_DS_   0x00292c    program     static glcd.asm
+               _00253_DS_   0x002934    program     static glcd.asm
+          _latched_lcd_rw   0x002944    program     extern glcd.asm
+               _00244_DS_   0x002966    program     static glcd.asm
+               _00245_DS_   0x00296e    program     static glcd.asm
+          _latched_lcd_di   0x00297e    program     extern glcd.asm
+               _00236_DS_   0x0029a0    program     static glcd.asm
+               _00237_DS_   0x0029a8    program     static glcd.asm
+      _latched_lcd_enable   0x0029b8    program     extern glcd.asm
+               _00228_DS_   0x0029da    program     static glcd.asm
+               _00229_DS_   0x0029e2    program     static glcd.asm
+       _latched_lcd_power   0x0029f2    program     extern glcd.asm
+               _00220_DS_   0x002a14    program     static glcd.asm
+               _00221_DS_   0x002a1c    program     static glcd.asm
+          _adc_setchannel   0x002a2c    program     extern libio18f4620_a-adcsetch.asm
+     ___eeprom16_gptrget4   0x002a66    program     extern eeprom16_gptrget4.asm
+             _init_timers   0x002aa0    program     extern pillefyrsstyring.asm
+            _lcd_waitbusy   0x002ad8    program     extern glcd.asm
+               __gptrget3   0x002b0e    program     extern gptrget3.asm
+                 _lab_01_   0x002b22    program     static gptrget3.asm
+     ___eeprom16_gptrput3   0x002b44    program     extern eeprom16_gptrput3.asm
+             _fifo_in_use   0x002b78    program     extern pillefyrsstyring.asm
+     ___eeprom16_gptrget3   0x002ba8    program     extern eeprom16_gptrget3.asm
+                 _islower   0x002bd8    program     extern islower.asm
+               _00106_DS_   0x002bfa    program     static islower.asm
+               _00108_DS_   0x002bfc    program     static islower.asm
+               __gptrget2   0x002c06    program     extern gptrget2.asm
+                 _lab_01_   0x002c16    program     static gptrget2.asm
+           _my_usart_open   0x002c32    program     extern pillefyrsstyring.asm
+            _init_latches   0x002c5c    program     extern pillefyrsstyring.asm
+        _latched_lcd_data   0x002c84    program     extern glcd.asm
+              _lcd_status   0x002cac    program     extern glcd.asm
+              _usart_getc   0x002cd4    program     extern libio18f4620_a-ugetc.asm
+               _10105_DS_   0x002ce8    program     static libio18f4620_a-ugetc.asm
+               _00108_DS_   0x002ce8    program     static libio18f4620_a-ugetc.asm
+               _00110_DS_   0x002cf0    program     static libio18f4620_a-ugetc.asm
+               _00112_DS_   0x002cf8    program     static libio18f4620_a-ugetc.asm
+     ___eeprom16_gptrget2   0x002cfc    program     extern eeprom16_gptrget2.asm
+              _get_inputs   0x002d22    program     extern pillefyrsstyring.asm
+     ___eeprom16_gptrput1   0x002d46    program     extern eeprom16_gptrput1.asm
+               __gptrget1   0x002d6a    program     extern gptrget1.asm
+                 _lab_01_   0x002d76    program     static gptrget1.asm
+               __gptrput3   0x002d8c    program     extern gptrput3.asm
+                 _lab_01_   0x002da2    program     static gptrput3.asm
+     ___eeprom16_gptrget1   0x002daa    program     extern eeprom16_gptrget1.asm
+               __gptrput1   0x002dc6    program     extern gptrput1.asm
+                 _lab_01_   0x002dd4    program     static gptrput1.asm
+                _lcd_read   0x002ddc    program     extern glcd.asm
+                __startup   0x002df0    program     extern crt0.asm
+                   lockup   0x002e02    program     static crt0.asm
+        ___eeprom16_write   0x002e04    program     extern eeprom16_write.asm
+           wait_till_done   0x002e0e    program     static eeprom16_write.asm
+                   _reset   0x002e16    program     extern pillefyrsstyring.asm
+              _usart_putc   0x002e26    program     extern libio18f4620_a-uputc.asm
+                     _01_   0x002e32    program     static libio18f4620_a-uputc.asm
+            _base64encode   0x002e36    program     extern pillefyrsstyring.asm
+                _adc_read   0x002e44    program     extern libio18f4620_a-adcread.asm
+              _usart_busy   0x002e4c    program     extern libio18f4620_a-ubusy.asm
+              _usart_drdy   0x002e54    program     extern libio18f4620_a-udrdy.asm
+                _adc_busy   0x002e5c    program     extern libio18f4620_a-adcbusy.asm
+  ___stream_gpsim_putchar   0x002e64    program     extern strmgpsim.asm
+       ___eeprom_gptrput1   0x002e6a    program     extern gptr/eeprom16_gptrput1_dispatch.S
+       ___eeprom_gptrget1   0x002e6e    program     extern gptr/eeprom16_gptrget1_dispatch.S
+       ___eeprom_gptrget2   0x002e72    program     extern gptr/eeprom16_gptrget2_dispatch.S
+       ___eeprom_gptrget3   0x002e76    program     extern gptr/eeprom16_gptrget3_dispatch.S
+       ___eeprom_gptrget4   0x002e7a    program     extern gptr/eeprom16_gptrget4_dispatch.S
+       ___eeprom_gptrput3   0x002e7e    program     extern gptr/eeprom16_gptrput3_dispatch.S
+                 _putchar   0x002e82    program     extern putchar.asm
 
 
