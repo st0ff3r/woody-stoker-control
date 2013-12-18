@@ -1,4 +1,4 @@
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE  1
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -7,7 +7,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SDCC : free open source ANSI-C Compiler
                       00003 ; Version 3.3.0 #8604 (Oct 27 2013) (Mac OS X x86_64)
-                      00004 ; This file was generated Wed Dec 18 00:36:50 2013
+                      00004 ; This file was generated Wed Dec 18 01:04:01 2013
                       00005 ;--------------------------------------------------------
                       00006 ; PIC16 port for the Microchip 16-bit core micros
                       00007 ;--------------------------------------------------------
@@ -57,7 +57,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
   0000                00051         extern  _LATEbits
   0000                00052         extern  _DDRAbits
   0000                00053         extern  _TRISAbits
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE  2
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -116,7 +116,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
   0000                00104         extern  _PORTE
   0000                00105         extern  _LATA
   0000                00106         extern  _LATB
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE  3
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -175,7 +175,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
   0000                00157         extern  _ADCON1
   0000                00158         extern  _ADCON0
   0000                00159         extern  _ADRES
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE  4
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE  4
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -234,7 +234,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
   0000                00210         extern  _PROD
   0000                00211         extern  _PRODL
   0000                00212         extern  _PRODH
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE  5
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE  5
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -293,7 +293,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 000004 CFE1 FFD9      00263         MOVFF   FSR1L, FSR2L
 000008 C??? F???      00264         MOVFF   r0x00, POSTDEC1
 00000C 0E02           00265         MOVLW   0x02
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE  6
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE  6
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -352,7 +352,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 000038 0012           00316         RETURN  
                       00317 
                       00318 ; ; Starting pCode block
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE  7
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE  7
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -411,7 +411,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 000018 ????           00369         BANKSEL __latch_3_data
                       00370 ;       .line   325; glcd.c     _latch_3_data |= 0b00001000;
 00001A 87??           00371         BSF     __latch_3_data, 3, B
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE  8
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE  8
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -470,7 +470,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 00002C 9C??           00422         BCF     _LATAbits, 6
                       00423 ;       .line   319; glcd.c     LATCH_DATA = 0x00;
 00002E 6A??           00424         CLRF    _LATD
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE  9
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE  9
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -529,7 +529,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00475 ;       .line   278; glcd.c     LATCH_DATA_TRIS = 0x00;         // outputs
 000012 6A??           00476         CLRF    _TRISD
                       00477 ;       .line   279; glcd.c     if (value) {    // set it
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE 10
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE 10
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -588,7 +588,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 000026 C??? F???      00528         MOVFF   __latch_3_data, _LATD
 00002A                00529 _00221_DS_:
                       00530 ;       .line   272; glcd.c     LATCH_3 = LATCH_3_ENABLED;
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE 11
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE 11
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -647,7 +647,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 000050 50??           00581         MOVF    r0x00, W
 000052 6EE5           00582         MOVWF   POSTDEC1
 000054 EC?? F0??      00583         CALL    _lcd_setyaddr
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE 12
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE 12
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -706,7 +706,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00633 
                       00634 ; ; Starting pCode block
                       00635 S_glcd__lcd_selectside  code
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE 13
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE 13
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -765,7 +765,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 00000C 0E02           00686         MOVLW   0x02
 00000E CFDB F000      00687         MOVFF   PLUSW2, r0x00
                       00688 ;       .line   186; glcd.c     lcd_waitbusy();
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE 14
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE 14
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -824,7 +824,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00739 
                       00740 ; ; Starting pCode block
                       00741 S_glcd__lcd_setyaddr    code
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE 15
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE 15
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -883,7 +883,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 000020 0E00           00792         MOVLW   0x00
 000022 6EE5           00793         MOVWF   POSTDEC1
 000024 EC?? F0??      00794         CALL    _latched_lcd_rw
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE 16
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE 16
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -942,7 +942,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 000046 52E6           00845         MOVF    POSTINC1, F
                       00846 ;       .line   133; glcd.c     latched_lcd_di(1);
 000048 0E01           00847         MOVLW   0x01
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE 17
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE 17
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1001,7 +1001,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 000012 0E01           00898         MOVLW   0x01
 000014 6EE5           00899         MOVWF   POSTDEC1
 000016 EC?? F0??      00900         CALL    _latched_lcd_cs1
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE 18
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE 18
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1060,7 +1060,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 000020 0E00           00951         MOVLW   0x00
 000022 6EE5           00952         MOVWF   POSTDEC1
 000024 EC?? F0??      00953         CALL    _latched_lcd_rst
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE 19
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE 19
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1119,7 +1119,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       01004 ;       .line   44; glcd.c      latched_lcd_enable(1);
 000008 0E01           01005         MOVLW   0x01
 00000A 6EE5           01006         MOVWF   POSTDEC1
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE 20
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE 20
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1178,7 +1178,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       01057 ;       .line   37; glcd.c      lcd_reset();
 00002A EC?? F0??      01058         CALL    _lcd_reset
                       01059 ;       .line   38; glcd.c      lcd_screenon(1);
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE 21
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE 21
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1203,7 +1203,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       01076 
                       01077 
                       01078         end
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE 22
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE 22
 
 
 SYMBOL TABLE
@@ -1262,7 +1262,7 @@ _CCP2CONbits                      00000000
 _CCPR1                            00000000
 _CCPR1H                           00000000
 _CCPR1L                           00000000
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE 23
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE 23
 
 
 SYMBOL TABLE
@@ -1321,7 +1321,7 @@ _LATBbits                         00000000
 _LATC                             00000000
 _LATCbits                         00000000
 _LATD                             00000000
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE 24
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE 24
 
 
 SYMBOL TABLE
@@ -1380,7 +1380,7 @@ _RCON                             00000000
 _RCONbits                         00000000
 _RCREG                            00000000
 _RCSTA                            00000000
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE 25
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE 25
 
 
 SYMBOL TABLE
@@ -1439,7 +1439,7 @@ _TRISDbits                        00000000
 _TRISE                            00000000
 _TRISEbits                        00000000
 _TXREG                            00000000
-gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  00:36:50        PAGE 26
+gpasm-1.2.0 #980 (Oct 25 2013)       glcd.asm   12-18-2013  01:04:01        PAGE 26
 
 
 SYMBOL TABLE

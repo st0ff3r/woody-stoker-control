@@ -13,6 +13,7 @@
 #define AD_INPUTS 8
 #define DEBUG
 //#define DEBUG_PWM_ON_LED
+#define WITHOUT_SERIAL
 
 unsigned int i;
 unsigned long timer_1_ms;
@@ -124,23 +125,19 @@ void main(void) {
 //	lcd_init();
 //	lcd_print("OpenStoker starting...", 0, NON_INVERTED); // starting...");
 	
+#ifndef WITHOUT_SERIAL
 	while (!fifo_in_use()) {
 		latched_lcd_power(1);
 		sleep_ms(1000);
 		latched_lcd_power(0);
 		sleep_ms(1000);
 	}
+#else
+	RELAY = 1;
+#endif
 	latched_lcd_power(1);
 	
 	last_inputs = get_inputs();
-//	output_ac_power_pwm[AC_POWER_OUTS] = (0, 0, 0, 0, 0, 0);
-	output_ac_power_pwm[0] = 0;
-	output_ac_power_pwm[1] = 0;
-	output_ac_power_pwm[2] = 0;
-	output_ac_power_pwm[3] = 0;
-	output_ac_power_pwm[4] = 0;
-	output_ac_power_pwm[5] = 0;
-
 //	for (i = 0; i < 100; i++) {
 //		lcd_plot_pixel(i, i);
 //	}
@@ -363,7 +360,7 @@ void init_latches() {
 }
 
 void set_ac_power(unsigned char header_mask, unsigned char value) {
-	header_mask &= (/*EXT_FEEDER_L1 |*/ FAN_L2 | INT_FEEDER_L3 | HEATER_L4 | L5/* | L6*/);	// BUG HERE! turning on L1 or L6 restarts
+	header_mask &= (/*EXT_FEEDER_L1 |*/ FAN_L2 | INT_FEEDER_L3 /*| HEATER_L4 | L5 | L6*/);	// BUG HERE! turning on L1 or L6 restarts
 	
 	value &= header_mask;
 	LATCH_DATA_TRIS = 0x00;		// outputs
